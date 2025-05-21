@@ -37,17 +37,19 @@ Testes com dados simulados foram realizados para validar as funcionalidades prin
 
 ## 📁 Estrutura do Projeto
 
+```text
 /moovox
 ├── src/
-│ ├── controllers/
-│ ├── models/
-│ ├── routes/
-│ ├── views/
-│ └── ...
+│   ├── controllers/
+│   ├── models/
+│   ├── routes/
+│   ├── views/
+│   └── ...
 ├── public/
 ├── config/
 ├── README.md
 └── package.json
+```
 
 ## 🚀 Como Rodar Localmente
 
