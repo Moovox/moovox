@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Sidebar from './Sidebar';
+import { Menu } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 /**
  * Layout principal com sidebar e loader
@@ -24,6 +26,14 @@ function MainLayout({ title, description, children }) {
 
     return (
         <div className="flex min-h-screen ">
+            <motion.button
+                onClick={() => setIsSidebarExpanded(!isSidebarExpanded)}
+                aria-label="Abrir menu lateral"
+                className={`text-black p-2 rounded-xl fixed top-4 left-4 transition-transform duration-75 active:scale-90 ${isSidebarExpanded ? 'z-10' : 'z-50'} lg:hidden`}
+                whileTap={{ scale: 0.9 }}
+            >
+                <Menu className="w-7 h-7" />
+            </motion.button>
             <Sidebar
                 onToggle={() => setIsSidebarExpanded(!isSidebarExpanded)}
                 isExpanded={isSidebarExpanded}
