@@ -44,3 +44,5 @@ export default function App() {
         </BrowserRouter>
     );
 }
+// Estou testando para saber se o Vercel Analytics está funcionando corretamente
+// e se o Speed Insights está sendo carregado corretamente.
