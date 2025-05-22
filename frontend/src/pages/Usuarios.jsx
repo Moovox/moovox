@@ -1,6 +1,6 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
-import MainLayout from '../../components/MainLayout';
+import MainLayout from '../components/MainLayout';
 
 function Usuarios() {
     return (
