@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 
 function isMobile() {
-  if (typeof navigator === 'undefined') return false;
+  if (typeof window === 'undefined' || typeof navigator === 'undefined') return false;
   return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 }
 
@@ -20,6 +20,13 @@ function MoovoxAnimatedBackground() {
   );
 }
 
+function shouldShowFallback() {
+  if (typeof window === 'undefined' || typeof navigator === 'undefined') return false;
+  const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+  const slowConnection = connection && (connection.saveData || connection.effectiveType === '2g' || connection.effectiveType === 'slow-2g');
+  return isMobile() || slowConnection;
+}
+
 function BackgroundVideo() {
   const videos = [
     '/media/background1.mp4',
@@ -32,9 +39,9 @@ function BackgroundVideo() {
   const [showFallback, setShowFallback] = useState(false);
 
   useEffect(() => {
-    const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
-    const slowConnection = connection && (connection.saveData || connection.effectiveType === '2g' || connection.effectiveType === 'slow-2g');
-    if (isMobile() || slowConnection) setShowFallback(true);
+    setShowFallback(shouldShowFallback());
+    // Não precisa de dependências, só roda uma vez
+    // eslint-disable-next-line
   }, []);
 
   const handleVideoEnd = () => {
