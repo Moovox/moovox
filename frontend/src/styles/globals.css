@@ -1,0 +1,102 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --background: #e4eded;
+  --foreground: #252525;
+  --card: #ffffff;
+  --card-foreground: #252525;
+  --popover: #ffffff;
+  --popover-foreground: #252525;
+  --primary: #353535;
+  --primary-foreground: #fafafa;
+  --secondary: #f7f7f7;
+  --secondary-foreground: #353535;
+  --muted: #f7f7f7;
+  --muted-foreground: #8e8e8e;
+  --accent: #f7f7f7;
+  --accent-foreground: #353535;
+  --destructive: #933a1b;
+  --destructive-foreground: #933a1b;
+  --border: #ebebeb;
+  --input: #ebebeb;
+  --ring: #b4b4b4;
+  --chart-1: #a34f1a;
+  --chart-2: #3d6e9e;
+  --chart-3: #2b4b8e;
+  --chart-4: #d4a02e;
+  --chart-5: #c48f2f;
+  --radius: 10px;
+  --sidebar: #fafafa;
+  --sidebar-foreground: #252525;
+  --sidebar-primary: #353535;
+  --sidebar-primary-foreground: #fafafa;
+  --sidebar-accent: #f7f7f7;
+  --sidebar-accent-foreground: #353535;
+  --sidebar-border: #ebebeb;
+  --sidebar-ring: #b4b4b4;
+}
+
+.dark {
+  --background: #252525;
+  --foreground: #fafafa;
+  --card: #252525;
+  --card-foreground: #fafafa;
+  --popover: #252525;
+  --popover-foreground: #fafafa;
+  --primary: #fafafa;
+  --primary-foreground: #353535;
+  --secondary: #444444;
+  --secondary-foreground: #fafafa;
+  --muted: #444444;
+  --muted-foreground: #b4b4b4;
+  --accent: #444444;
+  --accent-foreground: #fafafa;
+  --destructive: #653a1a;
+  --destructive-foreground: #a24c1a;
+  --border: #444444;
+  --input: #444444;
+  --ring: #707070;
+  --chart-1: #7c3e9e;
+  --chart-2: #b2a02e;
+  --chart-3: #c48f2f;
+  --chart-4: #a04b9e;
+  --chart-5: #a03e1a;
+  --sidebar: #353535;
+  --sidebar-foreground: #fafafa;
+  --sidebar-primary: #7c3e9e;
+  --sidebar-primary-foreground: #fafafa;
+  --sidebar-accent: #444444;
+  --sidebar-accent-foreground: #fafafa;
+  --sidebar-border: #444444;
+  --sidebar-ring: #707070;
+}
+
+body,
+html,
+#root {
+  min-height: 100vh;
+  background-color: var(--background);
+
+}
+
+.hide-scrollbar {
+  scrollbar-width: none;
+  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE e Edge */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+  /* Chrome, Safari e Opera */
+}
