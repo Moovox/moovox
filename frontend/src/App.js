@@ -24,6 +24,7 @@ const privateRoutes = [
 
 export default function App() {
     return (
+        // Its working!!
         <BrowserRouter>
             <Analytics mode='auto' />
             <SpeedInsights />
