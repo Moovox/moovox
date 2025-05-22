@@ -17,11 +17,11 @@ jobs:
           node-version: '20'
 
       - name: Instalar dependências
-        run: npm install
+        run: npm install --force
         working-directory: ./frontend
 
       - name: Instalar Vercel CLI
-        run: npm install -g vercel
+        run: npm install -g vercel --force
 
       - name: Deploy na Vercel
         run: vercel --prod --token ${{ secrets.VERCEL_TOKEN }} --confirm --cwd ./frontend
