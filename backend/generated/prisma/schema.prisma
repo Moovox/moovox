@@ -1,0 +1,213 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Users {
+  id            Int      @id @default(autoincrement())
+  name          String   @db.VarChar(200)
+  email         String   @unique @db.VarChar(250)
+  password      String   @db.VarChar(200)
+  profile_photo String?
+  role_id       Int
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+
+  // Relações: 
+  role          Roles          @relation(fields: [role_id], references: [id], onDelete: Cascade)
+  Farm_Workers  Farm_Workers?
+  Veterinarians Veterinarians?
+}
+
+model Roles {
+  id          Int      @id @default(autoincrement())
+  name        String   @db.VarChar(200)
+  description String?  @db.VarChar(200)
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+
+  // Relações
+  Users Users[]
+}
+
+model Farm_Workers {
+  id      Int @id @default(autoincrement())
+  user_id Int @unique
+
+  // Relações
+  user Users @relation(fields: [user_id], references: [id], onDelete: Cascade)
+}
+
+model Veterinarians {
+  id      Int @id @default(autoincrement())
+  user_id Int @unique
+
+  // Relações
+  user         Users          @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  Applications Applications[]
+}
+
+model Animals {
+  id               Int      @id @default(autoincrement())
+  name             String   @db.VarChar(200)
+  species_id       Int
+  breed_id         Int
+  birth_date       DateTime
+  weight           Float // em KG
+  health_status_id Int
+  created_at       DateTime @default(now())
+  updated_at       DateTime @updatedAt
+
+  // Relações
+  species       Species       @relation(fields: [species_id], references: [id], onDelete: Cascade)
+  breed         Breeds        @relation(fields: [breed_id], references: [id], onDelete: Cascade)
+  health_status Health_Status @relation(fields: [health_status_id], references: [id], onDelete: Cascade)
+
+  Locations    Locations[]
+  Applications Applications[]
+
+  @@index([species_id])
+  @@index([breed_id])
+  @@index([health_status_id])
+}
+
+model Species {
+  id               Int      @id @default(autoincrement())
+  name             String   @db.VarChar(200)
+  description      String   @db.VarChar(200)
+  average_lifespan Int? // em anos 
+  gestation_period Int? // em dias 
+  created_at       DateTime @default(now())
+  updated_at       DateTime @updatedAt
+
+  // Relações 
+  animals Animals[]
+  breeds  Breeds[]
+}
+
+model Breeds {
+  id             Int      @id @default(autoincrement())
+  name           String   @db.VarChar(200)
+  description    String   @db.VarChar(200)
+  species_id     Int
+  average_weight Float? // em KG
+  productivity   String? // (ex. leiteira, corte, tração)
+  created_at     DateTime @default(now())
+  updated_at     DateTime @updatedAt
+
+  // Relações 
+  species Species   @relation(fields: [species_id], references: [id], onDelete: Cascade)
+  animals Animals[]
+
+  @@index([species_id])
+}
+
+model Health_Status {
+  id          Int      @id @default(autoincrement())
+  name        String   @db.VarChar(200)
+  description String   @db.VarChar(200)
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+
+  // Relações 
+  animals Animals[]
+}
+
+model Vaccines {
+  id                 Int      @id @default(autoincrement())
+  name               String   @db.VarChar(200)
+  target_disease     String   @db.VarChar(200)
+  manufacturer_id    Int
+  batch              String   @db.VarChar(200)
+  expiration_date    DateTime
+  required_doses     Int
+  dosing_interval    Int?     @default(0) // Em dias
+  type_of_vaccine_id Int
+  notes              String   @db.VarChar(200)
+  created_at         DateTime @default(now())
+  updated_at         DateTime @updatedAt
+
+  // Relações
+  manufacturer    Manufacturers     @relation(fields: [manufacturer_id], references: [id], onDelete: Cascade)
+  type_of_vaccine Types_of_Vaccines @relation(fields: [type_of_vaccine_id], references: [id], onDelete: Cascade)
+  Applications    Applications[]
+
+  @@index([manufacturer_id])
+  @@index([type_of_vaccine_id])
+}
+
+model Manufacturers {
+  id             Int      @id @default(autoincrement())
+  name           String   @db.VarChar(200)
+  cnpj           String   @unique @db.VarChar(200)
+  email          String   @unique @db.VarChar(200)
+  phone          String   @db.VarChar(15)
+  address        String   @db.VarChar(200)
+  country        String   @db.VarChar(200)
+  license_number String   @db.VarChar(200)
+  created_at     DateTime @default(now())
+  updated_at     DateTime @updatedAt
+
+  // Relações 
+  vaccines Vaccines[]
+}
+
+model Types_of_Vaccines {
+  id          Int    @id @default(autoincrement())
+  name        String @db.VarChar(200)
+  description String @db.VarChar(200)
+
+  // Relaçoes 
+  vaccines Vaccines[]
+}
+
+model Applications {
+  id                            Int       @id @default(autoincrement())
+  animal_id                     Int
+  vaccine_id                    Int
+  veterinary_id                 Int
+  application_date              DateTime
+  next_application_date         DateTime?
+  status_vaccine_application_id Int
+  created_at                    DateTime  @default(now())
+  updated_at                    DateTime  @updatedAt
+
+  // Relações
+  animal         Animals                     @relation(fields: [animal_id], references: [id], onDelete: Cascade)
+  vaccine        Vaccines                    @relation(fields: [vaccine_id], references: [id], onDelete: Cascade)
+  veterinary     Veterinarians               @relation(fields: [veterinary_id], references: [id], onDelete: Cascade)
+  status_vaccine Status_Vaccine_Applications @relation(fields: [status_vaccine_application_id], references: [id], onDelete: Cascade)
+
+  @@index([animal_id])
+  @@index([vaccine_id])
+  @@index([veterinary_id])
+  @@index([status_vaccine_application_id])
+  @@index([application_date])
+}
+
+model Status_Vaccine_Applications {
+  id           Int            @id @default(autoincrement())
+  name         String         @db.VarChar(200)
+  Applications Applications[]
+}
+
+model Locations {
+  id          Int      @id @default(autoincrement())
+  animal_id   Int
+  latitude    Float
+  longitude   Float
+  captured_at DateTime
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+
+  // Relações 
+  animal Animals @relation(fields: [animal_id], references: [id], onDelete: Cascade)
+
+  @@index([animal_id])
+  @@index([captured_at])
+}
