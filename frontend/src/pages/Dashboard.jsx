@@ -62,9 +62,9 @@ function Dashboard() {
                         <ListCard 
                             title={<span className="font-poppins font-semibold text-base md:text-lg text-[#4e2e13]">Últimos Usuários Cadastrados</span>} 
                             items={[
-                                <span className="font-poppins text-sm md:text-base text-white">Administrador Moovox - admin</span>,
-                                <span className="font-poppins text-sm md:text-base text-white">Dr. Benjamin Nogueira - veterinario</span>,
-                                <span className="font-poppins text-sm md:text-base text-white">Mariana Saraiva - veterinario</span>,
+                                <span key="user-1" className="font-poppins text-sm md:text-base text-white">Administrador Moovox - admin</span>,
+                                <span key="user-2" className="font-poppins text-sm md:text-base text-white">Dr. Benjamin Nogueira - veterinario</span>,
+                                <span key="user-3" className="font-poppins text-sm md:text-base text-white">Mariana Saraiva - veterinario</span>,
                             ]} 
                         />
                     </Card>

@@ -100,34 +100,3 @@ html,
   display: none;
   /* Chrome, Safari e Opera */
 }
-
-/* === Moovox Animated Background === */
-@keyframes moovox-gradient-move {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-.moovox-gradient {
-  background: linear-gradient(135deg, #bbf7d0 0%, #fef3c7 50%, #86efac 100%);
-  background-size: 200% 200%;
-  animation: moovox-gradient-move 10s ease-in-out infinite;
-  opacity: 0.7;
-  position: absolute;
-  inset: 0;
-}
-@keyframes moovox-bubble1 {
-  0%, 100% { transform: translateY(0) scale(1); }
-  50% { transform: translateY(-30px) scale(1.1); }
-}
-.moovox-bubble1 { animation: moovox-bubble1 7s ease-in-out infinite; }
-@keyframes moovox-bubble2 {
-  0%, 100% { transform: translateY(0) scale(1); }
-  50% { transform: translateY(-20px) scale(1.05); }
-}
-.moovox-bubble2 { animation: moovox-bubble2 9s ease-in-out infinite; }
-@keyframes moovox-bubble3 {
-  0%, 100% { transform: translateY(0) scale(1); }
-  50% { transform: translateY(-40px) scale(1.15); }
-}
-.moovox-bubble3 { animation: moovox-bubble3 11s ease-in-out infinite; }
-/* === Fim Moovox Animated Background === */
