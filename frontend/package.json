@@ -24,10 +24,10 @@
     "zod": "^3.24.4"
   },
   "scripts": {
+    "start": "vite",
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "start": "vite",
     "test": "vitest run",
     "test:ui": "vitest --ui"
   },
