@@ -1,16 +1,19 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Analytics } from "@vercel/analytics/react"
 import { SpeedInsights } from "@vercel/speed-insights/react"
-import Dashboard from './pages/Dashboard';
-import Login from './pages/Login';
-import ForgotPass from './pages/ForgotPass';
+import { lazy, Suspense } from 'react';
 import AuthLayout from './components/AuthLayout';
-import Usuarios from './pages/Usuarios';
-import Animais from './pages/Animais';
-import Vacinas from './pages/Vacinas';
-import Aplicacoes from './pages/Aplicacoes';
-import MeuPerfil from './pages/MeuPerfil';
+import PageLoader from './components/PageLoader';
 import './styles/globals.css'
+
+const Dashboard = lazy(() => import('./pages/Dashboard'));
+const Login = lazy(() => import('./pages/Login'));
+const ForgotPass = lazy(() => import('./pages/ForgotPass'));
+const Usuarios = lazy(() => import('./pages/Usuarios'));
+const Animais = lazy(() => import('./pages/Animais'));
+const Vacinas = lazy(() => import('./pages/Vacinas'));
+const Aplicacoes = lazy(() => import('./pages/Aplicacoes'));
+const MeuPerfil = lazy(() => import('./pages/MeuPerfil'));
 
 // Separação das rotas em um array para facilitar manutenção e escalabilidade
 const privateRoutes = [
@@ -28,15 +31,17 @@ export default function App() {
         <BrowserRouter>
             <Analytics mode='auto' />
             <SpeedInsights />
-            <Routes>
-                <Route path="/" element={<AuthLayout />}>
-                    <Route index element={<Login />} />
-                    <Route path="forgot-pass" element={<ForgotPass />} />
-                </Route>
-                {privateRoutes.map(({ path, element }) => (
-                    <Route key={path} path={path} element={element} />
-                ))}
-            </Routes>
+            <Suspense fallback={<PageLoader />}>
+                <Routes>
+                    <Route path="/" element={<AuthLayout />}>
+                        <Route index element={<Login />} />
+                        <Route path="forgot-pass" element={<ForgotPass />} />
+                    </Route>
+                    {privateRoutes.map(({ path, element }) => (
+                        <Route key={path} path={path} element={element} />
+                    ))}
+                </Routes>
+            </Suspense>
         </BrowserRouter>
     );
 }

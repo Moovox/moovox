@@ -1,5 +1,5 @@
 import { Helmet } from "react-helmet-async";
-import ForgotPassCard from "../../components/ForgotPassCard";
+import ForgotPassCard from "../components/ForgotPassCard";
 
 
 function ForgotPass() {

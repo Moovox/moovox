@@ -1,14 +1,14 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
-import MainLayout from '../../components/MainLayout';
-import Card from '../../components/ui/Card';
+import MainLayout from '../components/MainLayout';
+import Card from '../components/ui/Card';
 import { Icon, Users, Syringe, AlertTriangle, MapPin } from 'lucide-react';
 import { cowHead } from '@lucide/lab';
-import HeartBeatIcon from '../../components/ui/HeartBeatIcon';
-import ListCard from '../../components/dashboard/ListCard';
-import MessageCard from '../../components/dashboard/MessageCard';
-import ImageCard from '../../components/dashboard/ImageCard';
-import TelemetryCard from '../../components/dashboard/TelemetryCard';
+import HeartBeatIcon from '../components/ui/HeartBeatIcon';
+import ListCard from '../components/dashboard/ListCard';
+import MessageCard from '../components/dashboard/MessageCard';
+import ImageCard from '../components/dashboard/ImageCard';
+import TelemetryCard from '../components/dashboard/TelemetryCard';
 
 function Dashboard() {
     return (
