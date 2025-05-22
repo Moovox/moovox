@@ -1,15 +1,15 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Analytics } from "@vercel/analytics/react"
 import { SpeedInsights } from "@vercel/speed-insights/react"
-import Dashboard from './public/pages/Dashboard';
-import Login from './public/pages/Login';
-import ForgotPass from './public/pages/ForgotPass';
+import Dashboard from './pages/Dashboard';
+import Login from './pages/Login';
+import ForgotPass from './pages/ForgotPass';
 import AuthLayout from './components/AuthLayout';
-import Usuarios from './public/pages/Usuarios';
-import Animais from './public/pages/Animais';
-import Vacinas from './public/pages/Vacinas';
-import Aplicacoes from './public/pages/Aplicacoes';
-import MeuPerfil from './public/pages/MeuPerfil';
+import Usuarios from './pages/Usuarios';
+import Animais from './pages/Animais';
+import Vacinas from './pages/Vacinas';
+import Aplicacoes from './pages/Aplicacoes';
+import MeuPerfil from './pages/MeuPerfil';
 import './styles/globals.css'
 
 // Separação das rotas em um array para facilitar manutenção e escalabilidade
