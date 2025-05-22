@@ -27,7 +27,6 @@ const privateRoutes = [
 
 export default function App() {
     return (
-        // just testing
         <BrowserRouter>
             <Analytics mode='auto' />
             <SpeedInsights />
