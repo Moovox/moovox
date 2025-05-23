@@ -31,22 +31,23 @@ function MainLayout({ title, children }) {
                 showContent={showContent}
             />
             
-            <main className="flex-grow transition-all duration-200 ease-in-out">
-                <header className={`flex items-center gap-4 rounded-2xl transition-all duration-300 ${showContent ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-                    <motion.button
-                        onClick={() => setIsSidebarExpanded(!isSidebarExpanded)}
-                        aria-label="Abrir menu lateral"
-                        className={`text-black rounded-xl top-4 left-4 transition-transform duration-75 lg:hidden active:scale-90 ${isSidebarExpanded ? 'z-10' : 'z-50'}`}
-                        whileTap={{ scale: 0.9 }}
-                    >
-                        <Menu className="w-7 h-7" />
-                    </motion.button>
-
-                    <div className='bg-black text-white w-full'>
-                        <h2 className="lg:text-2xl lg:ml-6 font-bold font-poppins">{title}</h2>
-                        
-                    </div>
-                </header>
+            <main className=" transition-all duration-200 ease-in-out">
+                {/* Header do layout */}
+                    <header className='flex bg-black'>
+                        <motion.button
+                            onClick={() => setIsSidebarExpanded(!isSidebarExpanded)}
+                            aria-label="Abrir menu lateral"
+                            className={`text-white rounded-xl top-4 left-4 transition-transform duration-75 lg:hidden active:scale-90 ${isSidebarExpanded ? 'z-10' : 'z-50'}`}
+                            whileTap={{ scale: 0.9 }}
+                        >
+                            <Menu className="w-7 h-7" />
+                        </motion.button>
+                        {/* Background do Header + Texto */}
+                        <div className='text-white w-full'>
+                            <h2 className="lg:text-2xl lg:ml-6 font-bold font-poppins">{title}</h2>
+                        </div>
+                    </header>
+                
                 <div className={contentClass}>{children}</div>
             </main>
         </div>
@@ -55,7 +56,6 @@ function MainLayout({ title, children }) {
 
 MainLayout.propTypes = {
     title: PropTypes.string,
-    description: PropTypes.string,
     children: PropTypes.node,
 };
 
