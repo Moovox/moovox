@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import PropTypes from 'prop-types';
 import LogoutButton from './LogoutButton';
 
-// Custom hook to detect desktop responsiveness
+// Hook customizado para detectar se é desktop
 function useIsDesktop() {
     const [isDesktop, setIsDesktop] = React.useState(() => typeof window !== 'undefined' && window.innerWidth >= 1024);
     React.useEffect(() => {
@@ -19,14 +19,17 @@ function useIsDesktop() {
     return isDesktop;
 }
 
-// Sidebar Header Component
+// Header da Sidebar com logo e nome
 function SidebarHeader({ expanded, isDesktop }) {
+    // Esconde o header se não estiver expandido e não for desktop
     return (
         <div className={`relative z-10 flex items-center justify-start ${!expanded && !isDesktop ? 'hidden' : ''}${!isDesktop ? 'mt-4' : ''}`}>
             <Link to="/dashboard" className="flex items-center text-xl font-bold text-[#fff8f0]">
-                <img src='../../public/imgs/moovox.png' className='w-20 h-20' />
+                {/* Logo Moovox */}
+                <img src='../../public/imgs/moovox.svg' className='w-20 h-20' alt="Logo Moovox" />
+                {/* Nome animado */}
                 <motion.span
-                    className={` transition-opacity duration-300 font-poppins tracking-wide ${expanded ? 'opacity-100' : 'opacity-0'} lg:opacity-100 text-[#fff8f0]`}
+                    className={`transition-opacity duration-300 font-poppins tracking-wide ${expanded ? 'opacity-100' : 'opacity-0'} lg:opacity-100 text-[#fff8f0]`}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: expanded ? 1 : 0 }}
                     transition={{ duration: 0.5 }}
@@ -43,11 +46,12 @@ SidebarHeader.propTypes = {
     isDesktop: PropTypes.bool.isRequired,
 };
 
-// Sidebar Navigation Component
+// Navegação da Sidebar
 function SidebarNavigation({ menuItems, expanded, isDesktop, handleLogout }) {
     return (
         <nav className={`relative z-10 mt-6 flex flex-col gap-0 ${!expanded && !isDesktop ? 'hidden' : ''}`}>
             <AnimatePresence>
+                {/* Renderiza cada item do menu com animação */}
                 {menuItems.map(({ to, icon, label }) => (
                     <motion.div
                         key={to}
@@ -69,6 +73,7 @@ function SidebarNavigation({ menuItems, expanded, isDesktop, handleLogout }) {
                     </motion.div>
                 ))}
             </AnimatePresence>
+            {/* Botão de logout */}
             <LogoutButton onLogout={handleLogout} expanded={expanded} />
         </nav>
     );
@@ -87,7 +92,7 @@ SidebarNavigation.propTypes = {
     handleLogout: PropTypes.func.isRequired,
 };
 
-// Sidebar Footer Component
+// Footer da Sidebar
 function SidebarFooter({ expanded }) {
     return (
         <motion.div
@@ -105,12 +110,32 @@ SidebarFooter.propTypes = {
     expanded: PropTypes.bool.isRequired,
 };
 
-// Main Sidebar Component
+// Ícones do menu (memorizados para performance)
+const dashboardIcon = <LayoutDashboard className="mr-2 w-5 h-5" />;
+const usersIcon = <Users className="mr-2 w-5 h-5" />;
+const animaisIcon = <Icon iconNode={cowHead} className="mr-2 w-5 h-5" />;
+const vacinasIcon = <Droplets className="mr-2 w-5 h-5" />;
+const aplicacoesIcon = <Package className="mr-2 w-5 h-5" />;
+const perfilIcon = <User className="mr-2 w-5 h-5" />;
+
+// Itens do menu lateral
+const menuItems = [
+    { to: '/dashboard', icon: dashboardIcon, label: 'Dashboard' },
+    { to: '/usuarios', icon: usersIcon, label: 'Usuários' },
+    { to: '/animais', icon: animaisIcon, label: 'Animais' },
+    { to: '/vacinas', icon: vacinasIcon, label: 'Vacinas' },
+    { to: '/aplicacoes', icon: aplicacoesIcon, label: 'Aplicações' },
+    { to: '/meu-perfil', icon: perfilIcon, label: 'Meu Perfil' },
+];
+
+// Componente principal da Sidebar
 function Sidebar({ onToggle, isExpanded, showContent }) {
     const isDesktop = useIsDesktop();
+    // Sidebar sempre expandida no desktop
     const expanded = isDesktop ? true : isExpanded;
     const navigate = useNavigate();
 
+    // Classes utilitárias para responsividade e animação
     const asideBase = 'fixed inset-0 lg:relative lg:min-h-screen bg-[#10291a]/95 text-[#fff8f0] flex flex-col shadow-lg z-40 transition-all duration-300 ease-in-out overflow-y-auto hide-scrollbar';
     const asideExpanded = expanded ? 'translate-x-0 w-64' : '-translate-x-0 w-0';
     const asideDesktop = 'lg:translate-x-0 lg:w-64';
@@ -118,12 +143,14 @@ function Sidebar({ onToggle, isExpanded, showContent }) {
     const asidePointer = !expanded && !isDesktop ? 'pointer-events-none select-none' : '';
     const asideClass = `${asideBase} ${asideExpanded} ${asideDesktop} transition-all duration-300 ${asideShowContent} ${asidePointer}`;
 
+    // Função de logout (pode ser expandida para lógica real)
     function handleLogout() {
         navigate('/');
     }
 
     return (
         <>
+            {/* Overlay para mobile */}
             <AnimatePresence>
                 {!isDesktop && expanded && (
                     <motion.div
@@ -139,13 +166,14 @@ function Sidebar({ onToggle, isExpanded, showContent }) {
                 )}
             </AnimatePresence>
 
+            {/* Sidebar principal */}
             <motion.aside
                 className={asideClass}
                 style={{
                     willChange: 'transform, width',
                     backgroundRepeat: 'repeat',
                     backgroundSize: 'auto',
-                    boxShadow: isDesktop ? 'none' : '2px 0 12px 0 #bfa77a', // Ajuste da sombra
+                    boxShadow: isDesktop ? 'none' : '2px 0 12px 0 #bfa77a', // Sombra apenas no mobile
                 }}
                 initial={{ x: isDesktop ? 0 : -300, opacity: 0 }}
                 animate={{ x: expanded ? 0 : -300, opacity: expanded ? 1 : 0 }}
@@ -171,23 +199,5 @@ Sidebar.defaultProps = {
     isExpanded: false,
     showContent: false,
 };
-
-// Icons memorized
-const dashboardIcon = <LayoutDashboard className="mr-2 w-5 h-5" />;
-const usersIcon = <Users className="mr-2 w-5 h-5" />;
-const animaisIcon = <Icon iconNode={cowHead} className="mr-2 w-5 h-5" />;
-const vacinasIcon = <Droplets className="mr-2 w-5 h-5" />;
-const aplicacoesIcon = <Package className="mr-2 w-5 h-5" />;
-const perfilIcon = <User className="mr-2 w-5 h-5" />;
-
-// Menu items
-const menuItems = [
-    { to: '/dashboard', icon: dashboardIcon, label: 'Dashboard' },
-    { to: '/usuarios', icon: usersIcon, label: 'Usuários' },
-    { to: '/animais', icon: animaisIcon, label: 'Animais' },
-    { to: '/vacinas', icon: vacinasIcon, label: 'Vacinas' },
-    { to: '/aplicacoes', icon: aplicacoesIcon, label: 'Aplicações' },
-    { to: '/meu-perfil', icon: perfilIcon, label: 'Meu Perfil' },
-];
 
 export default Sidebar;
