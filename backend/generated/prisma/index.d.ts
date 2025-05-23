@@ -14,20 +14,20 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
 
 
 /**
+ * Model Farms
+ * 
+ */
+export type Farms = $Result.DefaultSelection<Prisma.$FarmsPayload>
+/**
  * Model Users
  * 
  */
 export type Users = $Result.DefaultSelection<Prisma.$UsersPayload>
 /**
- * Model Roles
+ * Model Farmhands
  * 
  */
-export type Roles = $Result.DefaultSelection<Prisma.$RolesPayload>
-/**
- * Model Farm_Workers
- * 
- */
-export type Farm_Workers = $Result.DefaultSelection<Prisma.$Farm_WorkersPayload>
+export type Farmhands = $Result.DefaultSelection<Prisma.$FarmhandsPayload>
 /**
  * Model Veterinarians
  * 
@@ -49,11 +49,6 @@ export type Species = $Result.DefaultSelection<Prisma.$SpeciesPayload>
  */
 export type Breeds = $Result.DefaultSelection<Prisma.$BreedsPayload>
 /**
- * Model Health_Status
- * 
- */
-export type Health_Status = $Result.DefaultSelection<Prisma.$Health_StatusPayload>
-/**
  * Model Vaccines
  * 
  */
@@ -74,15 +69,56 @@ export type Types_of_Vaccines = $Result.DefaultSelection<Prisma.$Types_of_Vaccin
  */
 export type Applications = $Result.DefaultSelection<Prisma.$ApplicationsPayload>
 /**
- * Model Status_Vaccine_Applications
- * 
- */
-export type Status_Vaccine_Applications = $Result.DefaultSelection<Prisma.$Status_Vaccine_ApplicationsPayload>
-/**
  * Model Locations
  * 
  */
 export type Locations = $Result.DefaultSelection<Prisma.$LocationsPayload>
+
+/**
+ * Enums
+ */
+export namespace $Enums {
+  export const Status_Vaccine_Applications: {
+  APPLIED: 'APPLIED',
+  PENDING: 'PENDING',
+  OVERDUE: 'OVERDUE'
+};
+
+export type Status_Vaccine_Applications = (typeof Status_Vaccine_Applications)[keyof typeof Status_Vaccine_Applications]
+
+
+export const Roles: {
+  ADMIN: 'ADMIN',
+  FARMER: 'FARMER',
+  FARMHAND: 'FARMHAND',
+  VETERINARY: 'VETERINARY'
+};
+
+export type Roles = (typeof Roles)[keyof typeof Roles]
+
+
+export const Health_Status: {
+  HEALTHY: 'HEALTHY',
+  SICK: 'SICK',
+  INJURED: 'INJURED',
+  RECOVERING: 'RECOVERING'
+};
+
+export type Health_Status = (typeof Health_Status)[keyof typeof Health_Status]
+
+}
+
+export type Status_Vaccine_Applications = $Enums.Status_Vaccine_Applications
+
+export const Status_Vaccine_Applications: typeof $Enums.Status_Vaccine_Applications
+
+export type Roles = $Enums.Roles
+
+export const Roles: typeof $Enums.Roles
+
+export type Health_Status = $Enums.Health_Status
+
+export const Health_Status: typeof $Enums.Health_Status
 
 /**
  * ##  Prisma Client ʲˢ
@@ -91,8 +127,8 @@ export type Locations = $Result.DefaultSelection<Prisma.$LocationsPayload>
  * @example
  * ```
  * const prisma = new PrismaClient()
- * // Fetch zero or more Users
- * const users = await prisma.users.findMany()
+ * // Fetch zero or more Farms
+ * const farms = await prisma.farms.findMany()
  * ```
  *
  *
@@ -112,8 +148,8 @@ export class PrismaClient<
    * @example
    * ```
    * const prisma = new PrismaClient()
-   * // Fetch zero or more Users
-   * const users = await prisma.users.findMany()
+   * // Fetch zero or more Farms
+   * const farms = await prisma.farms.findMany()
    * ```
    *
    *
@@ -210,6 +246,16 @@ export class PrismaClient<
   }>>
 
       /**
+   * `prisma.farms`: Exposes CRUD operations for the **Farms** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Farms
+    * const farms = await prisma.farms.findMany()
+    * ```
+    */
+  get farms(): Prisma.FarmsDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.users`: Exposes CRUD operations for the **Users** model.
     * Example usage:
     * ```ts
@@ -220,24 +266,14 @@ export class PrismaClient<
   get users(): Prisma.UsersDelegate<ExtArgs, ClientOptions>;
 
   /**
-   * `prisma.roles`: Exposes CRUD operations for the **Roles** model.
+   * `prisma.farmhands`: Exposes CRUD operations for the **Farmhands** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more Roles
-    * const roles = await prisma.roles.findMany()
+    * // Fetch zero or more Farmhands
+    * const farmhands = await prisma.farmhands.findMany()
     * ```
     */
-  get roles(): Prisma.RolesDelegate<ExtArgs, ClientOptions>;
-
-  /**
-   * `prisma.farm_Workers`: Exposes CRUD operations for the **Farm_Workers** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more Farm_Workers
-    * const farm_Workers = await prisma.farm_Workers.findMany()
-    * ```
-    */
-  get farm_Workers(): Prisma.Farm_WorkersDelegate<ExtArgs, ClientOptions>;
+  get farmhands(): Prisma.FarmhandsDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.veterinarians`: Exposes CRUD operations for the **Veterinarians** model.
@@ -280,16 +316,6 @@ export class PrismaClient<
   get breeds(): Prisma.BreedsDelegate<ExtArgs, ClientOptions>;
 
   /**
-   * `prisma.health_Status`: Exposes CRUD operations for the **Health_Status** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more Health_Statuses
-    * const health_Statuses = await prisma.health_Status.findMany()
-    * ```
-    */
-  get health_Status(): Prisma.Health_StatusDelegate<ExtArgs, ClientOptions>;
-
-  /**
    * `prisma.vaccines`: Exposes CRUD operations for the **Vaccines** model.
     * Example usage:
     * ```ts
@@ -328,16 +354,6 @@ export class PrismaClient<
     * ```
     */
   get applications(): Prisma.ApplicationsDelegate<ExtArgs, ClientOptions>;
-
-  /**
-   * `prisma.status_Vaccine_Applications`: Exposes CRUD operations for the **Status_Vaccine_Applications** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more Status_Vaccine_Applications
-    * const status_Vaccine_Applications = await prisma.status_Vaccine_Applications.findMany()
-    * ```
-    */
-  get status_Vaccine_Applications(): Prisma.Status_Vaccine_ApplicationsDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.locations`: Exposes CRUD operations for the **Locations** model.
@@ -788,19 +804,17 @@ export namespace Prisma {
 
 
   export const ModelName: {
+    Farms: 'Farms',
     Users: 'Users',
-    Roles: 'Roles',
-    Farm_Workers: 'Farm_Workers',
+    Farmhands: 'Farmhands',
     Veterinarians: 'Veterinarians',
     Animals: 'Animals',
     Species: 'Species',
     Breeds: 'Breeds',
-    Health_Status: 'Health_Status',
     Vaccines: 'Vaccines',
     Manufacturers: 'Manufacturers',
     Types_of_Vaccines: 'Types_of_Vaccines',
     Applications: 'Applications',
-    Status_Vaccine_Applications: 'Status_Vaccine_Applications',
     Locations: 'Locations'
   };
 
@@ -820,10 +834,76 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "users" | "roles" | "farm_Workers" | "veterinarians" | "animals" | "species" | "breeds" | "health_Status" | "vaccines" | "manufacturers" | "types_of_Vaccines" | "applications" | "status_Vaccine_Applications" | "locations"
+      modelProps: "farms" | "users" | "farmhands" | "veterinarians" | "animals" | "species" | "breeds" | "vaccines" | "manufacturers" | "types_of_Vaccines" | "applications" | "locations"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
+      Farms: {
+        payload: Prisma.$FarmsPayload<ExtArgs>
+        fields: Prisma.FarmsFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.FarmsFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FarmsPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.FarmsFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FarmsPayload>
+          }
+          findFirst: {
+            args: Prisma.FarmsFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FarmsPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.FarmsFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FarmsPayload>
+          }
+          findMany: {
+            args: Prisma.FarmsFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FarmsPayload>[]
+          }
+          create: {
+            args: Prisma.FarmsCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FarmsPayload>
+          }
+          createMany: {
+            args: Prisma.FarmsCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.FarmsDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FarmsPayload>
+          }
+          update: {
+            args: Prisma.FarmsUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FarmsPayload>
+          }
+          deleteMany: {
+            args: Prisma.FarmsDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.FarmsUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.FarmsUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FarmsPayload>
+          }
+          aggregate: {
+            args: Prisma.FarmsAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateFarms>
+          }
+          groupBy: {
+            args: Prisma.FarmsGroupByArgs<ExtArgs>
+            result: $Utils.Optional<FarmsGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.FarmsCountArgs<ExtArgs>
+            result: $Utils.Optional<FarmsCountAggregateOutputType> | number
+          }
+        }
+      }
       Users: {
         payload: Prisma.$UsersPayload<ExtArgs>
         fields: Prisma.UsersFieldRefs
@@ -890,135 +970,69 @@ export namespace Prisma {
           }
         }
       }
-      Roles: {
-        payload: Prisma.$RolesPayload<ExtArgs>
-        fields: Prisma.RolesFieldRefs
+      Farmhands: {
+        payload: Prisma.$FarmhandsPayload<ExtArgs>
+        fields: Prisma.FarmhandsFieldRefs
         operations: {
           findUnique: {
-            args: Prisma.RolesFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$RolesPayload> | null
+            args: Prisma.FarmhandsFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FarmhandsPayload> | null
           }
           findUniqueOrThrow: {
-            args: Prisma.RolesFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$RolesPayload>
+            args: Prisma.FarmhandsFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FarmhandsPayload>
           }
           findFirst: {
-            args: Prisma.RolesFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$RolesPayload> | null
+            args: Prisma.FarmhandsFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FarmhandsPayload> | null
           }
           findFirstOrThrow: {
-            args: Prisma.RolesFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$RolesPayload>
+            args: Prisma.FarmhandsFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FarmhandsPayload>
           }
           findMany: {
-            args: Prisma.RolesFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$RolesPayload>[]
+            args: Prisma.FarmhandsFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FarmhandsPayload>[]
           }
           create: {
-            args: Prisma.RolesCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$RolesPayload>
+            args: Prisma.FarmhandsCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FarmhandsPayload>
           }
           createMany: {
-            args: Prisma.RolesCreateManyArgs<ExtArgs>
+            args: Prisma.FarmhandsCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
           delete: {
-            args: Prisma.RolesDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$RolesPayload>
+            args: Prisma.FarmhandsDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FarmhandsPayload>
           }
           update: {
-            args: Prisma.RolesUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$RolesPayload>
+            args: Prisma.FarmhandsUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FarmhandsPayload>
           }
           deleteMany: {
-            args: Prisma.RolesDeleteManyArgs<ExtArgs>
+            args: Prisma.FarmhandsDeleteManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateMany: {
-            args: Prisma.RolesUpdateManyArgs<ExtArgs>
+            args: Prisma.FarmhandsUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
           upsert: {
-            args: Prisma.RolesUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$RolesPayload>
+            args: Prisma.FarmhandsUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FarmhandsPayload>
           }
           aggregate: {
-            args: Prisma.RolesAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateRoles>
+            args: Prisma.FarmhandsAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateFarmhands>
           }
           groupBy: {
-            args: Prisma.RolesGroupByArgs<ExtArgs>
-            result: $Utils.Optional<RolesGroupByOutputType>[]
+            args: Prisma.FarmhandsGroupByArgs<ExtArgs>
+            result: $Utils.Optional<FarmhandsGroupByOutputType>[]
           }
           count: {
-            args: Prisma.RolesCountArgs<ExtArgs>
-            result: $Utils.Optional<RolesCountAggregateOutputType> | number
-          }
-        }
-      }
-      Farm_Workers: {
-        payload: Prisma.$Farm_WorkersPayload<ExtArgs>
-        fields: Prisma.Farm_WorkersFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.Farm_WorkersFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$Farm_WorkersPayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.Farm_WorkersFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$Farm_WorkersPayload>
-          }
-          findFirst: {
-            args: Prisma.Farm_WorkersFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$Farm_WorkersPayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.Farm_WorkersFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$Farm_WorkersPayload>
-          }
-          findMany: {
-            args: Prisma.Farm_WorkersFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$Farm_WorkersPayload>[]
-          }
-          create: {
-            args: Prisma.Farm_WorkersCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$Farm_WorkersPayload>
-          }
-          createMany: {
-            args: Prisma.Farm_WorkersCreateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          delete: {
-            args: Prisma.Farm_WorkersDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$Farm_WorkersPayload>
-          }
-          update: {
-            args: Prisma.Farm_WorkersUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$Farm_WorkersPayload>
-          }
-          deleteMany: {
-            args: Prisma.Farm_WorkersDeleteManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateMany: {
-            args: Prisma.Farm_WorkersUpdateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          upsert: {
-            args: Prisma.Farm_WorkersUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$Farm_WorkersPayload>
-          }
-          aggregate: {
-            args: Prisma.Farm_WorkersAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateFarm_Workers>
-          }
-          groupBy: {
-            args: Prisma.Farm_WorkersGroupByArgs<ExtArgs>
-            result: $Utils.Optional<Farm_WorkersGroupByOutputType>[]
-          }
-          count: {
-            args: Prisma.Farm_WorkersCountArgs<ExtArgs>
-            result: $Utils.Optional<Farm_WorkersCountAggregateOutputType> | number
+            args: Prisma.FarmhandsCountArgs<ExtArgs>
+            result: $Utils.Optional<FarmhandsCountAggregateOutputType> | number
           }
         }
       }
@@ -1286,72 +1300,6 @@ export namespace Prisma {
           }
         }
       }
-      Health_Status: {
-        payload: Prisma.$Health_StatusPayload<ExtArgs>
-        fields: Prisma.Health_StatusFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.Health_StatusFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$Health_StatusPayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.Health_StatusFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$Health_StatusPayload>
-          }
-          findFirst: {
-            args: Prisma.Health_StatusFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$Health_StatusPayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.Health_StatusFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$Health_StatusPayload>
-          }
-          findMany: {
-            args: Prisma.Health_StatusFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$Health_StatusPayload>[]
-          }
-          create: {
-            args: Prisma.Health_StatusCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$Health_StatusPayload>
-          }
-          createMany: {
-            args: Prisma.Health_StatusCreateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          delete: {
-            args: Prisma.Health_StatusDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$Health_StatusPayload>
-          }
-          update: {
-            args: Prisma.Health_StatusUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$Health_StatusPayload>
-          }
-          deleteMany: {
-            args: Prisma.Health_StatusDeleteManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateMany: {
-            args: Prisma.Health_StatusUpdateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          upsert: {
-            args: Prisma.Health_StatusUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$Health_StatusPayload>
-          }
-          aggregate: {
-            args: Prisma.Health_StatusAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateHealth_Status>
-          }
-          groupBy: {
-            args: Prisma.Health_StatusGroupByArgs<ExtArgs>
-            result: $Utils.Optional<Health_StatusGroupByOutputType>[]
-          }
-          count: {
-            args: Prisma.Health_StatusCountArgs<ExtArgs>
-            result: $Utils.Optional<Health_StatusCountAggregateOutputType> | number
-          }
-        }
-      }
       Vaccines: {
         payload: Prisma.$VaccinesPayload<ExtArgs>
         fields: Prisma.VaccinesFieldRefs
@@ -1616,72 +1564,6 @@ export namespace Prisma {
           }
         }
       }
-      Status_Vaccine_Applications: {
-        payload: Prisma.$Status_Vaccine_ApplicationsPayload<ExtArgs>
-        fields: Prisma.Status_Vaccine_ApplicationsFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.Status_Vaccine_ApplicationsFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$Status_Vaccine_ApplicationsPayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.Status_Vaccine_ApplicationsFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$Status_Vaccine_ApplicationsPayload>
-          }
-          findFirst: {
-            args: Prisma.Status_Vaccine_ApplicationsFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$Status_Vaccine_ApplicationsPayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.Status_Vaccine_ApplicationsFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$Status_Vaccine_ApplicationsPayload>
-          }
-          findMany: {
-            args: Prisma.Status_Vaccine_ApplicationsFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$Status_Vaccine_ApplicationsPayload>[]
-          }
-          create: {
-            args: Prisma.Status_Vaccine_ApplicationsCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$Status_Vaccine_ApplicationsPayload>
-          }
-          createMany: {
-            args: Prisma.Status_Vaccine_ApplicationsCreateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          delete: {
-            args: Prisma.Status_Vaccine_ApplicationsDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$Status_Vaccine_ApplicationsPayload>
-          }
-          update: {
-            args: Prisma.Status_Vaccine_ApplicationsUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$Status_Vaccine_ApplicationsPayload>
-          }
-          deleteMany: {
-            args: Prisma.Status_Vaccine_ApplicationsDeleteManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateMany: {
-            args: Prisma.Status_Vaccine_ApplicationsUpdateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          upsert: {
-            args: Prisma.Status_Vaccine_ApplicationsUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$Status_Vaccine_ApplicationsPayload>
-          }
-          aggregate: {
-            args: Prisma.Status_Vaccine_ApplicationsAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateStatus_Vaccine_Applications>
-          }
-          groupBy: {
-            args: Prisma.Status_Vaccine_ApplicationsGroupByArgs<ExtArgs>
-            result: $Utils.Optional<Status_Vaccine_ApplicationsGroupByOutputType>[]
-          }
-          count: {
-            args: Prisma.Status_Vaccine_ApplicationsCountArgs<ExtArgs>
-            result: $Utils.Optional<Status_Vaccine_ApplicationsCountAggregateOutputType> | number
-          }
-        }
-      }
       Locations: {
         payload: Prisma.$LocationsPayload<ExtArgs>
         fields: Prisma.LocationsFieldRefs
@@ -1832,19 +1714,17 @@ export namespace Prisma {
     omit?: Prisma.GlobalOmitConfig
   }
   export type GlobalOmitConfig = {
+    farms?: FarmsOmit
     users?: UsersOmit
-    roles?: RolesOmit
-    farm_Workers?: Farm_WorkersOmit
+    farmhands?: FarmhandsOmit
     veterinarians?: VeterinariansOmit
     animals?: AnimalsOmit
     species?: SpeciesOmit
     breeds?: BreedsOmit
-    health_Status?: Health_StatusOmit
     vaccines?: VaccinesOmit
     manufacturers?: ManufacturersOmit
     types_of_Vaccines?: Types_of_VaccinesOmit
     applications?: ApplicationsOmit
-    status_Vaccine_Applications?: Status_Vaccine_ApplicationsOmit
     locations?: LocationsOmit
   }
 
@@ -1936,33 +1816,42 @@ export namespace Prisma {
 
 
   /**
-   * Count Type RolesCountOutputType
+   * Count Type FarmsCountOutputType
    */
 
-  export type RolesCountOutputType = {
-    Users: number
+  export type FarmsCountOutputType = {
+    user: number
+    animal: number
   }
 
-  export type RolesCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    Users?: boolean | RolesCountOutputTypeCountUsersArgs
+  export type FarmsCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | FarmsCountOutputTypeCountUserArgs
+    animal?: boolean | FarmsCountOutputTypeCountAnimalArgs
   }
 
   // Custom InputTypes
   /**
-   * RolesCountOutputType without action
+   * FarmsCountOutputType without action
    */
-  export type RolesCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type FarmsCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the RolesCountOutputType
+     * Select specific fields to fetch from the FarmsCountOutputType
      */
-    select?: RolesCountOutputTypeSelect<ExtArgs> | null
+    select?: FarmsCountOutputTypeSelect<ExtArgs> | null
   }
 
   /**
-   * RolesCountOutputType without action
+   * FarmsCountOutputType without action
    */
-  export type RolesCountOutputTypeCountUsersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type FarmsCountOutputTypeCountUserArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: UsersWhereInput
+  }
+
+  /**
+   * FarmsCountOutputType without action
+   */
+  export type FarmsCountOutputTypeCountAnimalArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AnimalsWhereInput
   }
 
 
@@ -1971,11 +1860,11 @@ export namespace Prisma {
    */
 
   export type VeterinariansCountOutputType = {
-    Applications: number
+    application: number
   }
 
   export type VeterinariansCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    Applications?: boolean | VeterinariansCountOutputTypeCountApplicationsArgs
+    application?: boolean | VeterinariansCountOutputTypeCountApplicationArgs
   }
 
   // Custom InputTypes
@@ -1992,7 +1881,7 @@ export namespace Prisma {
   /**
    * VeterinariansCountOutputType without action
    */
-  export type VeterinariansCountOutputTypeCountApplicationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type VeterinariansCountOutputTypeCountApplicationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ApplicationsWhereInput
   }
 
@@ -2002,13 +1891,13 @@ export namespace Prisma {
    */
 
   export type AnimalsCountOutputType = {
-    Locations: number
-    Applications: number
+    location: number
+    application: number
   }
 
   export type AnimalsCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    Locations?: boolean | AnimalsCountOutputTypeCountLocationsArgs
-    Applications?: boolean | AnimalsCountOutputTypeCountApplicationsArgs
+    location?: boolean | AnimalsCountOutputTypeCountLocationArgs
+    application?: boolean | AnimalsCountOutputTypeCountApplicationArgs
   }
 
   // Custom InputTypes
@@ -2025,14 +1914,14 @@ export namespace Prisma {
   /**
    * AnimalsCountOutputType without action
    */
-  export type AnimalsCountOutputTypeCountLocationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type AnimalsCountOutputTypeCountLocationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: LocationsWhereInput
   }
 
   /**
    * AnimalsCountOutputType without action
    */
-  export type AnimalsCountOutputTypeCountApplicationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type AnimalsCountOutputTypeCountApplicationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ApplicationsWhereInput
   }
 
@@ -2042,13 +1931,13 @@ export namespace Prisma {
    */
 
   export type SpeciesCountOutputType = {
-    animals: number
-    breeds: number
+    animal: number
+    breed: number
   }
 
   export type SpeciesCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    animals?: boolean | SpeciesCountOutputTypeCountAnimalsArgs
-    breeds?: boolean | SpeciesCountOutputTypeCountBreedsArgs
+    animal?: boolean | SpeciesCountOutputTypeCountAnimalArgs
+    breed?: boolean | SpeciesCountOutputTypeCountBreedArgs
   }
 
   // Custom InputTypes
@@ -2065,14 +1954,14 @@ export namespace Prisma {
   /**
    * SpeciesCountOutputType without action
    */
-  export type SpeciesCountOutputTypeCountAnimalsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type SpeciesCountOutputTypeCountAnimalArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: AnimalsWhereInput
   }
 
   /**
    * SpeciesCountOutputType without action
    */
-  export type SpeciesCountOutputTypeCountBreedsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type SpeciesCountOutputTypeCountBreedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: BreedsWhereInput
   }
 
@@ -2082,11 +1971,11 @@ export namespace Prisma {
    */
 
   export type BreedsCountOutputType = {
-    animals: number
+    animal: number
   }
 
   export type BreedsCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    animals?: boolean | BreedsCountOutputTypeCountAnimalsArgs
+    animal?: boolean | BreedsCountOutputTypeCountAnimalArgs
   }
 
   // Custom InputTypes
@@ -2103,38 +1992,7 @@ export namespace Prisma {
   /**
    * BreedsCountOutputType without action
    */
-  export type BreedsCountOutputTypeCountAnimalsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: AnimalsWhereInput
-  }
-
-
-  /**
-   * Count Type Health_StatusCountOutputType
-   */
-
-  export type Health_StatusCountOutputType = {
-    animals: number
-  }
-
-  export type Health_StatusCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    animals?: boolean | Health_StatusCountOutputTypeCountAnimalsArgs
-  }
-
-  // Custom InputTypes
-  /**
-   * Health_StatusCountOutputType without action
-   */
-  export type Health_StatusCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Health_StatusCountOutputType
-     */
-    select?: Health_StatusCountOutputTypeSelect<ExtArgs> | null
-  }
-
-  /**
-   * Health_StatusCountOutputType without action
-   */
-  export type Health_StatusCountOutputTypeCountAnimalsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type BreedsCountOutputTypeCountAnimalArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: AnimalsWhereInput
   }
 
@@ -2144,11 +2002,11 @@ export namespace Prisma {
    */
 
   export type VaccinesCountOutputType = {
-    Applications: number
+    applications: number
   }
 
   export type VaccinesCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    Applications?: boolean | VaccinesCountOutputTypeCountApplicationsArgs
+    applications?: boolean | VaccinesCountOutputTypeCountApplicationsArgs
   }
 
   // Custom InputTypes
@@ -2233,39 +2091,1014 @@ export namespace Prisma {
 
 
   /**
-   * Count Type Status_Vaccine_ApplicationsCountOutputType
+   * Models
    */
 
-  export type Status_Vaccine_ApplicationsCountOutputType = {
-    Applications: number
+  /**
+   * Model Farms
+   */
+
+  export type AggregateFarms = {
+    _count: FarmsCountAggregateOutputType | null
+    _avg: FarmsAvgAggregateOutputType | null
+    _sum: FarmsSumAggregateOutputType | null
+    _min: FarmsMinAggregateOutputType | null
+    _max: FarmsMaxAggregateOutputType | null
   }
 
-  export type Status_Vaccine_ApplicationsCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    Applications?: boolean | Status_Vaccine_ApplicationsCountOutputTypeCountApplicationsArgs
+  export type FarmsAvgAggregateOutputType = {
+    id: number | null
   }
+
+  export type FarmsSumAggregateOutputType = {
+    id: number | null
+  }
+
+  export type FarmsMinAggregateOutputType = {
+    id: number | null
+    name: string | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type FarmsMaxAggregateOutputType = {
+    id: number | null
+    name: string | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type FarmsCountAggregateOutputType = {
+    id: number
+    name: number
+    created_at: number
+    updated_at: number
+    _all: number
+  }
+
+
+  export type FarmsAvgAggregateInputType = {
+    id?: true
+  }
+
+  export type FarmsSumAggregateInputType = {
+    id?: true
+  }
+
+  export type FarmsMinAggregateInputType = {
+    id?: true
+    name?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type FarmsMaxAggregateInputType = {
+    id?: true
+    name?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type FarmsCountAggregateInputType = {
+    id?: true
+    name?: true
+    created_at?: true
+    updated_at?: true
+    _all?: true
+  }
+
+  export type FarmsAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Farms to aggregate.
+     */
+    where?: FarmsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Farms to fetch.
+     */
+    orderBy?: FarmsOrderByWithRelationInput | FarmsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: FarmsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Farms from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Farms.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Farms
+    **/
+    _count?: true | FarmsCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: FarmsAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: FarmsSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: FarmsMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: FarmsMaxAggregateInputType
+  }
+
+  export type GetFarmsAggregateType<T extends FarmsAggregateArgs> = {
+        [P in keyof T & keyof AggregateFarms]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateFarms[P]>
+      : GetScalarType<T[P], AggregateFarms[P]>
+  }
+
+
+
+
+  export type FarmsGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FarmsWhereInput
+    orderBy?: FarmsOrderByWithAggregationInput | FarmsOrderByWithAggregationInput[]
+    by: FarmsScalarFieldEnum[] | FarmsScalarFieldEnum
+    having?: FarmsScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: FarmsCountAggregateInputType | true
+    _avg?: FarmsAvgAggregateInputType
+    _sum?: FarmsSumAggregateInputType
+    _min?: FarmsMinAggregateInputType
+    _max?: FarmsMaxAggregateInputType
+  }
+
+  export type FarmsGroupByOutputType = {
+    id: number
+    name: string
+    created_at: Date
+    updated_at: Date
+    _count: FarmsCountAggregateOutputType | null
+    _avg: FarmsAvgAggregateOutputType | null
+    _sum: FarmsSumAggregateOutputType | null
+    _min: FarmsMinAggregateOutputType | null
+    _max: FarmsMaxAggregateOutputType | null
+  }
+
+  type GetFarmsGroupByPayload<T extends FarmsGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<FarmsGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof FarmsGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], FarmsGroupByOutputType[P]>
+            : GetScalarType<T[P], FarmsGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type FarmsSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    user?: boolean | Farms$userArgs<ExtArgs>
+    animal?: boolean | Farms$animalArgs<ExtArgs>
+    _count?: boolean | FarmsCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["farms"]>
+
+
+
+  export type FarmsSelectScalar = {
+    id?: boolean
+    name?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }
+
+  export type FarmsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "created_at" | "updated_at", ExtArgs["result"]["farms"]>
+  export type FarmsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | Farms$userArgs<ExtArgs>
+    animal?: boolean | Farms$animalArgs<ExtArgs>
+    _count?: boolean | FarmsCountOutputTypeDefaultArgs<ExtArgs>
+  }
+
+  export type $FarmsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Farms"
+    objects: {
+      user: Prisma.$UsersPayload<ExtArgs>[]
+      animal: Prisma.$AnimalsPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      name: string
+      created_at: Date
+      updated_at: Date
+    }, ExtArgs["result"]["farms"]>
+    composites: {}
+  }
+
+  type FarmsGetPayload<S extends boolean | null | undefined | FarmsDefaultArgs> = $Result.GetResult<Prisma.$FarmsPayload, S>
+
+  type FarmsCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<FarmsFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: FarmsCountAggregateInputType | true
+    }
+
+  export interface FarmsDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Farms'], meta: { name: 'Farms' } }
+    /**
+     * Find zero or one Farms that matches the filter.
+     * @param {FarmsFindUniqueArgs} args - Arguments to find a Farms
+     * @example
+     * // Get one Farms
+     * const farms = await prisma.farms.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends FarmsFindUniqueArgs>(args: SelectSubset<T, FarmsFindUniqueArgs<ExtArgs>>): Prisma__FarmsClient<$Result.GetResult<Prisma.$FarmsPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Farms that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {FarmsFindUniqueOrThrowArgs} args - Arguments to find a Farms
+     * @example
+     * // Get one Farms
+     * const farms = await prisma.farms.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends FarmsFindUniqueOrThrowArgs>(args: SelectSubset<T, FarmsFindUniqueOrThrowArgs<ExtArgs>>): Prisma__FarmsClient<$Result.GetResult<Prisma.$FarmsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Farms that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FarmsFindFirstArgs} args - Arguments to find a Farms
+     * @example
+     * // Get one Farms
+     * const farms = await prisma.farms.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends FarmsFindFirstArgs>(args?: SelectSubset<T, FarmsFindFirstArgs<ExtArgs>>): Prisma__FarmsClient<$Result.GetResult<Prisma.$FarmsPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Farms that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FarmsFindFirstOrThrowArgs} args - Arguments to find a Farms
+     * @example
+     * // Get one Farms
+     * const farms = await prisma.farms.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends FarmsFindFirstOrThrowArgs>(args?: SelectSubset<T, FarmsFindFirstOrThrowArgs<ExtArgs>>): Prisma__FarmsClient<$Result.GetResult<Prisma.$FarmsPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Farms that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FarmsFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Farms
+     * const farms = await prisma.farms.findMany()
+     * 
+     * // Get first 10 Farms
+     * const farms = await prisma.farms.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const farmsWithIdOnly = await prisma.farms.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends FarmsFindManyArgs>(args?: SelectSubset<T, FarmsFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FarmsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Farms.
+     * @param {FarmsCreateArgs} args - Arguments to create a Farms.
+     * @example
+     * // Create one Farms
+     * const Farms = await prisma.farms.create({
+     *   data: {
+     *     // ... data to create a Farms
+     *   }
+     * })
+     * 
+     */
+    create<T extends FarmsCreateArgs>(args: SelectSubset<T, FarmsCreateArgs<ExtArgs>>): Prisma__FarmsClient<$Result.GetResult<Prisma.$FarmsPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Farms.
+     * @param {FarmsCreateManyArgs} args - Arguments to create many Farms.
+     * @example
+     * // Create many Farms
+     * const farms = await prisma.farms.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends FarmsCreateManyArgs>(args?: SelectSubset<T, FarmsCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Farms.
+     * @param {FarmsDeleteArgs} args - Arguments to delete one Farms.
+     * @example
+     * // Delete one Farms
+     * const Farms = await prisma.farms.delete({
+     *   where: {
+     *     // ... filter to delete one Farms
+     *   }
+     * })
+     * 
+     */
+    delete<T extends FarmsDeleteArgs>(args: SelectSubset<T, FarmsDeleteArgs<ExtArgs>>): Prisma__FarmsClient<$Result.GetResult<Prisma.$FarmsPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Farms.
+     * @param {FarmsUpdateArgs} args - Arguments to update one Farms.
+     * @example
+     * // Update one Farms
+     * const farms = await prisma.farms.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends FarmsUpdateArgs>(args: SelectSubset<T, FarmsUpdateArgs<ExtArgs>>): Prisma__FarmsClient<$Result.GetResult<Prisma.$FarmsPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Farms.
+     * @param {FarmsDeleteManyArgs} args - Arguments to filter Farms to delete.
+     * @example
+     * // Delete a few Farms
+     * const { count } = await prisma.farms.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends FarmsDeleteManyArgs>(args?: SelectSubset<T, FarmsDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Farms.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FarmsUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Farms
+     * const farms = await prisma.farms.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends FarmsUpdateManyArgs>(args: SelectSubset<T, FarmsUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Farms.
+     * @param {FarmsUpsertArgs} args - Arguments to update or create a Farms.
+     * @example
+     * // Update or create a Farms
+     * const farms = await prisma.farms.upsert({
+     *   create: {
+     *     // ... data to create a Farms
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Farms we want to update
+     *   }
+     * })
+     */
+    upsert<T extends FarmsUpsertArgs>(args: SelectSubset<T, FarmsUpsertArgs<ExtArgs>>): Prisma__FarmsClient<$Result.GetResult<Prisma.$FarmsPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Farms.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FarmsCountArgs} args - Arguments to filter Farms to count.
+     * @example
+     * // Count the number of Farms
+     * const count = await prisma.farms.count({
+     *   where: {
+     *     // ... the filter for the Farms we want to count
+     *   }
+     * })
+    **/
+    count<T extends FarmsCountArgs>(
+      args?: Subset<T, FarmsCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], FarmsCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Farms.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FarmsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends FarmsAggregateArgs>(args: Subset<T, FarmsAggregateArgs>): Prisma.PrismaPromise<GetFarmsAggregateType<T>>
+
+    /**
+     * Group by Farms.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FarmsGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends FarmsGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: FarmsGroupByArgs['orderBy'] }
+        : { orderBy?: FarmsGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, FarmsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetFarmsGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Farms model
+   */
+  readonly fields: FarmsFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Farms.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__FarmsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends Farms$userArgs<ExtArgs> = {}>(args?: Subset<T, Farms$userArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UsersPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    animal<T extends Farms$animalArgs<ExtArgs> = {}>(args?: Subset<T, Farms$animalArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AnimalsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Farms model
+   */
+  interface FarmsFieldRefs {
+    readonly id: FieldRef<"Farms", 'Int'>
+    readonly name: FieldRef<"Farms", 'String'>
+    readonly created_at: FieldRef<"Farms", 'DateTime'>
+    readonly updated_at: FieldRef<"Farms", 'DateTime'>
+  }
+    
 
   // Custom InputTypes
   /**
-   * Status_Vaccine_ApplicationsCountOutputType without action
+   * Farms findUnique
    */
-  export type Status_Vaccine_ApplicationsCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type FarmsFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Status_Vaccine_ApplicationsCountOutputType
+     * Select specific fields to fetch from the Farms
      */
-    select?: Status_Vaccine_ApplicationsCountOutputTypeSelect<ExtArgs> | null
+    select?: FarmsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Farms
+     */
+    omit?: FarmsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FarmsInclude<ExtArgs> | null
+    /**
+     * Filter, which Farms to fetch.
+     */
+    where: FarmsWhereUniqueInput
   }
 
   /**
-   * Status_Vaccine_ApplicationsCountOutputType without action
+   * Farms findUniqueOrThrow
    */
-  export type Status_Vaccine_ApplicationsCountOutputTypeCountApplicationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ApplicationsWhereInput
+  export type FarmsFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Farms
+     */
+    select?: FarmsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Farms
+     */
+    omit?: FarmsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FarmsInclude<ExtArgs> | null
+    /**
+     * Filter, which Farms to fetch.
+     */
+    where: FarmsWhereUniqueInput
   }
 
+  /**
+   * Farms findFirst
+   */
+  export type FarmsFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Farms
+     */
+    select?: FarmsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Farms
+     */
+    omit?: FarmsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FarmsInclude<ExtArgs> | null
+    /**
+     * Filter, which Farms to fetch.
+     */
+    where?: FarmsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Farms to fetch.
+     */
+    orderBy?: FarmsOrderByWithRelationInput | FarmsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Farms.
+     */
+    cursor?: FarmsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Farms from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Farms.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Farms.
+     */
+    distinct?: FarmsScalarFieldEnum | FarmsScalarFieldEnum[]
+  }
 
   /**
-   * Models
+   * Farms findFirstOrThrow
    */
+  export type FarmsFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Farms
+     */
+    select?: FarmsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Farms
+     */
+    omit?: FarmsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FarmsInclude<ExtArgs> | null
+    /**
+     * Filter, which Farms to fetch.
+     */
+    where?: FarmsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Farms to fetch.
+     */
+    orderBy?: FarmsOrderByWithRelationInput | FarmsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Farms.
+     */
+    cursor?: FarmsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Farms from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Farms.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Farms.
+     */
+    distinct?: FarmsScalarFieldEnum | FarmsScalarFieldEnum[]
+  }
+
+  /**
+   * Farms findMany
+   */
+  export type FarmsFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Farms
+     */
+    select?: FarmsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Farms
+     */
+    omit?: FarmsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FarmsInclude<ExtArgs> | null
+    /**
+     * Filter, which Farms to fetch.
+     */
+    where?: FarmsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Farms to fetch.
+     */
+    orderBy?: FarmsOrderByWithRelationInput | FarmsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Farms.
+     */
+    cursor?: FarmsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Farms from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Farms.
+     */
+    skip?: number
+    distinct?: FarmsScalarFieldEnum | FarmsScalarFieldEnum[]
+  }
+
+  /**
+   * Farms create
+   */
+  export type FarmsCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Farms
+     */
+    select?: FarmsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Farms
+     */
+    omit?: FarmsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FarmsInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Farms.
+     */
+    data: XOR<FarmsCreateInput, FarmsUncheckedCreateInput>
+  }
+
+  /**
+   * Farms createMany
+   */
+  export type FarmsCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Farms.
+     */
+    data: FarmsCreateManyInput | FarmsCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Farms update
+   */
+  export type FarmsUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Farms
+     */
+    select?: FarmsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Farms
+     */
+    omit?: FarmsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FarmsInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Farms.
+     */
+    data: XOR<FarmsUpdateInput, FarmsUncheckedUpdateInput>
+    /**
+     * Choose, which Farms to update.
+     */
+    where: FarmsWhereUniqueInput
+  }
+
+  /**
+   * Farms updateMany
+   */
+  export type FarmsUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Farms.
+     */
+    data: XOR<FarmsUpdateManyMutationInput, FarmsUncheckedUpdateManyInput>
+    /**
+     * Filter which Farms to update
+     */
+    where?: FarmsWhereInput
+    /**
+     * Limit how many Farms to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Farms upsert
+   */
+  export type FarmsUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Farms
+     */
+    select?: FarmsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Farms
+     */
+    omit?: FarmsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FarmsInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Farms to update in case it exists.
+     */
+    where: FarmsWhereUniqueInput
+    /**
+     * In case the Farms found by the `where` argument doesn't exist, create a new Farms with this data.
+     */
+    create: XOR<FarmsCreateInput, FarmsUncheckedCreateInput>
+    /**
+     * In case the Farms was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<FarmsUpdateInput, FarmsUncheckedUpdateInput>
+  }
+
+  /**
+   * Farms delete
+   */
+  export type FarmsDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Farms
+     */
+    select?: FarmsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Farms
+     */
+    omit?: FarmsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FarmsInclude<ExtArgs> | null
+    /**
+     * Filter which Farms to delete.
+     */
+    where: FarmsWhereUniqueInput
+  }
+
+  /**
+   * Farms deleteMany
+   */
+  export type FarmsDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Farms to delete
+     */
+    where?: FarmsWhereInput
+    /**
+     * Limit how many Farms to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Farms.user
+   */
+  export type Farms$userArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Users
+     */
+    select?: UsersSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Users
+     */
+    omit?: UsersOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UsersInclude<ExtArgs> | null
+    where?: UsersWhereInput
+    orderBy?: UsersOrderByWithRelationInput | UsersOrderByWithRelationInput[]
+    cursor?: UsersWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UsersScalarFieldEnum | UsersScalarFieldEnum[]
+  }
+
+  /**
+   * Farms.animal
+   */
+  export type Farms$animalArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Animals
+     */
+    select?: AnimalsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Animals
+     */
+    omit?: AnimalsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnimalsInclude<ExtArgs> | null
+    where?: AnimalsWhereInput
+    orderBy?: AnimalsOrderByWithRelationInput | AnimalsOrderByWithRelationInput[]
+    cursor?: AnimalsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AnimalsScalarFieldEnum | AnimalsScalarFieldEnum[]
+  }
+
+  /**
+   * Farms without action
+   */
+  export type FarmsDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Farms
+     */
+    select?: FarmsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Farms
+     */
+    omit?: FarmsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FarmsInclude<ExtArgs> | null
+  }
+
 
   /**
    * Model Users
@@ -2281,12 +3114,12 @@ export namespace Prisma {
 
   export type UsersAvgAggregateOutputType = {
     id: number | null
-    role_id: number | null
+    farm_id: number | null
   }
 
   export type UsersSumAggregateOutputType = {
     id: number | null
-    role_id: number | null
+    farm_id: number | null
   }
 
   export type UsersMinAggregateOutputType = {
@@ -2295,7 +3128,8 @@ export namespace Prisma {
     email: string | null
     password: string | null
     profile_photo: string | null
-    role_id: number | null
+    role: $Enums.Roles | null
+    farm_id: number | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -2306,7 +3140,8 @@ export namespace Prisma {
     email: string | null
     password: string | null
     profile_photo: string | null
-    role_id: number | null
+    role: $Enums.Roles | null
+    farm_id: number | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -2317,7 +3152,8 @@ export namespace Prisma {
     email: number
     password: number
     profile_photo: number
-    role_id: number
+    role: number
+    farm_id: number
     created_at: number
     updated_at: number
     _all: number
@@ -2326,12 +3162,12 @@ export namespace Prisma {
 
   export type UsersAvgAggregateInputType = {
     id?: true
-    role_id?: true
+    farm_id?: true
   }
 
   export type UsersSumAggregateInputType = {
     id?: true
-    role_id?: true
+    farm_id?: true
   }
 
   export type UsersMinAggregateInputType = {
@@ -2340,7 +3176,8 @@ export namespace Prisma {
     email?: true
     password?: true
     profile_photo?: true
-    role_id?: true
+    role?: true
+    farm_id?: true
     created_at?: true
     updated_at?: true
   }
@@ -2351,7 +3188,8 @@ export namespace Prisma {
     email?: true
     password?: true
     profile_photo?: true
-    role_id?: true
+    role?: true
+    farm_id?: true
     created_at?: true
     updated_at?: true
   }
@@ -2362,7 +3200,8 @@ export namespace Prisma {
     email?: true
     password?: true
     profile_photo?: true
-    role_id?: true
+    role?: true
+    farm_id?: true
     created_at?: true
     updated_at?: true
     _all?: true
@@ -2460,7 +3299,8 @@ export namespace Prisma {
     email: string
     password: string
     profile_photo: string | null
-    role_id: number
+    role: $Enums.Roles
+    farm_id: number
     created_at: Date
     updated_at: Date
     _count: UsersCountAggregateOutputType | null
@@ -2490,12 +3330,13 @@ export namespace Prisma {
     email?: boolean
     password?: boolean
     profile_photo?: boolean
-    role_id?: boolean
+    role?: boolean
+    farm_id?: boolean
     created_at?: boolean
     updated_at?: boolean
-    role?: boolean | RolesDefaultArgs<ExtArgs>
-    Farm_Workers?: boolean | Users$Farm_WorkersArgs<ExtArgs>
-    Veterinarians?: boolean | Users$VeterinariansArgs<ExtArgs>
+    farmhand?: boolean | Users$farmhandArgs<ExtArgs>
+    veterinary?: boolean | Users$veterinaryArgs<ExtArgs>
+    farm?: boolean | FarmsDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["users"]>
 
 
@@ -2506,24 +3347,25 @@ export namespace Prisma {
     email?: boolean
     password?: boolean
     profile_photo?: boolean
-    role_id?: boolean
+    role?: boolean
+    farm_id?: boolean
     created_at?: boolean
     updated_at?: boolean
   }
 
-  export type UsersOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "password" | "profile_photo" | "role_id" | "created_at" | "updated_at", ExtArgs["result"]["users"]>
+  export type UsersOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "password" | "profile_photo" | "role" | "farm_id" | "created_at" | "updated_at", ExtArgs["result"]["users"]>
   export type UsersInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    role?: boolean | RolesDefaultArgs<ExtArgs>
-    Farm_Workers?: boolean | Users$Farm_WorkersArgs<ExtArgs>
-    Veterinarians?: boolean | Users$VeterinariansArgs<ExtArgs>
+    farmhand?: boolean | Users$farmhandArgs<ExtArgs>
+    veterinary?: boolean | Users$veterinaryArgs<ExtArgs>
+    farm?: boolean | FarmsDefaultArgs<ExtArgs>
   }
 
   export type $UsersPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Users"
     objects: {
-      role: Prisma.$RolesPayload<ExtArgs>
-      Farm_Workers: Prisma.$Farm_WorkersPayload<ExtArgs> | null
-      Veterinarians: Prisma.$VeterinariansPayload<ExtArgs> | null
+      farmhand: Prisma.$FarmhandsPayload<ExtArgs> | null
+      veterinary: Prisma.$VeterinariansPayload<ExtArgs> | null
+      farm: Prisma.$FarmsPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -2531,7 +3373,8 @@ export namespace Prisma {
       email: string
       password: string
       profile_photo: string | null
-      role_id: number
+      role: $Enums.Roles
+      farm_id: number
       created_at: Date
       updated_at: Date
     }, ExtArgs["result"]["users"]>
@@ -2874,9 +3717,9 @@ export namespace Prisma {
    */
   export interface Prisma__UsersClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    role<T extends RolesDefaultArgs<ExtArgs> = {}>(args?: Subset<T, RolesDefaultArgs<ExtArgs>>): Prisma__RolesClient<$Result.GetResult<Prisma.$RolesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    Farm_Workers<T extends Users$Farm_WorkersArgs<ExtArgs> = {}>(args?: Subset<T, Users$Farm_WorkersArgs<ExtArgs>>): Prisma__Farm_WorkersClient<$Result.GetResult<Prisma.$Farm_WorkersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-    Veterinarians<T extends Users$VeterinariansArgs<ExtArgs> = {}>(args?: Subset<T, Users$VeterinariansArgs<ExtArgs>>): Prisma__VeterinariansClient<$Result.GetResult<Prisma.$VeterinariansPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    farmhand<T extends Users$farmhandArgs<ExtArgs> = {}>(args?: Subset<T, Users$farmhandArgs<ExtArgs>>): Prisma__FarmhandsClient<$Result.GetResult<Prisma.$FarmhandsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    veterinary<T extends Users$veterinaryArgs<ExtArgs> = {}>(args?: Subset<T, Users$veterinaryArgs<ExtArgs>>): Prisma__VeterinariansClient<$Result.GetResult<Prisma.$VeterinariansPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    farm<T extends FarmsDefaultArgs<ExtArgs> = {}>(args?: Subset<T, FarmsDefaultArgs<ExtArgs>>): Prisma__FarmsClient<$Result.GetResult<Prisma.$FarmsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2911,7 +3754,8 @@ export namespace Prisma {
     readonly email: FieldRef<"Users", 'String'>
     readonly password: FieldRef<"Users", 'String'>
     readonly profile_photo: FieldRef<"Users", 'String'>
-    readonly role_id: FieldRef<"Users", 'Int'>
+    readonly role: FieldRef<"Users", 'Roles'>
+    readonly farm_id: FieldRef<"Users", 'Int'>
     readonly created_at: FieldRef<"Users", 'DateTime'>
     readonly updated_at: FieldRef<"Users", 'DateTime'>
   }
@@ -3257,28 +4101,28 @@ export namespace Prisma {
   }
 
   /**
-   * Users.Farm_Workers
+   * Users.farmhand
    */
-  export type Users$Farm_WorkersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Users$farmhandArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Farm_Workers
+     * Select specific fields to fetch from the Farmhands
      */
-    select?: Farm_WorkersSelect<ExtArgs> | null
+    select?: FarmhandsSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Farm_Workers
+     * Omit specific fields from the Farmhands
      */
-    omit?: Farm_WorkersOmit<ExtArgs> | null
+    omit?: FarmhandsOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: Farm_WorkersInclude<ExtArgs> | null
-    where?: Farm_WorkersWhereInput
+    include?: FarmhandsInclude<ExtArgs> | null
+    where?: FarmhandsWhereInput
   }
 
   /**
-   * Users.Veterinarians
+   * Users.veterinary
    */
-  export type Users$VeterinariansArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Users$veterinaryArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Veterinarians
      */
@@ -3314,1332 +4158,343 @@ export namespace Prisma {
 
 
   /**
-   * Model Roles
+   * Model Farmhands
    */
 
-  export type AggregateRoles = {
-    _count: RolesCountAggregateOutputType | null
-    _avg: RolesAvgAggregateOutputType | null
-    _sum: RolesSumAggregateOutputType | null
-    _min: RolesMinAggregateOutputType | null
-    _max: RolesMaxAggregateOutputType | null
+  export type AggregateFarmhands = {
+    _count: FarmhandsCountAggregateOutputType | null
+    _avg: FarmhandsAvgAggregateOutputType | null
+    _sum: FarmhandsSumAggregateOutputType | null
+    _min: FarmhandsMinAggregateOutputType | null
+    _max: FarmhandsMaxAggregateOutputType | null
   }
 
-  export type RolesAvgAggregateOutputType = {
-    id: number | null
-  }
-
-  export type RolesSumAggregateOutputType = {
-    id: number | null
-  }
-
-  export type RolesMinAggregateOutputType = {
-    id: number | null
-    name: string | null
-    description: string | null
-    created_at: Date | null
-    updated_at: Date | null
-  }
-
-  export type RolesMaxAggregateOutputType = {
-    id: number | null
-    name: string | null
-    description: string | null
-    created_at: Date | null
-    updated_at: Date | null
-  }
-
-  export type RolesCountAggregateOutputType = {
-    id: number
-    name: number
-    description: number
-    created_at: number
-    updated_at: number
-    _all: number
-  }
-
-
-  export type RolesAvgAggregateInputType = {
-    id?: true
-  }
-
-  export type RolesSumAggregateInputType = {
-    id?: true
-  }
-
-  export type RolesMinAggregateInputType = {
-    id?: true
-    name?: true
-    description?: true
-    created_at?: true
-    updated_at?: true
-  }
-
-  export type RolesMaxAggregateInputType = {
-    id?: true
-    name?: true
-    description?: true
-    created_at?: true
-    updated_at?: true
-  }
-
-  export type RolesCountAggregateInputType = {
-    id?: true
-    name?: true
-    description?: true
-    created_at?: true
-    updated_at?: true
-    _all?: true
-  }
-
-  export type RolesAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which Roles to aggregate.
-     */
-    where?: RolesWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Roles to fetch.
-     */
-    orderBy?: RolesOrderByWithRelationInput | RolesOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: RolesWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Roles from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Roles.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned Roles
-    **/
-    _count?: true | RolesCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to average
-    **/
-    _avg?: RolesAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: RolesSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: RolesMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: RolesMaxAggregateInputType
-  }
-
-  export type GetRolesAggregateType<T extends RolesAggregateArgs> = {
-        [P in keyof T & keyof AggregateRoles]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateRoles[P]>
-      : GetScalarType<T[P], AggregateRoles[P]>
-  }
-
-
-
-
-  export type RolesGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: RolesWhereInput
-    orderBy?: RolesOrderByWithAggregationInput | RolesOrderByWithAggregationInput[]
-    by: RolesScalarFieldEnum[] | RolesScalarFieldEnum
-    having?: RolesScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: RolesCountAggregateInputType | true
-    _avg?: RolesAvgAggregateInputType
-    _sum?: RolesSumAggregateInputType
-    _min?: RolesMinAggregateInputType
-    _max?: RolesMaxAggregateInputType
-  }
-
-  export type RolesGroupByOutputType = {
-    id: number
-    name: string
-    description: string | null
-    created_at: Date
-    updated_at: Date
-    _count: RolesCountAggregateOutputType | null
-    _avg: RolesAvgAggregateOutputType | null
-    _sum: RolesSumAggregateOutputType | null
-    _min: RolesMinAggregateOutputType | null
-    _max: RolesMaxAggregateOutputType | null
-  }
-
-  type GetRolesGroupByPayload<T extends RolesGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<RolesGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof RolesGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], RolesGroupByOutputType[P]>
-            : GetScalarType<T[P], RolesGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type RolesSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    name?: boolean
-    description?: boolean
-    created_at?: boolean
-    updated_at?: boolean
-    Users?: boolean | Roles$UsersArgs<ExtArgs>
-    _count?: boolean | RolesCountOutputTypeDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["roles"]>
-
-
-
-  export type RolesSelectScalar = {
-    id?: boolean
-    name?: boolean
-    description?: boolean
-    created_at?: boolean
-    updated_at?: boolean
-  }
-
-  export type RolesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "created_at" | "updated_at", ExtArgs["result"]["roles"]>
-  export type RolesInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    Users?: boolean | Roles$UsersArgs<ExtArgs>
-    _count?: boolean | RolesCountOutputTypeDefaultArgs<ExtArgs>
-  }
-
-  export type $RolesPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "Roles"
-    objects: {
-      Users: Prisma.$UsersPayload<ExtArgs>[]
-    }
-    scalars: $Extensions.GetPayloadResult<{
-      id: number
-      name: string
-      description: string | null
-      created_at: Date
-      updated_at: Date
-    }, ExtArgs["result"]["roles"]>
-    composites: {}
-  }
-
-  type RolesGetPayload<S extends boolean | null | undefined | RolesDefaultArgs> = $Result.GetResult<Prisma.$RolesPayload, S>
-
-  type RolesCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<RolesFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: RolesCountAggregateInputType | true
-    }
-
-  export interface RolesDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Roles'], meta: { name: 'Roles' } }
-    /**
-     * Find zero or one Roles that matches the filter.
-     * @param {RolesFindUniqueArgs} args - Arguments to find a Roles
-     * @example
-     * // Get one Roles
-     * const roles = await prisma.roles.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends RolesFindUniqueArgs>(args: SelectSubset<T, RolesFindUniqueArgs<ExtArgs>>): Prisma__RolesClient<$Result.GetResult<Prisma.$RolesPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find one Roles that matches the filter or throw an error with `error.code='P2025'`
-     * if no matches were found.
-     * @param {RolesFindUniqueOrThrowArgs} args - Arguments to find a Roles
-     * @example
-     * // Get one Roles
-     * const roles = await prisma.roles.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends RolesFindUniqueOrThrowArgs>(args: SelectSubset<T, RolesFindUniqueOrThrowArgs<ExtArgs>>): Prisma__RolesClient<$Result.GetResult<Prisma.$RolesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first Roles that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {RolesFindFirstArgs} args - Arguments to find a Roles
-     * @example
-     * // Get one Roles
-     * const roles = await prisma.roles.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends RolesFindFirstArgs>(args?: SelectSubset<T, RolesFindFirstArgs<ExtArgs>>): Prisma__RolesClient<$Result.GetResult<Prisma.$RolesPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first Roles that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {RolesFindFirstOrThrowArgs} args - Arguments to find a Roles
-     * @example
-     * // Get one Roles
-     * const roles = await prisma.roles.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends RolesFindFirstOrThrowArgs>(args?: SelectSubset<T, RolesFindFirstOrThrowArgs<ExtArgs>>): Prisma__RolesClient<$Result.GetResult<Prisma.$RolesPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find zero or more Roles that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {RolesFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all Roles
-     * const roles = await prisma.roles.findMany()
-     * 
-     * // Get first 10 Roles
-     * const roles = await prisma.roles.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const rolesWithIdOnly = await prisma.roles.findMany({ select: { id: true } })
-     * 
-     */
-    findMany<T extends RolesFindManyArgs>(args?: SelectSubset<T, RolesFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RolesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
-
-    /**
-     * Create a Roles.
-     * @param {RolesCreateArgs} args - Arguments to create a Roles.
-     * @example
-     * // Create one Roles
-     * const Roles = await prisma.roles.create({
-     *   data: {
-     *     // ... data to create a Roles
-     *   }
-     * })
-     * 
-     */
-    create<T extends RolesCreateArgs>(args: SelectSubset<T, RolesCreateArgs<ExtArgs>>): Prisma__RolesClient<$Result.GetResult<Prisma.$RolesPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Create many Roles.
-     * @param {RolesCreateManyArgs} args - Arguments to create many Roles.
-     * @example
-     * // Create many Roles
-     * const roles = await prisma.roles.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *     
-     */
-    createMany<T extends RolesCreateManyArgs>(args?: SelectSubset<T, RolesCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Delete a Roles.
-     * @param {RolesDeleteArgs} args - Arguments to delete one Roles.
-     * @example
-     * // Delete one Roles
-     * const Roles = await prisma.roles.delete({
-     *   where: {
-     *     // ... filter to delete one Roles
-     *   }
-     * })
-     * 
-     */
-    delete<T extends RolesDeleteArgs>(args: SelectSubset<T, RolesDeleteArgs<ExtArgs>>): Prisma__RolesClient<$Result.GetResult<Prisma.$RolesPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Update one Roles.
-     * @param {RolesUpdateArgs} args - Arguments to update one Roles.
-     * @example
-     * // Update one Roles
-     * const roles = await prisma.roles.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    update<T extends RolesUpdateArgs>(args: SelectSubset<T, RolesUpdateArgs<ExtArgs>>): Prisma__RolesClient<$Result.GetResult<Prisma.$RolesPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Delete zero or more Roles.
-     * @param {RolesDeleteManyArgs} args - Arguments to filter Roles to delete.
-     * @example
-     * // Delete a few Roles
-     * const { count } = await prisma.roles.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-     */
-    deleteMany<T extends RolesDeleteManyArgs>(args?: SelectSubset<T, RolesDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Roles.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {RolesUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many Roles
-     * const roles = await prisma.roles.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    updateMany<T extends RolesUpdateManyArgs>(args: SelectSubset<T, RolesUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create or update one Roles.
-     * @param {RolesUpsertArgs} args - Arguments to update or create a Roles.
-     * @example
-     * // Update or create a Roles
-     * const roles = await prisma.roles.upsert({
-     *   create: {
-     *     // ... data to create a Roles
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the Roles we want to update
-     *   }
-     * })
-     */
-    upsert<T extends RolesUpsertArgs>(args: SelectSubset<T, RolesUpsertArgs<ExtArgs>>): Prisma__RolesClient<$Result.GetResult<Prisma.$RolesPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-
-    /**
-     * Count the number of Roles.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {RolesCountArgs} args - Arguments to filter Roles to count.
-     * @example
-     * // Count the number of Roles
-     * const count = await prisma.roles.count({
-     *   where: {
-     *     // ... the filter for the Roles we want to count
-     *   }
-     * })
-    **/
-    count<T extends RolesCountArgs>(
-      args?: Subset<T, RolesCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], RolesCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a Roles.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {RolesAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends RolesAggregateArgs>(args: Subset<T, RolesAggregateArgs>): Prisma.PrismaPromise<GetRolesAggregateType<T>>
-
-    /**
-     * Group by Roles.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {RolesGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends RolesGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: RolesGroupByArgs['orderBy'] }
-        : { orderBy?: RolesGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, RolesGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetRolesGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the Roles model
-   */
-  readonly fields: RolesFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for Roles.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__RolesClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    Users<T extends Roles$UsersArgs<ExtArgs> = {}>(args?: Subset<T, Roles$UsersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UsersPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
-  }
-
-
-
-
-  /**
-   * Fields of the Roles model
-   */
-  interface RolesFieldRefs {
-    readonly id: FieldRef<"Roles", 'Int'>
-    readonly name: FieldRef<"Roles", 'String'>
-    readonly description: FieldRef<"Roles", 'String'>
-    readonly created_at: FieldRef<"Roles", 'DateTime'>
-    readonly updated_at: FieldRef<"Roles", 'DateTime'>
-  }
-    
-
-  // Custom InputTypes
-  /**
-   * Roles findUnique
-   */
-  export type RolesFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Roles
-     */
-    select?: RolesSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Roles
-     */
-    omit?: RolesOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: RolesInclude<ExtArgs> | null
-    /**
-     * Filter, which Roles to fetch.
-     */
-    where: RolesWhereUniqueInput
-  }
-
-  /**
-   * Roles findUniqueOrThrow
-   */
-  export type RolesFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Roles
-     */
-    select?: RolesSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Roles
-     */
-    omit?: RolesOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: RolesInclude<ExtArgs> | null
-    /**
-     * Filter, which Roles to fetch.
-     */
-    where: RolesWhereUniqueInput
-  }
-
-  /**
-   * Roles findFirst
-   */
-  export type RolesFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Roles
-     */
-    select?: RolesSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Roles
-     */
-    omit?: RolesOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: RolesInclude<ExtArgs> | null
-    /**
-     * Filter, which Roles to fetch.
-     */
-    where?: RolesWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Roles to fetch.
-     */
-    orderBy?: RolesOrderByWithRelationInput | RolesOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Roles.
-     */
-    cursor?: RolesWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Roles from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Roles.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Roles.
-     */
-    distinct?: RolesScalarFieldEnum | RolesScalarFieldEnum[]
-  }
-
-  /**
-   * Roles findFirstOrThrow
-   */
-  export type RolesFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Roles
-     */
-    select?: RolesSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Roles
-     */
-    omit?: RolesOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: RolesInclude<ExtArgs> | null
-    /**
-     * Filter, which Roles to fetch.
-     */
-    where?: RolesWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Roles to fetch.
-     */
-    orderBy?: RolesOrderByWithRelationInput | RolesOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Roles.
-     */
-    cursor?: RolesWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Roles from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Roles.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Roles.
-     */
-    distinct?: RolesScalarFieldEnum | RolesScalarFieldEnum[]
-  }
-
-  /**
-   * Roles findMany
-   */
-  export type RolesFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Roles
-     */
-    select?: RolesSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Roles
-     */
-    omit?: RolesOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: RolesInclude<ExtArgs> | null
-    /**
-     * Filter, which Roles to fetch.
-     */
-    where?: RolesWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Roles to fetch.
-     */
-    orderBy?: RolesOrderByWithRelationInput | RolesOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing Roles.
-     */
-    cursor?: RolesWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Roles from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Roles.
-     */
-    skip?: number
-    distinct?: RolesScalarFieldEnum | RolesScalarFieldEnum[]
-  }
-
-  /**
-   * Roles create
-   */
-  export type RolesCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Roles
-     */
-    select?: RolesSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Roles
-     */
-    omit?: RolesOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: RolesInclude<ExtArgs> | null
-    /**
-     * The data needed to create a Roles.
-     */
-    data: XOR<RolesCreateInput, RolesUncheckedCreateInput>
-  }
-
-  /**
-   * Roles createMany
-   */
-  export type RolesCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many Roles.
-     */
-    data: RolesCreateManyInput | RolesCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * Roles update
-   */
-  export type RolesUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Roles
-     */
-    select?: RolesSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Roles
-     */
-    omit?: RolesOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: RolesInclude<ExtArgs> | null
-    /**
-     * The data needed to update a Roles.
-     */
-    data: XOR<RolesUpdateInput, RolesUncheckedUpdateInput>
-    /**
-     * Choose, which Roles to update.
-     */
-    where: RolesWhereUniqueInput
-  }
-
-  /**
-   * Roles updateMany
-   */
-  export type RolesUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update Roles.
-     */
-    data: XOR<RolesUpdateManyMutationInput, RolesUncheckedUpdateManyInput>
-    /**
-     * Filter which Roles to update
-     */
-    where?: RolesWhereInput
-    /**
-     * Limit how many Roles to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * Roles upsert
-   */
-  export type RolesUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Roles
-     */
-    select?: RolesSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Roles
-     */
-    omit?: RolesOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: RolesInclude<ExtArgs> | null
-    /**
-     * The filter to search for the Roles to update in case it exists.
-     */
-    where: RolesWhereUniqueInput
-    /**
-     * In case the Roles found by the `where` argument doesn't exist, create a new Roles with this data.
-     */
-    create: XOR<RolesCreateInput, RolesUncheckedCreateInput>
-    /**
-     * In case the Roles was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<RolesUpdateInput, RolesUncheckedUpdateInput>
-  }
-
-  /**
-   * Roles delete
-   */
-  export type RolesDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Roles
-     */
-    select?: RolesSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Roles
-     */
-    omit?: RolesOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: RolesInclude<ExtArgs> | null
-    /**
-     * Filter which Roles to delete.
-     */
-    where: RolesWhereUniqueInput
-  }
-
-  /**
-   * Roles deleteMany
-   */
-  export type RolesDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which Roles to delete
-     */
-    where?: RolesWhereInput
-    /**
-     * Limit how many Roles to delete.
-     */
-    limit?: number
-  }
-
-  /**
-   * Roles.Users
-   */
-  export type Roles$UsersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Users
-     */
-    select?: UsersSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Users
-     */
-    omit?: UsersOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UsersInclude<ExtArgs> | null
-    where?: UsersWhereInput
-    orderBy?: UsersOrderByWithRelationInput | UsersOrderByWithRelationInput[]
-    cursor?: UsersWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: UsersScalarFieldEnum | UsersScalarFieldEnum[]
-  }
-
-  /**
-   * Roles without action
-   */
-  export type RolesDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Roles
-     */
-    select?: RolesSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Roles
-     */
-    omit?: RolesOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: RolesInclude<ExtArgs> | null
-  }
-
-
-  /**
-   * Model Farm_Workers
-   */
-
-  export type AggregateFarm_Workers = {
-    _count: Farm_WorkersCountAggregateOutputType | null
-    _avg: Farm_WorkersAvgAggregateOutputType | null
-    _sum: Farm_WorkersSumAggregateOutputType | null
-    _min: Farm_WorkersMinAggregateOutputType | null
-    _max: Farm_WorkersMaxAggregateOutputType | null
-  }
-
-  export type Farm_WorkersAvgAggregateOutputType = {
+  export type FarmhandsAvgAggregateOutputType = {
     id: number | null
     user_id: number | null
   }
 
-  export type Farm_WorkersSumAggregateOutputType = {
+  export type FarmhandsSumAggregateOutputType = {
     id: number | null
     user_id: number | null
   }
 
-  export type Farm_WorkersMinAggregateOutputType = {
+  export type FarmhandsMinAggregateOutputType = {
     id: number | null
     user_id: number | null
   }
 
-  export type Farm_WorkersMaxAggregateOutputType = {
+  export type FarmhandsMaxAggregateOutputType = {
     id: number | null
     user_id: number | null
   }
 
-  export type Farm_WorkersCountAggregateOutputType = {
+  export type FarmhandsCountAggregateOutputType = {
     id: number
     user_id: number
     _all: number
   }
 
 
-  export type Farm_WorkersAvgAggregateInputType = {
+  export type FarmhandsAvgAggregateInputType = {
     id?: true
     user_id?: true
   }
 
-  export type Farm_WorkersSumAggregateInputType = {
+  export type FarmhandsSumAggregateInputType = {
     id?: true
     user_id?: true
   }
 
-  export type Farm_WorkersMinAggregateInputType = {
+  export type FarmhandsMinAggregateInputType = {
     id?: true
     user_id?: true
   }
 
-  export type Farm_WorkersMaxAggregateInputType = {
+  export type FarmhandsMaxAggregateInputType = {
     id?: true
     user_id?: true
   }
 
-  export type Farm_WorkersCountAggregateInputType = {
+  export type FarmhandsCountAggregateInputType = {
     id?: true
     user_id?: true
     _all?: true
   }
 
-  export type Farm_WorkersAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type FarmhandsAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which Farm_Workers to aggregate.
+     * Filter which Farmhands to aggregate.
      */
-    where?: Farm_WorkersWhereInput
+    where?: FarmhandsWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Farm_Workers to fetch.
+     * Determine the order of Farmhands to fetch.
      */
-    orderBy?: Farm_WorkersOrderByWithRelationInput | Farm_WorkersOrderByWithRelationInput[]
+    orderBy?: FarmhandsOrderByWithRelationInput | FarmhandsOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
      */
-    cursor?: Farm_WorkersWhereUniqueInput
+    cursor?: FarmhandsWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Farm_Workers from the position of the cursor.
+     * Take `±n` Farmhands from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Farm_Workers.
+     * Skip the first `n` Farmhands.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Count returned Farm_Workers
+     * Count returned Farmhands
     **/
-    _count?: true | Farm_WorkersCountAggregateInputType
+    _count?: true | FarmhandsCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to average
     **/
-    _avg?: Farm_WorkersAvgAggregateInputType
+    _avg?: FarmhandsAvgAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to sum
     **/
-    _sum?: Farm_WorkersSumAggregateInputType
+    _sum?: FarmhandsSumAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the minimum value
     **/
-    _min?: Farm_WorkersMinAggregateInputType
+    _min?: FarmhandsMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the maximum value
     **/
-    _max?: Farm_WorkersMaxAggregateInputType
+    _max?: FarmhandsMaxAggregateInputType
   }
 
-  export type GetFarm_WorkersAggregateType<T extends Farm_WorkersAggregateArgs> = {
-        [P in keyof T & keyof AggregateFarm_Workers]: P extends '_count' | 'count'
+  export type GetFarmhandsAggregateType<T extends FarmhandsAggregateArgs> = {
+        [P in keyof T & keyof AggregateFarmhands]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregateFarm_Workers[P]>
-      : GetScalarType<T[P], AggregateFarm_Workers[P]>
+        : GetScalarType<T[P], AggregateFarmhands[P]>
+      : GetScalarType<T[P], AggregateFarmhands[P]>
   }
 
 
 
 
-  export type Farm_WorkersGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: Farm_WorkersWhereInput
-    orderBy?: Farm_WorkersOrderByWithAggregationInput | Farm_WorkersOrderByWithAggregationInput[]
-    by: Farm_WorkersScalarFieldEnum[] | Farm_WorkersScalarFieldEnum
-    having?: Farm_WorkersScalarWhereWithAggregatesInput
+  export type FarmhandsGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FarmhandsWhereInput
+    orderBy?: FarmhandsOrderByWithAggregationInput | FarmhandsOrderByWithAggregationInput[]
+    by: FarmhandsScalarFieldEnum[] | FarmhandsScalarFieldEnum
+    having?: FarmhandsScalarWhereWithAggregatesInput
     take?: number
     skip?: number
-    _count?: Farm_WorkersCountAggregateInputType | true
-    _avg?: Farm_WorkersAvgAggregateInputType
-    _sum?: Farm_WorkersSumAggregateInputType
-    _min?: Farm_WorkersMinAggregateInputType
-    _max?: Farm_WorkersMaxAggregateInputType
+    _count?: FarmhandsCountAggregateInputType | true
+    _avg?: FarmhandsAvgAggregateInputType
+    _sum?: FarmhandsSumAggregateInputType
+    _min?: FarmhandsMinAggregateInputType
+    _max?: FarmhandsMaxAggregateInputType
   }
 
-  export type Farm_WorkersGroupByOutputType = {
+  export type FarmhandsGroupByOutputType = {
     id: number
     user_id: number
-    _count: Farm_WorkersCountAggregateOutputType | null
-    _avg: Farm_WorkersAvgAggregateOutputType | null
-    _sum: Farm_WorkersSumAggregateOutputType | null
-    _min: Farm_WorkersMinAggregateOutputType | null
-    _max: Farm_WorkersMaxAggregateOutputType | null
+    _count: FarmhandsCountAggregateOutputType | null
+    _avg: FarmhandsAvgAggregateOutputType | null
+    _sum: FarmhandsSumAggregateOutputType | null
+    _min: FarmhandsMinAggregateOutputType | null
+    _max: FarmhandsMaxAggregateOutputType | null
   }
 
-  type GetFarm_WorkersGroupByPayload<T extends Farm_WorkersGroupByArgs> = Prisma.PrismaPromise<
+  type GetFarmhandsGroupByPayload<T extends FarmhandsGroupByArgs> = Prisma.PrismaPromise<
     Array<
-      PickEnumerable<Farm_WorkersGroupByOutputType, T['by']> &
+      PickEnumerable<FarmhandsGroupByOutputType, T['by']> &
         {
-          [P in ((keyof T) & (keyof Farm_WorkersGroupByOutputType))]: P extends '_count'
+          [P in ((keyof T) & (keyof FarmhandsGroupByOutputType))]: P extends '_count'
             ? T[P] extends boolean
               ? number
-              : GetScalarType<T[P], Farm_WorkersGroupByOutputType[P]>
-            : GetScalarType<T[P], Farm_WorkersGroupByOutputType[P]>
+              : GetScalarType<T[P], FarmhandsGroupByOutputType[P]>
+            : GetScalarType<T[P], FarmhandsGroupByOutputType[P]>
         }
       >
     >
 
 
-  export type Farm_WorkersSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type FarmhandsSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     user_id?: boolean
     user?: boolean | UsersDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["farm_Workers"]>
+  }, ExtArgs["result"]["farmhands"]>
 
 
 
-  export type Farm_WorkersSelectScalar = {
+  export type FarmhandsSelectScalar = {
     id?: boolean
     user_id?: boolean
   }
 
-  export type Farm_WorkersOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "user_id", ExtArgs["result"]["farm_Workers"]>
-  export type Farm_WorkersInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type FarmhandsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "user_id", ExtArgs["result"]["farmhands"]>
+  export type FarmhandsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UsersDefaultArgs<ExtArgs>
   }
 
-  export type $Farm_WorkersPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "Farm_Workers"
+  export type $FarmhandsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Farmhands"
     objects: {
       user: Prisma.$UsersPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
       user_id: number
-    }, ExtArgs["result"]["farm_Workers"]>
+    }, ExtArgs["result"]["farmhands"]>
     composites: {}
   }
 
-  type Farm_WorkersGetPayload<S extends boolean | null | undefined | Farm_WorkersDefaultArgs> = $Result.GetResult<Prisma.$Farm_WorkersPayload, S>
+  type FarmhandsGetPayload<S extends boolean | null | undefined | FarmhandsDefaultArgs> = $Result.GetResult<Prisma.$FarmhandsPayload, S>
 
-  type Farm_WorkersCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<Farm_WorkersFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: Farm_WorkersCountAggregateInputType | true
+  type FarmhandsCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<FarmhandsFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: FarmhandsCountAggregateInputType | true
     }
 
-  export interface Farm_WorkersDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Farm_Workers'], meta: { name: 'Farm_Workers' } }
+  export interface FarmhandsDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Farmhands'], meta: { name: 'Farmhands' } }
     /**
-     * Find zero or one Farm_Workers that matches the filter.
-     * @param {Farm_WorkersFindUniqueArgs} args - Arguments to find a Farm_Workers
+     * Find zero or one Farmhands that matches the filter.
+     * @param {FarmhandsFindUniqueArgs} args - Arguments to find a Farmhands
      * @example
-     * // Get one Farm_Workers
-     * const farm_Workers = await prisma.farm_Workers.findUnique({
+     * // Get one Farmhands
+     * const farmhands = await prisma.farmhands.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUnique<T extends Farm_WorkersFindUniqueArgs>(args: SelectSubset<T, Farm_WorkersFindUniqueArgs<ExtArgs>>): Prisma__Farm_WorkersClient<$Result.GetResult<Prisma.$Farm_WorkersPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findUnique<T extends FarmhandsFindUniqueArgs>(args: SelectSubset<T, FarmhandsFindUniqueArgs<ExtArgs>>): Prisma__FarmhandsClient<$Result.GetResult<Prisma.$FarmhandsPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find one Farm_Workers that matches the filter or throw an error with `error.code='P2025'`
+     * Find one Farmhands that matches the filter or throw an error with `error.code='P2025'`
      * if no matches were found.
-     * @param {Farm_WorkersFindUniqueOrThrowArgs} args - Arguments to find a Farm_Workers
+     * @param {FarmhandsFindUniqueOrThrowArgs} args - Arguments to find a Farmhands
      * @example
-     * // Get one Farm_Workers
-     * const farm_Workers = await prisma.farm_Workers.findUniqueOrThrow({
+     * // Get one Farmhands
+     * const farmhands = await prisma.farmhands.findUniqueOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUniqueOrThrow<T extends Farm_WorkersFindUniqueOrThrowArgs>(args: SelectSubset<T, Farm_WorkersFindUniqueOrThrowArgs<ExtArgs>>): Prisma__Farm_WorkersClient<$Result.GetResult<Prisma.$Farm_WorkersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findUniqueOrThrow<T extends FarmhandsFindUniqueOrThrowArgs>(args: SelectSubset<T, FarmhandsFindUniqueOrThrowArgs<ExtArgs>>): Prisma__FarmhandsClient<$Result.GetResult<Prisma.$FarmhandsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first Farm_Workers that matches the filter.
+     * Find the first Farmhands that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {Farm_WorkersFindFirstArgs} args - Arguments to find a Farm_Workers
+     * @param {FarmhandsFindFirstArgs} args - Arguments to find a Farmhands
      * @example
-     * // Get one Farm_Workers
-     * const farm_Workers = await prisma.farm_Workers.findFirst({
+     * // Get one Farmhands
+     * const farmhands = await prisma.farmhands.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirst<T extends Farm_WorkersFindFirstArgs>(args?: SelectSubset<T, Farm_WorkersFindFirstArgs<ExtArgs>>): Prisma__Farm_WorkersClient<$Result.GetResult<Prisma.$Farm_WorkersPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findFirst<T extends FarmhandsFindFirstArgs>(args?: SelectSubset<T, FarmhandsFindFirstArgs<ExtArgs>>): Prisma__FarmhandsClient<$Result.GetResult<Prisma.$FarmhandsPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first Farm_Workers that matches the filter or
+     * Find the first Farmhands that matches the filter or
      * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {Farm_WorkersFindFirstOrThrowArgs} args - Arguments to find a Farm_Workers
+     * @param {FarmhandsFindFirstOrThrowArgs} args - Arguments to find a Farmhands
      * @example
-     * // Get one Farm_Workers
-     * const farm_Workers = await prisma.farm_Workers.findFirstOrThrow({
+     * // Get one Farmhands
+     * const farmhands = await prisma.farmhands.findFirstOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirstOrThrow<T extends Farm_WorkersFindFirstOrThrowArgs>(args?: SelectSubset<T, Farm_WorkersFindFirstOrThrowArgs<ExtArgs>>): Prisma__Farm_WorkersClient<$Result.GetResult<Prisma.$Farm_WorkersPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findFirstOrThrow<T extends FarmhandsFindFirstOrThrowArgs>(args?: SelectSubset<T, FarmhandsFindFirstOrThrowArgs<ExtArgs>>): Prisma__FarmhandsClient<$Result.GetResult<Prisma.$FarmhandsPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find zero or more Farm_Workers that matches the filter.
+     * Find zero or more Farmhands that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {Farm_WorkersFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @param {FarmhandsFindManyArgs} args - Arguments to filter and select certain fields only.
      * @example
-     * // Get all Farm_Workers
-     * const farm_Workers = await prisma.farm_Workers.findMany()
+     * // Get all Farmhands
+     * const farmhands = await prisma.farmhands.findMany()
      * 
-     * // Get first 10 Farm_Workers
-     * const farm_Workers = await prisma.farm_Workers.findMany({ take: 10 })
+     * // Get first 10 Farmhands
+     * const farmhands = await prisma.farmhands.findMany({ take: 10 })
      * 
      * // Only select the `id`
-     * const farm_WorkersWithIdOnly = await prisma.farm_Workers.findMany({ select: { id: true } })
+     * const farmhandsWithIdOnly = await prisma.farmhands.findMany({ select: { id: true } })
      * 
      */
-    findMany<T extends Farm_WorkersFindManyArgs>(args?: SelectSubset<T, Farm_WorkersFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$Farm_WorkersPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+    findMany<T extends FarmhandsFindManyArgs>(args?: SelectSubset<T, FarmhandsFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FarmhandsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
 
     /**
-     * Create a Farm_Workers.
-     * @param {Farm_WorkersCreateArgs} args - Arguments to create a Farm_Workers.
+     * Create a Farmhands.
+     * @param {FarmhandsCreateArgs} args - Arguments to create a Farmhands.
      * @example
-     * // Create one Farm_Workers
-     * const Farm_Workers = await prisma.farm_Workers.create({
+     * // Create one Farmhands
+     * const Farmhands = await prisma.farmhands.create({
      *   data: {
-     *     // ... data to create a Farm_Workers
+     *     // ... data to create a Farmhands
      *   }
      * })
      * 
      */
-    create<T extends Farm_WorkersCreateArgs>(args: SelectSubset<T, Farm_WorkersCreateArgs<ExtArgs>>): Prisma__Farm_WorkersClient<$Result.GetResult<Prisma.$Farm_WorkersPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    create<T extends FarmhandsCreateArgs>(args: SelectSubset<T, FarmhandsCreateArgs<ExtArgs>>): Prisma__FarmhandsClient<$Result.GetResult<Prisma.$FarmhandsPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Create many Farm_Workers.
-     * @param {Farm_WorkersCreateManyArgs} args - Arguments to create many Farm_Workers.
+     * Create many Farmhands.
+     * @param {FarmhandsCreateManyArgs} args - Arguments to create many Farmhands.
      * @example
-     * // Create many Farm_Workers
-     * const farm_Workers = await prisma.farm_Workers.createMany({
+     * // Create many Farmhands
+     * const farmhands = await prisma.farmhands.createMany({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      *     
      */
-    createMany<T extends Farm_WorkersCreateManyArgs>(args?: SelectSubset<T, Farm_WorkersCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    createMany<T extends FarmhandsCreateManyArgs>(args?: SelectSubset<T, FarmhandsCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Delete a Farm_Workers.
-     * @param {Farm_WorkersDeleteArgs} args - Arguments to delete one Farm_Workers.
+     * Delete a Farmhands.
+     * @param {FarmhandsDeleteArgs} args - Arguments to delete one Farmhands.
      * @example
-     * // Delete one Farm_Workers
-     * const Farm_Workers = await prisma.farm_Workers.delete({
+     * // Delete one Farmhands
+     * const Farmhands = await prisma.farmhands.delete({
      *   where: {
-     *     // ... filter to delete one Farm_Workers
+     *     // ... filter to delete one Farmhands
      *   }
      * })
      * 
      */
-    delete<T extends Farm_WorkersDeleteArgs>(args: SelectSubset<T, Farm_WorkersDeleteArgs<ExtArgs>>): Prisma__Farm_WorkersClient<$Result.GetResult<Prisma.$Farm_WorkersPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    delete<T extends FarmhandsDeleteArgs>(args: SelectSubset<T, FarmhandsDeleteArgs<ExtArgs>>): Prisma__FarmhandsClient<$Result.GetResult<Prisma.$FarmhandsPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Update one Farm_Workers.
-     * @param {Farm_WorkersUpdateArgs} args - Arguments to update one Farm_Workers.
+     * Update one Farmhands.
+     * @param {FarmhandsUpdateArgs} args - Arguments to update one Farmhands.
      * @example
-     * // Update one Farm_Workers
-     * const farm_Workers = await prisma.farm_Workers.update({
+     * // Update one Farmhands
+     * const farmhands = await prisma.farmhands.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -4649,30 +4504,30 @@ export namespace Prisma {
      * })
      * 
      */
-    update<T extends Farm_WorkersUpdateArgs>(args: SelectSubset<T, Farm_WorkersUpdateArgs<ExtArgs>>): Prisma__Farm_WorkersClient<$Result.GetResult<Prisma.$Farm_WorkersPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    update<T extends FarmhandsUpdateArgs>(args: SelectSubset<T, FarmhandsUpdateArgs<ExtArgs>>): Prisma__FarmhandsClient<$Result.GetResult<Prisma.$FarmhandsPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Delete zero or more Farm_Workers.
-     * @param {Farm_WorkersDeleteManyArgs} args - Arguments to filter Farm_Workers to delete.
+     * Delete zero or more Farmhands.
+     * @param {FarmhandsDeleteManyArgs} args - Arguments to filter Farmhands to delete.
      * @example
-     * // Delete a few Farm_Workers
-     * const { count } = await prisma.farm_Workers.deleteMany({
+     * // Delete a few Farmhands
+     * const { count } = await prisma.farmhands.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      * 
      */
-    deleteMany<T extends Farm_WorkersDeleteManyArgs>(args?: SelectSubset<T, Farm_WorkersDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    deleteMany<T extends FarmhandsDeleteManyArgs>(args?: SelectSubset<T, FarmhandsDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more Farm_Workers.
+     * Update zero or more Farmhands.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {Farm_WorkersUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {FarmhandsUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
-     * // Update many Farm_Workers
-     * const farm_Workers = await prisma.farm_Workers.updateMany({
+     * // Update many Farmhands
+     * const farmhands = await prisma.farmhands.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -4682,56 +4537,56 @@ export namespace Prisma {
      * })
      * 
      */
-    updateMany<T extends Farm_WorkersUpdateManyArgs>(args: SelectSubset<T, Farm_WorkersUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    updateMany<T extends FarmhandsUpdateManyArgs>(args: SelectSubset<T, FarmhandsUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create or update one Farm_Workers.
-     * @param {Farm_WorkersUpsertArgs} args - Arguments to update or create a Farm_Workers.
+     * Create or update one Farmhands.
+     * @param {FarmhandsUpsertArgs} args - Arguments to update or create a Farmhands.
      * @example
-     * // Update or create a Farm_Workers
-     * const farm_Workers = await prisma.farm_Workers.upsert({
+     * // Update or create a Farmhands
+     * const farmhands = await prisma.farmhands.upsert({
      *   create: {
-     *     // ... data to create a Farm_Workers
+     *     // ... data to create a Farmhands
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the Farm_Workers we want to update
+     *     // ... the filter for the Farmhands we want to update
      *   }
      * })
      */
-    upsert<T extends Farm_WorkersUpsertArgs>(args: SelectSubset<T, Farm_WorkersUpsertArgs<ExtArgs>>): Prisma__Farm_WorkersClient<$Result.GetResult<Prisma.$Farm_WorkersPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    upsert<T extends FarmhandsUpsertArgs>(args: SelectSubset<T, FarmhandsUpsertArgs<ExtArgs>>): Prisma__FarmhandsClient<$Result.GetResult<Prisma.$FarmhandsPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
 
     /**
-     * Count the number of Farm_Workers.
+     * Count the number of Farmhands.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {Farm_WorkersCountArgs} args - Arguments to filter Farm_Workers to count.
+     * @param {FarmhandsCountArgs} args - Arguments to filter Farmhands to count.
      * @example
-     * // Count the number of Farm_Workers
-     * const count = await prisma.farm_Workers.count({
+     * // Count the number of Farmhands
+     * const count = await prisma.farmhands.count({
      *   where: {
-     *     // ... the filter for the Farm_Workers we want to count
+     *     // ... the filter for the Farmhands we want to count
      *   }
      * })
     **/
-    count<T extends Farm_WorkersCountArgs>(
-      args?: Subset<T, Farm_WorkersCountArgs>,
+    count<T extends FarmhandsCountArgs>(
+      args?: Subset<T, FarmhandsCountArgs>,
     ): Prisma.PrismaPromise<
       T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], Farm_WorkersCountAggregateOutputType>
+          : GetScalarType<T['select'], FarmhandsCountAggregateOutputType>
         : number
     >
 
     /**
-     * Allows you to perform aggregations operations on a Farm_Workers.
+     * Allows you to perform aggregations operations on a Farmhands.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {Farm_WorkersAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {FarmhandsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -4751,13 +4606,13 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends Farm_WorkersAggregateArgs>(args: Subset<T, Farm_WorkersAggregateArgs>): Prisma.PrismaPromise<GetFarm_WorkersAggregateType<T>>
+    aggregate<T extends FarmhandsAggregateArgs>(args: Subset<T, FarmhandsAggregateArgs>): Prisma.PrismaPromise<GetFarmhandsAggregateType<T>>
 
     /**
-     * Group by Farm_Workers.
+     * Group by Farmhands.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {Farm_WorkersGroupByArgs} args - Group by arguments.
+     * @param {FarmhandsGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -4772,14 +4627,14 @@ export namespace Prisma {
      * 
     **/
     groupBy<
-      T extends Farm_WorkersGroupByArgs,
+      T extends FarmhandsGroupByArgs,
       HasSelectOrTake extends Or<
         Extends<'skip', Keys<T>>,
         Extends<'take', Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: Farm_WorkersGroupByArgs['orderBy'] }
-        : { orderBy?: Farm_WorkersGroupByArgs['orderBy'] },
+        ? { orderBy: FarmhandsGroupByArgs['orderBy'] }
+        : { orderBy?: FarmhandsGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends MaybeTupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -4828,20 +4683,20 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, Farm_WorkersGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetFarm_WorkersGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, FarmhandsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetFarmhandsGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
   /**
-   * Fields of the Farm_Workers model
+   * Fields of the Farmhands model
    */
-  readonly fields: Farm_WorkersFieldRefs;
+  readonly fields: FarmhandsFieldRefs;
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for Farm_Workers.
+   * The delegate class that acts as a "Promise-like" for Farmhands.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export interface Prisma__Farm_WorkersClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+  export interface Prisma__FarmhandsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     user<T extends UsersDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UsersDefaultArgs<ExtArgs>>): Prisma__UsersClient<$Result.GetResult<Prisma.$UsersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
@@ -4870,369 +4725,369 @@ export namespace Prisma {
 
 
   /**
-   * Fields of the Farm_Workers model
+   * Fields of the Farmhands model
    */
-  interface Farm_WorkersFieldRefs {
-    readonly id: FieldRef<"Farm_Workers", 'Int'>
-    readonly user_id: FieldRef<"Farm_Workers", 'Int'>
+  interface FarmhandsFieldRefs {
+    readonly id: FieldRef<"Farmhands", 'Int'>
+    readonly user_id: FieldRef<"Farmhands", 'Int'>
   }
     
 
   // Custom InputTypes
   /**
-   * Farm_Workers findUnique
+   * Farmhands findUnique
    */
-  export type Farm_WorkersFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type FarmhandsFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Farm_Workers
+     * Select specific fields to fetch from the Farmhands
      */
-    select?: Farm_WorkersSelect<ExtArgs> | null
+    select?: FarmhandsSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Farm_Workers
+     * Omit specific fields from the Farmhands
      */
-    omit?: Farm_WorkersOmit<ExtArgs> | null
+    omit?: FarmhandsOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: Farm_WorkersInclude<ExtArgs> | null
+    include?: FarmhandsInclude<ExtArgs> | null
     /**
-     * Filter, which Farm_Workers to fetch.
+     * Filter, which Farmhands to fetch.
      */
-    where: Farm_WorkersWhereUniqueInput
+    where: FarmhandsWhereUniqueInput
   }
 
   /**
-   * Farm_Workers findUniqueOrThrow
+   * Farmhands findUniqueOrThrow
    */
-  export type Farm_WorkersFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type FarmhandsFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Farm_Workers
+     * Select specific fields to fetch from the Farmhands
      */
-    select?: Farm_WorkersSelect<ExtArgs> | null
+    select?: FarmhandsSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Farm_Workers
+     * Omit specific fields from the Farmhands
      */
-    omit?: Farm_WorkersOmit<ExtArgs> | null
+    omit?: FarmhandsOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: Farm_WorkersInclude<ExtArgs> | null
+    include?: FarmhandsInclude<ExtArgs> | null
     /**
-     * Filter, which Farm_Workers to fetch.
+     * Filter, which Farmhands to fetch.
      */
-    where: Farm_WorkersWhereUniqueInput
+    where: FarmhandsWhereUniqueInput
   }
 
   /**
-   * Farm_Workers findFirst
+   * Farmhands findFirst
    */
-  export type Farm_WorkersFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type FarmhandsFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Farm_Workers
+     * Select specific fields to fetch from the Farmhands
      */
-    select?: Farm_WorkersSelect<ExtArgs> | null
+    select?: FarmhandsSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Farm_Workers
+     * Omit specific fields from the Farmhands
      */
-    omit?: Farm_WorkersOmit<ExtArgs> | null
+    omit?: FarmhandsOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: Farm_WorkersInclude<ExtArgs> | null
+    include?: FarmhandsInclude<ExtArgs> | null
     /**
-     * Filter, which Farm_Workers to fetch.
+     * Filter, which Farmhands to fetch.
      */
-    where?: Farm_WorkersWhereInput
+    where?: FarmhandsWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Farm_Workers to fetch.
+     * Determine the order of Farmhands to fetch.
      */
-    orderBy?: Farm_WorkersOrderByWithRelationInput | Farm_WorkersOrderByWithRelationInput[]
+    orderBy?: FarmhandsOrderByWithRelationInput | FarmhandsOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for Farm_Workers.
+     * Sets the position for searching for Farmhands.
      */
-    cursor?: Farm_WorkersWhereUniqueInput
+    cursor?: FarmhandsWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Farm_Workers from the position of the cursor.
+     * Take `±n` Farmhands from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Farm_Workers.
+     * Skip the first `n` Farmhands.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of Farm_Workers.
+     * Filter by unique combinations of Farmhands.
      */
-    distinct?: Farm_WorkersScalarFieldEnum | Farm_WorkersScalarFieldEnum[]
+    distinct?: FarmhandsScalarFieldEnum | FarmhandsScalarFieldEnum[]
   }
 
   /**
-   * Farm_Workers findFirstOrThrow
+   * Farmhands findFirstOrThrow
    */
-  export type Farm_WorkersFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type FarmhandsFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Farm_Workers
+     * Select specific fields to fetch from the Farmhands
      */
-    select?: Farm_WorkersSelect<ExtArgs> | null
+    select?: FarmhandsSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Farm_Workers
+     * Omit specific fields from the Farmhands
      */
-    omit?: Farm_WorkersOmit<ExtArgs> | null
+    omit?: FarmhandsOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: Farm_WorkersInclude<ExtArgs> | null
+    include?: FarmhandsInclude<ExtArgs> | null
     /**
-     * Filter, which Farm_Workers to fetch.
+     * Filter, which Farmhands to fetch.
      */
-    where?: Farm_WorkersWhereInput
+    where?: FarmhandsWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Farm_Workers to fetch.
+     * Determine the order of Farmhands to fetch.
      */
-    orderBy?: Farm_WorkersOrderByWithRelationInput | Farm_WorkersOrderByWithRelationInput[]
+    orderBy?: FarmhandsOrderByWithRelationInput | FarmhandsOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for Farm_Workers.
+     * Sets the position for searching for Farmhands.
      */
-    cursor?: Farm_WorkersWhereUniqueInput
+    cursor?: FarmhandsWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Farm_Workers from the position of the cursor.
+     * Take `±n` Farmhands from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Farm_Workers.
+     * Skip the first `n` Farmhands.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of Farm_Workers.
+     * Filter by unique combinations of Farmhands.
      */
-    distinct?: Farm_WorkersScalarFieldEnum | Farm_WorkersScalarFieldEnum[]
+    distinct?: FarmhandsScalarFieldEnum | FarmhandsScalarFieldEnum[]
   }
 
   /**
-   * Farm_Workers findMany
+   * Farmhands findMany
    */
-  export type Farm_WorkersFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type FarmhandsFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Farm_Workers
+     * Select specific fields to fetch from the Farmhands
      */
-    select?: Farm_WorkersSelect<ExtArgs> | null
+    select?: FarmhandsSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Farm_Workers
+     * Omit specific fields from the Farmhands
      */
-    omit?: Farm_WorkersOmit<ExtArgs> | null
+    omit?: FarmhandsOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: Farm_WorkersInclude<ExtArgs> | null
+    include?: FarmhandsInclude<ExtArgs> | null
     /**
-     * Filter, which Farm_Workers to fetch.
+     * Filter, which Farmhands to fetch.
      */
-    where?: Farm_WorkersWhereInput
+    where?: FarmhandsWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Farm_Workers to fetch.
+     * Determine the order of Farmhands to fetch.
      */
-    orderBy?: Farm_WorkersOrderByWithRelationInput | Farm_WorkersOrderByWithRelationInput[]
+    orderBy?: FarmhandsOrderByWithRelationInput | FarmhandsOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing Farm_Workers.
+     * Sets the position for listing Farmhands.
      */
-    cursor?: Farm_WorkersWhereUniqueInput
+    cursor?: FarmhandsWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Farm_Workers from the position of the cursor.
+     * Take `±n` Farmhands from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Farm_Workers.
+     * Skip the first `n` Farmhands.
      */
     skip?: number
-    distinct?: Farm_WorkersScalarFieldEnum | Farm_WorkersScalarFieldEnum[]
+    distinct?: FarmhandsScalarFieldEnum | FarmhandsScalarFieldEnum[]
   }
 
   /**
-   * Farm_Workers create
+   * Farmhands create
    */
-  export type Farm_WorkersCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type FarmhandsCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Farm_Workers
+     * Select specific fields to fetch from the Farmhands
      */
-    select?: Farm_WorkersSelect<ExtArgs> | null
+    select?: FarmhandsSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Farm_Workers
+     * Omit specific fields from the Farmhands
      */
-    omit?: Farm_WorkersOmit<ExtArgs> | null
+    omit?: FarmhandsOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: Farm_WorkersInclude<ExtArgs> | null
+    include?: FarmhandsInclude<ExtArgs> | null
     /**
-     * The data needed to create a Farm_Workers.
+     * The data needed to create a Farmhands.
      */
-    data: XOR<Farm_WorkersCreateInput, Farm_WorkersUncheckedCreateInput>
+    data: XOR<FarmhandsCreateInput, FarmhandsUncheckedCreateInput>
   }
 
   /**
-   * Farm_Workers createMany
+   * Farmhands createMany
    */
-  export type Farm_WorkersCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type FarmhandsCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to create many Farm_Workers.
+     * The data used to create many Farmhands.
      */
-    data: Farm_WorkersCreateManyInput | Farm_WorkersCreateManyInput[]
+    data: FarmhandsCreateManyInput | FarmhandsCreateManyInput[]
     skipDuplicates?: boolean
   }
 
   /**
-   * Farm_Workers update
+   * Farmhands update
    */
-  export type Farm_WorkersUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type FarmhandsUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Farm_Workers
+     * Select specific fields to fetch from the Farmhands
      */
-    select?: Farm_WorkersSelect<ExtArgs> | null
+    select?: FarmhandsSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Farm_Workers
+     * Omit specific fields from the Farmhands
      */
-    omit?: Farm_WorkersOmit<ExtArgs> | null
+    omit?: FarmhandsOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: Farm_WorkersInclude<ExtArgs> | null
+    include?: FarmhandsInclude<ExtArgs> | null
     /**
-     * The data needed to update a Farm_Workers.
+     * The data needed to update a Farmhands.
      */
-    data: XOR<Farm_WorkersUpdateInput, Farm_WorkersUncheckedUpdateInput>
+    data: XOR<FarmhandsUpdateInput, FarmhandsUncheckedUpdateInput>
     /**
-     * Choose, which Farm_Workers to update.
+     * Choose, which Farmhands to update.
      */
-    where: Farm_WorkersWhereUniqueInput
+    where: FarmhandsWhereUniqueInput
   }
 
   /**
-   * Farm_Workers updateMany
+   * Farmhands updateMany
    */
-  export type Farm_WorkersUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type FarmhandsUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to update Farm_Workers.
+     * The data used to update Farmhands.
      */
-    data: XOR<Farm_WorkersUpdateManyMutationInput, Farm_WorkersUncheckedUpdateManyInput>
+    data: XOR<FarmhandsUpdateManyMutationInput, FarmhandsUncheckedUpdateManyInput>
     /**
-     * Filter which Farm_Workers to update
+     * Filter which Farmhands to update
      */
-    where?: Farm_WorkersWhereInput
+    where?: FarmhandsWhereInput
     /**
-     * Limit how many Farm_Workers to update.
+     * Limit how many Farmhands to update.
      */
     limit?: number
   }
 
   /**
-   * Farm_Workers upsert
+   * Farmhands upsert
    */
-  export type Farm_WorkersUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type FarmhandsUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Farm_Workers
+     * Select specific fields to fetch from the Farmhands
      */
-    select?: Farm_WorkersSelect<ExtArgs> | null
+    select?: FarmhandsSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Farm_Workers
+     * Omit specific fields from the Farmhands
      */
-    omit?: Farm_WorkersOmit<ExtArgs> | null
+    omit?: FarmhandsOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: Farm_WorkersInclude<ExtArgs> | null
+    include?: FarmhandsInclude<ExtArgs> | null
     /**
-     * The filter to search for the Farm_Workers to update in case it exists.
+     * The filter to search for the Farmhands to update in case it exists.
      */
-    where: Farm_WorkersWhereUniqueInput
+    where: FarmhandsWhereUniqueInput
     /**
-     * In case the Farm_Workers found by the `where` argument doesn't exist, create a new Farm_Workers with this data.
+     * In case the Farmhands found by the `where` argument doesn't exist, create a new Farmhands with this data.
      */
-    create: XOR<Farm_WorkersCreateInput, Farm_WorkersUncheckedCreateInput>
+    create: XOR<FarmhandsCreateInput, FarmhandsUncheckedCreateInput>
     /**
-     * In case the Farm_Workers was found with the provided `where` argument, update it with this data.
+     * In case the Farmhands was found with the provided `where` argument, update it with this data.
      */
-    update: XOR<Farm_WorkersUpdateInput, Farm_WorkersUncheckedUpdateInput>
+    update: XOR<FarmhandsUpdateInput, FarmhandsUncheckedUpdateInput>
   }
 
   /**
-   * Farm_Workers delete
+   * Farmhands delete
    */
-  export type Farm_WorkersDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type FarmhandsDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Farm_Workers
+     * Select specific fields to fetch from the Farmhands
      */
-    select?: Farm_WorkersSelect<ExtArgs> | null
+    select?: FarmhandsSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Farm_Workers
+     * Omit specific fields from the Farmhands
      */
-    omit?: Farm_WorkersOmit<ExtArgs> | null
+    omit?: FarmhandsOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: Farm_WorkersInclude<ExtArgs> | null
+    include?: FarmhandsInclude<ExtArgs> | null
     /**
-     * Filter which Farm_Workers to delete.
+     * Filter which Farmhands to delete.
      */
-    where: Farm_WorkersWhereUniqueInput
+    where: FarmhandsWhereUniqueInput
   }
 
   /**
-   * Farm_Workers deleteMany
+   * Farmhands deleteMany
    */
-  export type Farm_WorkersDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type FarmhandsDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which Farm_Workers to delete
+     * Filter which Farmhands to delete
      */
-    where?: Farm_WorkersWhereInput
+    where?: FarmhandsWhereInput
     /**
-     * Limit how many Farm_Workers to delete.
+     * Limit how many Farmhands to delete.
      */
     limit?: number
   }
 
   /**
-   * Farm_Workers without action
+   * Farmhands without action
    */
-  export type Farm_WorkersDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type FarmhandsDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Farm_Workers
+     * Select specific fields to fetch from the Farmhands
      */
-    select?: Farm_WorkersSelect<ExtArgs> | null
+    select?: FarmhandsSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Farm_Workers
+     * Omit specific fields from the Farmhands
      */
-    omit?: Farm_WorkersOmit<ExtArgs> | null
+    omit?: FarmhandsOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: Farm_WorkersInclude<ExtArgs> | null
+    include?: FarmhandsInclude<ExtArgs> | null
   }
 
 
@@ -5415,7 +5270,7 @@ export namespace Prisma {
     id?: boolean
     user_id?: boolean
     user?: boolean | UsersDefaultArgs<ExtArgs>
-    Applications?: boolean | Veterinarians$ApplicationsArgs<ExtArgs>
+    application?: boolean | Veterinarians$applicationArgs<ExtArgs>
     _count?: boolean | VeterinariansCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["veterinarians"]>
 
@@ -5429,7 +5284,7 @@ export namespace Prisma {
   export type VeterinariansOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "user_id", ExtArgs["result"]["veterinarians"]>
   export type VeterinariansInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UsersDefaultArgs<ExtArgs>
-    Applications?: boolean | Veterinarians$ApplicationsArgs<ExtArgs>
+    application?: boolean | Veterinarians$applicationArgs<ExtArgs>
     _count?: boolean | VeterinariansCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -5437,7 +5292,7 @@ export namespace Prisma {
     name: "Veterinarians"
     objects: {
       user: Prisma.$UsersPayload<ExtArgs>
-      Applications: Prisma.$ApplicationsPayload<ExtArgs>[]
+      application: Prisma.$ApplicationsPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -5783,7 +5638,7 @@ export namespace Prisma {
   export interface Prisma__VeterinariansClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     user<T extends UsersDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UsersDefaultArgs<ExtArgs>>): Prisma__UsersClient<$Result.GetResult<Prisma.$UsersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    Applications<T extends Veterinarians$ApplicationsArgs<ExtArgs> = {}>(args?: Subset<T, Veterinarians$ApplicationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ApplicationsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    application<T extends Veterinarians$applicationArgs<ExtArgs> = {}>(args?: Subset<T, Veterinarians$applicationArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ApplicationsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6158,9 +6013,9 @@ export namespace Prisma {
   }
 
   /**
-   * Veterinarians.Applications
+   * Veterinarians.application
    */
-  export type Veterinarians$ApplicationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Veterinarians$applicationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Applications
      */
@@ -6217,7 +6072,7 @@ export namespace Prisma {
     species_id: number | null
     breed_id: number | null
     weight: number | null
-    health_status_id: number | null
+    farm_id: number | null
   }
 
   export type AnimalsSumAggregateOutputType = {
@@ -6225,7 +6080,7 @@ export namespace Prisma {
     species_id: number | null
     breed_id: number | null
     weight: number | null
-    health_status_id: number | null
+    farm_id: number | null
   }
 
   export type AnimalsMinAggregateOutputType = {
@@ -6235,7 +6090,8 @@ export namespace Prisma {
     breed_id: number | null
     birth_date: Date | null
     weight: number | null
-    health_status_id: number | null
+    health_status: $Enums.Health_Status | null
+    farm_id: number | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -6247,7 +6103,8 @@ export namespace Prisma {
     breed_id: number | null
     birth_date: Date | null
     weight: number | null
-    health_status_id: number | null
+    health_status: $Enums.Health_Status | null
+    farm_id: number | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -6259,7 +6116,8 @@ export namespace Prisma {
     breed_id: number
     birth_date: number
     weight: number
-    health_status_id: number
+    health_status: number
+    farm_id: number
     created_at: number
     updated_at: number
     _all: number
@@ -6271,7 +6129,7 @@ export namespace Prisma {
     species_id?: true
     breed_id?: true
     weight?: true
-    health_status_id?: true
+    farm_id?: true
   }
 
   export type AnimalsSumAggregateInputType = {
@@ -6279,7 +6137,7 @@ export namespace Prisma {
     species_id?: true
     breed_id?: true
     weight?: true
-    health_status_id?: true
+    farm_id?: true
   }
 
   export type AnimalsMinAggregateInputType = {
@@ -6289,7 +6147,8 @@ export namespace Prisma {
     breed_id?: true
     birth_date?: true
     weight?: true
-    health_status_id?: true
+    health_status?: true
+    farm_id?: true
     created_at?: true
     updated_at?: true
   }
@@ -6301,7 +6160,8 @@ export namespace Prisma {
     breed_id?: true
     birth_date?: true
     weight?: true
-    health_status_id?: true
+    health_status?: true
+    farm_id?: true
     created_at?: true
     updated_at?: true
   }
@@ -6313,7 +6173,8 @@ export namespace Prisma {
     breed_id?: true
     birth_date?: true
     weight?: true
-    health_status_id?: true
+    health_status?: true
+    farm_id?: true
     created_at?: true
     updated_at?: true
     _all?: true
@@ -6412,7 +6273,8 @@ export namespace Prisma {
     breed_id: number
     birth_date: Date
     weight: number
-    health_status_id: number
+    health_status: $Enums.Health_Status
+    farm_id: number
     created_at: Date
     updated_at: Date
     _count: AnimalsCountAggregateOutputType | null
@@ -6443,14 +6305,15 @@ export namespace Prisma {
     breed_id?: boolean
     birth_date?: boolean
     weight?: boolean
-    health_status_id?: boolean
+    health_status?: boolean
+    farm_id?: boolean
     created_at?: boolean
     updated_at?: boolean
     species?: boolean | SpeciesDefaultArgs<ExtArgs>
     breed?: boolean | BreedsDefaultArgs<ExtArgs>
-    health_status?: boolean | Health_StatusDefaultArgs<ExtArgs>
-    Locations?: boolean | Animals$LocationsArgs<ExtArgs>
-    Applications?: boolean | Animals$ApplicationsArgs<ExtArgs>
+    farm?: boolean | FarmsDefaultArgs<ExtArgs>
+    location?: boolean | Animals$locationArgs<ExtArgs>
+    application?: boolean | Animals$applicationArgs<ExtArgs>
     _count?: boolean | AnimalsCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["animals"]>
 
@@ -6463,18 +6326,19 @@ export namespace Prisma {
     breed_id?: boolean
     birth_date?: boolean
     weight?: boolean
-    health_status_id?: boolean
+    health_status?: boolean
+    farm_id?: boolean
     created_at?: boolean
     updated_at?: boolean
   }
 
-  export type AnimalsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "species_id" | "breed_id" | "birth_date" | "weight" | "health_status_id" | "created_at" | "updated_at", ExtArgs["result"]["animals"]>
+  export type AnimalsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "species_id" | "breed_id" | "birth_date" | "weight" | "health_status" | "farm_id" | "created_at" | "updated_at", ExtArgs["result"]["animals"]>
   export type AnimalsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     species?: boolean | SpeciesDefaultArgs<ExtArgs>
     breed?: boolean | BreedsDefaultArgs<ExtArgs>
-    health_status?: boolean | Health_StatusDefaultArgs<ExtArgs>
-    Locations?: boolean | Animals$LocationsArgs<ExtArgs>
-    Applications?: boolean | Animals$ApplicationsArgs<ExtArgs>
+    farm?: boolean | FarmsDefaultArgs<ExtArgs>
+    location?: boolean | Animals$locationArgs<ExtArgs>
+    application?: boolean | Animals$applicationArgs<ExtArgs>
     _count?: boolean | AnimalsCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -6483,9 +6347,9 @@ export namespace Prisma {
     objects: {
       species: Prisma.$SpeciesPayload<ExtArgs>
       breed: Prisma.$BreedsPayload<ExtArgs>
-      health_status: Prisma.$Health_StatusPayload<ExtArgs>
-      Locations: Prisma.$LocationsPayload<ExtArgs>[]
-      Applications: Prisma.$ApplicationsPayload<ExtArgs>[]
+      farm: Prisma.$FarmsPayload<ExtArgs>
+      location: Prisma.$LocationsPayload<ExtArgs>[]
+      application: Prisma.$ApplicationsPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -6494,7 +6358,8 @@ export namespace Prisma {
       breed_id: number
       birth_date: Date
       weight: number
-      health_status_id: number
+      health_status: $Enums.Health_Status
+      farm_id: number
       created_at: Date
       updated_at: Date
     }, ExtArgs["result"]["animals"]>
@@ -6839,9 +6704,9 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     species<T extends SpeciesDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SpeciesDefaultArgs<ExtArgs>>): Prisma__SpeciesClient<$Result.GetResult<Prisma.$SpeciesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     breed<T extends BreedsDefaultArgs<ExtArgs> = {}>(args?: Subset<T, BreedsDefaultArgs<ExtArgs>>): Prisma__BreedsClient<$Result.GetResult<Prisma.$BreedsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    health_status<T extends Health_StatusDefaultArgs<ExtArgs> = {}>(args?: Subset<T, Health_StatusDefaultArgs<ExtArgs>>): Prisma__Health_StatusClient<$Result.GetResult<Prisma.$Health_StatusPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    Locations<T extends Animals$LocationsArgs<ExtArgs> = {}>(args?: Subset<T, Animals$LocationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LocationsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    Applications<T extends Animals$ApplicationsArgs<ExtArgs> = {}>(args?: Subset<T, Animals$ApplicationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ApplicationsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    farm<T extends FarmsDefaultArgs<ExtArgs> = {}>(args?: Subset<T, FarmsDefaultArgs<ExtArgs>>): Prisma__FarmsClient<$Result.GetResult<Prisma.$FarmsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    location<T extends Animals$locationArgs<ExtArgs> = {}>(args?: Subset<T, Animals$locationArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LocationsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    application<T extends Animals$applicationArgs<ExtArgs> = {}>(args?: Subset<T, Animals$applicationArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ApplicationsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6877,7 +6742,8 @@ export namespace Prisma {
     readonly breed_id: FieldRef<"Animals", 'Int'>
     readonly birth_date: FieldRef<"Animals", 'DateTime'>
     readonly weight: FieldRef<"Animals", 'Float'>
-    readonly health_status_id: FieldRef<"Animals", 'Int'>
+    readonly health_status: FieldRef<"Animals", 'Health_Status'>
+    readonly farm_id: FieldRef<"Animals", 'Int'>
     readonly created_at: FieldRef<"Animals", 'DateTime'>
     readonly updated_at: FieldRef<"Animals", 'DateTime'>
   }
@@ -7223,9 +7089,9 @@ export namespace Prisma {
   }
 
   /**
-   * Animals.Locations
+   * Animals.location
    */
-  export type Animals$LocationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Animals$locationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Locations
      */
@@ -7247,9 +7113,9 @@ export namespace Prisma {
   }
 
   /**
-   * Animals.Applications
+   * Animals.application
    */
-  export type Animals$ApplicationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Animals$applicationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Applications
      */
@@ -7511,8 +7377,8 @@ export namespace Prisma {
     gestation_period?: boolean
     created_at?: boolean
     updated_at?: boolean
-    animals?: boolean | Species$animalsArgs<ExtArgs>
-    breeds?: boolean | Species$breedsArgs<ExtArgs>
+    animal?: boolean | Species$animalArgs<ExtArgs>
+    breed?: boolean | Species$breedArgs<ExtArgs>
     _count?: boolean | SpeciesCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["species"]>
 
@@ -7530,16 +7396,16 @@ export namespace Prisma {
 
   export type SpeciesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "average_lifespan" | "gestation_period" | "created_at" | "updated_at", ExtArgs["result"]["species"]>
   export type SpeciesInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    animals?: boolean | Species$animalsArgs<ExtArgs>
-    breeds?: boolean | Species$breedsArgs<ExtArgs>
+    animal?: boolean | Species$animalArgs<ExtArgs>
+    breed?: boolean | Species$breedArgs<ExtArgs>
     _count?: boolean | SpeciesCountOutputTypeDefaultArgs<ExtArgs>
   }
 
   export type $SpeciesPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Species"
     objects: {
-      animals: Prisma.$AnimalsPayload<ExtArgs>[]
-      breeds: Prisma.$BreedsPayload<ExtArgs>[]
+      animal: Prisma.$AnimalsPayload<ExtArgs>[]
+      breed: Prisma.$BreedsPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -7889,8 +7755,8 @@ export namespace Prisma {
    */
   export interface Prisma__SpeciesClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    animals<T extends Species$animalsArgs<ExtArgs> = {}>(args?: Subset<T, Species$animalsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AnimalsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    breeds<T extends Species$breedsArgs<ExtArgs> = {}>(args?: Subset<T, Species$breedsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BreedsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    animal<T extends Species$animalArgs<ExtArgs> = {}>(args?: Subset<T, Species$animalArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AnimalsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    breed<T extends Species$breedArgs<ExtArgs> = {}>(args?: Subset<T, Species$breedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BreedsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -8270,9 +8136,9 @@ export namespace Prisma {
   }
 
   /**
-   * Species.animals
+   * Species.animal
    */
-  export type Species$animalsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Species$animalArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Animals
      */
@@ -8294,9 +8160,9 @@ export namespace Prisma {
   }
 
   /**
-   * Species.breeds
+   * Species.breed
    */
-  export type Species$breedsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Species$breedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Breeds
      */
@@ -8567,7 +8433,7 @@ export namespace Prisma {
     created_at?: boolean
     updated_at?: boolean
     species?: boolean | SpeciesDefaultArgs<ExtArgs>
-    animals?: boolean | Breeds$animalsArgs<ExtArgs>
+    animal?: boolean | Breeds$animalArgs<ExtArgs>
     _count?: boolean | BreedsCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["breeds"]>
 
@@ -8587,7 +8453,7 @@ export namespace Prisma {
   export type BreedsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "species_id" | "average_weight" | "productivity" | "created_at" | "updated_at", ExtArgs["result"]["breeds"]>
   export type BreedsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     species?: boolean | SpeciesDefaultArgs<ExtArgs>
-    animals?: boolean | Breeds$animalsArgs<ExtArgs>
+    animal?: boolean | Breeds$animalArgs<ExtArgs>
     _count?: boolean | BreedsCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -8595,7 +8461,7 @@ export namespace Prisma {
     name: "Breeds"
     objects: {
       species: Prisma.$SpeciesPayload<ExtArgs>
-      animals: Prisma.$AnimalsPayload<ExtArgs>[]
+      animal: Prisma.$AnimalsPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -8947,7 +8813,7 @@ export namespace Prisma {
   export interface Prisma__BreedsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     species<T extends SpeciesDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SpeciesDefaultArgs<ExtArgs>>): Prisma__SpeciesClient<$Result.GetResult<Prisma.$SpeciesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    animals<T extends Breeds$animalsArgs<ExtArgs> = {}>(args?: Subset<T, Breeds$animalsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AnimalsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    animal<T extends Breeds$animalArgs<ExtArgs> = {}>(args?: Subset<T, Breeds$animalArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AnimalsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -9328,9 +9194,9 @@ export namespace Prisma {
   }
 
   /**
-   * Breeds.animals
+   * Breeds.animal
    */
-  export type Breeds$animalsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Breeds$animalArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Animals
      */
@@ -9367,995 +9233,6 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: BreedsInclude<ExtArgs> | null
-  }
-
-
-  /**
-   * Model Health_Status
-   */
-
-  export type AggregateHealth_Status = {
-    _count: Health_StatusCountAggregateOutputType | null
-    _avg: Health_StatusAvgAggregateOutputType | null
-    _sum: Health_StatusSumAggregateOutputType | null
-    _min: Health_StatusMinAggregateOutputType | null
-    _max: Health_StatusMaxAggregateOutputType | null
-  }
-
-  export type Health_StatusAvgAggregateOutputType = {
-    id: number | null
-  }
-
-  export type Health_StatusSumAggregateOutputType = {
-    id: number | null
-  }
-
-  export type Health_StatusMinAggregateOutputType = {
-    id: number | null
-    name: string | null
-    description: string | null
-    created_at: Date | null
-    updated_at: Date | null
-  }
-
-  export type Health_StatusMaxAggregateOutputType = {
-    id: number | null
-    name: string | null
-    description: string | null
-    created_at: Date | null
-    updated_at: Date | null
-  }
-
-  export type Health_StatusCountAggregateOutputType = {
-    id: number
-    name: number
-    description: number
-    created_at: number
-    updated_at: number
-    _all: number
-  }
-
-
-  export type Health_StatusAvgAggregateInputType = {
-    id?: true
-  }
-
-  export type Health_StatusSumAggregateInputType = {
-    id?: true
-  }
-
-  export type Health_StatusMinAggregateInputType = {
-    id?: true
-    name?: true
-    description?: true
-    created_at?: true
-    updated_at?: true
-  }
-
-  export type Health_StatusMaxAggregateInputType = {
-    id?: true
-    name?: true
-    description?: true
-    created_at?: true
-    updated_at?: true
-  }
-
-  export type Health_StatusCountAggregateInputType = {
-    id?: true
-    name?: true
-    description?: true
-    created_at?: true
-    updated_at?: true
-    _all?: true
-  }
-
-  export type Health_StatusAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which Health_Status to aggregate.
-     */
-    where?: Health_StatusWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Health_Statuses to fetch.
-     */
-    orderBy?: Health_StatusOrderByWithRelationInput | Health_StatusOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: Health_StatusWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Health_Statuses from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Health_Statuses.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned Health_Statuses
-    **/
-    _count?: true | Health_StatusCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to average
-    **/
-    _avg?: Health_StatusAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: Health_StatusSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: Health_StatusMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: Health_StatusMaxAggregateInputType
-  }
-
-  export type GetHealth_StatusAggregateType<T extends Health_StatusAggregateArgs> = {
-        [P in keyof T & keyof AggregateHealth_Status]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateHealth_Status[P]>
-      : GetScalarType<T[P], AggregateHealth_Status[P]>
-  }
-
-
-
-
-  export type Health_StatusGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: Health_StatusWhereInput
-    orderBy?: Health_StatusOrderByWithAggregationInput | Health_StatusOrderByWithAggregationInput[]
-    by: Health_StatusScalarFieldEnum[] | Health_StatusScalarFieldEnum
-    having?: Health_StatusScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: Health_StatusCountAggregateInputType | true
-    _avg?: Health_StatusAvgAggregateInputType
-    _sum?: Health_StatusSumAggregateInputType
-    _min?: Health_StatusMinAggregateInputType
-    _max?: Health_StatusMaxAggregateInputType
-  }
-
-  export type Health_StatusGroupByOutputType = {
-    id: number
-    name: string
-    description: string
-    created_at: Date
-    updated_at: Date
-    _count: Health_StatusCountAggregateOutputType | null
-    _avg: Health_StatusAvgAggregateOutputType | null
-    _sum: Health_StatusSumAggregateOutputType | null
-    _min: Health_StatusMinAggregateOutputType | null
-    _max: Health_StatusMaxAggregateOutputType | null
-  }
-
-  type GetHealth_StatusGroupByPayload<T extends Health_StatusGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<Health_StatusGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof Health_StatusGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], Health_StatusGroupByOutputType[P]>
-            : GetScalarType<T[P], Health_StatusGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type Health_StatusSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    name?: boolean
-    description?: boolean
-    created_at?: boolean
-    updated_at?: boolean
-    animals?: boolean | Health_Status$animalsArgs<ExtArgs>
-    _count?: boolean | Health_StatusCountOutputTypeDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["health_Status"]>
-
-
-
-  export type Health_StatusSelectScalar = {
-    id?: boolean
-    name?: boolean
-    description?: boolean
-    created_at?: boolean
-    updated_at?: boolean
-  }
-
-  export type Health_StatusOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "created_at" | "updated_at", ExtArgs["result"]["health_Status"]>
-  export type Health_StatusInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    animals?: boolean | Health_Status$animalsArgs<ExtArgs>
-    _count?: boolean | Health_StatusCountOutputTypeDefaultArgs<ExtArgs>
-  }
-
-  export type $Health_StatusPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "Health_Status"
-    objects: {
-      animals: Prisma.$AnimalsPayload<ExtArgs>[]
-    }
-    scalars: $Extensions.GetPayloadResult<{
-      id: number
-      name: string
-      description: string
-      created_at: Date
-      updated_at: Date
-    }, ExtArgs["result"]["health_Status"]>
-    composites: {}
-  }
-
-  type Health_StatusGetPayload<S extends boolean | null | undefined | Health_StatusDefaultArgs> = $Result.GetResult<Prisma.$Health_StatusPayload, S>
-
-  type Health_StatusCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<Health_StatusFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: Health_StatusCountAggregateInputType | true
-    }
-
-  export interface Health_StatusDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Health_Status'], meta: { name: 'Health_Status' } }
-    /**
-     * Find zero or one Health_Status that matches the filter.
-     * @param {Health_StatusFindUniqueArgs} args - Arguments to find a Health_Status
-     * @example
-     * // Get one Health_Status
-     * const health_Status = await prisma.health_Status.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends Health_StatusFindUniqueArgs>(args: SelectSubset<T, Health_StatusFindUniqueArgs<ExtArgs>>): Prisma__Health_StatusClient<$Result.GetResult<Prisma.$Health_StatusPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find one Health_Status that matches the filter or throw an error with `error.code='P2025'`
-     * if no matches were found.
-     * @param {Health_StatusFindUniqueOrThrowArgs} args - Arguments to find a Health_Status
-     * @example
-     * // Get one Health_Status
-     * const health_Status = await prisma.health_Status.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends Health_StatusFindUniqueOrThrowArgs>(args: SelectSubset<T, Health_StatusFindUniqueOrThrowArgs<ExtArgs>>): Prisma__Health_StatusClient<$Result.GetResult<Prisma.$Health_StatusPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first Health_Status that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {Health_StatusFindFirstArgs} args - Arguments to find a Health_Status
-     * @example
-     * // Get one Health_Status
-     * const health_Status = await prisma.health_Status.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends Health_StatusFindFirstArgs>(args?: SelectSubset<T, Health_StatusFindFirstArgs<ExtArgs>>): Prisma__Health_StatusClient<$Result.GetResult<Prisma.$Health_StatusPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first Health_Status that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {Health_StatusFindFirstOrThrowArgs} args - Arguments to find a Health_Status
-     * @example
-     * // Get one Health_Status
-     * const health_Status = await prisma.health_Status.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends Health_StatusFindFirstOrThrowArgs>(args?: SelectSubset<T, Health_StatusFindFirstOrThrowArgs<ExtArgs>>): Prisma__Health_StatusClient<$Result.GetResult<Prisma.$Health_StatusPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find zero or more Health_Statuses that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {Health_StatusFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all Health_Statuses
-     * const health_Statuses = await prisma.health_Status.findMany()
-     * 
-     * // Get first 10 Health_Statuses
-     * const health_Statuses = await prisma.health_Status.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const health_StatusWithIdOnly = await prisma.health_Status.findMany({ select: { id: true } })
-     * 
-     */
-    findMany<T extends Health_StatusFindManyArgs>(args?: SelectSubset<T, Health_StatusFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$Health_StatusPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
-
-    /**
-     * Create a Health_Status.
-     * @param {Health_StatusCreateArgs} args - Arguments to create a Health_Status.
-     * @example
-     * // Create one Health_Status
-     * const Health_Status = await prisma.health_Status.create({
-     *   data: {
-     *     // ... data to create a Health_Status
-     *   }
-     * })
-     * 
-     */
-    create<T extends Health_StatusCreateArgs>(args: SelectSubset<T, Health_StatusCreateArgs<ExtArgs>>): Prisma__Health_StatusClient<$Result.GetResult<Prisma.$Health_StatusPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Create many Health_Statuses.
-     * @param {Health_StatusCreateManyArgs} args - Arguments to create many Health_Statuses.
-     * @example
-     * // Create many Health_Statuses
-     * const health_Status = await prisma.health_Status.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *     
-     */
-    createMany<T extends Health_StatusCreateManyArgs>(args?: SelectSubset<T, Health_StatusCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Delete a Health_Status.
-     * @param {Health_StatusDeleteArgs} args - Arguments to delete one Health_Status.
-     * @example
-     * // Delete one Health_Status
-     * const Health_Status = await prisma.health_Status.delete({
-     *   where: {
-     *     // ... filter to delete one Health_Status
-     *   }
-     * })
-     * 
-     */
-    delete<T extends Health_StatusDeleteArgs>(args: SelectSubset<T, Health_StatusDeleteArgs<ExtArgs>>): Prisma__Health_StatusClient<$Result.GetResult<Prisma.$Health_StatusPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Update one Health_Status.
-     * @param {Health_StatusUpdateArgs} args - Arguments to update one Health_Status.
-     * @example
-     * // Update one Health_Status
-     * const health_Status = await prisma.health_Status.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    update<T extends Health_StatusUpdateArgs>(args: SelectSubset<T, Health_StatusUpdateArgs<ExtArgs>>): Prisma__Health_StatusClient<$Result.GetResult<Prisma.$Health_StatusPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Delete zero or more Health_Statuses.
-     * @param {Health_StatusDeleteManyArgs} args - Arguments to filter Health_Statuses to delete.
-     * @example
-     * // Delete a few Health_Statuses
-     * const { count } = await prisma.health_Status.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-     */
-    deleteMany<T extends Health_StatusDeleteManyArgs>(args?: SelectSubset<T, Health_StatusDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Health_Statuses.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {Health_StatusUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many Health_Statuses
-     * const health_Status = await prisma.health_Status.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    updateMany<T extends Health_StatusUpdateManyArgs>(args: SelectSubset<T, Health_StatusUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create or update one Health_Status.
-     * @param {Health_StatusUpsertArgs} args - Arguments to update or create a Health_Status.
-     * @example
-     * // Update or create a Health_Status
-     * const health_Status = await prisma.health_Status.upsert({
-     *   create: {
-     *     // ... data to create a Health_Status
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the Health_Status we want to update
-     *   }
-     * })
-     */
-    upsert<T extends Health_StatusUpsertArgs>(args: SelectSubset<T, Health_StatusUpsertArgs<ExtArgs>>): Prisma__Health_StatusClient<$Result.GetResult<Prisma.$Health_StatusPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-
-    /**
-     * Count the number of Health_Statuses.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {Health_StatusCountArgs} args - Arguments to filter Health_Statuses to count.
-     * @example
-     * // Count the number of Health_Statuses
-     * const count = await prisma.health_Status.count({
-     *   where: {
-     *     // ... the filter for the Health_Statuses we want to count
-     *   }
-     * })
-    **/
-    count<T extends Health_StatusCountArgs>(
-      args?: Subset<T, Health_StatusCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], Health_StatusCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a Health_Status.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {Health_StatusAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends Health_StatusAggregateArgs>(args: Subset<T, Health_StatusAggregateArgs>): Prisma.PrismaPromise<GetHealth_StatusAggregateType<T>>
-
-    /**
-     * Group by Health_Status.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {Health_StatusGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends Health_StatusGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: Health_StatusGroupByArgs['orderBy'] }
-        : { orderBy?: Health_StatusGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, Health_StatusGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetHealth_StatusGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the Health_Status model
-   */
-  readonly fields: Health_StatusFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for Health_Status.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__Health_StatusClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    animals<T extends Health_Status$animalsArgs<ExtArgs> = {}>(args?: Subset<T, Health_Status$animalsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AnimalsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
-  }
-
-
-
-
-  /**
-   * Fields of the Health_Status model
-   */
-  interface Health_StatusFieldRefs {
-    readonly id: FieldRef<"Health_Status", 'Int'>
-    readonly name: FieldRef<"Health_Status", 'String'>
-    readonly description: FieldRef<"Health_Status", 'String'>
-    readonly created_at: FieldRef<"Health_Status", 'DateTime'>
-    readonly updated_at: FieldRef<"Health_Status", 'DateTime'>
-  }
-    
-
-  // Custom InputTypes
-  /**
-   * Health_Status findUnique
-   */
-  export type Health_StatusFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Health_Status
-     */
-    select?: Health_StatusSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Health_Status
-     */
-    omit?: Health_StatusOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: Health_StatusInclude<ExtArgs> | null
-    /**
-     * Filter, which Health_Status to fetch.
-     */
-    where: Health_StatusWhereUniqueInput
-  }
-
-  /**
-   * Health_Status findUniqueOrThrow
-   */
-  export type Health_StatusFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Health_Status
-     */
-    select?: Health_StatusSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Health_Status
-     */
-    omit?: Health_StatusOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: Health_StatusInclude<ExtArgs> | null
-    /**
-     * Filter, which Health_Status to fetch.
-     */
-    where: Health_StatusWhereUniqueInput
-  }
-
-  /**
-   * Health_Status findFirst
-   */
-  export type Health_StatusFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Health_Status
-     */
-    select?: Health_StatusSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Health_Status
-     */
-    omit?: Health_StatusOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: Health_StatusInclude<ExtArgs> | null
-    /**
-     * Filter, which Health_Status to fetch.
-     */
-    where?: Health_StatusWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Health_Statuses to fetch.
-     */
-    orderBy?: Health_StatusOrderByWithRelationInput | Health_StatusOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Health_Statuses.
-     */
-    cursor?: Health_StatusWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Health_Statuses from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Health_Statuses.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Health_Statuses.
-     */
-    distinct?: Health_StatusScalarFieldEnum | Health_StatusScalarFieldEnum[]
-  }
-
-  /**
-   * Health_Status findFirstOrThrow
-   */
-  export type Health_StatusFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Health_Status
-     */
-    select?: Health_StatusSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Health_Status
-     */
-    omit?: Health_StatusOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: Health_StatusInclude<ExtArgs> | null
-    /**
-     * Filter, which Health_Status to fetch.
-     */
-    where?: Health_StatusWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Health_Statuses to fetch.
-     */
-    orderBy?: Health_StatusOrderByWithRelationInput | Health_StatusOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Health_Statuses.
-     */
-    cursor?: Health_StatusWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Health_Statuses from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Health_Statuses.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Health_Statuses.
-     */
-    distinct?: Health_StatusScalarFieldEnum | Health_StatusScalarFieldEnum[]
-  }
-
-  /**
-   * Health_Status findMany
-   */
-  export type Health_StatusFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Health_Status
-     */
-    select?: Health_StatusSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Health_Status
-     */
-    omit?: Health_StatusOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: Health_StatusInclude<ExtArgs> | null
-    /**
-     * Filter, which Health_Statuses to fetch.
-     */
-    where?: Health_StatusWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Health_Statuses to fetch.
-     */
-    orderBy?: Health_StatusOrderByWithRelationInput | Health_StatusOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing Health_Statuses.
-     */
-    cursor?: Health_StatusWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Health_Statuses from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Health_Statuses.
-     */
-    skip?: number
-    distinct?: Health_StatusScalarFieldEnum | Health_StatusScalarFieldEnum[]
-  }
-
-  /**
-   * Health_Status create
-   */
-  export type Health_StatusCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Health_Status
-     */
-    select?: Health_StatusSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Health_Status
-     */
-    omit?: Health_StatusOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: Health_StatusInclude<ExtArgs> | null
-    /**
-     * The data needed to create a Health_Status.
-     */
-    data: XOR<Health_StatusCreateInput, Health_StatusUncheckedCreateInput>
-  }
-
-  /**
-   * Health_Status createMany
-   */
-  export type Health_StatusCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many Health_Statuses.
-     */
-    data: Health_StatusCreateManyInput | Health_StatusCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * Health_Status update
-   */
-  export type Health_StatusUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Health_Status
-     */
-    select?: Health_StatusSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Health_Status
-     */
-    omit?: Health_StatusOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: Health_StatusInclude<ExtArgs> | null
-    /**
-     * The data needed to update a Health_Status.
-     */
-    data: XOR<Health_StatusUpdateInput, Health_StatusUncheckedUpdateInput>
-    /**
-     * Choose, which Health_Status to update.
-     */
-    where: Health_StatusWhereUniqueInput
-  }
-
-  /**
-   * Health_Status updateMany
-   */
-  export type Health_StatusUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update Health_Statuses.
-     */
-    data: XOR<Health_StatusUpdateManyMutationInput, Health_StatusUncheckedUpdateManyInput>
-    /**
-     * Filter which Health_Statuses to update
-     */
-    where?: Health_StatusWhereInput
-    /**
-     * Limit how many Health_Statuses to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * Health_Status upsert
-   */
-  export type Health_StatusUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Health_Status
-     */
-    select?: Health_StatusSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Health_Status
-     */
-    omit?: Health_StatusOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: Health_StatusInclude<ExtArgs> | null
-    /**
-     * The filter to search for the Health_Status to update in case it exists.
-     */
-    where: Health_StatusWhereUniqueInput
-    /**
-     * In case the Health_Status found by the `where` argument doesn't exist, create a new Health_Status with this data.
-     */
-    create: XOR<Health_StatusCreateInput, Health_StatusUncheckedCreateInput>
-    /**
-     * In case the Health_Status was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<Health_StatusUpdateInput, Health_StatusUncheckedUpdateInput>
-  }
-
-  /**
-   * Health_Status delete
-   */
-  export type Health_StatusDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Health_Status
-     */
-    select?: Health_StatusSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Health_Status
-     */
-    omit?: Health_StatusOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: Health_StatusInclude<ExtArgs> | null
-    /**
-     * Filter which Health_Status to delete.
-     */
-    where: Health_StatusWhereUniqueInput
-  }
-
-  /**
-   * Health_Status deleteMany
-   */
-  export type Health_StatusDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which Health_Statuses to delete
-     */
-    where?: Health_StatusWhereInput
-    /**
-     * Limit how many Health_Statuses to delete.
-     */
-    limit?: number
-  }
-
-  /**
-   * Health_Status.animals
-   */
-  export type Health_Status$animalsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Animals
-     */
-    select?: AnimalsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Animals
-     */
-    omit?: AnimalsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: AnimalsInclude<ExtArgs> | null
-    where?: AnimalsWhereInput
-    orderBy?: AnimalsOrderByWithRelationInput | AnimalsOrderByWithRelationInput[]
-    cursor?: AnimalsWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: AnimalsScalarFieldEnum | AnimalsScalarFieldEnum[]
-  }
-
-  /**
-   * Health_Status without action
-   */
-  export type Health_StatusDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Health_Status
-     */
-    select?: Health_StatusSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Health_Status
-     */
-    omit?: Health_StatusOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: Health_StatusInclude<ExtArgs> | null
   }
 
 
@@ -10631,7 +9508,7 @@ export namespace Prisma {
     updated_at?: boolean
     manufacturer?: boolean | ManufacturersDefaultArgs<ExtArgs>
     type_of_vaccine?: boolean | Types_of_VaccinesDefaultArgs<ExtArgs>
-    Applications?: boolean | Vaccines$ApplicationsArgs<ExtArgs>
+    applications?: boolean | Vaccines$applicationsArgs<ExtArgs>
     _count?: boolean | VaccinesCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["vaccines"]>
 
@@ -10656,7 +9533,7 @@ export namespace Prisma {
   export type VaccinesInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     manufacturer?: boolean | ManufacturersDefaultArgs<ExtArgs>
     type_of_vaccine?: boolean | Types_of_VaccinesDefaultArgs<ExtArgs>
-    Applications?: boolean | Vaccines$ApplicationsArgs<ExtArgs>
+    applications?: boolean | Vaccines$applicationsArgs<ExtArgs>
     _count?: boolean | VaccinesCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -10665,7 +9542,7 @@ export namespace Prisma {
     objects: {
       manufacturer: Prisma.$ManufacturersPayload<ExtArgs>
       type_of_vaccine: Prisma.$Types_of_VaccinesPayload<ExtArgs>
-      Applications: Prisma.$ApplicationsPayload<ExtArgs>[]
+      applications: Prisma.$ApplicationsPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -11022,7 +9899,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     manufacturer<T extends ManufacturersDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ManufacturersDefaultArgs<ExtArgs>>): Prisma__ManufacturersClient<$Result.GetResult<Prisma.$ManufacturersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     type_of_vaccine<T extends Types_of_VaccinesDefaultArgs<ExtArgs> = {}>(args?: Subset<T, Types_of_VaccinesDefaultArgs<ExtArgs>>): Prisma__Types_of_VaccinesClient<$Result.GetResult<Prisma.$Types_of_VaccinesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    Applications<T extends Vaccines$ApplicationsArgs<ExtArgs> = {}>(args?: Subset<T, Vaccines$ApplicationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ApplicationsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    applications<T extends Vaccines$applicationsArgs<ExtArgs> = {}>(args?: Subset<T, Vaccines$applicationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ApplicationsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -11407,9 +10284,9 @@ export namespace Prisma {
   }
 
   /**
-   * Vaccines.Applications
+   * Vaccines.applications
    */
-  export type Vaccines$ApplicationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Vaccines$applicationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Applications
      */
@@ -13477,7 +12354,6 @@ export namespace Prisma {
     animal_id: number | null
     vaccine_id: number | null
     veterinary_id: number | null
-    status_vaccine_application_id: number | null
   }
 
   export type ApplicationsSumAggregateOutputType = {
@@ -13485,7 +12361,6 @@ export namespace Prisma {
     animal_id: number | null
     vaccine_id: number | null
     veterinary_id: number | null
-    status_vaccine_application_id: number | null
   }
 
   export type ApplicationsMinAggregateOutputType = {
@@ -13495,7 +12370,7 @@ export namespace Prisma {
     veterinary_id: number | null
     application_date: Date | null
     next_application_date: Date | null
-    status_vaccine_application_id: number | null
+    status_vaccine_application: $Enums.Status_Vaccine_Applications | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -13507,7 +12382,7 @@ export namespace Prisma {
     veterinary_id: number | null
     application_date: Date | null
     next_application_date: Date | null
-    status_vaccine_application_id: number | null
+    status_vaccine_application: $Enums.Status_Vaccine_Applications | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -13519,7 +12394,7 @@ export namespace Prisma {
     veterinary_id: number
     application_date: number
     next_application_date: number
-    status_vaccine_application_id: number
+    status_vaccine_application: number
     created_at: number
     updated_at: number
     _all: number
@@ -13531,7 +12406,6 @@ export namespace Prisma {
     animal_id?: true
     vaccine_id?: true
     veterinary_id?: true
-    status_vaccine_application_id?: true
   }
 
   export type ApplicationsSumAggregateInputType = {
@@ -13539,7 +12413,6 @@ export namespace Prisma {
     animal_id?: true
     vaccine_id?: true
     veterinary_id?: true
-    status_vaccine_application_id?: true
   }
 
   export type ApplicationsMinAggregateInputType = {
@@ -13549,7 +12422,7 @@ export namespace Prisma {
     veterinary_id?: true
     application_date?: true
     next_application_date?: true
-    status_vaccine_application_id?: true
+    status_vaccine_application?: true
     created_at?: true
     updated_at?: true
   }
@@ -13561,7 +12434,7 @@ export namespace Prisma {
     veterinary_id?: true
     application_date?: true
     next_application_date?: true
-    status_vaccine_application_id?: true
+    status_vaccine_application?: true
     created_at?: true
     updated_at?: true
   }
@@ -13573,7 +12446,7 @@ export namespace Prisma {
     veterinary_id?: true
     application_date?: true
     next_application_date?: true
-    status_vaccine_application_id?: true
+    status_vaccine_application?: true
     created_at?: true
     updated_at?: true
     _all?: true
@@ -13672,7 +12545,7 @@ export namespace Prisma {
     veterinary_id: number
     application_date: Date
     next_application_date: Date | null
-    status_vaccine_application_id: number
+    status_vaccine_application: $Enums.Status_Vaccine_Applications
     created_at: Date
     updated_at: Date
     _count: ApplicationsCountAggregateOutputType | null
@@ -13703,13 +12576,12 @@ export namespace Prisma {
     veterinary_id?: boolean
     application_date?: boolean
     next_application_date?: boolean
-    status_vaccine_application_id?: boolean
+    status_vaccine_application?: boolean
     created_at?: boolean
     updated_at?: boolean
     animal?: boolean | AnimalsDefaultArgs<ExtArgs>
     vaccine?: boolean | VaccinesDefaultArgs<ExtArgs>
     veterinary?: boolean | VeterinariansDefaultArgs<ExtArgs>
-    status_vaccine?: boolean | Status_Vaccine_ApplicationsDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["applications"]>
 
 
@@ -13721,17 +12593,16 @@ export namespace Prisma {
     veterinary_id?: boolean
     application_date?: boolean
     next_application_date?: boolean
-    status_vaccine_application_id?: boolean
+    status_vaccine_application?: boolean
     created_at?: boolean
     updated_at?: boolean
   }
 
-  export type ApplicationsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "animal_id" | "vaccine_id" | "veterinary_id" | "application_date" | "next_application_date" | "status_vaccine_application_id" | "created_at" | "updated_at", ExtArgs["result"]["applications"]>
+  export type ApplicationsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "animal_id" | "vaccine_id" | "veterinary_id" | "application_date" | "next_application_date" | "status_vaccine_application" | "created_at" | "updated_at", ExtArgs["result"]["applications"]>
   export type ApplicationsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     animal?: boolean | AnimalsDefaultArgs<ExtArgs>
     vaccine?: boolean | VaccinesDefaultArgs<ExtArgs>
     veterinary?: boolean | VeterinariansDefaultArgs<ExtArgs>
-    status_vaccine?: boolean | Status_Vaccine_ApplicationsDefaultArgs<ExtArgs>
   }
 
   export type $ApplicationsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -13740,7 +12611,6 @@ export namespace Prisma {
       animal: Prisma.$AnimalsPayload<ExtArgs>
       vaccine: Prisma.$VaccinesPayload<ExtArgs>
       veterinary: Prisma.$VeterinariansPayload<ExtArgs>
-      status_vaccine: Prisma.$Status_Vaccine_ApplicationsPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -13749,7 +12619,7 @@ export namespace Prisma {
       veterinary_id: number
       application_date: Date
       next_application_date: Date | null
-      status_vaccine_application_id: number
+      status_vaccine_application: $Enums.Status_Vaccine_Applications
       created_at: Date
       updated_at: Date
     }, ExtArgs["result"]["applications"]>
@@ -14095,7 +12965,6 @@ export namespace Prisma {
     animal<T extends AnimalsDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AnimalsDefaultArgs<ExtArgs>>): Prisma__AnimalsClient<$Result.GetResult<Prisma.$AnimalsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     vaccine<T extends VaccinesDefaultArgs<ExtArgs> = {}>(args?: Subset<T, VaccinesDefaultArgs<ExtArgs>>): Prisma__VaccinesClient<$Result.GetResult<Prisma.$VaccinesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     veterinary<T extends VeterinariansDefaultArgs<ExtArgs> = {}>(args?: Subset<T, VeterinariansDefaultArgs<ExtArgs>>): Prisma__VeterinariansClient<$Result.GetResult<Prisma.$VeterinariansPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    status_vaccine<T extends Status_Vaccine_ApplicationsDefaultArgs<ExtArgs> = {}>(args?: Subset<T, Status_Vaccine_ApplicationsDefaultArgs<ExtArgs>>): Prisma__Status_Vaccine_ApplicationsClient<$Result.GetResult<Prisma.$Status_Vaccine_ApplicationsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -14131,7 +13000,7 @@ export namespace Prisma {
     readonly veterinary_id: FieldRef<"Applications", 'Int'>
     readonly application_date: FieldRef<"Applications", 'DateTime'>
     readonly next_application_date: FieldRef<"Applications", 'DateTime'>
-    readonly status_vaccine_application_id: FieldRef<"Applications", 'Int'>
+    readonly status_vaccine_application: FieldRef<"Applications", 'Status_Vaccine_Applications'>
     readonly created_at: FieldRef<"Applications", 'DateTime'>
     readonly updated_at: FieldRef<"Applications", 'DateTime'>
   }
@@ -14492,962 +13361,6 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: ApplicationsInclude<ExtArgs> | null
-  }
-
-
-  /**
-   * Model Status_Vaccine_Applications
-   */
-
-  export type AggregateStatus_Vaccine_Applications = {
-    _count: Status_Vaccine_ApplicationsCountAggregateOutputType | null
-    _avg: Status_Vaccine_ApplicationsAvgAggregateOutputType | null
-    _sum: Status_Vaccine_ApplicationsSumAggregateOutputType | null
-    _min: Status_Vaccine_ApplicationsMinAggregateOutputType | null
-    _max: Status_Vaccine_ApplicationsMaxAggregateOutputType | null
-  }
-
-  export type Status_Vaccine_ApplicationsAvgAggregateOutputType = {
-    id: number | null
-  }
-
-  export type Status_Vaccine_ApplicationsSumAggregateOutputType = {
-    id: number | null
-  }
-
-  export type Status_Vaccine_ApplicationsMinAggregateOutputType = {
-    id: number | null
-    name: string | null
-  }
-
-  export type Status_Vaccine_ApplicationsMaxAggregateOutputType = {
-    id: number | null
-    name: string | null
-  }
-
-  export type Status_Vaccine_ApplicationsCountAggregateOutputType = {
-    id: number
-    name: number
-    _all: number
-  }
-
-
-  export type Status_Vaccine_ApplicationsAvgAggregateInputType = {
-    id?: true
-  }
-
-  export type Status_Vaccine_ApplicationsSumAggregateInputType = {
-    id?: true
-  }
-
-  export type Status_Vaccine_ApplicationsMinAggregateInputType = {
-    id?: true
-    name?: true
-  }
-
-  export type Status_Vaccine_ApplicationsMaxAggregateInputType = {
-    id?: true
-    name?: true
-  }
-
-  export type Status_Vaccine_ApplicationsCountAggregateInputType = {
-    id?: true
-    name?: true
-    _all?: true
-  }
-
-  export type Status_Vaccine_ApplicationsAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which Status_Vaccine_Applications to aggregate.
-     */
-    where?: Status_Vaccine_ApplicationsWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Status_Vaccine_Applications to fetch.
-     */
-    orderBy?: Status_Vaccine_ApplicationsOrderByWithRelationInput | Status_Vaccine_ApplicationsOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: Status_Vaccine_ApplicationsWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Status_Vaccine_Applications from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Status_Vaccine_Applications.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned Status_Vaccine_Applications
-    **/
-    _count?: true | Status_Vaccine_ApplicationsCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to average
-    **/
-    _avg?: Status_Vaccine_ApplicationsAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: Status_Vaccine_ApplicationsSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: Status_Vaccine_ApplicationsMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: Status_Vaccine_ApplicationsMaxAggregateInputType
-  }
-
-  export type GetStatus_Vaccine_ApplicationsAggregateType<T extends Status_Vaccine_ApplicationsAggregateArgs> = {
-        [P in keyof T & keyof AggregateStatus_Vaccine_Applications]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateStatus_Vaccine_Applications[P]>
-      : GetScalarType<T[P], AggregateStatus_Vaccine_Applications[P]>
-  }
-
-
-
-
-  export type Status_Vaccine_ApplicationsGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: Status_Vaccine_ApplicationsWhereInput
-    orderBy?: Status_Vaccine_ApplicationsOrderByWithAggregationInput | Status_Vaccine_ApplicationsOrderByWithAggregationInput[]
-    by: Status_Vaccine_ApplicationsScalarFieldEnum[] | Status_Vaccine_ApplicationsScalarFieldEnum
-    having?: Status_Vaccine_ApplicationsScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: Status_Vaccine_ApplicationsCountAggregateInputType | true
-    _avg?: Status_Vaccine_ApplicationsAvgAggregateInputType
-    _sum?: Status_Vaccine_ApplicationsSumAggregateInputType
-    _min?: Status_Vaccine_ApplicationsMinAggregateInputType
-    _max?: Status_Vaccine_ApplicationsMaxAggregateInputType
-  }
-
-  export type Status_Vaccine_ApplicationsGroupByOutputType = {
-    id: number
-    name: string
-    _count: Status_Vaccine_ApplicationsCountAggregateOutputType | null
-    _avg: Status_Vaccine_ApplicationsAvgAggregateOutputType | null
-    _sum: Status_Vaccine_ApplicationsSumAggregateOutputType | null
-    _min: Status_Vaccine_ApplicationsMinAggregateOutputType | null
-    _max: Status_Vaccine_ApplicationsMaxAggregateOutputType | null
-  }
-
-  type GetStatus_Vaccine_ApplicationsGroupByPayload<T extends Status_Vaccine_ApplicationsGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<Status_Vaccine_ApplicationsGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof Status_Vaccine_ApplicationsGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], Status_Vaccine_ApplicationsGroupByOutputType[P]>
-            : GetScalarType<T[P], Status_Vaccine_ApplicationsGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type Status_Vaccine_ApplicationsSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    name?: boolean
-    Applications?: boolean | Status_Vaccine_Applications$ApplicationsArgs<ExtArgs>
-    _count?: boolean | Status_Vaccine_ApplicationsCountOutputTypeDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["status_Vaccine_Applications"]>
-
-
-
-  export type Status_Vaccine_ApplicationsSelectScalar = {
-    id?: boolean
-    name?: boolean
-  }
-
-  export type Status_Vaccine_ApplicationsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name", ExtArgs["result"]["status_Vaccine_Applications"]>
-  export type Status_Vaccine_ApplicationsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    Applications?: boolean | Status_Vaccine_Applications$ApplicationsArgs<ExtArgs>
-    _count?: boolean | Status_Vaccine_ApplicationsCountOutputTypeDefaultArgs<ExtArgs>
-  }
-
-  export type $Status_Vaccine_ApplicationsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "Status_Vaccine_Applications"
-    objects: {
-      Applications: Prisma.$ApplicationsPayload<ExtArgs>[]
-    }
-    scalars: $Extensions.GetPayloadResult<{
-      id: number
-      name: string
-    }, ExtArgs["result"]["status_Vaccine_Applications"]>
-    composites: {}
-  }
-
-  type Status_Vaccine_ApplicationsGetPayload<S extends boolean | null | undefined | Status_Vaccine_ApplicationsDefaultArgs> = $Result.GetResult<Prisma.$Status_Vaccine_ApplicationsPayload, S>
-
-  type Status_Vaccine_ApplicationsCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<Status_Vaccine_ApplicationsFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: Status_Vaccine_ApplicationsCountAggregateInputType | true
-    }
-
-  export interface Status_Vaccine_ApplicationsDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Status_Vaccine_Applications'], meta: { name: 'Status_Vaccine_Applications' } }
-    /**
-     * Find zero or one Status_Vaccine_Applications that matches the filter.
-     * @param {Status_Vaccine_ApplicationsFindUniqueArgs} args - Arguments to find a Status_Vaccine_Applications
-     * @example
-     * // Get one Status_Vaccine_Applications
-     * const status_Vaccine_Applications = await prisma.status_Vaccine_Applications.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends Status_Vaccine_ApplicationsFindUniqueArgs>(args: SelectSubset<T, Status_Vaccine_ApplicationsFindUniqueArgs<ExtArgs>>): Prisma__Status_Vaccine_ApplicationsClient<$Result.GetResult<Prisma.$Status_Vaccine_ApplicationsPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find one Status_Vaccine_Applications that matches the filter or throw an error with `error.code='P2025'`
-     * if no matches were found.
-     * @param {Status_Vaccine_ApplicationsFindUniqueOrThrowArgs} args - Arguments to find a Status_Vaccine_Applications
-     * @example
-     * // Get one Status_Vaccine_Applications
-     * const status_Vaccine_Applications = await prisma.status_Vaccine_Applications.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends Status_Vaccine_ApplicationsFindUniqueOrThrowArgs>(args: SelectSubset<T, Status_Vaccine_ApplicationsFindUniqueOrThrowArgs<ExtArgs>>): Prisma__Status_Vaccine_ApplicationsClient<$Result.GetResult<Prisma.$Status_Vaccine_ApplicationsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first Status_Vaccine_Applications that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {Status_Vaccine_ApplicationsFindFirstArgs} args - Arguments to find a Status_Vaccine_Applications
-     * @example
-     * // Get one Status_Vaccine_Applications
-     * const status_Vaccine_Applications = await prisma.status_Vaccine_Applications.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends Status_Vaccine_ApplicationsFindFirstArgs>(args?: SelectSubset<T, Status_Vaccine_ApplicationsFindFirstArgs<ExtArgs>>): Prisma__Status_Vaccine_ApplicationsClient<$Result.GetResult<Prisma.$Status_Vaccine_ApplicationsPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first Status_Vaccine_Applications that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {Status_Vaccine_ApplicationsFindFirstOrThrowArgs} args - Arguments to find a Status_Vaccine_Applications
-     * @example
-     * // Get one Status_Vaccine_Applications
-     * const status_Vaccine_Applications = await prisma.status_Vaccine_Applications.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends Status_Vaccine_ApplicationsFindFirstOrThrowArgs>(args?: SelectSubset<T, Status_Vaccine_ApplicationsFindFirstOrThrowArgs<ExtArgs>>): Prisma__Status_Vaccine_ApplicationsClient<$Result.GetResult<Prisma.$Status_Vaccine_ApplicationsPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find zero or more Status_Vaccine_Applications that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {Status_Vaccine_ApplicationsFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all Status_Vaccine_Applications
-     * const status_Vaccine_Applications = await prisma.status_Vaccine_Applications.findMany()
-     * 
-     * // Get first 10 Status_Vaccine_Applications
-     * const status_Vaccine_Applications = await prisma.status_Vaccine_Applications.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const status_Vaccine_ApplicationsWithIdOnly = await prisma.status_Vaccine_Applications.findMany({ select: { id: true } })
-     * 
-     */
-    findMany<T extends Status_Vaccine_ApplicationsFindManyArgs>(args?: SelectSubset<T, Status_Vaccine_ApplicationsFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$Status_Vaccine_ApplicationsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
-
-    /**
-     * Create a Status_Vaccine_Applications.
-     * @param {Status_Vaccine_ApplicationsCreateArgs} args - Arguments to create a Status_Vaccine_Applications.
-     * @example
-     * // Create one Status_Vaccine_Applications
-     * const Status_Vaccine_Applications = await prisma.status_Vaccine_Applications.create({
-     *   data: {
-     *     // ... data to create a Status_Vaccine_Applications
-     *   }
-     * })
-     * 
-     */
-    create<T extends Status_Vaccine_ApplicationsCreateArgs>(args: SelectSubset<T, Status_Vaccine_ApplicationsCreateArgs<ExtArgs>>): Prisma__Status_Vaccine_ApplicationsClient<$Result.GetResult<Prisma.$Status_Vaccine_ApplicationsPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Create many Status_Vaccine_Applications.
-     * @param {Status_Vaccine_ApplicationsCreateManyArgs} args - Arguments to create many Status_Vaccine_Applications.
-     * @example
-     * // Create many Status_Vaccine_Applications
-     * const status_Vaccine_Applications = await prisma.status_Vaccine_Applications.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *     
-     */
-    createMany<T extends Status_Vaccine_ApplicationsCreateManyArgs>(args?: SelectSubset<T, Status_Vaccine_ApplicationsCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Delete a Status_Vaccine_Applications.
-     * @param {Status_Vaccine_ApplicationsDeleteArgs} args - Arguments to delete one Status_Vaccine_Applications.
-     * @example
-     * // Delete one Status_Vaccine_Applications
-     * const Status_Vaccine_Applications = await prisma.status_Vaccine_Applications.delete({
-     *   where: {
-     *     // ... filter to delete one Status_Vaccine_Applications
-     *   }
-     * })
-     * 
-     */
-    delete<T extends Status_Vaccine_ApplicationsDeleteArgs>(args: SelectSubset<T, Status_Vaccine_ApplicationsDeleteArgs<ExtArgs>>): Prisma__Status_Vaccine_ApplicationsClient<$Result.GetResult<Prisma.$Status_Vaccine_ApplicationsPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Update one Status_Vaccine_Applications.
-     * @param {Status_Vaccine_ApplicationsUpdateArgs} args - Arguments to update one Status_Vaccine_Applications.
-     * @example
-     * // Update one Status_Vaccine_Applications
-     * const status_Vaccine_Applications = await prisma.status_Vaccine_Applications.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    update<T extends Status_Vaccine_ApplicationsUpdateArgs>(args: SelectSubset<T, Status_Vaccine_ApplicationsUpdateArgs<ExtArgs>>): Prisma__Status_Vaccine_ApplicationsClient<$Result.GetResult<Prisma.$Status_Vaccine_ApplicationsPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Delete zero or more Status_Vaccine_Applications.
-     * @param {Status_Vaccine_ApplicationsDeleteManyArgs} args - Arguments to filter Status_Vaccine_Applications to delete.
-     * @example
-     * // Delete a few Status_Vaccine_Applications
-     * const { count } = await prisma.status_Vaccine_Applications.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-     */
-    deleteMany<T extends Status_Vaccine_ApplicationsDeleteManyArgs>(args?: SelectSubset<T, Status_Vaccine_ApplicationsDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Status_Vaccine_Applications.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {Status_Vaccine_ApplicationsUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many Status_Vaccine_Applications
-     * const status_Vaccine_Applications = await prisma.status_Vaccine_Applications.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    updateMany<T extends Status_Vaccine_ApplicationsUpdateManyArgs>(args: SelectSubset<T, Status_Vaccine_ApplicationsUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create or update one Status_Vaccine_Applications.
-     * @param {Status_Vaccine_ApplicationsUpsertArgs} args - Arguments to update or create a Status_Vaccine_Applications.
-     * @example
-     * // Update or create a Status_Vaccine_Applications
-     * const status_Vaccine_Applications = await prisma.status_Vaccine_Applications.upsert({
-     *   create: {
-     *     // ... data to create a Status_Vaccine_Applications
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the Status_Vaccine_Applications we want to update
-     *   }
-     * })
-     */
-    upsert<T extends Status_Vaccine_ApplicationsUpsertArgs>(args: SelectSubset<T, Status_Vaccine_ApplicationsUpsertArgs<ExtArgs>>): Prisma__Status_Vaccine_ApplicationsClient<$Result.GetResult<Prisma.$Status_Vaccine_ApplicationsPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-
-    /**
-     * Count the number of Status_Vaccine_Applications.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {Status_Vaccine_ApplicationsCountArgs} args - Arguments to filter Status_Vaccine_Applications to count.
-     * @example
-     * // Count the number of Status_Vaccine_Applications
-     * const count = await prisma.status_Vaccine_Applications.count({
-     *   where: {
-     *     // ... the filter for the Status_Vaccine_Applications we want to count
-     *   }
-     * })
-    **/
-    count<T extends Status_Vaccine_ApplicationsCountArgs>(
-      args?: Subset<T, Status_Vaccine_ApplicationsCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], Status_Vaccine_ApplicationsCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a Status_Vaccine_Applications.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {Status_Vaccine_ApplicationsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends Status_Vaccine_ApplicationsAggregateArgs>(args: Subset<T, Status_Vaccine_ApplicationsAggregateArgs>): Prisma.PrismaPromise<GetStatus_Vaccine_ApplicationsAggregateType<T>>
-
-    /**
-     * Group by Status_Vaccine_Applications.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {Status_Vaccine_ApplicationsGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends Status_Vaccine_ApplicationsGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: Status_Vaccine_ApplicationsGroupByArgs['orderBy'] }
-        : { orderBy?: Status_Vaccine_ApplicationsGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, Status_Vaccine_ApplicationsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetStatus_Vaccine_ApplicationsGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the Status_Vaccine_Applications model
-   */
-  readonly fields: Status_Vaccine_ApplicationsFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for Status_Vaccine_Applications.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__Status_Vaccine_ApplicationsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    Applications<T extends Status_Vaccine_Applications$ApplicationsArgs<ExtArgs> = {}>(args?: Subset<T, Status_Vaccine_Applications$ApplicationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ApplicationsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
-  }
-
-
-
-
-  /**
-   * Fields of the Status_Vaccine_Applications model
-   */
-  interface Status_Vaccine_ApplicationsFieldRefs {
-    readonly id: FieldRef<"Status_Vaccine_Applications", 'Int'>
-    readonly name: FieldRef<"Status_Vaccine_Applications", 'String'>
-  }
-    
-
-  // Custom InputTypes
-  /**
-   * Status_Vaccine_Applications findUnique
-   */
-  export type Status_Vaccine_ApplicationsFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Status_Vaccine_Applications
-     */
-    select?: Status_Vaccine_ApplicationsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Status_Vaccine_Applications
-     */
-    omit?: Status_Vaccine_ApplicationsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: Status_Vaccine_ApplicationsInclude<ExtArgs> | null
-    /**
-     * Filter, which Status_Vaccine_Applications to fetch.
-     */
-    where: Status_Vaccine_ApplicationsWhereUniqueInput
-  }
-
-  /**
-   * Status_Vaccine_Applications findUniqueOrThrow
-   */
-  export type Status_Vaccine_ApplicationsFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Status_Vaccine_Applications
-     */
-    select?: Status_Vaccine_ApplicationsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Status_Vaccine_Applications
-     */
-    omit?: Status_Vaccine_ApplicationsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: Status_Vaccine_ApplicationsInclude<ExtArgs> | null
-    /**
-     * Filter, which Status_Vaccine_Applications to fetch.
-     */
-    where: Status_Vaccine_ApplicationsWhereUniqueInput
-  }
-
-  /**
-   * Status_Vaccine_Applications findFirst
-   */
-  export type Status_Vaccine_ApplicationsFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Status_Vaccine_Applications
-     */
-    select?: Status_Vaccine_ApplicationsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Status_Vaccine_Applications
-     */
-    omit?: Status_Vaccine_ApplicationsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: Status_Vaccine_ApplicationsInclude<ExtArgs> | null
-    /**
-     * Filter, which Status_Vaccine_Applications to fetch.
-     */
-    where?: Status_Vaccine_ApplicationsWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Status_Vaccine_Applications to fetch.
-     */
-    orderBy?: Status_Vaccine_ApplicationsOrderByWithRelationInput | Status_Vaccine_ApplicationsOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Status_Vaccine_Applications.
-     */
-    cursor?: Status_Vaccine_ApplicationsWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Status_Vaccine_Applications from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Status_Vaccine_Applications.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Status_Vaccine_Applications.
-     */
-    distinct?: Status_Vaccine_ApplicationsScalarFieldEnum | Status_Vaccine_ApplicationsScalarFieldEnum[]
-  }
-
-  /**
-   * Status_Vaccine_Applications findFirstOrThrow
-   */
-  export type Status_Vaccine_ApplicationsFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Status_Vaccine_Applications
-     */
-    select?: Status_Vaccine_ApplicationsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Status_Vaccine_Applications
-     */
-    omit?: Status_Vaccine_ApplicationsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: Status_Vaccine_ApplicationsInclude<ExtArgs> | null
-    /**
-     * Filter, which Status_Vaccine_Applications to fetch.
-     */
-    where?: Status_Vaccine_ApplicationsWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Status_Vaccine_Applications to fetch.
-     */
-    orderBy?: Status_Vaccine_ApplicationsOrderByWithRelationInput | Status_Vaccine_ApplicationsOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Status_Vaccine_Applications.
-     */
-    cursor?: Status_Vaccine_ApplicationsWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Status_Vaccine_Applications from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Status_Vaccine_Applications.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Status_Vaccine_Applications.
-     */
-    distinct?: Status_Vaccine_ApplicationsScalarFieldEnum | Status_Vaccine_ApplicationsScalarFieldEnum[]
-  }
-
-  /**
-   * Status_Vaccine_Applications findMany
-   */
-  export type Status_Vaccine_ApplicationsFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Status_Vaccine_Applications
-     */
-    select?: Status_Vaccine_ApplicationsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Status_Vaccine_Applications
-     */
-    omit?: Status_Vaccine_ApplicationsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: Status_Vaccine_ApplicationsInclude<ExtArgs> | null
-    /**
-     * Filter, which Status_Vaccine_Applications to fetch.
-     */
-    where?: Status_Vaccine_ApplicationsWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Status_Vaccine_Applications to fetch.
-     */
-    orderBy?: Status_Vaccine_ApplicationsOrderByWithRelationInput | Status_Vaccine_ApplicationsOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing Status_Vaccine_Applications.
-     */
-    cursor?: Status_Vaccine_ApplicationsWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Status_Vaccine_Applications from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Status_Vaccine_Applications.
-     */
-    skip?: number
-    distinct?: Status_Vaccine_ApplicationsScalarFieldEnum | Status_Vaccine_ApplicationsScalarFieldEnum[]
-  }
-
-  /**
-   * Status_Vaccine_Applications create
-   */
-  export type Status_Vaccine_ApplicationsCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Status_Vaccine_Applications
-     */
-    select?: Status_Vaccine_ApplicationsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Status_Vaccine_Applications
-     */
-    omit?: Status_Vaccine_ApplicationsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: Status_Vaccine_ApplicationsInclude<ExtArgs> | null
-    /**
-     * The data needed to create a Status_Vaccine_Applications.
-     */
-    data: XOR<Status_Vaccine_ApplicationsCreateInput, Status_Vaccine_ApplicationsUncheckedCreateInput>
-  }
-
-  /**
-   * Status_Vaccine_Applications createMany
-   */
-  export type Status_Vaccine_ApplicationsCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many Status_Vaccine_Applications.
-     */
-    data: Status_Vaccine_ApplicationsCreateManyInput | Status_Vaccine_ApplicationsCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * Status_Vaccine_Applications update
-   */
-  export type Status_Vaccine_ApplicationsUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Status_Vaccine_Applications
-     */
-    select?: Status_Vaccine_ApplicationsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Status_Vaccine_Applications
-     */
-    omit?: Status_Vaccine_ApplicationsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: Status_Vaccine_ApplicationsInclude<ExtArgs> | null
-    /**
-     * The data needed to update a Status_Vaccine_Applications.
-     */
-    data: XOR<Status_Vaccine_ApplicationsUpdateInput, Status_Vaccine_ApplicationsUncheckedUpdateInput>
-    /**
-     * Choose, which Status_Vaccine_Applications to update.
-     */
-    where: Status_Vaccine_ApplicationsWhereUniqueInput
-  }
-
-  /**
-   * Status_Vaccine_Applications updateMany
-   */
-  export type Status_Vaccine_ApplicationsUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update Status_Vaccine_Applications.
-     */
-    data: XOR<Status_Vaccine_ApplicationsUpdateManyMutationInput, Status_Vaccine_ApplicationsUncheckedUpdateManyInput>
-    /**
-     * Filter which Status_Vaccine_Applications to update
-     */
-    where?: Status_Vaccine_ApplicationsWhereInput
-    /**
-     * Limit how many Status_Vaccine_Applications to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * Status_Vaccine_Applications upsert
-   */
-  export type Status_Vaccine_ApplicationsUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Status_Vaccine_Applications
-     */
-    select?: Status_Vaccine_ApplicationsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Status_Vaccine_Applications
-     */
-    omit?: Status_Vaccine_ApplicationsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: Status_Vaccine_ApplicationsInclude<ExtArgs> | null
-    /**
-     * The filter to search for the Status_Vaccine_Applications to update in case it exists.
-     */
-    where: Status_Vaccine_ApplicationsWhereUniqueInput
-    /**
-     * In case the Status_Vaccine_Applications found by the `where` argument doesn't exist, create a new Status_Vaccine_Applications with this data.
-     */
-    create: XOR<Status_Vaccine_ApplicationsCreateInput, Status_Vaccine_ApplicationsUncheckedCreateInput>
-    /**
-     * In case the Status_Vaccine_Applications was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<Status_Vaccine_ApplicationsUpdateInput, Status_Vaccine_ApplicationsUncheckedUpdateInput>
-  }
-
-  /**
-   * Status_Vaccine_Applications delete
-   */
-  export type Status_Vaccine_ApplicationsDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Status_Vaccine_Applications
-     */
-    select?: Status_Vaccine_ApplicationsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Status_Vaccine_Applications
-     */
-    omit?: Status_Vaccine_ApplicationsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: Status_Vaccine_ApplicationsInclude<ExtArgs> | null
-    /**
-     * Filter which Status_Vaccine_Applications to delete.
-     */
-    where: Status_Vaccine_ApplicationsWhereUniqueInput
-  }
-
-  /**
-   * Status_Vaccine_Applications deleteMany
-   */
-  export type Status_Vaccine_ApplicationsDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which Status_Vaccine_Applications to delete
-     */
-    where?: Status_Vaccine_ApplicationsWhereInput
-    /**
-     * Limit how many Status_Vaccine_Applications to delete.
-     */
-    limit?: number
-  }
-
-  /**
-   * Status_Vaccine_Applications.Applications
-   */
-  export type Status_Vaccine_Applications$ApplicationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Applications
-     */
-    select?: ApplicationsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Applications
-     */
-    omit?: ApplicationsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ApplicationsInclude<ExtArgs> | null
-    where?: ApplicationsWhereInput
-    orderBy?: ApplicationsOrderByWithRelationInput | ApplicationsOrderByWithRelationInput[]
-    cursor?: ApplicationsWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: ApplicationsScalarFieldEnum | ApplicationsScalarFieldEnum[]
-  }
-
-  /**
-   * Status_Vaccine_Applications without action
-   */
-  export type Status_Vaccine_ApplicationsDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Status_Vaccine_Applications
-     */
-    select?: Status_Vaccine_ApplicationsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Status_Vaccine_Applications
-     */
-    omit?: Status_Vaccine_ApplicationsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: Status_Vaccine_ApplicationsInclude<ExtArgs> | null
   }
 
 
@@ -16462,13 +14375,24 @@ export namespace Prisma {
   export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
+  export const FarmsScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    created_at: 'created_at',
+    updated_at: 'updated_at'
+  };
+
+  export type FarmsScalarFieldEnum = (typeof FarmsScalarFieldEnum)[keyof typeof FarmsScalarFieldEnum]
+
+
   export const UsersScalarFieldEnum: {
     id: 'id',
     name: 'name',
     email: 'email',
     password: 'password',
     profile_photo: 'profile_photo',
-    role_id: 'role_id',
+    role: 'role',
+    farm_id: 'farm_id',
     created_at: 'created_at',
     updated_at: 'updated_at'
   };
@@ -16476,23 +14400,12 @@ export namespace Prisma {
   export type UsersScalarFieldEnum = (typeof UsersScalarFieldEnum)[keyof typeof UsersScalarFieldEnum]
 
 
-  export const RolesScalarFieldEnum: {
-    id: 'id',
-    name: 'name',
-    description: 'description',
-    created_at: 'created_at',
-    updated_at: 'updated_at'
-  };
-
-  export type RolesScalarFieldEnum = (typeof RolesScalarFieldEnum)[keyof typeof RolesScalarFieldEnum]
-
-
-  export const Farm_WorkersScalarFieldEnum: {
+  export const FarmhandsScalarFieldEnum: {
     id: 'id',
     user_id: 'user_id'
   };
 
-  export type Farm_WorkersScalarFieldEnum = (typeof Farm_WorkersScalarFieldEnum)[keyof typeof Farm_WorkersScalarFieldEnum]
+  export type FarmhandsScalarFieldEnum = (typeof FarmhandsScalarFieldEnum)[keyof typeof FarmhandsScalarFieldEnum]
 
 
   export const VeterinariansScalarFieldEnum: {
@@ -16510,7 +14423,8 @@ export namespace Prisma {
     breed_id: 'breed_id',
     birth_date: 'birth_date',
     weight: 'weight',
-    health_status_id: 'health_status_id',
+    health_status: 'health_status',
+    farm_id: 'farm_id',
     created_at: 'created_at',
     updated_at: 'updated_at'
   };
@@ -16543,17 +14457,6 @@ export namespace Prisma {
   };
 
   export type BreedsScalarFieldEnum = (typeof BreedsScalarFieldEnum)[keyof typeof BreedsScalarFieldEnum]
-
-
-  export const Health_StatusScalarFieldEnum: {
-    id: 'id',
-    name: 'name',
-    description: 'description',
-    created_at: 'created_at',
-    updated_at: 'updated_at'
-  };
-
-  export type Health_StatusScalarFieldEnum = (typeof Health_StatusScalarFieldEnum)[keyof typeof Health_StatusScalarFieldEnum]
 
 
   export const VaccinesScalarFieldEnum: {
@@ -16606,20 +14509,12 @@ export namespace Prisma {
     veterinary_id: 'veterinary_id',
     application_date: 'application_date',
     next_application_date: 'next_application_date',
-    status_vaccine_application_id: 'status_vaccine_application_id',
+    status_vaccine_application: 'status_vaccine_application',
     created_at: 'created_at',
     updated_at: 'updated_at'
   };
 
   export type ApplicationsScalarFieldEnum = (typeof ApplicationsScalarFieldEnum)[keyof typeof ApplicationsScalarFieldEnum]
-
-
-  export const Status_Vaccine_ApplicationsScalarFieldEnum: {
-    id: 'id',
-    name: 'name'
-  };
-
-  export type Status_Vaccine_ApplicationsScalarFieldEnum = (typeof Status_Vaccine_ApplicationsScalarFieldEnum)[keyof typeof Status_Vaccine_ApplicationsScalarFieldEnum]
 
 
   export const LocationsScalarFieldEnum: {
@@ -16643,6 +14538,13 @@ export namespace Prisma {
   export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
+  export const FarmsOrderByRelevanceFieldEnum: {
+    name: 'name'
+  };
+
+  export type FarmsOrderByRelevanceFieldEnum = (typeof FarmsOrderByRelevanceFieldEnum)[keyof typeof FarmsOrderByRelevanceFieldEnum]
+
+
   export const NullsOrder: {
     first: 'first',
     last: 'last'
@@ -16659,14 +14561,6 @@ export namespace Prisma {
   };
 
   export type UsersOrderByRelevanceFieldEnum = (typeof UsersOrderByRelevanceFieldEnum)[keyof typeof UsersOrderByRelevanceFieldEnum]
-
-
-  export const RolesOrderByRelevanceFieldEnum: {
-    name: 'name',
-    description: 'description'
-  };
-
-  export type RolesOrderByRelevanceFieldEnum = (typeof RolesOrderByRelevanceFieldEnum)[keyof typeof RolesOrderByRelevanceFieldEnum]
 
 
   export const AnimalsOrderByRelevanceFieldEnum: {
@@ -16691,14 +14585,6 @@ export namespace Prisma {
   };
 
   export type BreedsOrderByRelevanceFieldEnum = (typeof BreedsOrderByRelevanceFieldEnum)[keyof typeof BreedsOrderByRelevanceFieldEnum]
-
-
-  export const Health_StatusOrderByRelevanceFieldEnum: {
-    name: 'name',
-    description: 'description'
-  };
-
-  export type Health_StatusOrderByRelevanceFieldEnum = (typeof Health_StatusOrderByRelevanceFieldEnum)[keyof typeof Health_StatusOrderByRelevanceFieldEnum]
 
 
   export const VaccinesOrderByRelevanceFieldEnum: {
@@ -16732,13 +14618,6 @@ export namespace Prisma {
   export type Types_of_VaccinesOrderByRelevanceFieldEnum = (typeof Types_of_VaccinesOrderByRelevanceFieldEnum)[keyof typeof Types_of_VaccinesOrderByRelevanceFieldEnum]
 
 
-  export const Status_Vaccine_ApplicationsOrderByRelevanceFieldEnum: {
-    name: 'name'
-  };
-
-  export type Status_Vaccine_ApplicationsOrderByRelevanceFieldEnum = (typeof Status_Vaccine_ApplicationsOrderByRelevanceFieldEnum)[keyof typeof Status_Vaccine_ApplicationsOrderByRelevanceFieldEnum]
-
-
   /**
    * Field references
    */
@@ -16766,14 +14645,91 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Roles'
+   */
+  export type EnumRolesFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Roles'>
+    
+
+
+  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+    
+
+
+  /**
+   * Reference to a field of type 'Health_Status'
+   */
+  export type EnumHealth_StatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Health_Status'>
+    
+
+
+  /**
+   * Reference to a field of type 'Status_Vaccine_Applications'
+   */
+  export type EnumStatus_Vaccine_ApplicationsFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Status_Vaccine_Applications'>
     
   /**
    * Deep Input Types
    */
 
+
+  export type FarmsWhereInput = {
+    AND?: FarmsWhereInput | FarmsWhereInput[]
+    OR?: FarmsWhereInput[]
+    NOT?: FarmsWhereInput | FarmsWhereInput[]
+    id?: IntFilter<"Farms"> | number
+    name?: StringFilter<"Farms"> | string
+    created_at?: DateTimeFilter<"Farms"> | Date | string
+    updated_at?: DateTimeFilter<"Farms"> | Date | string
+    user?: UsersListRelationFilter
+    animal?: AnimalsListRelationFilter
+  }
+
+  export type FarmsOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    user?: UsersOrderByRelationAggregateInput
+    animal?: AnimalsOrderByRelationAggregateInput
+    _relevance?: FarmsOrderByRelevanceInput
+  }
+
+  export type FarmsWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: FarmsWhereInput | FarmsWhereInput[]
+    OR?: FarmsWhereInput[]
+    NOT?: FarmsWhereInput | FarmsWhereInput[]
+    name?: StringFilter<"Farms"> | string
+    created_at?: DateTimeFilter<"Farms"> | Date | string
+    updated_at?: DateTimeFilter<"Farms"> | Date | string
+    user?: UsersListRelationFilter
+    animal?: AnimalsListRelationFilter
+  }, "id">
+
+  export type FarmsOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    _count?: FarmsCountOrderByAggregateInput
+    _avg?: FarmsAvgOrderByAggregateInput
+    _max?: FarmsMaxOrderByAggregateInput
+    _min?: FarmsMinOrderByAggregateInput
+    _sum?: FarmsSumOrderByAggregateInput
+  }
+
+  export type FarmsScalarWhereWithAggregatesInput = {
+    AND?: FarmsScalarWhereWithAggregatesInput | FarmsScalarWhereWithAggregatesInput[]
+    OR?: FarmsScalarWhereWithAggregatesInput[]
+    NOT?: FarmsScalarWhereWithAggregatesInput | FarmsScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"Farms"> | number
+    name?: StringWithAggregatesFilter<"Farms"> | string
+    created_at?: DateTimeWithAggregatesFilter<"Farms"> | Date | string
+    updated_at?: DateTimeWithAggregatesFilter<"Farms"> | Date | string
+  }
 
   export type UsersWhereInput = {
     AND?: UsersWhereInput | UsersWhereInput[]
@@ -16784,12 +14740,13 @@ export namespace Prisma {
     email?: StringFilter<"Users"> | string
     password?: StringFilter<"Users"> | string
     profile_photo?: StringNullableFilter<"Users"> | string | null
-    role_id?: IntFilter<"Users"> | number
+    role?: EnumRolesFilter<"Users"> | $Enums.Roles
+    farm_id?: IntFilter<"Users"> | number
     created_at?: DateTimeFilter<"Users"> | Date | string
     updated_at?: DateTimeFilter<"Users"> | Date | string
-    role?: XOR<RolesScalarRelationFilter, RolesWhereInput>
-    Farm_Workers?: XOR<Farm_WorkersNullableScalarRelationFilter, Farm_WorkersWhereInput> | null
-    Veterinarians?: XOR<VeterinariansNullableScalarRelationFilter, VeterinariansWhereInput> | null
+    farmhand?: XOR<FarmhandsNullableScalarRelationFilter, FarmhandsWhereInput> | null
+    veterinary?: XOR<VeterinariansNullableScalarRelationFilter, VeterinariansWhereInput> | null
+    farm?: XOR<FarmsScalarRelationFilter, FarmsWhereInput>
   }
 
   export type UsersOrderByWithRelationInput = {
@@ -16798,12 +14755,13 @@ export namespace Prisma {
     email?: SortOrder
     password?: SortOrder
     profile_photo?: SortOrderInput | SortOrder
-    role_id?: SortOrder
+    role?: SortOrder
+    farm_id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
-    role?: RolesOrderByWithRelationInput
-    Farm_Workers?: Farm_WorkersOrderByWithRelationInput
-    Veterinarians?: VeterinariansOrderByWithRelationInput
+    farmhand?: FarmhandsOrderByWithRelationInput
+    veterinary?: VeterinariansOrderByWithRelationInput
+    farm?: FarmsOrderByWithRelationInput
     _relevance?: UsersOrderByRelevanceInput
   }
 
@@ -16816,12 +14774,13 @@ export namespace Prisma {
     name?: StringFilter<"Users"> | string
     password?: StringFilter<"Users"> | string
     profile_photo?: StringNullableFilter<"Users"> | string | null
-    role_id?: IntFilter<"Users"> | number
+    role?: EnumRolesFilter<"Users"> | $Enums.Roles
+    farm_id?: IntFilter<"Users"> | number
     created_at?: DateTimeFilter<"Users"> | Date | string
     updated_at?: DateTimeFilter<"Users"> | Date | string
-    role?: XOR<RolesScalarRelationFilter, RolesWhereInput>
-    Farm_Workers?: XOR<Farm_WorkersNullableScalarRelationFilter, Farm_WorkersWhereInput> | null
-    Veterinarians?: XOR<VeterinariansNullableScalarRelationFilter, VeterinariansWhereInput> | null
+    farmhand?: XOR<FarmhandsNullableScalarRelationFilter, FarmhandsWhereInput> | null
+    veterinary?: XOR<VeterinariansNullableScalarRelationFilter, VeterinariansWhereInput> | null
+    farm?: XOR<FarmsScalarRelationFilter, FarmsWhereInput>
   }, "id" | "email">
 
   export type UsersOrderByWithAggregationInput = {
@@ -16830,7 +14789,8 @@ export namespace Prisma {
     email?: SortOrder
     password?: SortOrder
     profile_photo?: SortOrderInput | SortOrder
-    role_id?: SortOrder
+    role?: SortOrder
+    farm_id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     _count?: UsersCountOrderByAggregateInput
@@ -16849,109 +14809,52 @@ export namespace Prisma {
     email?: StringWithAggregatesFilter<"Users"> | string
     password?: StringWithAggregatesFilter<"Users"> | string
     profile_photo?: StringNullableWithAggregatesFilter<"Users"> | string | null
-    role_id?: IntWithAggregatesFilter<"Users"> | number
+    role?: EnumRolesWithAggregatesFilter<"Users"> | $Enums.Roles
+    farm_id?: IntWithAggregatesFilter<"Users"> | number
     created_at?: DateTimeWithAggregatesFilter<"Users"> | Date | string
     updated_at?: DateTimeWithAggregatesFilter<"Users"> | Date | string
   }
 
-  export type RolesWhereInput = {
-    AND?: RolesWhereInput | RolesWhereInput[]
-    OR?: RolesWhereInput[]
-    NOT?: RolesWhereInput | RolesWhereInput[]
-    id?: IntFilter<"Roles"> | number
-    name?: StringFilter<"Roles"> | string
-    description?: StringNullableFilter<"Roles"> | string | null
-    created_at?: DateTimeFilter<"Roles"> | Date | string
-    updated_at?: DateTimeFilter<"Roles"> | Date | string
-    Users?: UsersListRelationFilter
-  }
-
-  export type RolesOrderByWithRelationInput = {
-    id?: SortOrder
-    name?: SortOrder
-    description?: SortOrderInput | SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
-    Users?: UsersOrderByRelationAggregateInput
-    _relevance?: RolesOrderByRelevanceInput
-  }
-
-  export type RolesWhereUniqueInput = Prisma.AtLeast<{
-    id?: number
-    AND?: RolesWhereInput | RolesWhereInput[]
-    OR?: RolesWhereInput[]
-    NOT?: RolesWhereInput | RolesWhereInput[]
-    name?: StringFilter<"Roles"> | string
-    description?: StringNullableFilter<"Roles"> | string | null
-    created_at?: DateTimeFilter<"Roles"> | Date | string
-    updated_at?: DateTimeFilter<"Roles"> | Date | string
-    Users?: UsersListRelationFilter
-  }, "id">
-
-  export type RolesOrderByWithAggregationInput = {
-    id?: SortOrder
-    name?: SortOrder
-    description?: SortOrderInput | SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
-    _count?: RolesCountOrderByAggregateInput
-    _avg?: RolesAvgOrderByAggregateInput
-    _max?: RolesMaxOrderByAggregateInput
-    _min?: RolesMinOrderByAggregateInput
-    _sum?: RolesSumOrderByAggregateInput
-  }
-
-  export type RolesScalarWhereWithAggregatesInput = {
-    AND?: RolesScalarWhereWithAggregatesInput | RolesScalarWhereWithAggregatesInput[]
-    OR?: RolesScalarWhereWithAggregatesInput[]
-    NOT?: RolesScalarWhereWithAggregatesInput | RolesScalarWhereWithAggregatesInput[]
-    id?: IntWithAggregatesFilter<"Roles"> | number
-    name?: StringWithAggregatesFilter<"Roles"> | string
-    description?: StringNullableWithAggregatesFilter<"Roles"> | string | null
-    created_at?: DateTimeWithAggregatesFilter<"Roles"> | Date | string
-    updated_at?: DateTimeWithAggregatesFilter<"Roles"> | Date | string
-  }
-
-  export type Farm_WorkersWhereInput = {
-    AND?: Farm_WorkersWhereInput | Farm_WorkersWhereInput[]
-    OR?: Farm_WorkersWhereInput[]
-    NOT?: Farm_WorkersWhereInput | Farm_WorkersWhereInput[]
-    id?: IntFilter<"Farm_Workers"> | number
-    user_id?: IntFilter<"Farm_Workers"> | number
+  export type FarmhandsWhereInput = {
+    AND?: FarmhandsWhereInput | FarmhandsWhereInput[]
+    OR?: FarmhandsWhereInput[]
+    NOT?: FarmhandsWhereInput | FarmhandsWhereInput[]
+    id?: IntFilter<"Farmhands"> | number
+    user_id?: IntFilter<"Farmhands"> | number
     user?: XOR<UsersScalarRelationFilter, UsersWhereInput>
   }
 
-  export type Farm_WorkersOrderByWithRelationInput = {
+  export type FarmhandsOrderByWithRelationInput = {
     id?: SortOrder
     user_id?: SortOrder
     user?: UsersOrderByWithRelationInput
   }
 
-  export type Farm_WorkersWhereUniqueInput = Prisma.AtLeast<{
+  export type FarmhandsWhereUniqueInput = Prisma.AtLeast<{
     id?: number
     user_id?: number
-    AND?: Farm_WorkersWhereInput | Farm_WorkersWhereInput[]
-    OR?: Farm_WorkersWhereInput[]
-    NOT?: Farm_WorkersWhereInput | Farm_WorkersWhereInput[]
+    AND?: FarmhandsWhereInput | FarmhandsWhereInput[]
+    OR?: FarmhandsWhereInput[]
+    NOT?: FarmhandsWhereInput | FarmhandsWhereInput[]
     user?: XOR<UsersScalarRelationFilter, UsersWhereInput>
   }, "id" | "user_id">
 
-  export type Farm_WorkersOrderByWithAggregationInput = {
+  export type FarmhandsOrderByWithAggregationInput = {
     id?: SortOrder
     user_id?: SortOrder
-    _count?: Farm_WorkersCountOrderByAggregateInput
-    _avg?: Farm_WorkersAvgOrderByAggregateInput
-    _max?: Farm_WorkersMaxOrderByAggregateInput
-    _min?: Farm_WorkersMinOrderByAggregateInput
-    _sum?: Farm_WorkersSumOrderByAggregateInput
+    _count?: FarmhandsCountOrderByAggregateInput
+    _avg?: FarmhandsAvgOrderByAggregateInput
+    _max?: FarmhandsMaxOrderByAggregateInput
+    _min?: FarmhandsMinOrderByAggregateInput
+    _sum?: FarmhandsSumOrderByAggregateInput
   }
 
-  export type Farm_WorkersScalarWhereWithAggregatesInput = {
-    AND?: Farm_WorkersScalarWhereWithAggregatesInput | Farm_WorkersScalarWhereWithAggregatesInput[]
-    OR?: Farm_WorkersScalarWhereWithAggregatesInput[]
-    NOT?: Farm_WorkersScalarWhereWithAggregatesInput | Farm_WorkersScalarWhereWithAggregatesInput[]
-    id?: IntWithAggregatesFilter<"Farm_Workers"> | number
-    user_id?: IntWithAggregatesFilter<"Farm_Workers"> | number
+  export type FarmhandsScalarWhereWithAggregatesInput = {
+    AND?: FarmhandsScalarWhereWithAggregatesInput | FarmhandsScalarWhereWithAggregatesInput[]
+    OR?: FarmhandsScalarWhereWithAggregatesInput[]
+    NOT?: FarmhandsScalarWhereWithAggregatesInput | FarmhandsScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"Farmhands"> | number
+    user_id?: IntWithAggregatesFilter<"Farmhands"> | number
   }
 
   export type VeterinariansWhereInput = {
@@ -16961,14 +14864,14 @@ export namespace Prisma {
     id?: IntFilter<"Veterinarians"> | number
     user_id?: IntFilter<"Veterinarians"> | number
     user?: XOR<UsersScalarRelationFilter, UsersWhereInput>
-    Applications?: ApplicationsListRelationFilter
+    application?: ApplicationsListRelationFilter
   }
 
   export type VeterinariansOrderByWithRelationInput = {
     id?: SortOrder
     user_id?: SortOrder
     user?: UsersOrderByWithRelationInput
-    Applications?: ApplicationsOrderByRelationAggregateInput
+    application?: ApplicationsOrderByRelationAggregateInput
   }
 
   export type VeterinariansWhereUniqueInput = Prisma.AtLeast<{
@@ -16978,7 +14881,7 @@ export namespace Prisma {
     OR?: VeterinariansWhereInput[]
     NOT?: VeterinariansWhereInput | VeterinariansWhereInput[]
     user?: XOR<UsersScalarRelationFilter, UsersWhereInput>
-    Applications?: ApplicationsListRelationFilter
+    application?: ApplicationsListRelationFilter
   }, "id" | "user_id">
 
   export type VeterinariansOrderByWithAggregationInput = {
@@ -17009,14 +14912,15 @@ export namespace Prisma {
     breed_id?: IntFilter<"Animals"> | number
     birth_date?: DateTimeFilter<"Animals"> | Date | string
     weight?: FloatFilter<"Animals"> | number
-    health_status_id?: IntFilter<"Animals"> | number
+    health_status?: EnumHealth_StatusFilter<"Animals"> | $Enums.Health_Status
+    farm_id?: IntFilter<"Animals"> | number
     created_at?: DateTimeFilter<"Animals"> | Date | string
     updated_at?: DateTimeFilter<"Animals"> | Date | string
     species?: XOR<SpeciesScalarRelationFilter, SpeciesWhereInput>
     breed?: XOR<BreedsScalarRelationFilter, BreedsWhereInput>
-    health_status?: XOR<Health_StatusScalarRelationFilter, Health_StatusWhereInput>
-    Locations?: LocationsListRelationFilter
-    Applications?: ApplicationsListRelationFilter
+    farm?: XOR<FarmsScalarRelationFilter, FarmsWhereInput>
+    location?: LocationsListRelationFilter
+    application?: ApplicationsListRelationFilter
   }
 
   export type AnimalsOrderByWithRelationInput = {
@@ -17026,14 +14930,15 @@ export namespace Prisma {
     breed_id?: SortOrder
     birth_date?: SortOrder
     weight?: SortOrder
-    health_status_id?: SortOrder
+    health_status?: SortOrder
+    farm_id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     species?: SpeciesOrderByWithRelationInput
     breed?: BreedsOrderByWithRelationInput
-    health_status?: Health_StatusOrderByWithRelationInput
-    Locations?: LocationsOrderByRelationAggregateInput
-    Applications?: ApplicationsOrderByRelationAggregateInput
+    farm?: FarmsOrderByWithRelationInput
+    location?: LocationsOrderByRelationAggregateInput
+    application?: ApplicationsOrderByRelationAggregateInput
     _relevance?: AnimalsOrderByRelevanceInput
   }
 
@@ -17047,14 +14952,15 @@ export namespace Prisma {
     breed_id?: IntFilter<"Animals"> | number
     birth_date?: DateTimeFilter<"Animals"> | Date | string
     weight?: FloatFilter<"Animals"> | number
-    health_status_id?: IntFilter<"Animals"> | number
+    health_status?: EnumHealth_StatusFilter<"Animals"> | $Enums.Health_Status
+    farm_id?: IntFilter<"Animals"> | number
     created_at?: DateTimeFilter<"Animals"> | Date | string
     updated_at?: DateTimeFilter<"Animals"> | Date | string
     species?: XOR<SpeciesScalarRelationFilter, SpeciesWhereInput>
     breed?: XOR<BreedsScalarRelationFilter, BreedsWhereInput>
-    health_status?: XOR<Health_StatusScalarRelationFilter, Health_StatusWhereInput>
-    Locations?: LocationsListRelationFilter
-    Applications?: ApplicationsListRelationFilter
+    farm?: XOR<FarmsScalarRelationFilter, FarmsWhereInput>
+    location?: LocationsListRelationFilter
+    application?: ApplicationsListRelationFilter
   }, "id">
 
   export type AnimalsOrderByWithAggregationInput = {
@@ -17064,7 +14970,8 @@ export namespace Prisma {
     breed_id?: SortOrder
     birth_date?: SortOrder
     weight?: SortOrder
-    health_status_id?: SortOrder
+    health_status?: SortOrder
+    farm_id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     _count?: AnimalsCountOrderByAggregateInput
@@ -17084,7 +14991,8 @@ export namespace Prisma {
     breed_id?: IntWithAggregatesFilter<"Animals"> | number
     birth_date?: DateTimeWithAggregatesFilter<"Animals"> | Date | string
     weight?: FloatWithAggregatesFilter<"Animals"> | number
-    health_status_id?: IntWithAggregatesFilter<"Animals"> | number
+    health_status?: EnumHealth_StatusWithAggregatesFilter<"Animals"> | $Enums.Health_Status
+    farm_id?: IntWithAggregatesFilter<"Animals"> | number
     created_at?: DateTimeWithAggregatesFilter<"Animals"> | Date | string
     updated_at?: DateTimeWithAggregatesFilter<"Animals"> | Date | string
   }
@@ -17100,8 +15008,8 @@ export namespace Prisma {
     gestation_period?: IntNullableFilter<"Species"> | number | null
     created_at?: DateTimeFilter<"Species"> | Date | string
     updated_at?: DateTimeFilter<"Species"> | Date | string
-    animals?: AnimalsListRelationFilter
-    breeds?: BreedsListRelationFilter
+    animal?: AnimalsListRelationFilter
+    breed?: BreedsListRelationFilter
   }
 
   export type SpeciesOrderByWithRelationInput = {
@@ -17112,8 +15020,8 @@ export namespace Prisma {
     gestation_period?: SortOrderInput | SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
-    animals?: AnimalsOrderByRelationAggregateInput
-    breeds?: BreedsOrderByRelationAggregateInput
+    animal?: AnimalsOrderByRelationAggregateInput
+    breed?: BreedsOrderByRelationAggregateInput
     _relevance?: SpeciesOrderByRelevanceInput
   }
 
@@ -17128,8 +15036,8 @@ export namespace Prisma {
     gestation_period?: IntNullableFilter<"Species"> | number | null
     created_at?: DateTimeFilter<"Species"> | Date | string
     updated_at?: DateTimeFilter<"Species"> | Date | string
-    animals?: AnimalsListRelationFilter
-    breeds?: BreedsListRelationFilter
+    animal?: AnimalsListRelationFilter
+    breed?: BreedsListRelationFilter
   }, "id">
 
   export type SpeciesOrderByWithAggregationInput = {
@@ -17173,7 +15081,7 @@ export namespace Prisma {
     created_at?: DateTimeFilter<"Breeds"> | Date | string
     updated_at?: DateTimeFilter<"Breeds"> | Date | string
     species?: XOR<SpeciesScalarRelationFilter, SpeciesWhereInput>
-    animals?: AnimalsListRelationFilter
+    animal?: AnimalsListRelationFilter
   }
 
   export type BreedsOrderByWithRelationInput = {
@@ -17186,7 +15094,7 @@ export namespace Prisma {
     created_at?: SortOrder
     updated_at?: SortOrder
     species?: SpeciesOrderByWithRelationInput
-    animals?: AnimalsOrderByRelationAggregateInput
+    animal?: AnimalsOrderByRelationAggregateInput
     _relevance?: BreedsOrderByRelevanceInput
   }
 
@@ -17203,7 +15111,7 @@ export namespace Prisma {
     created_at?: DateTimeFilter<"Breeds"> | Date | string
     updated_at?: DateTimeFilter<"Breeds"> | Date | string
     species?: XOR<SpeciesScalarRelationFilter, SpeciesWhereInput>
-    animals?: AnimalsListRelationFilter
+    animal?: AnimalsListRelationFilter
   }, "id">
 
   export type BreedsOrderByWithAggregationInput = {
@@ -17236,64 +15144,6 @@ export namespace Prisma {
     updated_at?: DateTimeWithAggregatesFilter<"Breeds"> | Date | string
   }
 
-  export type Health_StatusWhereInput = {
-    AND?: Health_StatusWhereInput | Health_StatusWhereInput[]
-    OR?: Health_StatusWhereInput[]
-    NOT?: Health_StatusWhereInput | Health_StatusWhereInput[]
-    id?: IntFilter<"Health_Status"> | number
-    name?: StringFilter<"Health_Status"> | string
-    description?: StringFilter<"Health_Status"> | string
-    created_at?: DateTimeFilter<"Health_Status"> | Date | string
-    updated_at?: DateTimeFilter<"Health_Status"> | Date | string
-    animals?: AnimalsListRelationFilter
-  }
-
-  export type Health_StatusOrderByWithRelationInput = {
-    id?: SortOrder
-    name?: SortOrder
-    description?: SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
-    animals?: AnimalsOrderByRelationAggregateInput
-    _relevance?: Health_StatusOrderByRelevanceInput
-  }
-
-  export type Health_StatusWhereUniqueInput = Prisma.AtLeast<{
-    id?: number
-    AND?: Health_StatusWhereInput | Health_StatusWhereInput[]
-    OR?: Health_StatusWhereInput[]
-    NOT?: Health_StatusWhereInput | Health_StatusWhereInput[]
-    name?: StringFilter<"Health_Status"> | string
-    description?: StringFilter<"Health_Status"> | string
-    created_at?: DateTimeFilter<"Health_Status"> | Date | string
-    updated_at?: DateTimeFilter<"Health_Status"> | Date | string
-    animals?: AnimalsListRelationFilter
-  }, "id">
-
-  export type Health_StatusOrderByWithAggregationInput = {
-    id?: SortOrder
-    name?: SortOrder
-    description?: SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
-    _count?: Health_StatusCountOrderByAggregateInput
-    _avg?: Health_StatusAvgOrderByAggregateInput
-    _max?: Health_StatusMaxOrderByAggregateInput
-    _min?: Health_StatusMinOrderByAggregateInput
-    _sum?: Health_StatusSumOrderByAggregateInput
-  }
-
-  export type Health_StatusScalarWhereWithAggregatesInput = {
-    AND?: Health_StatusScalarWhereWithAggregatesInput | Health_StatusScalarWhereWithAggregatesInput[]
-    OR?: Health_StatusScalarWhereWithAggregatesInput[]
-    NOT?: Health_StatusScalarWhereWithAggregatesInput | Health_StatusScalarWhereWithAggregatesInput[]
-    id?: IntWithAggregatesFilter<"Health_Status"> | number
-    name?: StringWithAggregatesFilter<"Health_Status"> | string
-    description?: StringWithAggregatesFilter<"Health_Status"> | string
-    created_at?: DateTimeWithAggregatesFilter<"Health_Status"> | Date | string
-    updated_at?: DateTimeWithAggregatesFilter<"Health_Status"> | Date | string
-  }
-
   export type VaccinesWhereInput = {
     AND?: VaccinesWhereInput | VaccinesWhereInput[]
     OR?: VaccinesWhereInput[]
@@ -17312,7 +15162,7 @@ export namespace Prisma {
     updated_at?: DateTimeFilter<"Vaccines"> | Date | string
     manufacturer?: XOR<ManufacturersScalarRelationFilter, ManufacturersWhereInput>
     type_of_vaccine?: XOR<Types_of_VaccinesScalarRelationFilter, Types_of_VaccinesWhereInput>
-    Applications?: ApplicationsListRelationFilter
+    applications?: ApplicationsListRelationFilter
   }
 
   export type VaccinesOrderByWithRelationInput = {
@@ -17330,7 +15180,7 @@ export namespace Prisma {
     updated_at?: SortOrder
     manufacturer?: ManufacturersOrderByWithRelationInput
     type_of_vaccine?: Types_of_VaccinesOrderByWithRelationInput
-    Applications?: ApplicationsOrderByRelationAggregateInput
+    applications?: ApplicationsOrderByRelationAggregateInput
     _relevance?: VaccinesOrderByRelevanceInput
   }
 
@@ -17352,7 +15202,7 @@ export namespace Prisma {
     updated_at?: DateTimeFilter<"Vaccines"> | Date | string
     manufacturer?: XOR<ManufacturersScalarRelationFilter, ManufacturersWhereInput>
     type_of_vaccine?: XOR<Types_of_VaccinesScalarRelationFilter, Types_of_VaccinesWhereInput>
-    Applications?: ApplicationsListRelationFilter
+    applications?: ApplicationsListRelationFilter
   }, "id">
 
   export type VaccinesOrderByWithAggregationInput = {
@@ -17534,13 +15384,12 @@ export namespace Prisma {
     veterinary_id?: IntFilter<"Applications"> | number
     application_date?: DateTimeFilter<"Applications"> | Date | string
     next_application_date?: DateTimeNullableFilter<"Applications"> | Date | string | null
-    status_vaccine_application_id?: IntFilter<"Applications"> | number
+    status_vaccine_application?: EnumStatus_Vaccine_ApplicationsFilter<"Applications"> | $Enums.Status_Vaccine_Applications
     created_at?: DateTimeFilter<"Applications"> | Date | string
     updated_at?: DateTimeFilter<"Applications"> | Date | string
     animal?: XOR<AnimalsScalarRelationFilter, AnimalsWhereInput>
     vaccine?: XOR<VaccinesScalarRelationFilter, VaccinesWhereInput>
     veterinary?: XOR<VeterinariansScalarRelationFilter, VeterinariansWhereInput>
-    status_vaccine?: XOR<Status_Vaccine_ApplicationsScalarRelationFilter, Status_Vaccine_ApplicationsWhereInput>
   }
 
   export type ApplicationsOrderByWithRelationInput = {
@@ -17550,13 +15399,12 @@ export namespace Prisma {
     veterinary_id?: SortOrder
     application_date?: SortOrder
     next_application_date?: SortOrderInput | SortOrder
-    status_vaccine_application_id?: SortOrder
+    status_vaccine_application?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     animal?: AnimalsOrderByWithRelationInput
     vaccine?: VaccinesOrderByWithRelationInput
     veterinary?: VeterinariansOrderByWithRelationInput
-    status_vaccine?: Status_Vaccine_ApplicationsOrderByWithRelationInput
   }
 
   export type ApplicationsWhereUniqueInput = Prisma.AtLeast<{
@@ -17569,13 +15417,12 @@ export namespace Prisma {
     veterinary_id?: IntFilter<"Applications"> | number
     application_date?: DateTimeFilter<"Applications"> | Date | string
     next_application_date?: DateTimeNullableFilter<"Applications"> | Date | string | null
-    status_vaccine_application_id?: IntFilter<"Applications"> | number
+    status_vaccine_application?: EnumStatus_Vaccine_ApplicationsFilter<"Applications"> | $Enums.Status_Vaccine_Applications
     created_at?: DateTimeFilter<"Applications"> | Date | string
     updated_at?: DateTimeFilter<"Applications"> | Date | string
     animal?: XOR<AnimalsScalarRelationFilter, AnimalsWhereInput>
     vaccine?: XOR<VaccinesScalarRelationFilter, VaccinesWhereInput>
     veterinary?: XOR<VeterinariansScalarRelationFilter, VeterinariansWhereInput>
-    status_vaccine?: XOR<Status_Vaccine_ApplicationsScalarRelationFilter, Status_Vaccine_ApplicationsWhereInput>
   }, "id">
 
   export type ApplicationsOrderByWithAggregationInput = {
@@ -17585,7 +15432,7 @@ export namespace Prisma {
     veterinary_id?: SortOrder
     application_date?: SortOrder
     next_application_date?: SortOrderInput | SortOrder
-    status_vaccine_application_id?: SortOrder
+    status_vaccine_application?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     _count?: ApplicationsCountOrderByAggregateInput
@@ -17605,52 +15452,9 @@ export namespace Prisma {
     veterinary_id?: IntWithAggregatesFilter<"Applications"> | number
     application_date?: DateTimeWithAggregatesFilter<"Applications"> | Date | string
     next_application_date?: DateTimeNullableWithAggregatesFilter<"Applications"> | Date | string | null
-    status_vaccine_application_id?: IntWithAggregatesFilter<"Applications"> | number
+    status_vaccine_application?: EnumStatus_Vaccine_ApplicationsWithAggregatesFilter<"Applications"> | $Enums.Status_Vaccine_Applications
     created_at?: DateTimeWithAggregatesFilter<"Applications"> | Date | string
     updated_at?: DateTimeWithAggregatesFilter<"Applications"> | Date | string
-  }
-
-  export type Status_Vaccine_ApplicationsWhereInput = {
-    AND?: Status_Vaccine_ApplicationsWhereInput | Status_Vaccine_ApplicationsWhereInput[]
-    OR?: Status_Vaccine_ApplicationsWhereInput[]
-    NOT?: Status_Vaccine_ApplicationsWhereInput | Status_Vaccine_ApplicationsWhereInput[]
-    id?: IntFilter<"Status_Vaccine_Applications"> | number
-    name?: StringFilter<"Status_Vaccine_Applications"> | string
-    Applications?: ApplicationsListRelationFilter
-  }
-
-  export type Status_Vaccine_ApplicationsOrderByWithRelationInput = {
-    id?: SortOrder
-    name?: SortOrder
-    Applications?: ApplicationsOrderByRelationAggregateInput
-    _relevance?: Status_Vaccine_ApplicationsOrderByRelevanceInput
-  }
-
-  export type Status_Vaccine_ApplicationsWhereUniqueInput = Prisma.AtLeast<{
-    id?: number
-    AND?: Status_Vaccine_ApplicationsWhereInput | Status_Vaccine_ApplicationsWhereInput[]
-    OR?: Status_Vaccine_ApplicationsWhereInput[]
-    NOT?: Status_Vaccine_ApplicationsWhereInput | Status_Vaccine_ApplicationsWhereInput[]
-    name?: StringFilter<"Status_Vaccine_Applications"> | string
-    Applications?: ApplicationsListRelationFilter
-  }, "id">
-
-  export type Status_Vaccine_ApplicationsOrderByWithAggregationInput = {
-    id?: SortOrder
-    name?: SortOrder
-    _count?: Status_Vaccine_ApplicationsCountOrderByAggregateInput
-    _avg?: Status_Vaccine_ApplicationsAvgOrderByAggregateInput
-    _max?: Status_Vaccine_ApplicationsMaxOrderByAggregateInput
-    _min?: Status_Vaccine_ApplicationsMinOrderByAggregateInput
-    _sum?: Status_Vaccine_ApplicationsSumOrderByAggregateInput
-  }
-
-  export type Status_Vaccine_ApplicationsScalarWhereWithAggregatesInput = {
-    AND?: Status_Vaccine_ApplicationsScalarWhereWithAggregatesInput | Status_Vaccine_ApplicationsScalarWhereWithAggregatesInput[]
-    OR?: Status_Vaccine_ApplicationsScalarWhereWithAggregatesInput[]
-    NOT?: Status_Vaccine_ApplicationsScalarWhereWithAggregatesInput | Status_Vaccine_ApplicationsScalarWhereWithAggregatesInput[]
-    id?: IntWithAggregatesFilter<"Status_Vaccine_Applications"> | number
-    name?: StringWithAggregatesFilter<"Status_Vaccine_Applications"> | string
   }
 
   export type LocationsWhereInput = {
@@ -17720,16 +15524,71 @@ export namespace Prisma {
     updated_at?: DateTimeWithAggregatesFilter<"Locations"> | Date | string
   }
 
+  export type FarmsCreateInput = {
+    name: string
+    created_at?: Date | string
+    updated_at?: Date | string
+    user?: UsersCreateNestedManyWithoutFarmInput
+    animal?: AnimalsCreateNestedManyWithoutFarmInput
+  }
+
+  export type FarmsUncheckedCreateInput = {
+    id?: number
+    name: string
+    created_at?: Date | string
+    updated_at?: Date | string
+    user?: UsersUncheckedCreateNestedManyWithoutFarmInput
+    animal?: AnimalsUncheckedCreateNestedManyWithoutFarmInput
+  }
+
+  export type FarmsUpdateInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UsersUpdateManyWithoutFarmNestedInput
+    animal?: AnimalsUpdateManyWithoutFarmNestedInput
+  }
+
+  export type FarmsUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UsersUncheckedUpdateManyWithoutFarmNestedInput
+    animal?: AnimalsUncheckedUpdateManyWithoutFarmNestedInput
+  }
+
+  export type FarmsCreateManyInput = {
+    id?: number
+    name: string
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type FarmsUpdateManyMutationInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FarmsUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type UsersCreateInput = {
     name: string
     email: string
     password: string
     profile_photo?: string | null
+    role: $Enums.Roles
     created_at?: Date | string
     updated_at?: Date | string
-    role: RolesCreateNestedOneWithoutUsersInput
-    Farm_Workers?: Farm_WorkersCreateNestedOneWithoutUserInput
-    Veterinarians?: VeterinariansCreateNestedOneWithoutUserInput
+    farmhand?: FarmhandsCreateNestedOneWithoutUserInput
+    veterinary?: VeterinariansCreateNestedOneWithoutUserInput
+    farm: FarmsCreateNestedOneWithoutUserInput
   }
 
   export type UsersUncheckedCreateInput = {
@@ -17738,11 +15597,12 @@ export namespace Prisma {
     email: string
     password: string
     profile_photo?: string | null
-    role_id: number
+    role: $Enums.Roles
+    farm_id: number
     created_at?: Date | string
     updated_at?: Date | string
-    Farm_Workers?: Farm_WorkersUncheckedCreateNestedOneWithoutUserInput
-    Veterinarians?: VeterinariansUncheckedCreateNestedOneWithoutUserInput
+    farmhand?: FarmhandsUncheckedCreateNestedOneWithoutUserInput
+    veterinary?: VeterinariansUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UsersUpdateInput = {
@@ -17750,11 +15610,12 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     profile_photo?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRolesFieldUpdateOperationsInput | $Enums.Roles
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    role?: RolesUpdateOneRequiredWithoutUsersNestedInput
-    Farm_Workers?: Farm_WorkersUpdateOneWithoutUserNestedInput
-    Veterinarians?: VeterinariansUpdateOneWithoutUserNestedInput
+    farmhand?: FarmhandsUpdateOneWithoutUserNestedInput
+    veterinary?: VeterinariansUpdateOneWithoutUserNestedInput
+    farm?: FarmsUpdateOneRequiredWithoutUserNestedInput
   }
 
   export type UsersUncheckedUpdateInput = {
@@ -17763,11 +15624,12 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     profile_photo?: NullableStringFieldUpdateOperationsInput | string | null
-    role_id?: IntFieldUpdateOperationsInput | number
+    role?: EnumRolesFieldUpdateOperationsInput | $Enums.Roles
+    farm_id?: IntFieldUpdateOperationsInput | number
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    Farm_Workers?: Farm_WorkersUncheckedUpdateOneWithoutUserNestedInput
-    Veterinarians?: VeterinariansUncheckedUpdateOneWithoutUserNestedInput
+    farmhand?: FarmhandsUncheckedUpdateOneWithoutUserNestedInput
+    veterinary?: VeterinariansUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type UsersCreateManyInput = {
@@ -17776,7 +15638,8 @@ export namespace Prisma {
     email: string
     password: string
     profile_photo?: string | null
-    role_id: number
+    role: $Enums.Roles
+    farm_id: number
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -17786,6 +15649,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     profile_photo?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRolesFieldUpdateOperationsInput | $Enums.Roles
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -17796,120 +15660,64 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     profile_photo?: NullableStringFieldUpdateOperationsInput | string | null
-    role_id?: IntFieldUpdateOperationsInput | number
+    role?: EnumRolesFieldUpdateOperationsInput | $Enums.Roles
+    farm_id?: IntFieldUpdateOperationsInput | number
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type RolesCreateInput = {
-    name: string
-    description?: string | null
-    created_at?: Date | string
-    updated_at?: Date | string
-    Users?: UsersCreateNestedManyWithoutRoleInput
+  export type FarmhandsCreateInput = {
+    user: UsersCreateNestedOneWithoutFarmhandInput
   }
 
-  export type RolesUncheckedCreateInput = {
-    id?: number
-    name: string
-    description?: string | null
-    created_at?: Date | string
-    updated_at?: Date | string
-    Users?: UsersUncheckedCreateNestedManyWithoutRoleInput
-  }
-
-  export type RolesUpdateInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    Users?: UsersUpdateManyWithoutRoleNestedInput
-  }
-
-  export type RolesUncheckedUpdateInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    Users?: UsersUncheckedUpdateManyWithoutRoleNestedInput
-  }
-
-  export type RolesCreateManyInput = {
-    id?: number
-    name: string
-    description?: string | null
-    created_at?: Date | string
-    updated_at?: Date | string
-  }
-
-  export type RolesUpdateManyMutationInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type RolesUncheckedUpdateManyInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type Farm_WorkersCreateInput = {
-    user: UsersCreateNestedOneWithoutFarm_WorkersInput
-  }
-
-  export type Farm_WorkersUncheckedCreateInput = {
+  export type FarmhandsUncheckedCreateInput = {
     id?: number
     user_id: number
   }
 
-  export type Farm_WorkersUpdateInput = {
-    user?: UsersUpdateOneRequiredWithoutFarm_WorkersNestedInput
+  export type FarmhandsUpdateInput = {
+    user?: UsersUpdateOneRequiredWithoutFarmhandNestedInput
   }
 
-  export type Farm_WorkersUncheckedUpdateInput = {
+  export type FarmhandsUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     user_id?: IntFieldUpdateOperationsInput | number
   }
 
-  export type Farm_WorkersCreateManyInput = {
+  export type FarmhandsCreateManyInput = {
     id?: number
     user_id: number
   }
 
-  export type Farm_WorkersUpdateManyMutationInput = {
+  export type FarmhandsUpdateManyMutationInput = {
 
   }
 
-  export type Farm_WorkersUncheckedUpdateManyInput = {
+  export type FarmhandsUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     user_id?: IntFieldUpdateOperationsInput | number
   }
 
   export type VeterinariansCreateInput = {
-    user: UsersCreateNestedOneWithoutVeterinariansInput
-    Applications?: ApplicationsCreateNestedManyWithoutVeterinaryInput
+    user: UsersCreateNestedOneWithoutVeterinaryInput
+    application?: ApplicationsCreateNestedManyWithoutVeterinaryInput
   }
 
   export type VeterinariansUncheckedCreateInput = {
     id?: number
     user_id: number
-    Applications?: ApplicationsUncheckedCreateNestedManyWithoutVeterinaryInput
+    application?: ApplicationsUncheckedCreateNestedManyWithoutVeterinaryInput
   }
 
   export type VeterinariansUpdateInput = {
-    user?: UsersUpdateOneRequiredWithoutVeterinariansNestedInput
-    Applications?: ApplicationsUpdateManyWithoutVeterinaryNestedInput
+    user?: UsersUpdateOneRequiredWithoutVeterinaryNestedInput
+    application?: ApplicationsUpdateManyWithoutVeterinaryNestedInput
   }
 
   export type VeterinariansUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     user_id?: IntFieldUpdateOperationsInput | number
-    Applications?: ApplicationsUncheckedUpdateManyWithoutVeterinaryNestedInput
+    application?: ApplicationsUncheckedUpdateManyWithoutVeterinaryNestedInput
   }
 
   export type VeterinariansCreateManyInput = {
@@ -17930,13 +15738,14 @@ export namespace Prisma {
     name: string
     birth_date: Date | string
     weight: number
+    health_status: $Enums.Health_Status
     created_at?: Date | string
     updated_at?: Date | string
-    species: SpeciesCreateNestedOneWithoutAnimalsInput
-    breed: BreedsCreateNestedOneWithoutAnimalsInput
-    health_status: Health_StatusCreateNestedOneWithoutAnimalsInput
-    Locations?: LocationsCreateNestedManyWithoutAnimalInput
-    Applications?: ApplicationsCreateNestedManyWithoutAnimalInput
+    species: SpeciesCreateNestedOneWithoutAnimalInput
+    breed: BreedsCreateNestedOneWithoutAnimalInput
+    farm: FarmsCreateNestedOneWithoutAnimalInput
+    location?: LocationsCreateNestedManyWithoutAnimalInput
+    application?: ApplicationsCreateNestedManyWithoutAnimalInput
   }
 
   export type AnimalsUncheckedCreateInput = {
@@ -17946,24 +15755,26 @@ export namespace Prisma {
     breed_id: number
     birth_date: Date | string
     weight: number
-    health_status_id: number
+    health_status: $Enums.Health_Status
+    farm_id: number
     created_at?: Date | string
     updated_at?: Date | string
-    Locations?: LocationsUncheckedCreateNestedManyWithoutAnimalInput
-    Applications?: ApplicationsUncheckedCreateNestedManyWithoutAnimalInput
+    location?: LocationsUncheckedCreateNestedManyWithoutAnimalInput
+    application?: ApplicationsUncheckedCreateNestedManyWithoutAnimalInput
   }
 
   export type AnimalsUpdateInput = {
     name?: StringFieldUpdateOperationsInput | string
     birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
     weight?: FloatFieldUpdateOperationsInput | number
+    health_status?: EnumHealth_StatusFieldUpdateOperationsInput | $Enums.Health_Status
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    species?: SpeciesUpdateOneRequiredWithoutAnimalsNestedInput
-    breed?: BreedsUpdateOneRequiredWithoutAnimalsNestedInput
-    health_status?: Health_StatusUpdateOneRequiredWithoutAnimalsNestedInput
-    Locations?: LocationsUpdateManyWithoutAnimalNestedInput
-    Applications?: ApplicationsUpdateManyWithoutAnimalNestedInput
+    species?: SpeciesUpdateOneRequiredWithoutAnimalNestedInput
+    breed?: BreedsUpdateOneRequiredWithoutAnimalNestedInput
+    farm?: FarmsUpdateOneRequiredWithoutAnimalNestedInput
+    location?: LocationsUpdateManyWithoutAnimalNestedInput
+    application?: ApplicationsUpdateManyWithoutAnimalNestedInput
   }
 
   export type AnimalsUncheckedUpdateInput = {
@@ -17973,11 +15784,12 @@ export namespace Prisma {
     breed_id?: IntFieldUpdateOperationsInput | number
     birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
     weight?: FloatFieldUpdateOperationsInput | number
-    health_status_id?: IntFieldUpdateOperationsInput | number
+    health_status?: EnumHealth_StatusFieldUpdateOperationsInput | $Enums.Health_Status
+    farm_id?: IntFieldUpdateOperationsInput | number
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    Locations?: LocationsUncheckedUpdateManyWithoutAnimalNestedInput
-    Applications?: ApplicationsUncheckedUpdateManyWithoutAnimalNestedInput
+    location?: LocationsUncheckedUpdateManyWithoutAnimalNestedInput
+    application?: ApplicationsUncheckedUpdateManyWithoutAnimalNestedInput
   }
 
   export type AnimalsCreateManyInput = {
@@ -17987,7 +15799,8 @@ export namespace Prisma {
     breed_id: number
     birth_date: Date | string
     weight: number
-    health_status_id: number
+    health_status: $Enums.Health_Status
+    farm_id: number
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -17996,6 +15809,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
     weight?: FloatFieldUpdateOperationsInput | number
+    health_status?: EnumHealth_StatusFieldUpdateOperationsInput | $Enums.Health_Status
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -18007,7 +15821,8 @@ export namespace Prisma {
     breed_id?: IntFieldUpdateOperationsInput | number
     birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
     weight?: FloatFieldUpdateOperationsInput | number
-    health_status_id?: IntFieldUpdateOperationsInput | number
+    health_status?: EnumHealth_StatusFieldUpdateOperationsInput | $Enums.Health_Status
+    farm_id?: IntFieldUpdateOperationsInput | number
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -18019,8 +15834,8 @@ export namespace Prisma {
     gestation_period?: number | null
     created_at?: Date | string
     updated_at?: Date | string
-    animals?: AnimalsCreateNestedManyWithoutSpeciesInput
-    breeds?: BreedsCreateNestedManyWithoutSpeciesInput
+    animal?: AnimalsCreateNestedManyWithoutSpeciesInput
+    breed?: BreedsCreateNestedManyWithoutSpeciesInput
   }
 
   export type SpeciesUncheckedCreateInput = {
@@ -18031,8 +15846,8 @@ export namespace Prisma {
     gestation_period?: number | null
     created_at?: Date | string
     updated_at?: Date | string
-    animals?: AnimalsUncheckedCreateNestedManyWithoutSpeciesInput
-    breeds?: BreedsUncheckedCreateNestedManyWithoutSpeciesInput
+    animal?: AnimalsUncheckedCreateNestedManyWithoutSpeciesInput
+    breed?: BreedsUncheckedCreateNestedManyWithoutSpeciesInput
   }
 
   export type SpeciesUpdateInput = {
@@ -18042,8 +15857,8 @@ export namespace Prisma {
     gestation_period?: NullableIntFieldUpdateOperationsInput | number | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    animals?: AnimalsUpdateManyWithoutSpeciesNestedInput
-    breeds?: BreedsUpdateManyWithoutSpeciesNestedInput
+    animal?: AnimalsUpdateManyWithoutSpeciesNestedInput
+    breed?: BreedsUpdateManyWithoutSpeciesNestedInput
   }
 
   export type SpeciesUncheckedUpdateInput = {
@@ -18054,8 +15869,8 @@ export namespace Prisma {
     gestation_period?: NullableIntFieldUpdateOperationsInput | number | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    animals?: AnimalsUncheckedUpdateManyWithoutSpeciesNestedInput
-    breeds?: BreedsUncheckedUpdateManyWithoutSpeciesNestedInput
+    animal?: AnimalsUncheckedUpdateManyWithoutSpeciesNestedInput
+    breed?: BreedsUncheckedUpdateManyWithoutSpeciesNestedInput
   }
 
   export type SpeciesCreateManyInput = {
@@ -18094,8 +15909,8 @@ export namespace Prisma {
     productivity?: string | null
     created_at?: Date | string
     updated_at?: Date | string
-    species: SpeciesCreateNestedOneWithoutBreedsInput
-    animals?: AnimalsCreateNestedManyWithoutBreedInput
+    species: SpeciesCreateNestedOneWithoutBreedInput
+    animal?: AnimalsCreateNestedManyWithoutBreedInput
   }
 
   export type BreedsUncheckedCreateInput = {
@@ -18107,7 +15922,7 @@ export namespace Prisma {
     productivity?: string | null
     created_at?: Date | string
     updated_at?: Date | string
-    animals?: AnimalsUncheckedCreateNestedManyWithoutBreedInput
+    animal?: AnimalsUncheckedCreateNestedManyWithoutBreedInput
   }
 
   export type BreedsUpdateInput = {
@@ -18117,8 +15932,8 @@ export namespace Prisma {
     productivity?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    species?: SpeciesUpdateOneRequiredWithoutBreedsNestedInput
-    animals?: AnimalsUpdateManyWithoutBreedNestedInput
+    species?: SpeciesUpdateOneRequiredWithoutBreedNestedInput
+    animal?: AnimalsUpdateManyWithoutBreedNestedInput
   }
 
   export type BreedsUncheckedUpdateInput = {
@@ -18130,7 +15945,7 @@ export namespace Prisma {
     productivity?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    animals?: AnimalsUncheckedUpdateManyWithoutBreedNestedInput
+    animal?: AnimalsUncheckedUpdateManyWithoutBreedNestedInput
   }
 
   export type BreedsCreateManyInput = {
@@ -18164,63 +15979,6 @@ export namespace Prisma {
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type Health_StatusCreateInput = {
-    name: string
-    description: string
-    created_at?: Date | string
-    updated_at?: Date | string
-    animals?: AnimalsCreateNestedManyWithoutHealth_statusInput
-  }
-
-  export type Health_StatusUncheckedCreateInput = {
-    id?: number
-    name: string
-    description: string
-    created_at?: Date | string
-    updated_at?: Date | string
-    animals?: AnimalsUncheckedCreateNestedManyWithoutHealth_statusInput
-  }
-
-  export type Health_StatusUpdateInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    animals?: AnimalsUpdateManyWithoutHealth_statusNestedInput
-  }
-
-  export type Health_StatusUncheckedUpdateInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    animals?: AnimalsUncheckedUpdateManyWithoutHealth_statusNestedInput
-  }
-
-  export type Health_StatusCreateManyInput = {
-    id?: number
-    name: string
-    description: string
-    created_at?: Date | string
-    updated_at?: Date | string
-  }
-
-  export type Health_StatusUpdateManyMutationInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type Health_StatusUncheckedUpdateManyInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
   export type VaccinesCreateInput = {
     name: string
     target_disease: string
@@ -18233,7 +15991,7 @@ export namespace Prisma {
     updated_at?: Date | string
     manufacturer: ManufacturersCreateNestedOneWithoutVaccinesInput
     type_of_vaccine: Types_of_VaccinesCreateNestedOneWithoutVaccinesInput
-    Applications?: ApplicationsCreateNestedManyWithoutVaccineInput
+    applications?: ApplicationsCreateNestedManyWithoutVaccineInput
   }
 
   export type VaccinesUncheckedCreateInput = {
@@ -18249,7 +16007,7 @@ export namespace Prisma {
     notes: string
     created_at?: Date | string
     updated_at?: Date | string
-    Applications?: ApplicationsUncheckedCreateNestedManyWithoutVaccineInput
+    applications?: ApplicationsUncheckedCreateNestedManyWithoutVaccineInput
   }
 
   export type VaccinesUpdateInput = {
@@ -18264,7 +16022,7 @@ export namespace Prisma {
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     manufacturer?: ManufacturersUpdateOneRequiredWithoutVaccinesNestedInput
     type_of_vaccine?: Types_of_VaccinesUpdateOneRequiredWithoutVaccinesNestedInput
-    Applications?: ApplicationsUpdateManyWithoutVaccineNestedInput
+    applications?: ApplicationsUpdateManyWithoutVaccineNestedInput
   }
 
   export type VaccinesUncheckedUpdateInput = {
@@ -18280,7 +16038,7 @@ export namespace Prisma {
     notes?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    Applications?: ApplicationsUncheckedUpdateManyWithoutVaccineNestedInput
+    applications?: ApplicationsUncheckedUpdateManyWithoutVaccineNestedInput
   }
 
   export type VaccinesCreateManyInput = {
@@ -18463,12 +16221,12 @@ export namespace Prisma {
   export type ApplicationsCreateInput = {
     application_date: Date | string
     next_application_date?: Date | string | null
+    status_vaccine_application: $Enums.Status_Vaccine_Applications
     created_at?: Date | string
     updated_at?: Date | string
-    animal: AnimalsCreateNestedOneWithoutApplicationsInput
+    animal: AnimalsCreateNestedOneWithoutApplicationInput
     vaccine: VaccinesCreateNestedOneWithoutApplicationsInput
-    veterinary: VeterinariansCreateNestedOneWithoutApplicationsInput
-    status_vaccine: Status_Vaccine_ApplicationsCreateNestedOneWithoutApplicationsInput
+    veterinary: VeterinariansCreateNestedOneWithoutApplicationInput
   }
 
   export type ApplicationsUncheckedCreateInput = {
@@ -18478,7 +16236,7 @@ export namespace Prisma {
     veterinary_id: number
     application_date: Date | string
     next_application_date?: Date | string | null
-    status_vaccine_application_id: number
+    status_vaccine_application: $Enums.Status_Vaccine_Applications
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -18486,12 +16244,12 @@ export namespace Prisma {
   export type ApplicationsUpdateInput = {
     application_date?: DateTimeFieldUpdateOperationsInput | Date | string
     next_application_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status_vaccine_application?: EnumStatus_Vaccine_ApplicationsFieldUpdateOperationsInput | $Enums.Status_Vaccine_Applications
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    animal?: AnimalsUpdateOneRequiredWithoutApplicationsNestedInput
+    animal?: AnimalsUpdateOneRequiredWithoutApplicationNestedInput
     vaccine?: VaccinesUpdateOneRequiredWithoutApplicationsNestedInput
-    veterinary?: VeterinariansUpdateOneRequiredWithoutApplicationsNestedInput
-    status_vaccine?: Status_Vaccine_ApplicationsUpdateOneRequiredWithoutApplicationsNestedInput
+    veterinary?: VeterinariansUpdateOneRequiredWithoutApplicationNestedInput
   }
 
   export type ApplicationsUncheckedUpdateInput = {
@@ -18501,7 +16259,7 @@ export namespace Prisma {
     veterinary_id?: IntFieldUpdateOperationsInput | number
     application_date?: DateTimeFieldUpdateOperationsInput | Date | string
     next_application_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status_vaccine_application_id?: IntFieldUpdateOperationsInput | number
+    status_vaccine_application?: EnumStatus_Vaccine_ApplicationsFieldUpdateOperationsInput | $Enums.Status_Vaccine_Applications
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -18513,7 +16271,7 @@ export namespace Prisma {
     veterinary_id: number
     application_date: Date | string
     next_application_date?: Date | string | null
-    status_vaccine_application_id: number
+    status_vaccine_application: $Enums.Status_Vaccine_Applications
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -18521,6 +16279,7 @@ export namespace Prisma {
   export type ApplicationsUpdateManyMutationInput = {
     application_date?: DateTimeFieldUpdateOperationsInput | Date | string
     next_application_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status_vaccine_application?: EnumStatus_Vaccine_ApplicationsFieldUpdateOperationsInput | $Enums.Status_Vaccine_Applications
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -18532,45 +16291,9 @@ export namespace Prisma {
     veterinary_id?: IntFieldUpdateOperationsInput | number
     application_date?: DateTimeFieldUpdateOperationsInput | Date | string
     next_application_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status_vaccine_application_id?: IntFieldUpdateOperationsInput | number
+    status_vaccine_application?: EnumStatus_Vaccine_ApplicationsFieldUpdateOperationsInput | $Enums.Status_Vaccine_Applications
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type Status_Vaccine_ApplicationsCreateInput = {
-    name: string
-    Applications?: ApplicationsCreateNestedManyWithoutStatus_vaccineInput
-  }
-
-  export type Status_Vaccine_ApplicationsUncheckedCreateInput = {
-    id?: number
-    name: string
-    Applications?: ApplicationsUncheckedCreateNestedManyWithoutStatus_vaccineInput
-  }
-
-  export type Status_Vaccine_ApplicationsUpdateInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    Applications?: ApplicationsUpdateManyWithoutStatus_vaccineNestedInput
-  }
-
-  export type Status_Vaccine_ApplicationsUncheckedUpdateInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    Applications?: ApplicationsUncheckedUpdateManyWithoutStatus_vaccineNestedInput
-  }
-
-  export type Status_Vaccine_ApplicationsCreateManyInput = {
-    id?: number
-    name: string
-  }
-
-  export type Status_Vaccine_ApplicationsUpdateManyMutationInput = {
-    name?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type Status_Vaccine_ApplicationsUncheckedUpdateManyInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
   }
 
   export type LocationsCreateInput = {
@@ -18579,7 +16302,7 @@ export namespace Prisma {
     captured_at: Date | string
     created_at?: Date | string
     updated_at?: Date | string
-    animal: AnimalsCreateNestedOneWithoutLocationsInput
+    animal: AnimalsCreateNestedOneWithoutLocationInput
   }
 
   export type LocationsUncheckedCreateInput = {
@@ -18598,7 +16321,7 @@ export namespace Prisma {
     captured_at?: DateTimeFieldUpdateOperationsInput | Date | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    animal?: AnimalsUpdateOneRequiredWithoutLocationsNestedInput
+    animal?: AnimalsUpdateOneRequiredWithoutLocationNestedInput
   }
 
   export type LocationsUncheckedUpdateInput = {
@@ -18665,21 +16388,6 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
-  export type StringNullableFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | null
-    notIn?: string[] | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    search?: string
-    not?: NestedStringNullableFilter<$PrismaModel> | string | null
-  }
-
   export type DateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[]
@@ -18691,73 +16399,59 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
-  export type RolesScalarRelationFilter = {
-    is?: RolesWhereInput
-    isNot?: RolesWhereInput
+  export type UsersListRelationFilter = {
+    every?: UsersWhereInput
+    some?: UsersWhereInput
+    none?: UsersWhereInput
   }
 
-  export type Farm_WorkersNullableScalarRelationFilter = {
-    is?: Farm_WorkersWhereInput | null
-    isNot?: Farm_WorkersWhereInput | null
+  export type AnimalsListRelationFilter = {
+    every?: AnimalsWhereInput
+    some?: AnimalsWhereInput
+    none?: AnimalsWhereInput
   }
 
-  export type VeterinariansNullableScalarRelationFilter = {
-    is?: VeterinariansWhereInput | null
-    isNot?: VeterinariansWhereInput | null
+  export type UsersOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
-  export type SortOrderInput = {
-    sort: SortOrder
-    nulls?: NullsOrder
+  export type AnimalsOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
-  export type UsersOrderByRelevanceInput = {
-    fields: UsersOrderByRelevanceFieldEnum | UsersOrderByRelevanceFieldEnum[]
+  export type FarmsOrderByRelevanceInput = {
+    fields: FarmsOrderByRelevanceFieldEnum | FarmsOrderByRelevanceFieldEnum[]
     sort: SortOrder
     search: string
   }
 
-  export type UsersCountOrderByAggregateInput = {
+  export type FarmsCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
-    email?: SortOrder
-    password?: SortOrder
-    profile_photo?: SortOrder
-    role_id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
 
-  export type UsersAvgOrderByAggregateInput = {
+  export type FarmsAvgOrderByAggregateInput = {
     id?: SortOrder
-    role_id?: SortOrder
   }
 
-  export type UsersMaxOrderByAggregateInput = {
+  export type FarmsMaxOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
-    email?: SortOrder
-    password?: SortOrder
-    profile_photo?: SortOrder
-    role_id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
 
-  export type UsersMinOrderByAggregateInput = {
+  export type FarmsMinOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
-    email?: SortOrder
-    password?: SortOrder
-    profile_photo?: SortOrder
-    role_id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
 
-  export type UsersSumOrderByAggregateInput = {
+  export type FarmsSumOrderByAggregateInput = {
     id?: SortOrder
-    role_id?: SortOrder
   }
 
   export type IntWithAggregatesFilter<$PrismaModel = never> = {
@@ -18794,6 +16488,114 @@ export namespace Prisma {
     _max?: NestedStringFilter<$PrismaModel>
   }
 
+  export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[]
+    notIn?: Date[] | string[]
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedDateTimeFilter<$PrismaModel>
+    _max?: NestedDateTimeFilter<$PrismaModel>
+  }
+
+  export type StringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | null
+    notIn?: string[] | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    search?: string
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
+  export type EnumRolesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Roles | EnumRolesFieldRefInput<$PrismaModel>
+    in?: $Enums.Roles[]
+    notIn?: $Enums.Roles[]
+    not?: NestedEnumRolesFilter<$PrismaModel> | $Enums.Roles
+  }
+
+  export type FarmhandsNullableScalarRelationFilter = {
+    is?: FarmhandsWhereInput | null
+    isNot?: FarmhandsWhereInput | null
+  }
+
+  export type VeterinariansNullableScalarRelationFilter = {
+    is?: VeterinariansWhereInput | null
+    isNot?: VeterinariansWhereInput | null
+  }
+
+  export type FarmsScalarRelationFilter = {
+    is?: FarmsWhereInput
+    isNot?: FarmsWhereInput
+  }
+
+  export type SortOrderInput = {
+    sort: SortOrder
+    nulls?: NullsOrder
+  }
+
+  export type UsersOrderByRelevanceInput = {
+    fields: UsersOrderByRelevanceFieldEnum | UsersOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type UsersCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    email?: SortOrder
+    password?: SortOrder
+    profile_photo?: SortOrder
+    role?: SortOrder
+    farm_id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type UsersAvgOrderByAggregateInput = {
+    id?: SortOrder
+    farm_id?: SortOrder
+  }
+
+  export type UsersMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    email?: SortOrder
+    password?: SortOrder
+    profile_photo?: SortOrder
+    role?: SortOrder
+    farm_id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type UsersMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    email?: SortOrder
+    password?: SortOrder
+    profile_photo?: SortOrder
+    role?: SortOrder
+    farm_id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type UsersSumOrderByAggregateInput = {
+    id?: SortOrder
+    farm_id?: SortOrder
+  }
+
   export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | null
@@ -18812,66 +16614,14 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
-  export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[]
-    notIn?: Date[] | string[]
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
+  export type EnumRolesWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Roles | EnumRolesFieldRefInput<$PrismaModel>
+    in?: $Enums.Roles[]
+    notIn?: $Enums.Roles[]
+    not?: NestedEnumRolesWithAggregatesFilter<$PrismaModel> | $Enums.Roles
     _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedDateTimeFilter<$PrismaModel>
-    _max?: NestedDateTimeFilter<$PrismaModel>
-  }
-
-  export type UsersListRelationFilter = {
-    every?: UsersWhereInput
-    some?: UsersWhereInput
-    none?: UsersWhereInput
-  }
-
-  export type UsersOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type RolesOrderByRelevanceInput = {
-    fields: RolesOrderByRelevanceFieldEnum | RolesOrderByRelevanceFieldEnum[]
-    sort: SortOrder
-    search: string
-  }
-
-  export type RolesCountOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    description?: SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
-  }
-
-  export type RolesAvgOrderByAggregateInput = {
-    id?: SortOrder
-  }
-
-  export type RolesMaxOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    description?: SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
-  }
-
-  export type RolesMinOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    description?: SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
-  }
-
-  export type RolesSumOrderByAggregateInput = {
-    id?: SortOrder
+    _min?: NestedEnumRolesFilter<$PrismaModel>
+    _max?: NestedEnumRolesFilter<$PrismaModel>
   }
 
   export type UsersScalarRelationFilter = {
@@ -18879,27 +16629,27 @@ export namespace Prisma {
     isNot?: UsersWhereInput
   }
 
-  export type Farm_WorkersCountOrderByAggregateInput = {
+  export type FarmhandsCountOrderByAggregateInput = {
     id?: SortOrder
     user_id?: SortOrder
   }
 
-  export type Farm_WorkersAvgOrderByAggregateInput = {
+  export type FarmhandsAvgOrderByAggregateInput = {
     id?: SortOrder
     user_id?: SortOrder
   }
 
-  export type Farm_WorkersMaxOrderByAggregateInput = {
+  export type FarmhandsMaxOrderByAggregateInput = {
     id?: SortOrder
     user_id?: SortOrder
   }
 
-  export type Farm_WorkersMinOrderByAggregateInput = {
+  export type FarmhandsMinOrderByAggregateInput = {
     id?: SortOrder
     user_id?: SortOrder
   }
 
-  export type Farm_WorkersSumOrderByAggregateInput = {
+  export type FarmhandsSumOrderByAggregateInput = {
     id?: SortOrder
     user_id?: SortOrder
   }
@@ -18950,6 +16700,13 @@ export namespace Prisma {
     not?: NestedFloatFilter<$PrismaModel> | number
   }
 
+  export type EnumHealth_StatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.Health_Status | EnumHealth_StatusFieldRefInput<$PrismaModel>
+    in?: $Enums.Health_Status[]
+    notIn?: $Enums.Health_Status[]
+    not?: NestedEnumHealth_StatusFilter<$PrismaModel> | $Enums.Health_Status
+  }
+
   export type SpeciesScalarRelationFilter = {
     is?: SpeciesWhereInput
     isNot?: SpeciesWhereInput
@@ -18958,11 +16715,6 @@ export namespace Prisma {
   export type BreedsScalarRelationFilter = {
     is?: BreedsWhereInput
     isNot?: BreedsWhereInput
-  }
-
-  export type Health_StatusScalarRelationFilter = {
-    is?: Health_StatusWhereInput
-    isNot?: Health_StatusWhereInput
   }
 
   export type LocationsListRelationFilter = {
@@ -18988,7 +16740,8 @@ export namespace Prisma {
     breed_id?: SortOrder
     birth_date?: SortOrder
     weight?: SortOrder
-    health_status_id?: SortOrder
+    health_status?: SortOrder
+    farm_id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -18998,7 +16751,7 @@ export namespace Prisma {
     species_id?: SortOrder
     breed_id?: SortOrder
     weight?: SortOrder
-    health_status_id?: SortOrder
+    farm_id?: SortOrder
   }
 
   export type AnimalsMaxOrderByAggregateInput = {
@@ -19008,7 +16761,8 @@ export namespace Prisma {
     breed_id?: SortOrder
     birth_date?: SortOrder
     weight?: SortOrder
-    health_status_id?: SortOrder
+    health_status?: SortOrder
+    farm_id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -19020,7 +16774,8 @@ export namespace Prisma {
     breed_id?: SortOrder
     birth_date?: SortOrder
     weight?: SortOrder
-    health_status_id?: SortOrder
+    health_status?: SortOrder
+    farm_id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -19030,7 +16785,7 @@ export namespace Prisma {
     species_id?: SortOrder
     breed_id?: SortOrder
     weight?: SortOrder
-    health_status_id?: SortOrder
+    farm_id?: SortOrder
   }
 
   export type FloatWithAggregatesFilter<$PrismaModel = never> = {
@@ -19049,6 +16804,16 @@ export namespace Prisma {
     _max?: NestedFloatFilter<$PrismaModel>
   }
 
+  export type EnumHealth_StatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Health_Status | EnumHealth_StatusFieldRefInput<$PrismaModel>
+    in?: $Enums.Health_Status[]
+    notIn?: $Enums.Health_Status[]
+    not?: NestedEnumHealth_StatusWithAggregatesFilter<$PrismaModel> | $Enums.Health_Status
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumHealth_StatusFilter<$PrismaModel>
+    _max?: NestedEnumHealth_StatusFilter<$PrismaModel>
+  }
+
   export type IntNullableFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel> | null
     in?: number[] | null
@@ -19060,20 +16825,10 @@ export namespace Prisma {
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
-  export type AnimalsListRelationFilter = {
-    every?: AnimalsWhereInput
-    some?: AnimalsWhereInput
-    none?: AnimalsWhereInput
-  }
-
   export type BreedsListRelationFilter = {
     every?: BreedsWhereInput
     some?: BreedsWhereInput
     none?: BreedsWhereInput
-  }
-
-  export type AnimalsOrderByRelationAggregateInput = {
-    _count?: SortOrder
   }
 
   export type BreedsOrderByRelationAggregateInput = {
@@ -19220,44 +16975,6 @@ export namespace Prisma {
     _sum?: NestedFloatNullableFilter<$PrismaModel>
     _min?: NestedFloatNullableFilter<$PrismaModel>
     _max?: NestedFloatNullableFilter<$PrismaModel>
-  }
-
-  export type Health_StatusOrderByRelevanceInput = {
-    fields: Health_StatusOrderByRelevanceFieldEnum | Health_StatusOrderByRelevanceFieldEnum[]
-    sort: SortOrder
-    search: string
-  }
-
-  export type Health_StatusCountOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    description?: SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
-  }
-
-  export type Health_StatusAvgOrderByAggregateInput = {
-    id?: SortOrder
-  }
-
-  export type Health_StatusMaxOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    description?: SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
-  }
-
-  export type Health_StatusMinOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    description?: SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
-  }
-
-  export type Health_StatusSumOrderByAggregateInput = {
-    id?: SortOrder
   }
 
   export type ManufacturersScalarRelationFilter = {
@@ -19443,6 +17160,13 @@ export namespace Prisma {
     not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
+  export type EnumStatus_Vaccine_ApplicationsFilter<$PrismaModel = never> = {
+    equals?: $Enums.Status_Vaccine_Applications | EnumStatus_Vaccine_ApplicationsFieldRefInput<$PrismaModel>
+    in?: $Enums.Status_Vaccine_Applications[]
+    notIn?: $Enums.Status_Vaccine_Applications[]
+    not?: NestedEnumStatus_Vaccine_ApplicationsFilter<$PrismaModel> | $Enums.Status_Vaccine_Applications
+  }
+
   export type AnimalsScalarRelationFilter = {
     is?: AnimalsWhereInput
     isNot?: AnimalsWhereInput
@@ -19458,11 +17182,6 @@ export namespace Prisma {
     isNot?: VeterinariansWhereInput
   }
 
-  export type Status_Vaccine_ApplicationsScalarRelationFilter = {
-    is?: Status_Vaccine_ApplicationsWhereInput
-    isNot?: Status_Vaccine_ApplicationsWhereInput
-  }
-
   export type ApplicationsCountOrderByAggregateInput = {
     id?: SortOrder
     animal_id?: SortOrder
@@ -19470,7 +17189,7 @@ export namespace Prisma {
     veterinary_id?: SortOrder
     application_date?: SortOrder
     next_application_date?: SortOrder
-    status_vaccine_application_id?: SortOrder
+    status_vaccine_application?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -19480,7 +17199,6 @@ export namespace Prisma {
     animal_id?: SortOrder
     vaccine_id?: SortOrder
     veterinary_id?: SortOrder
-    status_vaccine_application_id?: SortOrder
   }
 
   export type ApplicationsMaxOrderByAggregateInput = {
@@ -19490,7 +17208,7 @@ export namespace Prisma {
     veterinary_id?: SortOrder
     application_date?: SortOrder
     next_application_date?: SortOrder
-    status_vaccine_application_id?: SortOrder
+    status_vaccine_application?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -19502,7 +17220,7 @@ export namespace Prisma {
     veterinary_id?: SortOrder
     application_date?: SortOrder
     next_application_date?: SortOrder
-    status_vaccine_application_id?: SortOrder
+    status_vaccine_application?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -19512,7 +17230,6 @@ export namespace Prisma {
     animal_id?: SortOrder
     vaccine_id?: SortOrder
     veterinary_id?: SortOrder
-    status_vaccine_application_id?: SortOrder
   }
 
   export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -19529,33 +17246,14 @@ export namespace Prisma {
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
-  export type Status_Vaccine_ApplicationsOrderByRelevanceInput = {
-    fields: Status_Vaccine_ApplicationsOrderByRelevanceFieldEnum | Status_Vaccine_ApplicationsOrderByRelevanceFieldEnum[]
-    sort: SortOrder
-    search: string
-  }
-
-  export type Status_Vaccine_ApplicationsCountOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-  }
-
-  export type Status_Vaccine_ApplicationsAvgOrderByAggregateInput = {
-    id?: SortOrder
-  }
-
-  export type Status_Vaccine_ApplicationsMaxOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-  }
-
-  export type Status_Vaccine_ApplicationsMinOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-  }
-
-  export type Status_Vaccine_ApplicationsSumOrderByAggregateInput = {
-    id?: SortOrder
+  export type EnumStatus_Vaccine_ApplicationsWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Status_Vaccine_Applications | EnumStatus_Vaccine_ApplicationsFieldRefInput<$PrismaModel>
+    in?: $Enums.Status_Vaccine_Applications[]
+    notIn?: $Enums.Status_Vaccine_Applications[]
+    not?: NestedEnumStatus_Vaccine_ApplicationsWithAggregatesFilter<$PrismaModel> | $Enums.Status_Vaccine_Applications
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumStatus_Vaccine_ApplicationsFilter<$PrismaModel>
+    _max?: NestedEnumStatus_Vaccine_ApplicationsFilter<$PrismaModel>
   }
 
   export type LocationsCountOrderByAggregateInput = {
@@ -19602,16 +17300,110 @@ export namespace Prisma {
     longitude?: SortOrder
   }
 
-  export type RolesCreateNestedOneWithoutUsersInput = {
-    create?: XOR<RolesCreateWithoutUsersInput, RolesUncheckedCreateWithoutUsersInput>
-    connectOrCreate?: RolesCreateOrConnectWithoutUsersInput
-    connect?: RolesWhereUniqueInput
+  export type UsersCreateNestedManyWithoutFarmInput = {
+    create?: XOR<UsersCreateWithoutFarmInput, UsersUncheckedCreateWithoutFarmInput> | UsersCreateWithoutFarmInput[] | UsersUncheckedCreateWithoutFarmInput[]
+    connectOrCreate?: UsersCreateOrConnectWithoutFarmInput | UsersCreateOrConnectWithoutFarmInput[]
+    createMany?: UsersCreateManyFarmInputEnvelope
+    connect?: UsersWhereUniqueInput | UsersWhereUniqueInput[]
   }
 
-  export type Farm_WorkersCreateNestedOneWithoutUserInput = {
-    create?: XOR<Farm_WorkersCreateWithoutUserInput, Farm_WorkersUncheckedCreateWithoutUserInput>
-    connectOrCreate?: Farm_WorkersCreateOrConnectWithoutUserInput
-    connect?: Farm_WorkersWhereUniqueInput
+  export type AnimalsCreateNestedManyWithoutFarmInput = {
+    create?: XOR<AnimalsCreateWithoutFarmInput, AnimalsUncheckedCreateWithoutFarmInput> | AnimalsCreateWithoutFarmInput[] | AnimalsUncheckedCreateWithoutFarmInput[]
+    connectOrCreate?: AnimalsCreateOrConnectWithoutFarmInput | AnimalsCreateOrConnectWithoutFarmInput[]
+    createMany?: AnimalsCreateManyFarmInputEnvelope
+    connect?: AnimalsWhereUniqueInput | AnimalsWhereUniqueInput[]
+  }
+
+  export type UsersUncheckedCreateNestedManyWithoutFarmInput = {
+    create?: XOR<UsersCreateWithoutFarmInput, UsersUncheckedCreateWithoutFarmInput> | UsersCreateWithoutFarmInput[] | UsersUncheckedCreateWithoutFarmInput[]
+    connectOrCreate?: UsersCreateOrConnectWithoutFarmInput | UsersCreateOrConnectWithoutFarmInput[]
+    createMany?: UsersCreateManyFarmInputEnvelope
+    connect?: UsersWhereUniqueInput | UsersWhereUniqueInput[]
+  }
+
+  export type AnimalsUncheckedCreateNestedManyWithoutFarmInput = {
+    create?: XOR<AnimalsCreateWithoutFarmInput, AnimalsUncheckedCreateWithoutFarmInput> | AnimalsCreateWithoutFarmInput[] | AnimalsUncheckedCreateWithoutFarmInput[]
+    connectOrCreate?: AnimalsCreateOrConnectWithoutFarmInput | AnimalsCreateOrConnectWithoutFarmInput[]
+    createMany?: AnimalsCreateManyFarmInputEnvelope
+    connect?: AnimalsWhereUniqueInput | AnimalsWhereUniqueInput[]
+  }
+
+  export type StringFieldUpdateOperationsInput = {
+    set?: string
+  }
+
+  export type DateTimeFieldUpdateOperationsInput = {
+    set?: Date | string
+  }
+
+  export type UsersUpdateManyWithoutFarmNestedInput = {
+    create?: XOR<UsersCreateWithoutFarmInput, UsersUncheckedCreateWithoutFarmInput> | UsersCreateWithoutFarmInput[] | UsersUncheckedCreateWithoutFarmInput[]
+    connectOrCreate?: UsersCreateOrConnectWithoutFarmInput | UsersCreateOrConnectWithoutFarmInput[]
+    upsert?: UsersUpsertWithWhereUniqueWithoutFarmInput | UsersUpsertWithWhereUniqueWithoutFarmInput[]
+    createMany?: UsersCreateManyFarmInputEnvelope
+    set?: UsersWhereUniqueInput | UsersWhereUniqueInput[]
+    disconnect?: UsersWhereUniqueInput | UsersWhereUniqueInput[]
+    delete?: UsersWhereUniqueInput | UsersWhereUniqueInput[]
+    connect?: UsersWhereUniqueInput | UsersWhereUniqueInput[]
+    update?: UsersUpdateWithWhereUniqueWithoutFarmInput | UsersUpdateWithWhereUniqueWithoutFarmInput[]
+    updateMany?: UsersUpdateManyWithWhereWithoutFarmInput | UsersUpdateManyWithWhereWithoutFarmInput[]
+    deleteMany?: UsersScalarWhereInput | UsersScalarWhereInput[]
+  }
+
+  export type AnimalsUpdateManyWithoutFarmNestedInput = {
+    create?: XOR<AnimalsCreateWithoutFarmInput, AnimalsUncheckedCreateWithoutFarmInput> | AnimalsCreateWithoutFarmInput[] | AnimalsUncheckedCreateWithoutFarmInput[]
+    connectOrCreate?: AnimalsCreateOrConnectWithoutFarmInput | AnimalsCreateOrConnectWithoutFarmInput[]
+    upsert?: AnimalsUpsertWithWhereUniqueWithoutFarmInput | AnimalsUpsertWithWhereUniqueWithoutFarmInput[]
+    createMany?: AnimalsCreateManyFarmInputEnvelope
+    set?: AnimalsWhereUniqueInput | AnimalsWhereUniqueInput[]
+    disconnect?: AnimalsWhereUniqueInput | AnimalsWhereUniqueInput[]
+    delete?: AnimalsWhereUniqueInput | AnimalsWhereUniqueInput[]
+    connect?: AnimalsWhereUniqueInput | AnimalsWhereUniqueInput[]
+    update?: AnimalsUpdateWithWhereUniqueWithoutFarmInput | AnimalsUpdateWithWhereUniqueWithoutFarmInput[]
+    updateMany?: AnimalsUpdateManyWithWhereWithoutFarmInput | AnimalsUpdateManyWithWhereWithoutFarmInput[]
+    deleteMany?: AnimalsScalarWhereInput | AnimalsScalarWhereInput[]
+  }
+
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type UsersUncheckedUpdateManyWithoutFarmNestedInput = {
+    create?: XOR<UsersCreateWithoutFarmInput, UsersUncheckedCreateWithoutFarmInput> | UsersCreateWithoutFarmInput[] | UsersUncheckedCreateWithoutFarmInput[]
+    connectOrCreate?: UsersCreateOrConnectWithoutFarmInput | UsersCreateOrConnectWithoutFarmInput[]
+    upsert?: UsersUpsertWithWhereUniqueWithoutFarmInput | UsersUpsertWithWhereUniqueWithoutFarmInput[]
+    createMany?: UsersCreateManyFarmInputEnvelope
+    set?: UsersWhereUniqueInput | UsersWhereUniqueInput[]
+    disconnect?: UsersWhereUniqueInput | UsersWhereUniqueInput[]
+    delete?: UsersWhereUniqueInput | UsersWhereUniqueInput[]
+    connect?: UsersWhereUniqueInput | UsersWhereUniqueInput[]
+    update?: UsersUpdateWithWhereUniqueWithoutFarmInput | UsersUpdateWithWhereUniqueWithoutFarmInput[]
+    updateMany?: UsersUpdateManyWithWhereWithoutFarmInput | UsersUpdateManyWithWhereWithoutFarmInput[]
+    deleteMany?: UsersScalarWhereInput | UsersScalarWhereInput[]
+  }
+
+  export type AnimalsUncheckedUpdateManyWithoutFarmNestedInput = {
+    create?: XOR<AnimalsCreateWithoutFarmInput, AnimalsUncheckedCreateWithoutFarmInput> | AnimalsCreateWithoutFarmInput[] | AnimalsUncheckedCreateWithoutFarmInput[]
+    connectOrCreate?: AnimalsCreateOrConnectWithoutFarmInput | AnimalsCreateOrConnectWithoutFarmInput[]
+    upsert?: AnimalsUpsertWithWhereUniqueWithoutFarmInput | AnimalsUpsertWithWhereUniqueWithoutFarmInput[]
+    createMany?: AnimalsCreateManyFarmInputEnvelope
+    set?: AnimalsWhereUniqueInput | AnimalsWhereUniqueInput[]
+    disconnect?: AnimalsWhereUniqueInput | AnimalsWhereUniqueInput[]
+    delete?: AnimalsWhereUniqueInput | AnimalsWhereUniqueInput[]
+    connect?: AnimalsWhereUniqueInput | AnimalsWhereUniqueInput[]
+    update?: AnimalsUpdateWithWhereUniqueWithoutFarmInput | AnimalsUpdateWithWhereUniqueWithoutFarmInput[]
+    updateMany?: AnimalsUpdateManyWithWhereWithoutFarmInput | AnimalsUpdateManyWithWhereWithoutFarmInput[]
+    deleteMany?: AnimalsScalarWhereInput | AnimalsScalarWhereInput[]
+  }
+
+  export type FarmhandsCreateNestedOneWithoutUserInput = {
+    create?: XOR<FarmhandsCreateWithoutUserInput, FarmhandsUncheckedCreateWithoutUserInput>
+    connectOrCreate?: FarmhandsCreateOrConnectWithoutUserInput
+    connect?: FarmhandsWhereUniqueInput
   }
 
   export type VeterinariansCreateNestedOneWithoutUserInput = {
@@ -19620,10 +17412,16 @@ export namespace Prisma {
     connect?: VeterinariansWhereUniqueInput
   }
 
-  export type Farm_WorkersUncheckedCreateNestedOneWithoutUserInput = {
-    create?: XOR<Farm_WorkersCreateWithoutUserInput, Farm_WorkersUncheckedCreateWithoutUserInput>
-    connectOrCreate?: Farm_WorkersCreateOrConnectWithoutUserInput
-    connect?: Farm_WorkersWhereUniqueInput
+  export type FarmsCreateNestedOneWithoutUserInput = {
+    create?: XOR<FarmsCreateWithoutUserInput, FarmsUncheckedCreateWithoutUserInput>
+    connectOrCreate?: FarmsCreateOrConnectWithoutUserInput
+    connect?: FarmsWhereUniqueInput
+  }
+
+  export type FarmhandsUncheckedCreateNestedOneWithoutUserInput = {
+    create?: XOR<FarmhandsCreateWithoutUserInput, FarmhandsUncheckedCreateWithoutUserInput>
+    connectOrCreate?: FarmhandsCreateOrConnectWithoutUserInput
+    connect?: FarmhandsWhereUniqueInput
   }
 
   export type VeterinariansUncheckedCreateNestedOneWithoutUserInput = {
@@ -19632,34 +17430,22 @@ export namespace Prisma {
     connect?: VeterinariansWhereUniqueInput
   }
 
-  export type StringFieldUpdateOperationsInput = {
-    set?: string
-  }
-
   export type NullableStringFieldUpdateOperationsInput = {
     set?: string | null
   }
 
-  export type DateTimeFieldUpdateOperationsInput = {
-    set?: Date | string
+  export type EnumRolesFieldUpdateOperationsInput = {
+    set?: $Enums.Roles
   }
 
-  export type RolesUpdateOneRequiredWithoutUsersNestedInput = {
-    create?: XOR<RolesCreateWithoutUsersInput, RolesUncheckedCreateWithoutUsersInput>
-    connectOrCreate?: RolesCreateOrConnectWithoutUsersInput
-    upsert?: RolesUpsertWithoutUsersInput
-    connect?: RolesWhereUniqueInput
-    update?: XOR<XOR<RolesUpdateToOneWithWhereWithoutUsersInput, RolesUpdateWithoutUsersInput>, RolesUncheckedUpdateWithoutUsersInput>
-  }
-
-  export type Farm_WorkersUpdateOneWithoutUserNestedInput = {
-    create?: XOR<Farm_WorkersCreateWithoutUserInput, Farm_WorkersUncheckedCreateWithoutUserInput>
-    connectOrCreate?: Farm_WorkersCreateOrConnectWithoutUserInput
-    upsert?: Farm_WorkersUpsertWithoutUserInput
-    disconnect?: Farm_WorkersWhereInput | boolean
-    delete?: Farm_WorkersWhereInput | boolean
-    connect?: Farm_WorkersWhereUniqueInput
-    update?: XOR<XOR<Farm_WorkersUpdateToOneWithWhereWithoutUserInput, Farm_WorkersUpdateWithoutUserInput>, Farm_WorkersUncheckedUpdateWithoutUserInput>
+  export type FarmhandsUpdateOneWithoutUserNestedInput = {
+    create?: XOR<FarmhandsCreateWithoutUserInput, FarmhandsUncheckedCreateWithoutUserInput>
+    connectOrCreate?: FarmhandsCreateOrConnectWithoutUserInput
+    upsert?: FarmhandsUpsertWithoutUserInput
+    disconnect?: FarmhandsWhereInput | boolean
+    delete?: FarmhandsWhereInput | boolean
+    connect?: FarmhandsWhereUniqueInput
+    update?: XOR<XOR<FarmhandsUpdateToOneWithWhereWithoutUserInput, FarmhandsUpdateWithoutUserInput>, FarmhandsUncheckedUpdateWithoutUserInput>
   }
 
   export type VeterinariansUpdateOneWithoutUserNestedInput = {
@@ -19672,22 +17458,22 @@ export namespace Prisma {
     update?: XOR<XOR<VeterinariansUpdateToOneWithWhereWithoutUserInput, VeterinariansUpdateWithoutUserInput>, VeterinariansUncheckedUpdateWithoutUserInput>
   }
 
-  export type IntFieldUpdateOperationsInput = {
-    set?: number
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
+  export type FarmsUpdateOneRequiredWithoutUserNestedInput = {
+    create?: XOR<FarmsCreateWithoutUserInput, FarmsUncheckedCreateWithoutUserInput>
+    connectOrCreate?: FarmsCreateOrConnectWithoutUserInput
+    upsert?: FarmsUpsertWithoutUserInput
+    connect?: FarmsWhereUniqueInput
+    update?: XOR<XOR<FarmsUpdateToOneWithWhereWithoutUserInput, FarmsUpdateWithoutUserInput>, FarmsUncheckedUpdateWithoutUserInput>
   }
 
-  export type Farm_WorkersUncheckedUpdateOneWithoutUserNestedInput = {
-    create?: XOR<Farm_WorkersCreateWithoutUserInput, Farm_WorkersUncheckedCreateWithoutUserInput>
-    connectOrCreate?: Farm_WorkersCreateOrConnectWithoutUserInput
-    upsert?: Farm_WorkersUpsertWithoutUserInput
-    disconnect?: Farm_WorkersWhereInput | boolean
-    delete?: Farm_WorkersWhereInput | boolean
-    connect?: Farm_WorkersWhereUniqueInput
-    update?: XOR<XOR<Farm_WorkersUpdateToOneWithWhereWithoutUserInput, Farm_WorkersUpdateWithoutUserInput>, Farm_WorkersUncheckedUpdateWithoutUserInput>
+  export type FarmhandsUncheckedUpdateOneWithoutUserNestedInput = {
+    create?: XOR<FarmhandsCreateWithoutUserInput, FarmhandsUncheckedCreateWithoutUserInput>
+    connectOrCreate?: FarmhandsCreateOrConnectWithoutUserInput
+    upsert?: FarmhandsUpsertWithoutUserInput
+    disconnect?: FarmhandsWhereInput | boolean
+    delete?: FarmhandsWhereInput | boolean
+    connect?: FarmhandsWhereUniqueInput
+    update?: XOR<XOR<FarmhandsUpdateToOneWithWhereWithoutUserInput, FarmhandsUpdateWithoutUserInput>, FarmhandsUncheckedUpdateWithoutUserInput>
   }
 
   export type VeterinariansUncheckedUpdateOneWithoutUserNestedInput = {
@@ -19700,65 +17486,23 @@ export namespace Prisma {
     update?: XOR<XOR<VeterinariansUpdateToOneWithWhereWithoutUserInput, VeterinariansUpdateWithoutUserInput>, VeterinariansUncheckedUpdateWithoutUserInput>
   }
 
-  export type UsersCreateNestedManyWithoutRoleInput = {
-    create?: XOR<UsersCreateWithoutRoleInput, UsersUncheckedCreateWithoutRoleInput> | UsersCreateWithoutRoleInput[] | UsersUncheckedCreateWithoutRoleInput[]
-    connectOrCreate?: UsersCreateOrConnectWithoutRoleInput | UsersCreateOrConnectWithoutRoleInput[]
-    createMany?: UsersCreateManyRoleInputEnvelope
-    connect?: UsersWhereUniqueInput | UsersWhereUniqueInput[]
-  }
-
-  export type UsersUncheckedCreateNestedManyWithoutRoleInput = {
-    create?: XOR<UsersCreateWithoutRoleInput, UsersUncheckedCreateWithoutRoleInput> | UsersCreateWithoutRoleInput[] | UsersUncheckedCreateWithoutRoleInput[]
-    connectOrCreate?: UsersCreateOrConnectWithoutRoleInput | UsersCreateOrConnectWithoutRoleInput[]
-    createMany?: UsersCreateManyRoleInputEnvelope
-    connect?: UsersWhereUniqueInput | UsersWhereUniqueInput[]
-  }
-
-  export type UsersUpdateManyWithoutRoleNestedInput = {
-    create?: XOR<UsersCreateWithoutRoleInput, UsersUncheckedCreateWithoutRoleInput> | UsersCreateWithoutRoleInput[] | UsersUncheckedCreateWithoutRoleInput[]
-    connectOrCreate?: UsersCreateOrConnectWithoutRoleInput | UsersCreateOrConnectWithoutRoleInput[]
-    upsert?: UsersUpsertWithWhereUniqueWithoutRoleInput | UsersUpsertWithWhereUniqueWithoutRoleInput[]
-    createMany?: UsersCreateManyRoleInputEnvelope
-    set?: UsersWhereUniqueInput | UsersWhereUniqueInput[]
-    disconnect?: UsersWhereUniqueInput | UsersWhereUniqueInput[]
-    delete?: UsersWhereUniqueInput | UsersWhereUniqueInput[]
-    connect?: UsersWhereUniqueInput | UsersWhereUniqueInput[]
-    update?: UsersUpdateWithWhereUniqueWithoutRoleInput | UsersUpdateWithWhereUniqueWithoutRoleInput[]
-    updateMany?: UsersUpdateManyWithWhereWithoutRoleInput | UsersUpdateManyWithWhereWithoutRoleInput[]
-    deleteMany?: UsersScalarWhereInput | UsersScalarWhereInput[]
-  }
-
-  export type UsersUncheckedUpdateManyWithoutRoleNestedInput = {
-    create?: XOR<UsersCreateWithoutRoleInput, UsersUncheckedCreateWithoutRoleInput> | UsersCreateWithoutRoleInput[] | UsersUncheckedCreateWithoutRoleInput[]
-    connectOrCreate?: UsersCreateOrConnectWithoutRoleInput | UsersCreateOrConnectWithoutRoleInput[]
-    upsert?: UsersUpsertWithWhereUniqueWithoutRoleInput | UsersUpsertWithWhereUniqueWithoutRoleInput[]
-    createMany?: UsersCreateManyRoleInputEnvelope
-    set?: UsersWhereUniqueInput | UsersWhereUniqueInput[]
-    disconnect?: UsersWhereUniqueInput | UsersWhereUniqueInput[]
-    delete?: UsersWhereUniqueInput | UsersWhereUniqueInput[]
-    connect?: UsersWhereUniqueInput | UsersWhereUniqueInput[]
-    update?: UsersUpdateWithWhereUniqueWithoutRoleInput | UsersUpdateWithWhereUniqueWithoutRoleInput[]
-    updateMany?: UsersUpdateManyWithWhereWithoutRoleInput | UsersUpdateManyWithWhereWithoutRoleInput[]
-    deleteMany?: UsersScalarWhereInput | UsersScalarWhereInput[]
-  }
-
-  export type UsersCreateNestedOneWithoutFarm_WorkersInput = {
-    create?: XOR<UsersCreateWithoutFarm_WorkersInput, UsersUncheckedCreateWithoutFarm_WorkersInput>
-    connectOrCreate?: UsersCreateOrConnectWithoutFarm_WorkersInput
+  export type UsersCreateNestedOneWithoutFarmhandInput = {
+    create?: XOR<UsersCreateWithoutFarmhandInput, UsersUncheckedCreateWithoutFarmhandInput>
+    connectOrCreate?: UsersCreateOrConnectWithoutFarmhandInput
     connect?: UsersWhereUniqueInput
   }
 
-  export type UsersUpdateOneRequiredWithoutFarm_WorkersNestedInput = {
-    create?: XOR<UsersCreateWithoutFarm_WorkersInput, UsersUncheckedCreateWithoutFarm_WorkersInput>
-    connectOrCreate?: UsersCreateOrConnectWithoutFarm_WorkersInput
-    upsert?: UsersUpsertWithoutFarm_WorkersInput
+  export type UsersUpdateOneRequiredWithoutFarmhandNestedInput = {
+    create?: XOR<UsersCreateWithoutFarmhandInput, UsersUncheckedCreateWithoutFarmhandInput>
+    connectOrCreate?: UsersCreateOrConnectWithoutFarmhandInput
+    upsert?: UsersUpsertWithoutFarmhandInput
     connect?: UsersWhereUniqueInput
-    update?: XOR<XOR<UsersUpdateToOneWithWhereWithoutFarm_WorkersInput, UsersUpdateWithoutFarm_WorkersInput>, UsersUncheckedUpdateWithoutFarm_WorkersInput>
+    update?: XOR<XOR<UsersUpdateToOneWithWhereWithoutFarmhandInput, UsersUpdateWithoutFarmhandInput>, UsersUncheckedUpdateWithoutFarmhandInput>
   }
 
-  export type UsersCreateNestedOneWithoutVeterinariansInput = {
-    create?: XOR<UsersCreateWithoutVeterinariansInput, UsersUncheckedCreateWithoutVeterinariansInput>
-    connectOrCreate?: UsersCreateOrConnectWithoutVeterinariansInput
+  export type UsersCreateNestedOneWithoutVeterinaryInput = {
+    create?: XOR<UsersCreateWithoutVeterinaryInput, UsersUncheckedCreateWithoutVeterinaryInput>
+    connectOrCreate?: UsersCreateOrConnectWithoutVeterinaryInput
     connect?: UsersWhereUniqueInput
   }
 
@@ -19776,12 +17520,12 @@ export namespace Prisma {
     connect?: ApplicationsWhereUniqueInput | ApplicationsWhereUniqueInput[]
   }
 
-  export type UsersUpdateOneRequiredWithoutVeterinariansNestedInput = {
-    create?: XOR<UsersCreateWithoutVeterinariansInput, UsersUncheckedCreateWithoutVeterinariansInput>
-    connectOrCreate?: UsersCreateOrConnectWithoutVeterinariansInput
-    upsert?: UsersUpsertWithoutVeterinariansInput
+  export type UsersUpdateOneRequiredWithoutVeterinaryNestedInput = {
+    create?: XOR<UsersCreateWithoutVeterinaryInput, UsersUncheckedCreateWithoutVeterinaryInput>
+    connectOrCreate?: UsersCreateOrConnectWithoutVeterinaryInput
+    upsert?: UsersUpsertWithoutVeterinaryInput
     connect?: UsersWhereUniqueInput
-    update?: XOR<XOR<UsersUpdateToOneWithWhereWithoutVeterinariansInput, UsersUpdateWithoutVeterinariansInput>, UsersUncheckedUpdateWithoutVeterinariansInput>
+    update?: XOR<XOR<UsersUpdateToOneWithWhereWithoutVeterinaryInput, UsersUpdateWithoutVeterinaryInput>, UsersUncheckedUpdateWithoutVeterinaryInput>
   }
 
   export type ApplicationsUpdateManyWithoutVeterinaryNestedInput = {
@@ -19812,22 +17556,22 @@ export namespace Prisma {
     deleteMany?: ApplicationsScalarWhereInput | ApplicationsScalarWhereInput[]
   }
 
-  export type SpeciesCreateNestedOneWithoutAnimalsInput = {
-    create?: XOR<SpeciesCreateWithoutAnimalsInput, SpeciesUncheckedCreateWithoutAnimalsInput>
-    connectOrCreate?: SpeciesCreateOrConnectWithoutAnimalsInput
+  export type SpeciesCreateNestedOneWithoutAnimalInput = {
+    create?: XOR<SpeciesCreateWithoutAnimalInput, SpeciesUncheckedCreateWithoutAnimalInput>
+    connectOrCreate?: SpeciesCreateOrConnectWithoutAnimalInput
     connect?: SpeciesWhereUniqueInput
   }
 
-  export type BreedsCreateNestedOneWithoutAnimalsInput = {
-    create?: XOR<BreedsCreateWithoutAnimalsInput, BreedsUncheckedCreateWithoutAnimalsInput>
-    connectOrCreate?: BreedsCreateOrConnectWithoutAnimalsInput
+  export type BreedsCreateNestedOneWithoutAnimalInput = {
+    create?: XOR<BreedsCreateWithoutAnimalInput, BreedsUncheckedCreateWithoutAnimalInput>
+    connectOrCreate?: BreedsCreateOrConnectWithoutAnimalInput
     connect?: BreedsWhereUniqueInput
   }
 
-  export type Health_StatusCreateNestedOneWithoutAnimalsInput = {
-    create?: XOR<Health_StatusCreateWithoutAnimalsInput, Health_StatusUncheckedCreateWithoutAnimalsInput>
-    connectOrCreate?: Health_StatusCreateOrConnectWithoutAnimalsInput
-    connect?: Health_StatusWhereUniqueInput
+  export type FarmsCreateNestedOneWithoutAnimalInput = {
+    create?: XOR<FarmsCreateWithoutAnimalInput, FarmsUncheckedCreateWithoutAnimalInput>
+    connectOrCreate?: FarmsCreateOrConnectWithoutAnimalInput
+    connect?: FarmsWhereUniqueInput
   }
 
   export type LocationsCreateNestedManyWithoutAnimalInput = {
@@ -19866,28 +17610,32 @@ export namespace Prisma {
     divide?: number
   }
 
-  export type SpeciesUpdateOneRequiredWithoutAnimalsNestedInput = {
-    create?: XOR<SpeciesCreateWithoutAnimalsInput, SpeciesUncheckedCreateWithoutAnimalsInput>
-    connectOrCreate?: SpeciesCreateOrConnectWithoutAnimalsInput
-    upsert?: SpeciesUpsertWithoutAnimalsInput
+  export type EnumHealth_StatusFieldUpdateOperationsInput = {
+    set?: $Enums.Health_Status
+  }
+
+  export type SpeciesUpdateOneRequiredWithoutAnimalNestedInput = {
+    create?: XOR<SpeciesCreateWithoutAnimalInput, SpeciesUncheckedCreateWithoutAnimalInput>
+    connectOrCreate?: SpeciesCreateOrConnectWithoutAnimalInput
+    upsert?: SpeciesUpsertWithoutAnimalInput
     connect?: SpeciesWhereUniqueInput
-    update?: XOR<XOR<SpeciesUpdateToOneWithWhereWithoutAnimalsInput, SpeciesUpdateWithoutAnimalsInput>, SpeciesUncheckedUpdateWithoutAnimalsInput>
+    update?: XOR<XOR<SpeciesUpdateToOneWithWhereWithoutAnimalInput, SpeciesUpdateWithoutAnimalInput>, SpeciesUncheckedUpdateWithoutAnimalInput>
   }
 
-  export type BreedsUpdateOneRequiredWithoutAnimalsNestedInput = {
-    create?: XOR<BreedsCreateWithoutAnimalsInput, BreedsUncheckedCreateWithoutAnimalsInput>
-    connectOrCreate?: BreedsCreateOrConnectWithoutAnimalsInput
-    upsert?: BreedsUpsertWithoutAnimalsInput
+  export type BreedsUpdateOneRequiredWithoutAnimalNestedInput = {
+    create?: XOR<BreedsCreateWithoutAnimalInput, BreedsUncheckedCreateWithoutAnimalInput>
+    connectOrCreate?: BreedsCreateOrConnectWithoutAnimalInput
+    upsert?: BreedsUpsertWithoutAnimalInput
     connect?: BreedsWhereUniqueInput
-    update?: XOR<XOR<BreedsUpdateToOneWithWhereWithoutAnimalsInput, BreedsUpdateWithoutAnimalsInput>, BreedsUncheckedUpdateWithoutAnimalsInput>
+    update?: XOR<XOR<BreedsUpdateToOneWithWhereWithoutAnimalInput, BreedsUpdateWithoutAnimalInput>, BreedsUncheckedUpdateWithoutAnimalInput>
   }
 
-  export type Health_StatusUpdateOneRequiredWithoutAnimalsNestedInput = {
-    create?: XOR<Health_StatusCreateWithoutAnimalsInput, Health_StatusUncheckedCreateWithoutAnimalsInput>
-    connectOrCreate?: Health_StatusCreateOrConnectWithoutAnimalsInput
-    upsert?: Health_StatusUpsertWithoutAnimalsInput
-    connect?: Health_StatusWhereUniqueInput
-    update?: XOR<XOR<Health_StatusUpdateToOneWithWhereWithoutAnimalsInput, Health_StatusUpdateWithoutAnimalsInput>, Health_StatusUncheckedUpdateWithoutAnimalsInput>
+  export type FarmsUpdateOneRequiredWithoutAnimalNestedInput = {
+    create?: XOR<FarmsCreateWithoutAnimalInput, FarmsUncheckedCreateWithoutAnimalInput>
+    connectOrCreate?: FarmsCreateOrConnectWithoutAnimalInput
+    upsert?: FarmsUpsertWithoutAnimalInput
+    connect?: FarmsWhereUniqueInput
+    update?: XOR<XOR<FarmsUpdateToOneWithWhereWithoutAnimalInput, FarmsUpdateWithoutAnimalInput>, FarmsUncheckedUpdateWithoutAnimalInput>
   }
 
   export type LocationsUpdateManyWithoutAnimalNestedInput = {
@@ -20038,9 +17786,9 @@ export namespace Prisma {
     deleteMany?: BreedsScalarWhereInput | BreedsScalarWhereInput[]
   }
 
-  export type SpeciesCreateNestedOneWithoutBreedsInput = {
-    create?: XOR<SpeciesCreateWithoutBreedsInput, SpeciesUncheckedCreateWithoutBreedsInput>
-    connectOrCreate?: SpeciesCreateOrConnectWithoutBreedsInput
+  export type SpeciesCreateNestedOneWithoutBreedInput = {
+    create?: XOR<SpeciesCreateWithoutBreedInput, SpeciesUncheckedCreateWithoutBreedInput>
+    connectOrCreate?: SpeciesCreateOrConnectWithoutBreedInput
     connect?: SpeciesWhereUniqueInput
   }
 
@@ -20066,12 +17814,12 @@ export namespace Prisma {
     divide?: number
   }
 
-  export type SpeciesUpdateOneRequiredWithoutBreedsNestedInput = {
-    create?: XOR<SpeciesCreateWithoutBreedsInput, SpeciesUncheckedCreateWithoutBreedsInput>
-    connectOrCreate?: SpeciesCreateOrConnectWithoutBreedsInput
-    upsert?: SpeciesUpsertWithoutBreedsInput
+  export type SpeciesUpdateOneRequiredWithoutBreedNestedInput = {
+    create?: XOR<SpeciesCreateWithoutBreedInput, SpeciesUncheckedCreateWithoutBreedInput>
+    connectOrCreate?: SpeciesCreateOrConnectWithoutBreedInput
+    upsert?: SpeciesUpsertWithoutBreedInput
     connect?: SpeciesWhereUniqueInput
-    update?: XOR<XOR<SpeciesUpdateToOneWithWhereWithoutBreedsInput, SpeciesUpdateWithoutBreedsInput>, SpeciesUncheckedUpdateWithoutBreedsInput>
+    update?: XOR<XOR<SpeciesUpdateToOneWithWhereWithoutBreedInput, SpeciesUpdateWithoutBreedInput>, SpeciesUncheckedUpdateWithoutBreedInput>
   }
 
   export type AnimalsUpdateManyWithoutBreedNestedInput = {
@@ -20099,48 +17847,6 @@ export namespace Prisma {
     connect?: AnimalsWhereUniqueInput | AnimalsWhereUniqueInput[]
     update?: AnimalsUpdateWithWhereUniqueWithoutBreedInput | AnimalsUpdateWithWhereUniqueWithoutBreedInput[]
     updateMany?: AnimalsUpdateManyWithWhereWithoutBreedInput | AnimalsUpdateManyWithWhereWithoutBreedInput[]
-    deleteMany?: AnimalsScalarWhereInput | AnimalsScalarWhereInput[]
-  }
-
-  export type AnimalsCreateNestedManyWithoutHealth_statusInput = {
-    create?: XOR<AnimalsCreateWithoutHealth_statusInput, AnimalsUncheckedCreateWithoutHealth_statusInput> | AnimalsCreateWithoutHealth_statusInput[] | AnimalsUncheckedCreateWithoutHealth_statusInput[]
-    connectOrCreate?: AnimalsCreateOrConnectWithoutHealth_statusInput | AnimalsCreateOrConnectWithoutHealth_statusInput[]
-    createMany?: AnimalsCreateManyHealth_statusInputEnvelope
-    connect?: AnimalsWhereUniqueInput | AnimalsWhereUniqueInput[]
-  }
-
-  export type AnimalsUncheckedCreateNestedManyWithoutHealth_statusInput = {
-    create?: XOR<AnimalsCreateWithoutHealth_statusInput, AnimalsUncheckedCreateWithoutHealth_statusInput> | AnimalsCreateWithoutHealth_statusInput[] | AnimalsUncheckedCreateWithoutHealth_statusInput[]
-    connectOrCreate?: AnimalsCreateOrConnectWithoutHealth_statusInput | AnimalsCreateOrConnectWithoutHealth_statusInput[]
-    createMany?: AnimalsCreateManyHealth_statusInputEnvelope
-    connect?: AnimalsWhereUniqueInput | AnimalsWhereUniqueInput[]
-  }
-
-  export type AnimalsUpdateManyWithoutHealth_statusNestedInput = {
-    create?: XOR<AnimalsCreateWithoutHealth_statusInput, AnimalsUncheckedCreateWithoutHealth_statusInput> | AnimalsCreateWithoutHealth_statusInput[] | AnimalsUncheckedCreateWithoutHealth_statusInput[]
-    connectOrCreate?: AnimalsCreateOrConnectWithoutHealth_statusInput | AnimalsCreateOrConnectWithoutHealth_statusInput[]
-    upsert?: AnimalsUpsertWithWhereUniqueWithoutHealth_statusInput | AnimalsUpsertWithWhereUniqueWithoutHealth_statusInput[]
-    createMany?: AnimalsCreateManyHealth_statusInputEnvelope
-    set?: AnimalsWhereUniqueInput | AnimalsWhereUniqueInput[]
-    disconnect?: AnimalsWhereUniqueInput | AnimalsWhereUniqueInput[]
-    delete?: AnimalsWhereUniqueInput | AnimalsWhereUniqueInput[]
-    connect?: AnimalsWhereUniqueInput | AnimalsWhereUniqueInput[]
-    update?: AnimalsUpdateWithWhereUniqueWithoutHealth_statusInput | AnimalsUpdateWithWhereUniqueWithoutHealth_statusInput[]
-    updateMany?: AnimalsUpdateManyWithWhereWithoutHealth_statusInput | AnimalsUpdateManyWithWhereWithoutHealth_statusInput[]
-    deleteMany?: AnimalsScalarWhereInput | AnimalsScalarWhereInput[]
-  }
-
-  export type AnimalsUncheckedUpdateManyWithoutHealth_statusNestedInput = {
-    create?: XOR<AnimalsCreateWithoutHealth_statusInput, AnimalsUncheckedCreateWithoutHealth_statusInput> | AnimalsCreateWithoutHealth_statusInput[] | AnimalsUncheckedCreateWithoutHealth_statusInput[]
-    connectOrCreate?: AnimalsCreateOrConnectWithoutHealth_statusInput | AnimalsCreateOrConnectWithoutHealth_statusInput[]
-    upsert?: AnimalsUpsertWithWhereUniqueWithoutHealth_statusInput | AnimalsUpsertWithWhereUniqueWithoutHealth_statusInput[]
-    createMany?: AnimalsCreateManyHealth_statusInputEnvelope
-    set?: AnimalsWhereUniqueInput | AnimalsWhereUniqueInput[]
-    disconnect?: AnimalsWhereUniqueInput | AnimalsWhereUniqueInput[]
-    delete?: AnimalsWhereUniqueInput | AnimalsWhereUniqueInput[]
-    connect?: AnimalsWhereUniqueInput | AnimalsWhereUniqueInput[]
-    update?: AnimalsUpdateWithWhereUniqueWithoutHealth_statusInput | AnimalsUpdateWithWhereUniqueWithoutHealth_statusInput[]
-    updateMany?: AnimalsUpdateManyWithWhereWithoutHealth_statusInput | AnimalsUpdateManyWithWhereWithoutHealth_statusInput[]
     deleteMany?: AnimalsScalarWhereInput | AnimalsScalarWhereInput[]
   }
 
@@ -20298,9 +18004,9 @@ export namespace Prisma {
     deleteMany?: VaccinesScalarWhereInput | VaccinesScalarWhereInput[]
   }
 
-  export type AnimalsCreateNestedOneWithoutApplicationsInput = {
-    create?: XOR<AnimalsCreateWithoutApplicationsInput, AnimalsUncheckedCreateWithoutApplicationsInput>
-    connectOrCreate?: AnimalsCreateOrConnectWithoutApplicationsInput
+  export type AnimalsCreateNestedOneWithoutApplicationInput = {
+    create?: XOR<AnimalsCreateWithoutApplicationInput, AnimalsUncheckedCreateWithoutApplicationInput>
+    connectOrCreate?: AnimalsCreateOrConnectWithoutApplicationInput
     connect?: AnimalsWhereUniqueInput
   }
 
@@ -20310,28 +18016,26 @@ export namespace Prisma {
     connect?: VaccinesWhereUniqueInput
   }
 
-  export type VeterinariansCreateNestedOneWithoutApplicationsInput = {
-    create?: XOR<VeterinariansCreateWithoutApplicationsInput, VeterinariansUncheckedCreateWithoutApplicationsInput>
-    connectOrCreate?: VeterinariansCreateOrConnectWithoutApplicationsInput
+  export type VeterinariansCreateNestedOneWithoutApplicationInput = {
+    create?: XOR<VeterinariansCreateWithoutApplicationInput, VeterinariansUncheckedCreateWithoutApplicationInput>
+    connectOrCreate?: VeterinariansCreateOrConnectWithoutApplicationInput
     connect?: VeterinariansWhereUniqueInput
-  }
-
-  export type Status_Vaccine_ApplicationsCreateNestedOneWithoutApplicationsInput = {
-    create?: XOR<Status_Vaccine_ApplicationsCreateWithoutApplicationsInput, Status_Vaccine_ApplicationsUncheckedCreateWithoutApplicationsInput>
-    connectOrCreate?: Status_Vaccine_ApplicationsCreateOrConnectWithoutApplicationsInput
-    connect?: Status_Vaccine_ApplicationsWhereUniqueInput
   }
 
   export type NullableDateTimeFieldUpdateOperationsInput = {
     set?: Date | string | null
   }
 
-  export type AnimalsUpdateOneRequiredWithoutApplicationsNestedInput = {
-    create?: XOR<AnimalsCreateWithoutApplicationsInput, AnimalsUncheckedCreateWithoutApplicationsInput>
-    connectOrCreate?: AnimalsCreateOrConnectWithoutApplicationsInput
-    upsert?: AnimalsUpsertWithoutApplicationsInput
+  export type EnumStatus_Vaccine_ApplicationsFieldUpdateOperationsInput = {
+    set?: $Enums.Status_Vaccine_Applications
+  }
+
+  export type AnimalsUpdateOneRequiredWithoutApplicationNestedInput = {
+    create?: XOR<AnimalsCreateWithoutApplicationInput, AnimalsUncheckedCreateWithoutApplicationInput>
+    connectOrCreate?: AnimalsCreateOrConnectWithoutApplicationInput
+    upsert?: AnimalsUpsertWithoutApplicationInput
     connect?: AnimalsWhereUniqueInput
-    update?: XOR<XOR<AnimalsUpdateToOneWithWhereWithoutApplicationsInput, AnimalsUpdateWithoutApplicationsInput>, AnimalsUncheckedUpdateWithoutApplicationsInput>
+    update?: XOR<XOR<AnimalsUpdateToOneWithWhereWithoutApplicationInput, AnimalsUpdateWithoutApplicationInput>, AnimalsUncheckedUpdateWithoutApplicationInput>
   }
 
   export type VaccinesUpdateOneRequiredWithoutApplicationsNestedInput = {
@@ -20342,76 +18046,26 @@ export namespace Prisma {
     update?: XOR<XOR<VaccinesUpdateToOneWithWhereWithoutApplicationsInput, VaccinesUpdateWithoutApplicationsInput>, VaccinesUncheckedUpdateWithoutApplicationsInput>
   }
 
-  export type VeterinariansUpdateOneRequiredWithoutApplicationsNestedInput = {
-    create?: XOR<VeterinariansCreateWithoutApplicationsInput, VeterinariansUncheckedCreateWithoutApplicationsInput>
-    connectOrCreate?: VeterinariansCreateOrConnectWithoutApplicationsInput
-    upsert?: VeterinariansUpsertWithoutApplicationsInput
+  export type VeterinariansUpdateOneRequiredWithoutApplicationNestedInput = {
+    create?: XOR<VeterinariansCreateWithoutApplicationInput, VeterinariansUncheckedCreateWithoutApplicationInput>
+    connectOrCreate?: VeterinariansCreateOrConnectWithoutApplicationInput
+    upsert?: VeterinariansUpsertWithoutApplicationInput
     connect?: VeterinariansWhereUniqueInput
-    update?: XOR<XOR<VeterinariansUpdateToOneWithWhereWithoutApplicationsInput, VeterinariansUpdateWithoutApplicationsInput>, VeterinariansUncheckedUpdateWithoutApplicationsInput>
+    update?: XOR<XOR<VeterinariansUpdateToOneWithWhereWithoutApplicationInput, VeterinariansUpdateWithoutApplicationInput>, VeterinariansUncheckedUpdateWithoutApplicationInput>
   }
 
-  export type Status_Vaccine_ApplicationsUpdateOneRequiredWithoutApplicationsNestedInput = {
-    create?: XOR<Status_Vaccine_ApplicationsCreateWithoutApplicationsInput, Status_Vaccine_ApplicationsUncheckedCreateWithoutApplicationsInput>
-    connectOrCreate?: Status_Vaccine_ApplicationsCreateOrConnectWithoutApplicationsInput
-    upsert?: Status_Vaccine_ApplicationsUpsertWithoutApplicationsInput
-    connect?: Status_Vaccine_ApplicationsWhereUniqueInput
-    update?: XOR<XOR<Status_Vaccine_ApplicationsUpdateToOneWithWhereWithoutApplicationsInput, Status_Vaccine_ApplicationsUpdateWithoutApplicationsInput>, Status_Vaccine_ApplicationsUncheckedUpdateWithoutApplicationsInput>
-  }
-
-  export type ApplicationsCreateNestedManyWithoutStatus_vaccineInput = {
-    create?: XOR<ApplicationsCreateWithoutStatus_vaccineInput, ApplicationsUncheckedCreateWithoutStatus_vaccineInput> | ApplicationsCreateWithoutStatus_vaccineInput[] | ApplicationsUncheckedCreateWithoutStatus_vaccineInput[]
-    connectOrCreate?: ApplicationsCreateOrConnectWithoutStatus_vaccineInput | ApplicationsCreateOrConnectWithoutStatus_vaccineInput[]
-    createMany?: ApplicationsCreateManyStatus_vaccineInputEnvelope
-    connect?: ApplicationsWhereUniqueInput | ApplicationsWhereUniqueInput[]
-  }
-
-  export type ApplicationsUncheckedCreateNestedManyWithoutStatus_vaccineInput = {
-    create?: XOR<ApplicationsCreateWithoutStatus_vaccineInput, ApplicationsUncheckedCreateWithoutStatus_vaccineInput> | ApplicationsCreateWithoutStatus_vaccineInput[] | ApplicationsUncheckedCreateWithoutStatus_vaccineInput[]
-    connectOrCreate?: ApplicationsCreateOrConnectWithoutStatus_vaccineInput | ApplicationsCreateOrConnectWithoutStatus_vaccineInput[]
-    createMany?: ApplicationsCreateManyStatus_vaccineInputEnvelope
-    connect?: ApplicationsWhereUniqueInput | ApplicationsWhereUniqueInput[]
-  }
-
-  export type ApplicationsUpdateManyWithoutStatus_vaccineNestedInput = {
-    create?: XOR<ApplicationsCreateWithoutStatus_vaccineInput, ApplicationsUncheckedCreateWithoutStatus_vaccineInput> | ApplicationsCreateWithoutStatus_vaccineInput[] | ApplicationsUncheckedCreateWithoutStatus_vaccineInput[]
-    connectOrCreate?: ApplicationsCreateOrConnectWithoutStatus_vaccineInput | ApplicationsCreateOrConnectWithoutStatus_vaccineInput[]
-    upsert?: ApplicationsUpsertWithWhereUniqueWithoutStatus_vaccineInput | ApplicationsUpsertWithWhereUniqueWithoutStatus_vaccineInput[]
-    createMany?: ApplicationsCreateManyStatus_vaccineInputEnvelope
-    set?: ApplicationsWhereUniqueInput | ApplicationsWhereUniqueInput[]
-    disconnect?: ApplicationsWhereUniqueInput | ApplicationsWhereUniqueInput[]
-    delete?: ApplicationsWhereUniqueInput | ApplicationsWhereUniqueInput[]
-    connect?: ApplicationsWhereUniqueInput | ApplicationsWhereUniqueInput[]
-    update?: ApplicationsUpdateWithWhereUniqueWithoutStatus_vaccineInput | ApplicationsUpdateWithWhereUniqueWithoutStatus_vaccineInput[]
-    updateMany?: ApplicationsUpdateManyWithWhereWithoutStatus_vaccineInput | ApplicationsUpdateManyWithWhereWithoutStatus_vaccineInput[]
-    deleteMany?: ApplicationsScalarWhereInput | ApplicationsScalarWhereInput[]
-  }
-
-  export type ApplicationsUncheckedUpdateManyWithoutStatus_vaccineNestedInput = {
-    create?: XOR<ApplicationsCreateWithoutStatus_vaccineInput, ApplicationsUncheckedCreateWithoutStatus_vaccineInput> | ApplicationsCreateWithoutStatus_vaccineInput[] | ApplicationsUncheckedCreateWithoutStatus_vaccineInput[]
-    connectOrCreate?: ApplicationsCreateOrConnectWithoutStatus_vaccineInput | ApplicationsCreateOrConnectWithoutStatus_vaccineInput[]
-    upsert?: ApplicationsUpsertWithWhereUniqueWithoutStatus_vaccineInput | ApplicationsUpsertWithWhereUniqueWithoutStatus_vaccineInput[]
-    createMany?: ApplicationsCreateManyStatus_vaccineInputEnvelope
-    set?: ApplicationsWhereUniqueInput | ApplicationsWhereUniqueInput[]
-    disconnect?: ApplicationsWhereUniqueInput | ApplicationsWhereUniqueInput[]
-    delete?: ApplicationsWhereUniqueInput | ApplicationsWhereUniqueInput[]
-    connect?: ApplicationsWhereUniqueInput | ApplicationsWhereUniqueInput[]
-    update?: ApplicationsUpdateWithWhereUniqueWithoutStatus_vaccineInput | ApplicationsUpdateWithWhereUniqueWithoutStatus_vaccineInput[]
-    updateMany?: ApplicationsUpdateManyWithWhereWithoutStatus_vaccineInput | ApplicationsUpdateManyWithWhereWithoutStatus_vaccineInput[]
-    deleteMany?: ApplicationsScalarWhereInput | ApplicationsScalarWhereInput[]
-  }
-
-  export type AnimalsCreateNestedOneWithoutLocationsInput = {
-    create?: XOR<AnimalsCreateWithoutLocationsInput, AnimalsUncheckedCreateWithoutLocationsInput>
-    connectOrCreate?: AnimalsCreateOrConnectWithoutLocationsInput
+  export type AnimalsCreateNestedOneWithoutLocationInput = {
+    create?: XOR<AnimalsCreateWithoutLocationInput, AnimalsUncheckedCreateWithoutLocationInput>
+    connectOrCreate?: AnimalsCreateOrConnectWithoutLocationInput
     connect?: AnimalsWhereUniqueInput
   }
 
-  export type AnimalsUpdateOneRequiredWithoutLocationsNestedInput = {
-    create?: XOR<AnimalsCreateWithoutLocationsInput, AnimalsUncheckedCreateWithoutLocationsInput>
-    connectOrCreate?: AnimalsCreateOrConnectWithoutLocationsInput
-    upsert?: AnimalsUpsertWithoutLocationsInput
+  export type AnimalsUpdateOneRequiredWithoutLocationNestedInput = {
+    create?: XOR<AnimalsCreateWithoutLocationInput, AnimalsUncheckedCreateWithoutLocationInput>
+    connectOrCreate?: AnimalsCreateOrConnectWithoutLocationInput
+    upsert?: AnimalsUpsertWithoutLocationInput
     connect?: AnimalsWhereUniqueInput
-    update?: XOR<XOR<AnimalsUpdateToOneWithWhereWithoutLocationsInput, AnimalsUpdateWithoutLocationsInput>, AnimalsUncheckedUpdateWithoutLocationsInput>
+    update?: XOR<XOR<AnimalsUpdateToOneWithWhereWithoutLocationInput, AnimalsUpdateWithoutLocationInput>, AnimalsUncheckedUpdateWithoutLocationInput>
   }
 
   export type NestedIntFilter<$PrismaModel = never> = {
@@ -20438,21 +18092,6 @@ export namespace Prisma {
     endsWith?: string | StringFieldRefInput<$PrismaModel>
     search?: string
     not?: NestedStringFilter<$PrismaModel> | string
-  }
-
-  export type NestedStringNullableFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | null
-    notIn?: string[] | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    search?: string
-    not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
   export type NestedDateTimeFilter<$PrismaModel = never> = {
@@ -20511,6 +18150,42 @@ export namespace Prisma {
     _max?: NestedStringFilter<$PrismaModel>
   }
 
+  export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[]
+    notIn?: Date[] | string[]
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedDateTimeFilter<$PrismaModel>
+    _max?: NestedDateTimeFilter<$PrismaModel>
+  }
+
+  export type NestedStringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | null
+    notIn?: string[] | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    search?: string
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
+  export type NestedEnumRolesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Roles | EnumRolesFieldRefInput<$PrismaModel>
+    in?: $Enums.Roles[]
+    notIn?: $Enums.Roles[]
+    not?: NestedEnumRolesFilter<$PrismaModel> | $Enums.Roles
+  }
+
   export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | null
@@ -20540,18 +18215,21 @@ export namespace Prisma {
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
-  export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[]
-    notIn?: Date[] | string[]
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
+  export type NestedEnumRolesWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Roles | EnumRolesFieldRefInput<$PrismaModel>
+    in?: $Enums.Roles[]
+    notIn?: $Enums.Roles[]
+    not?: NestedEnumRolesWithAggregatesFilter<$PrismaModel> | $Enums.Roles
     _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedDateTimeFilter<$PrismaModel>
-    _max?: NestedDateTimeFilter<$PrismaModel>
+    _min?: NestedEnumRolesFilter<$PrismaModel>
+    _max?: NestedEnumRolesFilter<$PrismaModel>
+  }
+
+  export type NestedEnumHealth_StatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.Health_Status | EnumHealth_StatusFieldRefInput<$PrismaModel>
+    in?: $Enums.Health_Status[]
+    notIn?: $Enums.Health_Status[]
+    not?: NestedEnumHealth_StatusFilter<$PrismaModel> | $Enums.Health_Status
   }
 
   export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
@@ -20568,6 +18246,16 @@ export namespace Prisma {
     _sum?: NestedFloatFilter<$PrismaModel>
     _min?: NestedFloatFilter<$PrismaModel>
     _max?: NestedFloatFilter<$PrismaModel>
+  }
+
+  export type NestedEnumHealth_StatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Health_Status | EnumHealth_StatusFieldRefInput<$PrismaModel>
+    in?: $Enums.Health_Status[]
+    notIn?: $Enums.Health_Status[]
+    not?: NestedEnumHealth_StatusWithAggregatesFilter<$PrismaModel> | $Enums.Health_Status
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumHealth_StatusFilter<$PrismaModel>
+    _max?: NestedEnumHealth_StatusFilter<$PrismaModel>
   }
 
   export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -20624,6 +18312,13 @@ export namespace Prisma {
     not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
+  export type NestedEnumStatus_Vaccine_ApplicationsFilter<$PrismaModel = never> = {
+    equals?: $Enums.Status_Vaccine_Applications | EnumStatus_Vaccine_ApplicationsFieldRefInput<$PrismaModel>
+    in?: $Enums.Status_Vaccine_Applications[]
+    notIn?: $Enums.Status_Vaccine_Applications[]
+    not?: NestedEnumStatus_Vaccine_ApplicationsFilter<$PrismaModel> | $Enums.Status_Vaccine_Applications
+  }
+
   export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
     in?: Date[] | string[] | null
@@ -20638,46 +18333,171 @@ export namespace Prisma {
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
-  export type RolesCreateWithoutUsersInput = {
+  export type NestedEnumStatus_Vaccine_ApplicationsWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Status_Vaccine_Applications | EnumStatus_Vaccine_ApplicationsFieldRefInput<$PrismaModel>
+    in?: $Enums.Status_Vaccine_Applications[]
+    notIn?: $Enums.Status_Vaccine_Applications[]
+    not?: NestedEnumStatus_Vaccine_ApplicationsWithAggregatesFilter<$PrismaModel> | $Enums.Status_Vaccine_Applications
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumStatus_Vaccine_ApplicationsFilter<$PrismaModel>
+    _max?: NestedEnumStatus_Vaccine_ApplicationsFilter<$PrismaModel>
+  }
+
+  export type UsersCreateWithoutFarmInput = {
     name: string
-    description?: string | null
+    email: string
+    password: string
+    profile_photo?: string | null
+    role: $Enums.Roles
     created_at?: Date | string
     updated_at?: Date | string
+    farmhand?: FarmhandsCreateNestedOneWithoutUserInput
+    veterinary?: VeterinariansCreateNestedOneWithoutUserInput
   }
 
-  export type RolesUncheckedCreateWithoutUsersInput = {
+  export type UsersUncheckedCreateWithoutFarmInput = {
     id?: number
     name: string
-    description?: string | null
+    email: string
+    password: string
+    profile_photo?: string | null
+    role: $Enums.Roles
     created_at?: Date | string
     updated_at?: Date | string
+    farmhand?: FarmhandsUncheckedCreateNestedOneWithoutUserInput
+    veterinary?: VeterinariansUncheckedCreateNestedOneWithoutUserInput
   }
 
-  export type RolesCreateOrConnectWithoutUsersInput = {
-    where: RolesWhereUniqueInput
-    create: XOR<RolesCreateWithoutUsersInput, RolesUncheckedCreateWithoutUsersInput>
+  export type UsersCreateOrConnectWithoutFarmInput = {
+    where: UsersWhereUniqueInput
+    create: XOR<UsersCreateWithoutFarmInput, UsersUncheckedCreateWithoutFarmInput>
   }
 
-  export type Farm_WorkersCreateWithoutUserInput = {
+  export type UsersCreateManyFarmInputEnvelope = {
+    data: UsersCreateManyFarmInput | UsersCreateManyFarmInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type AnimalsCreateWithoutFarmInput = {
+    name: string
+    birth_date: Date | string
+    weight: number
+    health_status: $Enums.Health_Status
+    created_at?: Date | string
+    updated_at?: Date | string
+    species: SpeciesCreateNestedOneWithoutAnimalInput
+    breed: BreedsCreateNestedOneWithoutAnimalInput
+    location?: LocationsCreateNestedManyWithoutAnimalInput
+    application?: ApplicationsCreateNestedManyWithoutAnimalInput
+  }
+
+  export type AnimalsUncheckedCreateWithoutFarmInput = {
+    id?: number
+    name: string
+    species_id: number
+    breed_id: number
+    birth_date: Date | string
+    weight: number
+    health_status: $Enums.Health_Status
+    created_at?: Date | string
+    updated_at?: Date | string
+    location?: LocationsUncheckedCreateNestedManyWithoutAnimalInput
+    application?: ApplicationsUncheckedCreateNestedManyWithoutAnimalInput
+  }
+
+  export type AnimalsCreateOrConnectWithoutFarmInput = {
+    where: AnimalsWhereUniqueInput
+    create: XOR<AnimalsCreateWithoutFarmInput, AnimalsUncheckedCreateWithoutFarmInput>
+  }
+
+  export type AnimalsCreateManyFarmInputEnvelope = {
+    data: AnimalsCreateManyFarmInput | AnimalsCreateManyFarmInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UsersUpsertWithWhereUniqueWithoutFarmInput = {
+    where: UsersWhereUniqueInput
+    update: XOR<UsersUpdateWithoutFarmInput, UsersUncheckedUpdateWithoutFarmInput>
+    create: XOR<UsersCreateWithoutFarmInput, UsersUncheckedCreateWithoutFarmInput>
+  }
+
+  export type UsersUpdateWithWhereUniqueWithoutFarmInput = {
+    where: UsersWhereUniqueInput
+    data: XOR<UsersUpdateWithoutFarmInput, UsersUncheckedUpdateWithoutFarmInput>
+  }
+
+  export type UsersUpdateManyWithWhereWithoutFarmInput = {
+    where: UsersScalarWhereInput
+    data: XOR<UsersUpdateManyMutationInput, UsersUncheckedUpdateManyWithoutFarmInput>
+  }
+
+  export type UsersScalarWhereInput = {
+    AND?: UsersScalarWhereInput | UsersScalarWhereInput[]
+    OR?: UsersScalarWhereInput[]
+    NOT?: UsersScalarWhereInput | UsersScalarWhereInput[]
+    id?: IntFilter<"Users"> | number
+    name?: StringFilter<"Users"> | string
+    email?: StringFilter<"Users"> | string
+    password?: StringFilter<"Users"> | string
+    profile_photo?: StringNullableFilter<"Users"> | string | null
+    role?: EnumRolesFilter<"Users"> | $Enums.Roles
+    farm_id?: IntFilter<"Users"> | number
+    created_at?: DateTimeFilter<"Users"> | Date | string
+    updated_at?: DateTimeFilter<"Users"> | Date | string
+  }
+
+  export type AnimalsUpsertWithWhereUniqueWithoutFarmInput = {
+    where: AnimalsWhereUniqueInput
+    update: XOR<AnimalsUpdateWithoutFarmInput, AnimalsUncheckedUpdateWithoutFarmInput>
+    create: XOR<AnimalsCreateWithoutFarmInput, AnimalsUncheckedCreateWithoutFarmInput>
+  }
+
+  export type AnimalsUpdateWithWhereUniqueWithoutFarmInput = {
+    where: AnimalsWhereUniqueInput
+    data: XOR<AnimalsUpdateWithoutFarmInput, AnimalsUncheckedUpdateWithoutFarmInput>
+  }
+
+  export type AnimalsUpdateManyWithWhereWithoutFarmInput = {
+    where: AnimalsScalarWhereInput
+    data: XOR<AnimalsUpdateManyMutationInput, AnimalsUncheckedUpdateManyWithoutFarmInput>
+  }
+
+  export type AnimalsScalarWhereInput = {
+    AND?: AnimalsScalarWhereInput | AnimalsScalarWhereInput[]
+    OR?: AnimalsScalarWhereInput[]
+    NOT?: AnimalsScalarWhereInput | AnimalsScalarWhereInput[]
+    id?: IntFilter<"Animals"> | number
+    name?: StringFilter<"Animals"> | string
+    species_id?: IntFilter<"Animals"> | number
+    breed_id?: IntFilter<"Animals"> | number
+    birth_date?: DateTimeFilter<"Animals"> | Date | string
+    weight?: FloatFilter<"Animals"> | number
+    health_status?: EnumHealth_StatusFilter<"Animals"> | $Enums.Health_Status
+    farm_id?: IntFilter<"Animals"> | number
+    created_at?: DateTimeFilter<"Animals"> | Date | string
+    updated_at?: DateTimeFilter<"Animals"> | Date | string
+  }
+
+  export type FarmhandsCreateWithoutUserInput = {
 
   }
 
-  export type Farm_WorkersUncheckedCreateWithoutUserInput = {
+  export type FarmhandsUncheckedCreateWithoutUserInput = {
     id?: number
   }
 
-  export type Farm_WorkersCreateOrConnectWithoutUserInput = {
-    where: Farm_WorkersWhereUniqueInput
-    create: XOR<Farm_WorkersCreateWithoutUserInput, Farm_WorkersUncheckedCreateWithoutUserInput>
+  export type FarmhandsCreateOrConnectWithoutUserInput = {
+    where: FarmhandsWhereUniqueInput
+    create: XOR<FarmhandsCreateWithoutUserInput, FarmhandsUncheckedCreateWithoutUserInput>
   }
 
   export type VeterinariansCreateWithoutUserInput = {
-    Applications?: ApplicationsCreateNestedManyWithoutVeterinaryInput
+    application?: ApplicationsCreateNestedManyWithoutVeterinaryInput
   }
 
   export type VeterinariansUncheckedCreateWithoutUserInput = {
     id?: number
-    Applications?: ApplicationsUncheckedCreateNestedManyWithoutVeterinaryInput
+    application?: ApplicationsUncheckedCreateNestedManyWithoutVeterinaryInput
   }
 
   export type VeterinariansCreateOrConnectWithoutUserInput = {
@@ -20685,48 +18505,42 @@ export namespace Prisma {
     create: XOR<VeterinariansCreateWithoutUserInput, VeterinariansUncheckedCreateWithoutUserInput>
   }
 
-  export type RolesUpsertWithoutUsersInput = {
-    update: XOR<RolesUpdateWithoutUsersInput, RolesUncheckedUpdateWithoutUsersInput>
-    create: XOR<RolesCreateWithoutUsersInput, RolesUncheckedCreateWithoutUsersInput>
-    where?: RolesWhereInput
+  export type FarmsCreateWithoutUserInput = {
+    name: string
+    created_at?: Date | string
+    updated_at?: Date | string
+    animal?: AnimalsCreateNestedManyWithoutFarmInput
   }
 
-  export type RolesUpdateToOneWithWhereWithoutUsersInput = {
-    where?: RolesWhereInput
-    data: XOR<RolesUpdateWithoutUsersInput, RolesUncheckedUpdateWithoutUsersInput>
+  export type FarmsUncheckedCreateWithoutUserInput = {
+    id?: number
+    name: string
+    created_at?: Date | string
+    updated_at?: Date | string
+    animal?: AnimalsUncheckedCreateNestedManyWithoutFarmInput
   }
 
-  export type RolesUpdateWithoutUsersInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  export type FarmsCreateOrConnectWithoutUserInput = {
+    where: FarmsWhereUniqueInput
+    create: XOR<FarmsCreateWithoutUserInput, FarmsUncheckedCreateWithoutUserInput>
   }
 
-  export type RolesUncheckedUpdateWithoutUsersInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  export type FarmhandsUpsertWithoutUserInput = {
+    update: XOR<FarmhandsUpdateWithoutUserInput, FarmhandsUncheckedUpdateWithoutUserInput>
+    create: XOR<FarmhandsCreateWithoutUserInput, FarmhandsUncheckedCreateWithoutUserInput>
+    where?: FarmhandsWhereInput
   }
 
-  export type Farm_WorkersUpsertWithoutUserInput = {
-    update: XOR<Farm_WorkersUpdateWithoutUserInput, Farm_WorkersUncheckedUpdateWithoutUserInput>
-    create: XOR<Farm_WorkersCreateWithoutUserInput, Farm_WorkersUncheckedCreateWithoutUserInput>
-    where?: Farm_WorkersWhereInput
+  export type FarmhandsUpdateToOneWithWhereWithoutUserInput = {
+    where?: FarmhandsWhereInput
+    data: XOR<FarmhandsUpdateWithoutUserInput, FarmhandsUncheckedUpdateWithoutUserInput>
   }
 
-  export type Farm_WorkersUpdateToOneWithWhereWithoutUserInput = {
-    where?: Farm_WorkersWhereInput
-    data: XOR<Farm_WorkersUpdateWithoutUserInput, Farm_WorkersUncheckedUpdateWithoutUserInput>
-  }
-
-  export type Farm_WorkersUpdateWithoutUserInput = {
+  export type FarmhandsUpdateWithoutUserInput = {
 
   }
 
-  export type Farm_WorkersUncheckedUpdateWithoutUserInput = {
+  export type FarmhandsUncheckedUpdateWithoutUserInput = {
     id?: IntFieldUpdateOperationsInput | number
   }
 
@@ -20742,175 +18556,144 @@ export namespace Prisma {
   }
 
   export type VeterinariansUpdateWithoutUserInput = {
-    Applications?: ApplicationsUpdateManyWithoutVeterinaryNestedInput
+    application?: ApplicationsUpdateManyWithoutVeterinaryNestedInput
   }
 
   export type VeterinariansUncheckedUpdateWithoutUserInput = {
     id?: IntFieldUpdateOperationsInput | number
-    Applications?: ApplicationsUncheckedUpdateManyWithoutVeterinaryNestedInput
+    application?: ApplicationsUncheckedUpdateManyWithoutVeterinaryNestedInput
   }
 
-  export type UsersCreateWithoutRoleInput = {
+  export type FarmsUpsertWithoutUserInput = {
+    update: XOR<FarmsUpdateWithoutUserInput, FarmsUncheckedUpdateWithoutUserInput>
+    create: XOR<FarmsCreateWithoutUserInput, FarmsUncheckedCreateWithoutUserInput>
+    where?: FarmsWhereInput
+  }
+
+  export type FarmsUpdateToOneWithWhereWithoutUserInput = {
+    where?: FarmsWhereInput
+    data: XOR<FarmsUpdateWithoutUserInput, FarmsUncheckedUpdateWithoutUserInput>
+  }
+
+  export type FarmsUpdateWithoutUserInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    animal?: AnimalsUpdateManyWithoutFarmNestedInput
+  }
+
+  export type FarmsUncheckedUpdateWithoutUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    animal?: AnimalsUncheckedUpdateManyWithoutFarmNestedInput
+  }
+
+  export type UsersCreateWithoutFarmhandInput = {
     name: string
     email: string
     password: string
     profile_photo?: string | null
+    role: $Enums.Roles
     created_at?: Date | string
     updated_at?: Date | string
-    Farm_Workers?: Farm_WorkersCreateNestedOneWithoutUserInput
-    Veterinarians?: VeterinariansCreateNestedOneWithoutUserInput
+    veterinary?: VeterinariansCreateNestedOneWithoutUserInput
+    farm: FarmsCreateNestedOneWithoutUserInput
   }
 
-  export type UsersUncheckedCreateWithoutRoleInput = {
+  export type UsersUncheckedCreateWithoutFarmhandInput = {
     id?: number
     name: string
     email: string
     password: string
     profile_photo?: string | null
+    role: $Enums.Roles
+    farm_id: number
     created_at?: Date | string
     updated_at?: Date | string
-    Farm_Workers?: Farm_WorkersUncheckedCreateNestedOneWithoutUserInput
-    Veterinarians?: VeterinariansUncheckedCreateNestedOneWithoutUserInput
+    veterinary?: VeterinariansUncheckedCreateNestedOneWithoutUserInput
   }
 
-  export type UsersCreateOrConnectWithoutRoleInput = {
+  export type UsersCreateOrConnectWithoutFarmhandInput = {
     where: UsersWhereUniqueInput
-    create: XOR<UsersCreateWithoutRoleInput, UsersUncheckedCreateWithoutRoleInput>
+    create: XOR<UsersCreateWithoutFarmhandInput, UsersUncheckedCreateWithoutFarmhandInput>
   }
 
-  export type UsersCreateManyRoleInputEnvelope = {
-    data: UsersCreateManyRoleInput | UsersCreateManyRoleInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type UsersUpsertWithWhereUniqueWithoutRoleInput = {
-    where: UsersWhereUniqueInput
-    update: XOR<UsersUpdateWithoutRoleInput, UsersUncheckedUpdateWithoutRoleInput>
-    create: XOR<UsersCreateWithoutRoleInput, UsersUncheckedCreateWithoutRoleInput>
-  }
-
-  export type UsersUpdateWithWhereUniqueWithoutRoleInput = {
-    where: UsersWhereUniqueInput
-    data: XOR<UsersUpdateWithoutRoleInput, UsersUncheckedUpdateWithoutRoleInput>
-  }
-
-  export type UsersUpdateManyWithWhereWithoutRoleInput = {
-    where: UsersScalarWhereInput
-    data: XOR<UsersUpdateManyMutationInput, UsersUncheckedUpdateManyWithoutRoleInput>
-  }
-
-  export type UsersScalarWhereInput = {
-    AND?: UsersScalarWhereInput | UsersScalarWhereInput[]
-    OR?: UsersScalarWhereInput[]
-    NOT?: UsersScalarWhereInput | UsersScalarWhereInput[]
-    id?: IntFilter<"Users"> | number
-    name?: StringFilter<"Users"> | string
-    email?: StringFilter<"Users"> | string
-    password?: StringFilter<"Users"> | string
-    profile_photo?: StringNullableFilter<"Users"> | string | null
-    role_id?: IntFilter<"Users"> | number
-    created_at?: DateTimeFilter<"Users"> | Date | string
-    updated_at?: DateTimeFilter<"Users"> | Date | string
-  }
-
-  export type UsersCreateWithoutFarm_WorkersInput = {
-    name: string
-    email: string
-    password: string
-    profile_photo?: string | null
-    created_at?: Date | string
-    updated_at?: Date | string
-    role: RolesCreateNestedOneWithoutUsersInput
-    Veterinarians?: VeterinariansCreateNestedOneWithoutUserInput
-  }
-
-  export type UsersUncheckedCreateWithoutFarm_WorkersInput = {
-    id?: number
-    name: string
-    email: string
-    password: string
-    profile_photo?: string | null
-    role_id: number
-    created_at?: Date | string
-    updated_at?: Date | string
-    Veterinarians?: VeterinariansUncheckedCreateNestedOneWithoutUserInput
-  }
-
-  export type UsersCreateOrConnectWithoutFarm_WorkersInput = {
-    where: UsersWhereUniqueInput
-    create: XOR<UsersCreateWithoutFarm_WorkersInput, UsersUncheckedCreateWithoutFarm_WorkersInput>
-  }
-
-  export type UsersUpsertWithoutFarm_WorkersInput = {
-    update: XOR<UsersUpdateWithoutFarm_WorkersInput, UsersUncheckedUpdateWithoutFarm_WorkersInput>
-    create: XOR<UsersCreateWithoutFarm_WorkersInput, UsersUncheckedCreateWithoutFarm_WorkersInput>
+  export type UsersUpsertWithoutFarmhandInput = {
+    update: XOR<UsersUpdateWithoutFarmhandInput, UsersUncheckedUpdateWithoutFarmhandInput>
+    create: XOR<UsersCreateWithoutFarmhandInput, UsersUncheckedCreateWithoutFarmhandInput>
     where?: UsersWhereInput
   }
 
-  export type UsersUpdateToOneWithWhereWithoutFarm_WorkersInput = {
+  export type UsersUpdateToOneWithWhereWithoutFarmhandInput = {
     where?: UsersWhereInput
-    data: XOR<UsersUpdateWithoutFarm_WorkersInput, UsersUncheckedUpdateWithoutFarm_WorkersInput>
+    data: XOR<UsersUpdateWithoutFarmhandInput, UsersUncheckedUpdateWithoutFarmhandInput>
   }
 
-  export type UsersUpdateWithoutFarm_WorkersInput = {
+  export type UsersUpdateWithoutFarmhandInput = {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     profile_photo?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRolesFieldUpdateOperationsInput | $Enums.Roles
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    role?: RolesUpdateOneRequiredWithoutUsersNestedInput
-    Veterinarians?: VeterinariansUpdateOneWithoutUserNestedInput
+    veterinary?: VeterinariansUpdateOneWithoutUserNestedInput
+    farm?: FarmsUpdateOneRequiredWithoutUserNestedInput
   }
 
-  export type UsersUncheckedUpdateWithoutFarm_WorkersInput = {
+  export type UsersUncheckedUpdateWithoutFarmhandInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     profile_photo?: NullableStringFieldUpdateOperationsInput | string | null
-    role_id?: IntFieldUpdateOperationsInput | number
+    role?: EnumRolesFieldUpdateOperationsInput | $Enums.Roles
+    farm_id?: IntFieldUpdateOperationsInput | number
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    Veterinarians?: VeterinariansUncheckedUpdateOneWithoutUserNestedInput
+    veterinary?: VeterinariansUncheckedUpdateOneWithoutUserNestedInput
   }
 
-  export type UsersCreateWithoutVeterinariansInput = {
+  export type UsersCreateWithoutVeterinaryInput = {
     name: string
     email: string
     password: string
     profile_photo?: string | null
+    role: $Enums.Roles
     created_at?: Date | string
     updated_at?: Date | string
-    role: RolesCreateNestedOneWithoutUsersInput
-    Farm_Workers?: Farm_WorkersCreateNestedOneWithoutUserInput
+    farmhand?: FarmhandsCreateNestedOneWithoutUserInput
+    farm: FarmsCreateNestedOneWithoutUserInput
   }
 
-  export type UsersUncheckedCreateWithoutVeterinariansInput = {
+  export type UsersUncheckedCreateWithoutVeterinaryInput = {
     id?: number
     name: string
     email: string
     password: string
     profile_photo?: string | null
-    role_id: number
+    role: $Enums.Roles
+    farm_id: number
     created_at?: Date | string
     updated_at?: Date | string
-    Farm_Workers?: Farm_WorkersUncheckedCreateNestedOneWithoutUserInput
+    farmhand?: FarmhandsUncheckedCreateNestedOneWithoutUserInput
   }
 
-  export type UsersCreateOrConnectWithoutVeterinariansInput = {
+  export type UsersCreateOrConnectWithoutVeterinaryInput = {
     where: UsersWhereUniqueInput
-    create: XOR<UsersCreateWithoutVeterinariansInput, UsersUncheckedCreateWithoutVeterinariansInput>
+    create: XOR<UsersCreateWithoutVeterinaryInput, UsersUncheckedCreateWithoutVeterinaryInput>
   }
 
   export type ApplicationsCreateWithoutVeterinaryInput = {
     application_date: Date | string
     next_application_date?: Date | string | null
+    status_vaccine_application: $Enums.Status_Vaccine_Applications
     created_at?: Date | string
     updated_at?: Date | string
-    animal: AnimalsCreateNestedOneWithoutApplicationsInput
+    animal: AnimalsCreateNestedOneWithoutApplicationInput
     vaccine: VaccinesCreateNestedOneWithoutApplicationsInput
-    status_vaccine: Status_Vaccine_ApplicationsCreateNestedOneWithoutApplicationsInput
   }
 
   export type ApplicationsUncheckedCreateWithoutVeterinaryInput = {
@@ -20919,7 +18702,7 @@ export namespace Prisma {
     vaccine_id: number
     application_date: Date | string
     next_application_date?: Date | string | null
-    status_vaccine_application_id: number
+    status_vaccine_application: $Enums.Status_Vaccine_Applications
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -20934,38 +18717,40 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type UsersUpsertWithoutVeterinariansInput = {
-    update: XOR<UsersUpdateWithoutVeterinariansInput, UsersUncheckedUpdateWithoutVeterinariansInput>
-    create: XOR<UsersCreateWithoutVeterinariansInput, UsersUncheckedCreateWithoutVeterinariansInput>
+  export type UsersUpsertWithoutVeterinaryInput = {
+    update: XOR<UsersUpdateWithoutVeterinaryInput, UsersUncheckedUpdateWithoutVeterinaryInput>
+    create: XOR<UsersCreateWithoutVeterinaryInput, UsersUncheckedCreateWithoutVeterinaryInput>
     where?: UsersWhereInput
   }
 
-  export type UsersUpdateToOneWithWhereWithoutVeterinariansInput = {
+  export type UsersUpdateToOneWithWhereWithoutVeterinaryInput = {
     where?: UsersWhereInput
-    data: XOR<UsersUpdateWithoutVeterinariansInput, UsersUncheckedUpdateWithoutVeterinariansInput>
+    data: XOR<UsersUpdateWithoutVeterinaryInput, UsersUncheckedUpdateWithoutVeterinaryInput>
   }
 
-  export type UsersUpdateWithoutVeterinariansInput = {
+  export type UsersUpdateWithoutVeterinaryInput = {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     profile_photo?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRolesFieldUpdateOperationsInput | $Enums.Roles
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    role?: RolesUpdateOneRequiredWithoutUsersNestedInput
-    Farm_Workers?: Farm_WorkersUpdateOneWithoutUserNestedInput
+    farmhand?: FarmhandsUpdateOneWithoutUserNestedInput
+    farm?: FarmsUpdateOneRequiredWithoutUserNestedInput
   }
 
-  export type UsersUncheckedUpdateWithoutVeterinariansInput = {
+  export type UsersUncheckedUpdateWithoutVeterinaryInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     profile_photo?: NullableStringFieldUpdateOperationsInput | string | null
-    role_id?: IntFieldUpdateOperationsInput | number
+    role?: EnumRolesFieldUpdateOperationsInput | $Enums.Roles
+    farm_id?: IntFieldUpdateOperationsInput | number
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    Farm_Workers?: Farm_WorkersUncheckedUpdateOneWithoutUserNestedInput
+    farmhand?: FarmhandsUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type ApplicationsUpsertWithWhereUniqueWithoutVeterinaryInput = {
@@ -20994,22 +18779,22 @@ export namespace Prisma {
     veterinary_id?: IntFilter<"Applications"> | number
     application_date?: DateTimeFilter<"Applications"> | Date | string
     next_application_date?: DateTimeNullableFilter<"Applications"> | Date | string | null
-    status_vaccine_application_id?: IntFilter<"Applications"> | number
+    status_vaccine_application?: EnumStatus_Vaccine_ApplicationsFilter<"Applications"> | $Enums.Status_Vaccine_Applications
     created_at?: DateTimeFilter<"Applications"> | Date | string
     updated_at?: DateTimeFilter<"Applications"> | Date | string
   }
 
-  export type SpeciesCreateWithoutAnimalsInput = {
+  export type SpeciesCreateWithoutAnimalInput = {
     name: string
     description: string
     average_lifespan?: number | null
     gestation_period?: number | null
     created_at?: Date | string
     updated_at?: Date | string
-    breeds?: BreedsCreateNestedManyWithoutSpeciesInput
+    breed?: BreedsCreateNestedManyWithoutSpeciesInput
   }
 
-  export type SpeciesUncheckedCreateWithoutAnimalsInput = {
+  export type SpeciesUncheckedCreateWithoutAnimalInput = {
     id?: number
     name: string
     description: string
@@ -21017,25 +18802,25 @@ export namespace Prisma {
     gestation_period?: number | null
     created_at?: Date | string
     updated_at?: Date | string
-    breeds?: BreedsUncheckedCreateNestedManyWithoutSpeciesInput
+    breed?: BreedsUncheckedCreateNestedManyWithoutSpeciesInput
   }
 
-  export type SpeciesCreateOrConnectWithoutAnimalsInput = {
+  export type SpeciesCreateOrConnectWithoutAnimalInput = {
     where: SpeciesWhereUniqueInput
-    create: XOR<SpeciesCreateWithoutAnimalsInput, SpeciesUncheckedCreateWithoutAnimalsInput>
+    create: XOR<SpeciesCreateWithoutAnimalInput, SpeciesUncheckedCreateWithoutAnimalInput>
   }
 
-  export type BreedsCreateWithoutAnimalsInput = {
+  export type BreedsCreateWithoutAnimalInput = {
     name: string
     description: string
     average_weight?: number | null
     productivity?: string | null
     created_at?: Date | string
     updated_at?: Date | string
-    species: SpeciesCreateNestedOneWithoutBreedsInput
+    species: SpeciesCreateNestedOneWithoutBreedInput
   }
 
-  export type BreedsUncheckedCreateWithoutAnimalsInput = {
+  export type BreedsUncheckedCreateWithoutAnimalInput = {
     id?: number
     name: string
     description: string
@@ -21046,29 +18831,29 @@ export namespace Prisma {
     updated_at?: Date | string
   }
 
-  export type BreedsCreateOrConnectWithoutAnimalsInput = {
+  export type BreedsCreateOrConnectWithoutAnimalInput = {
     where: BreedsWhereUniqueInput
-    create: XOR<BreedsCreateWithoutAnimalsInput, BreedsUncheckedCreateWithoutAnimalsInput>
+    create: XOR<BreedsCreateWithoutAnimalInput, BreedsUncheckedCreateWithoutAnimalInput>
   }
 
-  export type Health_StatusCreateWithoutAnimalsInput = {
+  export type FarmsCreateWithoutAnimalInput = {
     name: string
-    description: string
     created_at?: Date | string
     updated_at?: Date | string
+    user?: UsersCreateNestedManyWithoutFarmInput
   }
 
-  export type Health_StatusUncheckedCreateWithoutAnimalsInput = {
+  export type FarmsUncheckedCreateWithoutAnimalInput = {
     id?: number
     name: string
-    description: string
     created_at?: Date | string
     updated_at?: Date | string
+    user?: UsersUncheckedCreateNestedManyWithoutFarmInput
   }
 
-  export type Health_StatusCreateOrConnectWithoutAnimalsInput = {
-    where: Health_StatusWhereUniqueInput
-    create: XOR<Health_StatusCreateWithoutAnimalsInput, Health_StatusUncheckedCreateWithoutAnimalsInput>
+  export type FarmsCreateOrConnectWithoutAnimalInput = {
+    where: FarmsWhereUniqueInput
+    create: XOR<FarmsCreateWithoutAnimalInput, FarmsUncheckedCreateWithoutAnimalInput>
   }
 
   export type LocationsCreateWithoutAnimalInput = {
@@ -21101,11 +18886,11 @@ export namespace Prisma {
   export type ApplicationsCreateWithoutAnimalInput = {
     application_date: Date | string
     next_application_date?: Date | string | null
+    status_vaccine_application: $Enums.Status_Vaccine_Applications
     created_at?: Date | string
     updated_at?: Date | string
     vaccine: VaccinesCreateNestedOneWithoutApplicationsInput
-    veterinary: VeterinariansCreateNestedOneWithoutApplicationsInput
-    status_vaccine: Status_Vaccine_ApplicationsCreateNestedOneWithoutApplicationsInput
+    veterinary: VeterinariansCreateNestedOneWithoutApplicationInput
   }
 
   export type ApplicationsUncheckedCreateWithoutAnimalInput = {
@@ -21114,7 +18899,7 @@ export namespace Prisma {
     veterinary_id: number
     application_date: Date | string
     next_application_date?: Date | string | null
-    status_vaccine_application_id: number
+    status_vaccine_application: $Enums.Status_Vaccine_Applications
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -21129,28 +18914,28 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type SpeciesUpsertWithoutAnimalsInput = {
-    update: XOR<SpeciesUpdateWithoutAnimalsInput, SpeciesUncheckedUpdateWithoutAnimalsInput>
-    create: XOR<SpeciesCreateWithoutAnimalsInput, SpeciesUncheckedCreateWithoutAnimalsInput>
+  export type SpeciesUpsertWithoutAnimalInput = {
+    update: XOR<SpeciesUpdateWithoutAnimalInput, SpeciesUncheckedUpdateWithoutAnimalInput>
+    create: XOR<SpeciesCreateWithoutAnimalInput, SpeciesUncheckedCreateWithoutAnimalInput>
     where?: SpeciesWhereInput
   }
 
-  export type SpeciesUpdateToOneWithWhereWithoutAnimalsInput = {
+  export type SpeciesUpdateToOneWithWhereWithoutAnimalInput = {
     where?: SpeciesWhereInput
-    data: XOR<SpeciesUpdateWithoutAnimalsInput, SpeciesUncheckedUpdateWithoutAnimalsInput>
+    data: XOR<SpeciesUpdateWithoutAnimalInput, SpeciesUncheckedUpdateWithoutAnimalInput>
   }
 
-  export type SpeciesUpdateWithoutAnimalsInput = {
+  export type SpeciesUpdateWithoutAnimalInput = {
     name?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     average_lifespan?: NullableIntFieldUpdateOperationsInput | number | null
     gestation_period?: NullableIntFieldUpdateOperationsInput | number | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    breeds?: BreedsUpdateManyWithoutSpeciesNestedInput
+    breed?: BreedsUpdateManyWithoutSpeciesNestedInput
   }
 
-  export type SpeciesUncheckedUpdateWithoutAnimalsInput = {
+  export type SpeciesUncheckedUpdateWithoutAnimalInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
@@ -21158,31 +18943,31 @@ export namespace Prisma {
     gestation_period?: NullableIntFieldUpdateOperationsInput | number | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    breeds?: BreedsUncheckedUpdateManyWithoutSpeciesNestedInput
+    breed?: BreedsUncheckedUpdateManyWithoutSpeciesNestedInput
   }
 
-  export type BreedsUpsertWithoutAnimalsInput = {
-    update: XOR<BreedsUpdateWithoutAnimalsInput, BreedsUncheckedUpdateWithoutAnimalsInput>
-    create: XOR<BreedsCreateWithoutAnimalsInput, BreedsUncheckedCreateWithoutAnimalsInput>
+  export type BreedsUpsertWithoutAnimalInput = {
+    update: XOR<BreedsUpdateWithoutAnimalInput, BreedsUncheckedUpdateWithoutAnimalInput>
+    create: XOR<BreedsCreateWithoutAnimalInput, BreedsUncheckedCreateWithoutAnimalInput>
     where?: BreedsWhereInput
   }
 
-  export type BreedsUpdateToOneWithWhereWithoutAnimalsInput = {
+  export type BreedsUpdateToOneWithWhereWithoutAnimalInput = {
     where?: BreedsWhereInput
-    data: XOR<BreedsUpdateWithoutAnimalsInput, BreedsUncheckedUpdateWithoutAnimalsInput>
+    data: XOR<BreedsUpdateWithoutAnimalInput, BreedsUncheckedUpdateWithoutAnimalInput>
   }
 
-  export type BreedsUpdateWithoutAnimalsInput = {
+  export type BreedsUpdateWithoutAnimalInput = {
     name?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     average_weight?: NullableFloatFieldUpdateOperationsInput | number | null
     productivity?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    species?: SpeciesUpdateOneRequiredWithoutBreedsNestedInput
+    species?: SpeciesUpdateOneRequiredWithoutBreedNestedInput
   }
 
-  export type BreedsUncheckedUpdateWithoutAnimalsInput = {
+  export type BreedsUncheckedUpdateWithoutAnimalInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
@@ -21193,30 +18978,30 @@ export namespace Prisma {
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type Health_StatusUpsertWithoutAnimalsInput = {
-    update: XOR<Health_StatusUpdateWithoutAnimalsInput, Health_StatusUncheckedUpdateWithoutAnimalsInput>
-    create: XOR<Health_StatusCreateWithoutAnimalsInput, Health_StatusUncheckedCreateWithoutAnimalsInput>
-    where?: Health_StatusWhereInput
+  export type FarmsUpsertWithoutAnimalInput = {
+    update: XOR<FarmsUpdateWithoutAnimalInput, FarmsUncheckedUpdateWithoutAnimalInput>
+    create: XOR<FarmsCreateWithoutAnimalInput, FarmsUncheckedCreateWithoutAnimalInput>
+    where?: FarmsWhereInput
   }
 
-  export type Health_StatusUpdateToOneWithWhereWithoutAnimalsInput = {
-    where?: Health_StatusWhereInput
-    data: XOR<Health_StatusUpdateWithoutAnimalsInput, Health_StatusUncheckedUpdateWithoutAnimalsInput>
+  export type FarmsUpdateToOneWithWhereWithoutAnimalInput = {
+    where?: FarmsWhereInput
+    data: XOR<FarmsUpdateWithoutAnimalInput, FarmsUncheckedUpdateWithoutAnimalInput>
   }
 
-  export type Health_StatusUpdateWithoutAnimalsInput = {
+  export type FarmsUpdateWithoutAnimalInput = {
     name?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UsersUpdateManyWithoutFarmNestedInput
   }
 
-  export type Health_StatusUncheckedUpdateWithoutAnimalsInput = {
+  export type FarmsUncheckedUpdateWithoutAnimalInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UsersUncheckedUpdateManyWithoutFarmNestedInput
   }
 
   export type LocationsUpsertWithWhereUniqueWithoutAnimalInput = {
@@ -21268,12 +19053,13 @@ export namespace Prisma {
     name: string
     birth_date: Date | string
     weight: number
+    health_status: $Enums.Health_Status
     created_at?: Date | string
     updated_at?: Date | string
-    breed: BreedsCreateNestedOneWithoutAnimalsInput
-    health_status: Health_StatusCreateNestedOneWithoutAnimalsInput
-    Locations?: LocationsCreateNestedManyWithoutAnimalInput
-    Applications?: ApplicationsCreateNestedManyWithoutAnimalInput
+    breed: BreedsCreateNestedOneWithoutAnimalInput
+    farm: FarmsCreateNestedOneWithoutAnimalInput
+    location?: LocationsCreateNestedManyWithoutAnimalInput
+    application?: ApplicationsCreateNestedManyWithoutAnimalInput
   }
 
   export type AnimalsUncheckedCreateWithoutSpeciesInput = {
@@ -21282,11 +19068,12 @@ export namespace Prisma {
     breed_id: number
     birth_date: Date | string
     weight: number
-    health_status_id: number
+    health_status: $Enums.Health_Status
+    farm_id: number
     created_at?: Date | string
     updated_at?: Date | string
-    Locations?: LocationsUncheckedCreateNestedManyWithoutAnimalInput
-    Applications?: ApplicationsUncheckedCreateNestedManyWithoutAnimalInput
+    location?: LocationsUncheckedCreateNestedManyWithoutAnimalInput
+    application?: ApplicationsUncheckedCreateNestedManyWithoutAnimalInput
   }
 
   export type AnimalsCreateOrConnectWithoutSpeciesInput = {
@@ -21306,7 +19093,7 @@ export namespace Prisma {
     productivity?: string | null
     created_at?: Date | string
     updated_at?: Date | string
-    animals?: AnimalsCreateNestedManyWithoutBreedInput
+    animal?: AnimalsCreateNestedManyWithoutBreedInput
   }
 
   export type BreedsUncheckedCreateWithoutSpeciesInput = {
@@ -21317,7 +19104,7 @@ export namespace Prisma {
     productivity?: string | null
     created_at?: Date | string
     updated_at?: Date | string
-    animals?: AnimalsUncheckedCreateNestedManyWithoutBreedInput
+    animal?: AnimalsUncheckedCreateNestedManyWithoutBreedInput
   }
 
   export type BreedsCreateOrConnectWithoutSpeciesInput = {
@@ -21344,21 +19131,6 @@ export namespace Prisma {
   export type AnimalsUpdateManyWithWhereWithoutSpeciesInput = {
     where: AnimalsScalarWhereInput
     data: XOR<AnimalsUpdateManyMutationInput, AnimalsUncheckedUpdateManyWithoutSpeciesInput>
-  }
-
-  export type AnimalsScalarWhereInput = {
-    AND?: AnimalsScalarWhereInput | AnimalsScalarWhereInput[]
-    OR?: AnimalsScalarWhereInput[]
-    NOT?: AnimalsScalarWhereInput | AnimalsScalarWhereInput[]
-    id?: IntFilter<"Animals"> | number
-    name?: StringFilter<"Animals"> | string
-    species_id?: IntFilter<"Animals"> | number
-    breed_id?: IntFilter<"Animals"> | number
-    birth_date?: DateTimeFilter<"Animals"> | Date | string
-    weight?: FloatFilter<"Animals"> | number
-    health_status_id?: IntFilter<"Animals"> | number
-    created_at?: DateTimeFilter<"Animals"> | Date | string
-    updated_at?: DateTimeFilter<"Animals"> | Date | string
   }
 
   export type BreedsUpsertWithWhereUniqueWithoutSpeciesInput = {
@@ -21391,17 +19163,17 @@ export namespace Prisma {
     updated_at?: DateTimeFilter<"Breeds"> | Date | string
   }
 
-  export type SpeciesCreateWithoutBreedsInput = {
+  export type SpeciesCreateWithoutBreedInput = {
     name: string
     description: string
     average_lifespan?: number | null
     gestation_period?: number | null
     created_at?: Date | string
     updated_at?: Date | string
-    animals?: AnimalsCreateNestedManyWithoutSpeciesInput
+    animal?: AnimalsCreateNestedManyWithoutSpeciesInput
   }
 
-  export type SpeciesUncheckedCreateWithoutBreedsInput = {
+  export type SpeciesUncheckedCreateWithoutBreedInput = {
     id?: number
     name: string
     description: string
@@ -21409,24 +19181,25 @@ export namespace Prisma {
     gestation_period?: number | null
     created_at?: Date | string
     updated_at?: Date | string
-    animals?: AnimalsUncheckedCreateNestedManyWithoutSpeciesInput
+    animal?: AnimalsUncheckedCreateNestedManyWithoutSpeciesInput
   }
 
-  export type SpeciesCreateOrConnectWithoutBreedsInput = {
+  export type SpeciesCreateOrConnectWithoutBreedInput = {
     where: SpeciesWhereUniqueInput
-    create: XOR<SpeciesCreateWithoutBreedsInput, SpeciesUncheckedCreateWithoutBreedsInput>
+    create: XOR<SpeciesCreateWithoutBreedInput, SpeciesUncheckedCreateWithoutBreedInput>
   }
 
   export type AnimalsCreateWithoutBreedInput = {
     name: string
     birth_date: Date | string
     weight: number
+    health_status: $Enums.Health_Status
     created_at?: Date | string
     updated_at?: Date | string
-    species: SpeciesCreateNestedOneWithoutAnimalsInput
-    health_status: Health_StatusCreateNestedOneWithoutAnimalsInput
-    Locations?: LocationsCreateNestedManyWithoutAnimalInput
-    Applications?: ApplicationsCreateNestedManyWithoutAnimalInput
+    species: SpeciesCreateNestedOneWithoutAnimalInput
+    farm: FarmsCreateNestedOneWithoutAnimalInput
+    location?: LocationsCreateNestedManyWithoutAnimalInput
+    application?: ApplicationsCreateNestedManyWithoutAnimalInput
   }
 
   export type AnimalsUncheckedCreateWithoutBreedInput = {
@@ -21435,11 +19208,12 @@ export namespace Prisma {
     species_id: number
     birth_date: Date | string
     weight: number
-    health_status_id: number
+    health_status: $Enums.Health_Status
+    farm_id: number
     created_at?: Date | string
     updated_at?: Date | string
-    Locations?: LocationsUncheckedCreateNestedManyWithoutAnimalInput
-    Applications?: ApplicationsUncheckedCreateNestedManyWithoutAnimalInput
+    location?: LocationsUncheckedCreateNestedManyWithoutAnimalInput
+    application?: ApplicationsUncheckedCreateNestedManyWithoutAnimalInput
   }
 
   export type AnimalsCreateOrConnectWithoutBreedInput = {
@@ -21452,28 +19226,28 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type SpeciesUpsertWithoutBreedsInput = {
-    update: XOR<SpeciesUpdateWithoutBreedsInput, SpeciesUncheckedUpdateWithoutBreedsInput>
-    create: XOR<SpeciesCreateWithoutBreedsInput, SpeciesUncheckedCreateWithoutBreedsInput>
+  export type SpeciesUpsertWithoutBreedInput = {
+    update: XOR<SpeciesUpdateWithoutBreedInput, SpeciesUncheckedUpdateWithoutBreedInput>
+    create: XOR<SpeciesCreateWithoutBreedInput, SpeciesUncheckedCreateWithoutBreedInput>
     where?: SpeciesWhereInput
   }
 
-  export type SpeciesUpdateToOneWithWhereWithoutBreedsInput = {
+  export type SpeciesUpdateToOneWithWhereWithoutBreedInput = {
     where?: SpeciesWhereInput
-    data: XOR<SpeciesUpdateWithoutBreedsInput, SpeciesUncheckedUpdateWithoutBreedsInput>
+    data: XOR<SpeciesUpdateWithoutBreedInput, SpeciesUncheckedUpdateWithoutBreedInput>
   }
 
-  export type SpeciesUpdateWithoutBreedsInput = {
+  export type SpeciesUpdateWithoutBreedInput = {
     name?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     average_lifespan?: NullableIntFieldUpdateOperationsInput | number | null
     gestation_period?: NullableIntFieldUpdateOperationsInput | number | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    animals?: AnimalsUpdateManyWithoutSpeciesNestedInput
+    animal?: AnimalsUpdateManyWithoutSpeciesNestedInput
   }
 
-  export type SpeciesUncheckedUpdateWithoutBreedsInput = {
+  export type SpeciesUncheckedUpdateWithoutBreedInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
@@ -21481,7 +19255,7 @@ export namespace Prisma {
     gestation_period?: NullableIntFieldUpdateOperationsInput | number | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    animals?: AnimalsUncheckedUpdateManyWithoutSpeciesNestedInput
+    animal?: AnimalsUncheckedUpdateManyWithoutSpeciesNestedInput
   }
 
   export type AnimalsUpsertWithWhereUniqueWithoutBreedInput = {
@@ -21498,57 +19272,6 @@ export namespace Prisma {
   export type AnimalsUpdateManyWithWhereWithoutBreedInput = {
     where: AnimalsScalarWhereInput
     data: XOR<AnimalsUpdateManyMutationInput, AnimalsUncheckedUpdateManyWithoutBreedInput>
-  }
-
-  export type AnimalsCreateWithoutHealth_statusInput = {
-    name: string
-    birth_date: Date | string
-    weight: number
-    created_at?: Date | string
-    updated_at?: Date | string
-    species: SpeciesCreateNestedOneWithoutAnimalsInput
-    breed: BreedsCreateNestedOneWithoutAnimalsInput
-    Locations?: LocationsCreateNestedManyWithoutAnimalInput
-    Applications?: ApplicationsCreateNestedManyWithoutAnimalInput
-  }
-
-  export type AnimalsUncheckedCreateWithoutHealth_statusInput = {
-    id?: number
-    name: string
-    species_id: number
-    breed_id: number
-    birth_date: Date | string
-    weight: number
-    created_at?: Date | string
-    updated_at?: Date | string
-    Locations?: LocationsUncheckedCreateNestedManyWithoutAnimalInput
-    Applications?: ApplicationsUncheckedCreateNestedManyWithoutAnimalInput
-  }
-
-  export type AnimalsCreateOrConnectWithoutHealth_statusInput = {
-    where: AnimalsWhereUniqueInput
-    create: XOR<AnimalsCreateWithoutHealth_statusInput, AnimalsUncheckedCreateWithoutHealth_statusInput>
-  }
-
-  export type AnimalsCreateManyHealth_statusInputEnvelope = {
-    data: AnimalsCreateManyHealth_statusInput | AnimalsCreateManyHealth_statusInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type AnimalsUpsertWithWhereUniqueWithoutHealth_statusInput = {
-    where: AnimalsWhereUniqueInput
-    update: XOR<AnimalsUpdateWithoutHealth_statusInput, AnimalsUncheckedUpdateWithoutHealth_statusInput>
-    create: XOR<AnimalsCreateWithoutHealth_statusInput, AnimalsUncheckedCreateWithoutHealth_statusInput>
-  }
-
-  export type AnimalsUpdateWithWhereUniqueWithoutHealth_statusInput = {
-    where: AnimalsWhereUniqueInput
-    data: XOR<AnimalsUpdateWithoutHealth_statusInput, AnimalsUncheckedUpdateWithoutHealth_statusInput>
-  }
-
-  export type AnimalsUpdateManyWithWhereWithoutHealth_statusInput = {
-    where: AnimalsScalarWhereInput
-    data: XOR<AnimalsUpdateManyMutationInput, AnimalsUncheckedUpdateManyWithoutHealth_statusInput>
   }
 
   export type ManufacturersCreateWithoutVaccinesInput = {
@@ -21600,11 +19323,11 @@ export namespace Prisma {
   export type ApplicationsCreateWithoutVaccineInput = {
     application_date: Date | string
     next_application_date?: Date | string | null
+    status_vaccine_application: $Enums.Status_Vaccine_Applications
     created_at?: Date | string
     updated_at?: Date | string
-    animal: AnimalsCreateNestedOneWithoutApplicationsInput
-    veterinary: VeterinariansCreateNestedOneWithoutApplicationsInput
-    status_vaccine: Status_Vaccine_ApplicationsCreateNestedOneWithoutApplicationsInput
+    animal: AnimalsCreateNestedOneWithoutApplicationInput
+    veterinary: VeterinariansCreateNestedOneWithoutApplicationInput
   }
 
   export type ApplicationsUncheckedCreateWithoutVaccineInput = {
@@ -21613,7 +19336,7 @@ export namespace Prisma {
     veterinary_id: number
     application_date: Date | string
     next_application_date?: Date | string | null
-    status_vaccine_application_id: number
+    status_vaccine_application: $Enums.Status_Vaccine_Applications
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -21713,7 +19436,7 @@ export namespace Prisma {
     created_at?: Date | string
     updated_at?: Date | string
     type_of_vaccine: Types_of_VaccinesCreateNestedOneWithoutVaccinesInput
-    Applications?: ApplicationsCreateNestedManyWithoutVaccineInput
+    applications?: ApplicationsCreateNestedManyWithoutVaccineInput
   }
 
   export type VaccinesUncheckedCreateWithoutManufacturerInput = {
@@ -21728,7 +19451,7 @@ export namespace Prisma {
     notes: string
     created_at?: Date | string
     updated_at?: Date | string
-    Applications?: ApplicationsUncheckedCreateNestedManyWithoutVaccineInput
+    applications?: ApplicationsUncheckedCreateNestedManyWithoutVaccineInput
   }
 
   export type VaccinesCreateOrConnectWithoutManufacturerInput = {
@@ -21786,7 +19509,7 @@ export namespace Prisma {
     created_at?: Date | string
     updated_at?: Date | string
     manufacturer: ManufacturersCreateNestedOneWithoutVaccinesInput
-    Applications?: ApplicationsCreateNestedManyWithoutVaccineInput
+    applications?: ApplicationsCreateNestedManyWithoutVaccineInput
   }
 
   export type VaccinesUncheckedCreateWithoutType_of_vaccineInput = {
@@ -21801,7 +19524,7 @@ export namespace Prisma {
     notes: string
     created_at?: Date | string
     updated_at?: Date | string
-    Applications?: ApplicationsUncheckedCreateNestedManyWithoutVaccineInput
+    applications?: ApplicationsUncheckedCreateNestedManyWithoutVaccineInput
   }
 
   export type VaccinesCreateOrConnectWithoutType_of_vaccineInput = {
@@ -21830,34 +19553,36 @@ export namespace Prisma {
     data: XOR<VaccinesUpdateManyMutationInput, VaccinesUncheckedUpdateManyWithoutType_of_vaccineInput>
   }
 
-  export type AnimalsCreateWithoutApplicationsInput = {
+  export type AnimalsCreateWithoutApplicationInput = {
     name: string
     birth_date: Date | string
     weight: number
+    health_status: $Enums.Health_Status
     created_at?: Date | string
     updated_at?: Date | string
-    species: SpeciesCreateNestedOneWithoutAnimalsInput
-    breed: BreedsCreateNestedOneWithoutAnimalsInput
-    health_status: Health_StatusCreateNestedOneWithoutAnimalsInput
-    Locations?: LocationsCreateNestedManyWithoutAnimalInput
+    species: SpeciesCreateNestedOneWithoutAnimalInput
+    breed: BreedsCreateNestedOneWithoutAnimalInput
+    farm: FarmsCreateNestedOneWithoutAnimalInput
+    location?: LocationsCreateNestedManyWithoutAnimalInput
   }
 
-  export type AnimalsUncheckedCreateWithoutApplicationsInput = {
+  export type AnimalsUncheckedCreateWithoutApplicationInput = {
     id?: number
     name: string
     species_id: number
     breed_id: number
     birth_date: Date | string
     weight: number
-    health_status_id: number
+    health_status: $Enums.Health_Status
+    farm_id: number
     created_at?: Date | string
     updated_at?: Date | string
-    Locations?: LocationsUncheckedCreateNestedManyWithoutAnimalInput
+    location?: LocationsUncheckedCreateNestedManyWithoutAnimalInput
   }
 
-  export type AnimalsCreateOrConnectWithoutApplicationsInput = {
+  export type AnimalsCreateOrConnectWithoutApplicationInput = {
     where: AnimalsWhereUniqueInput
-    create: XOR<AnimalsCreateWithoutApplicationsInput, AnimalsUncheckedCreateWithoutApplicationsInput>
+    create: XOR<AnimalsCreateWithoutApplicationInput, AnimalsUncheckedCreateWithoutApplicationInput>
   }
 
   export type VaccinesCreateWithoutApplicationsInput = {
@@ -21894,68 +19619,56 @@ export namespace Prisma {
     create: XOR<VaccinesCreateWithoutApplicationsInput, VaccinesUncheckedCreateWithoutApplicationsInput>
   }
 
-  export type VeterinariansCreateWithoutApplicationsInput = {
-    user: UsersCreateNestedOneWithoutVeterinariansInput
+  export type VeterinariansCreateWithoutApplicationInput = {
+    user: UsersCreateNestedOneWithoutVeterinaryInput
   }
 
-  export type VeterinariansUncheckedCreateWithoutApplicationsInput = {
+  export type VeterinariansUncheckedCreateWithoutApplicationInput = {
     id?: number
     user_id: number
   }
 
-  export type VeterinariansCreateOrConnectWithoutApplicationsInput = {
+  export type VeterinariansCreateOrConnectWithoutApplicationInput = {
     where: VeterinariansWhereUniqueInput
-    create: XOR<VeterinariansCreateWithoutApplicationsInput, VeterinariansUncheckedCreateWithoutApplicationsInput>
+    create: XOR<VeterinariansCreateWithoutApplicationInput, VeterinariansUncheckedCreateWithoutApplicationInput>
   }
 
-  export type Status_Vaccine_ApplicationsCreateWithoutApplicationsInput = {
-    name: string
-  }
-
-  export type Status_Vaccine_ApplicationsUncheckedCreateWithoutApplicationsInput = {
-    id?: number
-    name: string
-  }
-
-  export type Status_Vaccine_ApplicationsCreateOrConnectWithoutApplicationsInput = {
-    where: Status_Vaccine_ApplicationsWhereUniqueInput
-    create: XOR<Status_Vaccine_ApplicationsCreateWithoutApplicationsInput, Status_Vaccine_ApplicationsUncheckedCreateWithoutApplicationsInput>
-  }
-
-  export type AnimalsUpsertWithoutApplicationsInput = {
-    update: XOR<AnimalsUpdateWithoutApplicationsInput, AnimalsUncheckedUpdateWithoutApplicationsInput>
-    create: XOR<AnimalsCreateWithoutApplicationsInput, AnimalsUncheckedCreateWithoutApplicationsInput>
+  export type AnimalsUpsertWithoutApplicationInput = {
+    update: XOR<AnimalsUpdateWithoutApplicationInput, AnimalsUncheckedUpdateWithoutApplicationInput>
+    create: XOR<AnimalsCreateWithoutApplicationInput, AnimalsUncheckedCreateWithoutApplicationInput>
     where?: AnimalsWhereInput
   }
 
-  export type AnimalsUpdateToOneWithWhereWithoutApplicationsInput = {
+  export type AnimalsUpdateToOneWithWhereWithoutApplicationInput = {
     where?: AnimalsWhereInput
-    data: XOR<AnimalsUpdateWithoutApplicationsInput, AnimalsUncheckedUpdateWithoutApplicationsInput>
+    data: XOR<AnimalsUpdateWithoutApplicationInput, AnimalsUncheckedUpdateWithoutApplicationInput>
   }
 
-  export type AnimalsUpdateWithoutApplicationsInput = {
+  export type AnimalsUpdateWithoutApplicationInput = {
     name?: StringFieldUpdateOperationsInput | string
     birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
     weight?: FloatFieldUpdateOperationsInput | number
+    health_status?: EnumHealth_StatusFieldUpdateOperationsInput | $Enums.Health_Status
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    species?: SpeciesUpdateOneRequiredWithoutAnimalsNestedInput
-    breed?: BreedsUpdateOneRequiredWithoutAnimalsNestedInput
-    health_status?: Health_StatusUpdateOneRequiredWithoutAnimalsNestedInput
-    Locations?: LocationsUpdateManyWithoutAnimalNestedInput
+    species?: SpeciesUpdateOneRequiredWithoutAnimalNestedInput
+    breed?: BreedsUpdateOneRequiredWithoutAnimalNestedInput
+    farm?: FarmsUpdateOneRequiredWithoutAnimalNestedInput
+    location?: LocationsUpdateManyWithoutAnimalNestedInput
   }
 
-  export type AnimalsUncheckedUpdateWithoutApplicationsInput = {
+  export type AnimalsUncheckedUpdateWithoutApplicationInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     species_id?: IntFieldUpdateOperationsInput | number
     breed_id?: IntFieldUpdateOperationsInput | number
     birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
     weight?: FloatFieldUpdateOperationsInput | number
-    health_status_id?: IntFieldUpdateOperationsInput | number
+    health_status?: EnumHealth_StatusFieldUpdateOperationsInput | $Enums.Health_Status
+    farm_id?: IntFieldUpdateOperationsInput | number
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    Locations?: LocationsUncheckedUpdateManyWithoutAnimalNestedInput
+    location?: LocationsUncheckedUpdateManyWithoutAnimalNestedInput
   }
 
   export type VaccinesUpsertWithoutApplicationsInput = {
@@ -21998,198 +19711,190 @@ export namespace Prisma {
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type VeterinariansUpsertWithoutApplicationsInput = {
-    update: XOR<VeterinariansUpdateWithoutApplicationsInput, VeterinariansUncheckedUpdateWithoutApplicationsInput>
-    create: XOR<VeterinariansCreateWithoutApplicationsInput, VeterinariansUncheckedCreateWithoutApplicationsInput>
+  export type VeterinariansUpsertWithoutApplicationInput = {
+    update: XOR<VeterinariansUpdateWithoutApplicationInput, VeterinariansUncheckedUpdateWithoutApplicationInput>
+    create: XOR<VeterinariansCreateWithoutApplicationInput, VeterinariansUncheckedCreateWithoutApplicationInput>
     where?: VeterinariansWhereInput
   }
 
-  export type VeterinariansUpdateToOneWithWhereWithoutApplicationsInput = {
+  export type VeterinariansUpdateToOneWithWhereWithoutApplicationInput = {
     where?: VeterinariansWhereInput
-    data: XOR<VeterinariansUpdateWithoutApplicationsInput, VeterinariansUncheckedUpdateWithoutApplicationsInput>
+    data: XOR<VeterinariansUpdateWithoutApplicationInput, VeterinariansUncheckedUpdateWithoutApplicationInput>
   }
 
-  export type VeterinariansUpdateWithoutApplicationsInput = {
-    user?: UsersUpdateOneRequiredWithoutVeterinariansNestedInput
+  export type VeterinariansUpdateWithoutApplicationInput = {
+    user?: UsersUpdateOneRequiredWithoutVeterinaryNestedInput
   }
 
-  export type VeterinariansUncheckedUpdateWithoutApplicationsInput = {
+  export type VeterinariansUncheckedUpdateWithoutApplicationInput = {
     id?: IntFieldUpdateOperationsInput | number
     user_id?: IntFieldUpdateOperationsInput | number
   }
 
-  export type Status_Vaccine_ApplicationsUpsertWithoutApplicationsInput = {
-    update: XOR<Status_Vaccine_ApplicationsUpdateWithoutApplicationsInput, Status_Vaccine_ApplicationsUncheckedUpdateWithoutApplicationsInput>
-    create: XOR<Status_Vaccine_ApplicationsCreateWithoutApplicationsInput, Status_Vaccine_ApplicationsUncheckedCreateWithoutApplicationsInput>
-    where?: Status_Vaccine_ApplicationsWhereInput
-  }
-
-  export type Status_Vaccine_ApplicationsUpdateToOneWithWhereWithoutApplicationsInput = {
-    where?: Status_Vaccine_ApplicationsWhereInput
-    data: XOR<Status_Vaccine_ApplicationsUpdateWithoutApplicationsInput, Status_Vaccine_ApplicationsUncheckedUpdateWithoutApplicationsInput>
-  }
-
-  export type Status_Vaccine_ApplicationsUpdateWithoutApplicationsInput = {
-    name?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type Status_Vaccine_ApplicationsUncheckedUpdateWithoutApplicationsInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type ApplicationsCreateWithoutStatus_vaccineInput = {
-    application_date: Date | string
-    next_application_date?: Date | string | null
-    created_at?: Date | string
-    updated_at?: Date | string
-    animal: AnimalsCreateNestedOneWithoutApplicationsInput
-    vaccine: VaccinesCreateNestedOneWithoutApplicationsInput
-    veterinary: VeterinariansCreateNestedOneWithoutApplicationsInput
-  }
-
-  export type ApplicationsUncheckedCreateWithoutStatus_vaccineInput = {
-    id?: number
-    animal_id: number
-    vaccine_id: number
-    veterinary_id: number
-    application_date: Date | string
-    next_application_date?: Date | string | null
-    created_at?: Date | string
-    updated_at?: Date | string
-  }
-
-  export type ApplicationsCreateOrConnectWithoutStatus_vaccineInput = {
-    where: ApplicationsWhereUniqueInput
-    create: XOR<ApplicationsCreateWithoutStatus_vaccineInput, ApplicationsUncheckedCreateWithoutStatus_vaccineInput>
-  }
-
-  export type ApplicationsCreateManyStatus_vaccineInputEnvelope = {
-    data: ApplicationsCreateManyStatus_vaccineInput | ApplicationsCreateManyStatus_vaccineInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type ApplicationsUpsertWithWhereUniqueWithoutStatus_vaccineInput = {
-    where: ApplicationsWhereUniqueInput
-    update: XOR<ApplicationsUpdateWithoutStatus_vaccineInput, ApplicationsUncheckedUpdateWithoutStatus_vaccineInput>
-    create: XOR<ApplicationsCreateWithoutStatus_vaccineInput, ApplicationsUncheckedCreateWithoutStatus_vaccineInput>
-  }
-
-  export type ApplicationsUpdateWithWhereUniqueWithoutStatus_vaccineInput = {
-    where: ApplicationsWhereUniqueInput
-    data: XOR<ApplicationsUpdateWithoutStatus_vaccineInput, ApplicationsUncheckedUpdateWithoutStatus_vaccineInput>
-  }
-
-  export type ApplicationsUpdateManyWithWhereWithoutStatus_vaccineInput = {
-    where: ApplicationsScalarWhereInput
-    data: XOR<ApplicationsUpdateManyMutationInput, ApplicationsUncheckedUpdateManyWithoutStatus_vaccineInput>
-  }
-
-  export type AnimalsCreateWithoutLocationsInput = {
+  export type AnimalsCreateWithoutLocationInput = {
     name: string
     birth_date: Date | string
     weight: number
+    health_status: $Enums.Health_Status
     created_at?: Date | string
     updated_at?: Date | string
-    species: SpeciesCreateNestedOneWithoutAnimalsInput
-    breed: BreedsCreateNestedOneWithoutAnimalsInput
-    health_status: Health_StatusCreateNestedOneWithoutAnimalsInput
-    Applications?: ApplicationsCreateNestedManyWithoutAnimalInput
+    species: SpeciesCreateNestedOneWithoutAnimalInput
+    breed: BreedsCreateNestedOneWithoutAnimalInput
+    farm: FarmsCreateNestedOneWithoutAnimalInput
+    application?: ApplicationsCreateNestedManyWithoutAnimalInput
   }
 
-  export type AnimalsUncheckedCreateWithoutLocationsInput = {
+  export type AnimalsUncheckedCreateWithoutLocationInput = {
     id?: number
     name: string
     species_id: number
     breed_id: number
     birth_date: Date | string
     weight: number
-    health_status_id: number
+    health_status: $Enums.Health_Status
+    farm_id: number
     created_at?: Date | string
     updated_at?: Date | string
-    Applications?: ApplicationsUncheckedCreateNestedManyWithoutAnimalInput
+    application?: ApplicationsUncheckedCreateNestedManyWithoutAnimalInput
   }
 
-  export type AnimalsCreateOrConnectWithoutLocationsInput = {
+  export type AnimalsCreateOrConnectWithoutLocationInput = {
     where: AnimalsWhereUniqueInput
-    create: XOR<AnimalsCreateWithoutLocationsInput, AnimalsUncheckedCreateWithoutLocationsInput>
+    create: XOR<AnimalsCreateWithoutLocationInput, AnimalsUncheckedCreateWithoutLocationInput>
   }
 
-  export type AnimalsUpsertWithoutLocationsInput = {
-    update: XOR<AnimalsUpdateWithoutLocationsInput, AnimalsUncheckedUpdateWithoutLocationsInput>
-    create: XOR<AnimalsCreateWithoutLocationsInput, AnimalsUncheckedCreateWithoutLocationsInput>
+  export type AnimalsUpsertWithoutLocationInput = {
+    update: XOR<AnimalsUpdateWithoutLocationInput, AnimalsUncheckedUpdateWithoutLocationInput>
+    create: XOR<AnimalsCreateWithoutLocationInput, AnimalsUncheckedCreateWithoutLocationInput>
     where?: AnimalsWhereInput
   }
 
-  export type AnimalsUpdateToOneWithWhereWithoutLocationsInput = {
+  export type AnimalsUpdateToOneWithWhereWithoutLocationInput = {
     where?: AnimalsWhereInput
-    data: XOR<AnimalsUpdateWithoutLocationsInput, AnimalsUncheckedUpdateWithoutLocationsInput>
+    data: XOR<AnimalsUpdateWithoutLocationInput, AnimalsUncheckedUpdateWithoutLocationInput>
   }
 
-  export type AnimalsUpdateWithoutLocationsInput = {
+  export type AnimalsUpdateWithoutLocationInput = {
     name?: StringFieldUpdateOperationsInput | string
     birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
     weight?: FloatFieldUpdateOperationsInput | number
+    health_status?: EnumHealth_StatusFieldUpdateOperationsInput | $Enums.Health_Status
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    species?: SpeciesUpdateOneRequiredWithoutAnimalsNestedInput
-    breed?: BreedsUpdateOneRequiredWithoutAnimalsNestedInput
-    health_status?: Health_StatusUpdateOneRequiredWithoutAnimalsNestedInput
-    Applications?: ApplicationsUpdateManyWithoutAnimalNestedInput
+    species?: SpeciesUpdateOneRequiredWithoutAnimalNestedInput
+    breed?: BreedsUpdateOneRequiredWithoutAnimalNestedInput
+    farm?: FarmsUpdateOneRequiredWithoutAnimalNestedInput
+    application?: ApplicationsUpdateManyWithoutAnimalNestedInput
   }
 
-  export type AnimalsUncheckedUpdateWithoutLocationsInput = {
+  export type AnimalsUncheckedUpdateWithoutLocationInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     species_id?: IntFieldUpdateOperationsInput | number
     breed_id?: IntFieldUpdateOperationsInput | number
     birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
     weight?: FloatFieldUpdateOperationsInput | number
-    health_status_id?: IntFieldUpdateOperationsInput | number
+    health_status?: EnumHealth_StatusFieldUpdateOperationsInput | $Enums.Health_Status
+    farm_id?: IntFieldUpdateOperationsInput | number
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    Applications?: ApplicationsUncheckedUpdateManyWithoutAnimalNestedInput
+    application?: ApplicationsUncheckedUpdateManyWithoutAnimalNestedInput
   }
 
-  export type UsersCreateManyRoleInput = {
+  export type UsersCreateManyFarmInput = {
     id?: number
     name: string
     email: string
     password: string
     profile_photo?: string | null
+    role: $Enums.Roles
     created_at?: Date | string
     updated_at?: Date | string
   }
 
-  export type UsersUpdateWithoutRoleInput = {
+  export type AnimalsCreateManyFarmInput = {
+    id?: number
+    name: string
+    species_id: number
+    breed_id: number
+    birth_date: Date | string
+    weight: number
+    health_status: $Enums.Health_Status
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type UsersUpdateWithoutFarmInput = {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     profile_photo?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRolesFieldUpdateOperationsInput | $Enums.Roles
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    Farm_Workers?: Farm_WorkersUpdateOneWithoutUserNestedInput
-    Veterinarians?: VeterinariansUpdateOneWithoutUserNestedInput
+    farmhand?: FarmhandsUpdateOneWithoutUserNestedInput
+    veterinary?: VeterinariansUpdateOneWithoutUserNestedInput
   }
 
-  export type UsersUncheckedUpdateWithoutRoleInput = {
+  export type UsersUncheckedUpdateWithoutFarmInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     profile_photo?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRolesFieldUpdateOperationsInput | $Enums.Roles
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    Farm_Workers?: Farm_WorkersUncheckedUpdateOneWithoutUserNestedInput
-    Veterinarians?: VeterinariansUncheckedUpdateOneWithoutUserNestedInput
+    farmhand?: FarmhandsUncheckedUpdateOneWithoutUserNestedInput
+    veterinary?: VeterinariansUncheckedUpdateOneWithoutUserNestedInput
   }
 
-  export type UsersUncheckedUpdateManyWithoutRoleInput = {
+  export type UsersUncheckedUpdateManyWithoutFarmInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     profile_photo?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRolesFieldUpdateOperationsInput | $Enums.Roles
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AnimalsUpdateWithoutFarmInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    weight?: FloatFieldUpdateOperationsInput | number
+    health_status?: EnumHealth_StatusFieldUpdateOperationsInput | $Enums.Health_Status
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    species?: SpeciesUpdateOneRequiredWithoutAnimalNestedInput
+    breed?: BreedsUpdateOneRequiredWithoutAnimalNestedInput
+    location?: LocationsUpdateManyWithoutAnimalNestedInput
+    application?: ApplicationsUpdateManyWithoutAnimalNestedInput
+  }
+
+  export type AnimalsUncheckedUpdateWithoutFarmInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    species_id?: IntFieldUpdateOperationsInput | number
+    breed_id?: IntFieldUpdateOperationsInput | number
+    birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    weight?: FloatFieldUpdateOperationsInput | number
+    health_status?: EnumHealth_StatusFieldUpdateOperationsInput | $Enums.Health_Status
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    location?: LocationsUncheckedUpdateManyWithoutAnimalNestedInput
+    application?: ApplicationsUncheckedUpdateManyWithoutAnimalNestedInput
+  }
+
+  export type AnimalsUncheckedUpdateManyWithoutFarmInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    species_id?: IntFieldUpdateOperationsInput | number
+    breed_id?: IntFieldUpdateOperationsInput | number
+    birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    weight?: FloatFieldUpdateOperationsInput | number
+    health_status?: EnumHealth_StatusFieldUpdateOperationsInput | $Enums.Health_Status
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -22200,7 +19905,7 @@ export namespace Prisma {
     vaccine_id: number
     application_date: Date | string
     next_application_date?: Date | string | null
-    status_vaccine_application_id: number
+    status_vaccine_application: $Enums.Status_Vaccine_Applications
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -22208,11 +19913,11 @@ export namespace Prisma {
   export type ApplicationsUpdateWithoutVeterinaryInput = {
     application_date?: DateTimeFieldUpdateOperationsInput | Date | string
     next_application_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status_vaccine_application?: EnumStatus_Vaccine_ApplicationsFieldUpdateOperationsInput | $Enums.Status_Vaccine_Applications
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    animal?: AnimalsUpdateOneRequiredWithoutApplicationsNestedInput
+    animal?: AnimalsUpdateOneRequiredWithoutApplicationNestedInput
     vaccine?: VaccinesUpdateOneRequiredWithoutApplicationsNestedInput
-    status_vaccine?: Status_Vaccine_ApplicationsUpdateOneRequiredWithoutApplicationsNestedInput
   }
 
   export type ApplicationsUncheckedUpdateWithoutVeterinaryInput = {
@@ -22221,7 +19926,7 @@ export namespace Prisma {
     vaccine_id?: IntFieldUpdateOperationsInput | number
     application_date?: DateTimeFieldUpdateOperationsInput | Date | string
     next_application_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status_vaccine_application_id?: IntFieldUpdateOperationsInput | number
+    status_vaccine_application?: EnumStatus_Vaccine_ApplicationsFieldUpdateOperationsInput | $Enums.Status_Vaccine_Applications
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -22232,7 +19937,7 @@ export namespace Prisma {
     vaccine_id?: IntFieldUpdateOperationsInput | number
     application_date?: DateTimeFieldUpdateOperationsInput | Date | string
     next_application_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status_vaccine_application_id?: IntFieldUpdateOperationsInput | number
+    status_vaccine_application?: EnumStatus_Vaccine_ApplicationsFieldUpdateOperationsInput | $Enums.Status_Vaccine_Applications
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -22252,7 +19957,7 @@ export namespace Prisma {
     veterinary_id: number
     application_date: Date | string
     next_application_date?: Date | string | null
-    status_vaccine_application_id: number
+    status_vaccine_application: $Enums.Status_Vaccine_Applications
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -22286,11 +19991,11 @@ export namespace Prisma {
   export type ApplicationsUpdateWithoutAnimalInput = {
     application_date?: DateTimeFieldUpdateOperationsInput | Date | string
     next_application_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status_vaccine_application?: EnumStatus_Vaccine_ApplicationsFieldUpdateOperationsInput | $Enums.Status_Vaccine_Applications
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     vaccine?: VaccinesUpdateOneRequiredWithoutApplicationsNestedInput
-    veterinary?: VeterinariansUpdateOneRequiredWithoutApplicationsNestedInput
-    status_vaccine?: Status_Vaccine_ApplicationsUpdateOneRequiredWithoutApplicationsNestedInput
+    veterinary?: VeterinariansUpdateOneRequiredWithoutApplicationNestedInput
   }
 
   export type ApplicationsUncheckedUpdateWithoutAnimalInput = {
@@ -22299,7 +20004,7 @@ export namespace Prisma {
     veterinary_id?: IntFieldUpdateOperationsInput | number
     application_date?: DateTimeFieldUpdateOperationsInput | Date | string
     next_application_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status_vaccine_application_id?: IntFieldUpdateOperationsInput | number
+    status_vaccine_application?: EnumStatus_Vaccine_ApplicationsFieldUpdateOperationsInput | $Enums.Status_Vaccine_Applications
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -22310,7 +20015,7 @@ export namespace Prisma {
     veterinary_id?: IntFieldUpdateOperationsInput | number
     application_date?: DateTimeFieldUpdateOperationsInput | Date | string
     next_application_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status_vaccine_application_id?: IntFieldUpdateOperationsInput | number
+    status_vaccine_application?: EnumStatus_Vaccine_ApplicationsFieldUpdateOperationsInput | $Enums.Status_Vaccine_Applications
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -22321,7 +20026,8 @@ export namespace Prisma {
     breed_id: number
     birth_date: Date | string
     weight: number
-    health_status_id: number
+    health_status: $Enums.Health_Status
+    farm_id: number
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -22340,12 +20046,13 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
     weight?: FloatFieldUpdateOperationsInput | number
+    health_status?: EnumHealth_StatusFieldUpdateOperationsInput | $Enums.Health_Status
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    breed?: BreedsUpdateOneRequiredWithoutAnimalsNestedInput
-    health_status?: Health_StatusUpdateOneRequiredWithoutAnimalsNestedInput
-    Locations?: LocationsUpdateManyWithoutAnimalNestedInput
-    Applications?: ApplicationsUpdateManyWithoutAnimalNestedInput
+    breed?: BreedsUpdateOneRequiredWithoutAnimalNestedInput
+    farm?: FarmsUpdateOneRequiredWithoutAnimalNestedInput
+    location?: LocationsUpdateManyWithoutAnimalNestedInput
+    application?: ApplicationsUpdateManyWithoutAnimalNestedInput
   }
 
   export type AnimalsUncheckedUpdateWithoutSpeciesInput = {
@@ -22354,11 +20061,12 @@ export namespace Prisma {
     breed_id?: IntFieldUpdateOperationsInput | number
     birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
     weight?: FloatFieldUpdateOperationsInput | number
-    health_status_id?: IntFieldUpdateOperationsInput | number
+    health_status?: EnumHealth_StatusFieldUpdateOperationsInput | $Enums.Health_Status
+    farm_id?: IntFieldUpdateOperationsInput | number
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    Locations?: LocationsUncheckedUpdateManyWithoutAnimalNestedInput
-    Applications?: ApplicationsUncheckedUpdateManyWithoutAnimalNestedInput
+    location?: LocationsUncheckedUpdateManyWithoutAnimalNestedInput
+    application?: ApplicationsUncheckedUpdateManyWithoutAnimalNestedInput
   }
 
   export type AnimalsUncheckedUpdateManyWithoutSpeciesInput = {
@@ -22367,7 +20075,8 @@ export namespace Prisma {
     breed_id?: IntFieldUpdateOperationsInput | number
     birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
     weight?: FloatFieldUpdateOperationsInput | number
-    health_status_id?: IntFieldUpdateOperationsInput | number
+    health_status?: EnumHealth_StatusFieldUpdateOperationsInput | $Enums.Health_Status
+    farm_id?: IntFieldUpdateOperationsInput | number
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -22379,7 +20088,7 @@ export namespace Prisma {
     productivity?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    animals?: AnimalsUpdateManyWithoutBreedNestedInput
+    animal?: AnimalsUpdateManyWithoutBreedNestedInput
   }
 
   export type BreedsUncheckedUpdateWithoutSpeciesInput = {
@@ -22390,7 +20099,7 @@ export namespace Prisma {
     productivity?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    animals?: AnimalsUncheckedUpdateManyWithoutBreedNestedInput
+    animal?: AnimalsUncheckedUpdateManyWithoutBreedNestedInput
   }
 
   export type BreedsUncheckedUpdateManyWithoutSpeciesInput = {
@@ -22409,7 +20118,8 @@ export namespace Prisma {
     species_id: number
     birth_date: Date | string
     weight: number
-    health_status_id: number
+    health_status: $Enums.Health_Status
+    farm_id: number
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -22418,12 +20128,13 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
     weight?: FloatFieldUpdateOperationsInput | number
+    health_status?: EnumHealth_StatusFieldUpdateOperationsInput | $Enums.Health_Status
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    species?: SpeciesUpdateOneRequiredWithoutAnimalsNestedInput
-    health_status?: Health_StatusUpdateOneRequiredWithoutAnimalsNestedInput
-    Locations?: LocationsUpdateManyWithoutAnimalNestedInput
-    Applications?: ApplicationsUpdateManyWithoutAnimalNestedInput
+    species?: SpeciesUpdateOneRequiredWithoutAnimalNestedInput
+    farm?: FarmsUpdateOneRequiredWithoutAnimalNestedInput
+    location?: LocationsUpdateManyWithoutAnimalNestedInput
+    application?: ApplicationsUpdateManyWithoutAnimalNestedInput
   }
 
   export type AnimalsUncheckedUpdateWithoutBreedInput = {
@@ -22432,11 +20143,12 @@ export namespace Prisma {
     species_id?: IntFieldUpdateOperationsInput | number
     birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
     weight?: FloatFieldUpdateOperationsInput | number
-    health_status_id?: IntFieldUpdateOperationsInput | number
+    health_status?: EnumHealth_StatusFieldUpdateOperationsInput | $Enums.Health_Status
+    farm_id?: IntFieldUpdateOperationsInput | number
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    Locations?: LocationsUncheckedUpdateManyWithoutAnimalNestedInput
-    Applications?: ApplicationsUncheckedUpdateManyWithoutAnimalNestedInput
+    location?: LocationsUncheckedUpdateManyWithoutAnimalNestedInput
+    application?: ApplicationsUncheckedUpdateManyWithoutAnimalNestedInput
   }
 
   export type AnimalsUncheckedUpdateManyWithoutBreedInput = {
@@ -22445,54 +20157,8 @@ export namespace Prisma {
     species_id?: IntFieldUpdateOperationsInput | number
     birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
     weight?: FloatFieldUpdateOperationsInput | number
-    health_status_id?: IntFieldUpdateOperationsInput | number
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type AnimalsCreateManyHealth_statusInput = {
-    id?: number
-    name: string
-    species_id: number
-    breed_id: number
-    birth_date: Date | string
-    weight: number
-    created_at?: Date | string
-    updated_at?: Date | string
-  }
-
-  export type AnimalsUpdateWithoutHealth_statusInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
-    weight?: FloatFieldUpdateOperationsInput | number
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    species?: SpeciesUpdateOneRequiredWithoutAnimalsNestedInput
-    breed?: BreedsUpdateOneRequiredWithoutAnimalsNestedInput
-    Locations?: LocationsUpdateManyWithoutAnimalNestedInput
-    Applications?: ApplicationsUpdateManyWithoutAnimalNestedInput
-  }
-
-  export type AnimalsUncheckedUpdateWithoutHealth_statusInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    species_id?: IntFieldUpdateOperationsInput | number
-    breed_id?: IntFieldUpdateOperationsInput | number
-    birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
-    weight?: FloatFieldUpdateOperationsInput | number
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    Locations?: LocationsUncheckedUpdateManyWithoutAnimalNestedInput
-    Applications?: ApplicationsUncheckedUpdateManyWithoutAnimalNestedInput
-  }
-
-  export type AnimalsUncheckedUpdateManyWithoutHealth_statusInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    species_id?: IntFieldUpdateOperationsInput | number
-    breed_id?: IntFieldUpdateOperationsInput | number
-    birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
-    weight?: FloatFieldUpdateOperationsInput | number
+    health_status?: EnumHealth_StatusFieldUpdateOperationsInput | $Enums.Health_Status
+    farm_id?: IntFieldUpdateOperationsInput | number
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -22503,7 +20169,7 @@ export namespace Prisma {
     veterinary_id: number
     application_date: Date | string
     next_application_date?: Date | string | null
-    status_vaccine_application_id: number
+    status_vaccine_application: $Enums.Status_Vaccine_Applications
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -22511,11 +20177,11 @@ export namespace Prisma {
   export type ApplicationsUpdateWithoutVaccineInput = {
     application_date?: DateTimeFieldUpdateOperationsInput | Date | string
     next_application_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status_vaccine_application?: EnumStatus_Vaccine_ApplicationsFieldUpdateOperationsInput | $Enums.Status_Vaccine_Applications
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    animal?: AnimalsUpdateOneRequiredWithoutApplicationsNestedInput
-    veterinary?: VeterinariansUpdateOneRequiredWithoutApplicationsNestedInput
-    status_vaccine?: Status_Vaccine_ApplicationsUpdateOneRequiredWithoutApplicationsNestedInput
+    animal?: AnimalsUpdateOneRequiredWithoutApplicationNestedInput
+    veterinary?: VeterinariansUpdateOneRequiredWithoutApplicationNestedInput
   }
 
   export type ApplicationsUncheckedUpdateWithoutVaccineInput = {
@@ -22524,7 +20190,7 @@ export namespace Prisma {
     veterinary_id?: IntFieldUpdateOperationsInput | number
     application_date?: DateTimeFieldUpdateOperationsInput | Date | string
     next_application_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status_vaccine_application_id?: IntFieldUpdateOperationsInput | number
+    status_vaccine_application?: EnumStatus_Vaccine_ApplicationsFieldUpdateOperationsInput | $Enums.Status_Vaccine_Applications
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -22535,7 +20201,7 @@ export namespace Prisma {
     veterinary_id?: IntFieldUpdateOperationsInput | number
     application_date?: DateTimeFieldUpdateOperationsInput | Date | string
     next_application_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status_vaccine_application_id?: IntFieldUpdateOperationsInput | number
+    status_vaccine_application?: EnumStatus_Vaccine_ApplicationsFieldUpdateOperationsInput | $Enums.Status_Vaccine_Applications
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -22565,7 +20231,7 @@ export namespace Prisma {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     type_of_vaccine?: Types_of_VaccinesUpdateOneRequiredWithoutVaccinesNestedInput
-    Applications?: ApplicationsUpdateManyWithoutVaccineNestedInput
+    applications?: ApplicationsUpdateManyWithoutVaccineNestedInput
   }
 
   export type VaccinesUncheckedUpdateWithoutManufacturerInput = {
@@ -22580,7 +20246,7 @@ export namespace Prisma {
     notes?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    Applications?: ApplicationsUncheckedUpdateManyWithoutVaccineNestedInput
+    applications?: ApplicationsUncheckedUpdateManyWithoutVaccineNestedInput
   }
 
   export type VaccinesUncheckedUpdateManyWithoutManufacturerInput = {
@@ -22622,7 +20288,7 @@ export namespace Prisma {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     manufacturer?: ManufacturersUpdateOneRequiredWithoutVaccinesNestedInput
-    Applications?: ApplicationsUpdateManyWithoutVaccineNestedInput
+    applications?: ApplicationsUpdateManyWithoutVaccineNestedInput
   }
 
   export type VaccinesUncheckedUpdateWithoutType_of_vaccineInput = {
@@ -22637,7 +20303,7 @@ export namespace Prisma {
     notes?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    Applications?: ApplicationsUncheckedUpdateManyWithoutVaccineNestedInput
+    applications?: ApplicationsUncheckedUpdateManyWithoutVaccineNestedInput
   }
 
   export type VaccinesUncheckedUpdateManyWithoutType_of_vaccineInput = {
@@ -22650,49 +20316,6 @@ export namespace Prisma {
     required_doses?: IntFieldUpdateOperationsInput | number
     dosing_interval?: NullableIntFieldUpdateOperationsInput | number | null
     notes?: StringFieldUpdateOperationsInput | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type ApplicationsCreateManyStatus_vaccineInput = {
-    id?: number
-    animal_id: number
-    vaccine_id: number
-    veterinary_id: number
-    application_date: Date | string
-    next_application_date?: Date | string | null
-    created_at?: Date | string
-    updated_at?: Date | string
-  }
-
-  export type ApplicationsUpdateWithoutStatus_vaccineInput = {
-    application_date?: DateTimeFieldUpdateOperationsInput | Date | string
-    next_application_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    animal?: AnimalsUpdateOneRequiredWithoutApplicationsNestedInput
-    vaccine?: VaccinesUpdateOneRequiredWithoutApplicationsNestedInput
-    veterinary?: VeterinariansUpdateOneRequiredWithoutApplicationsNestedInput
-  }
-
-  export type ApplicationsUncheckedUpdateWithoutStatus_vaccineInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    animal_id?: IntFieldUpdateOperationsInput | number
-    vaccine_id?: IntFieldUpdateOperationsInput | number
-    veterinary_id?: IntFieldUpdateOperationsInput | number
-    application_date?: DateTimeFieldUpdateOperationsInput | Date | string
-    next_application_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type ApplicationsUncheckedUpdateManyWithoutStatus_vaccineInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    animal_id?: IntFieldUpdateOperationsInput | number
-    vaccine_id?: IntFieldUpdateOperationsInput | number
-    veterinary_id?: IntFieldUpdateOperationsInput | number
-    application_date?: DateTimeFieldUpdateOperationsInput | Date | string
-    next_application_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
