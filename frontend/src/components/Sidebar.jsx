@@ -149,7 +149,7 @@ function Sidebar({ onToggle, isExpanded, showContent }) {
 
             {/* Sidebar principal */}
             <motion.aside
-                className={`fixed inset-0 lg:relative lg:min-h-screen bg-[#10291a]/95 text-[#fff8f0] flex flex-col shadow-lg z-40 transition-all duration-300 ease-in-out overflow-y-auto hide-scrollbar
+                className={`bg-[#10291a]/95 text-[#fff8f0] min-h-full flex flex-col z-40 transition-all duration-300 ease-in-out overflow-y-auto hide-scrollbar
                     ${expanded ? 'translate-x-0 w-64' : 'w-0'}
                     lg:translate-x-0
                     ${isDesktop && !showContent ? 'opacity-0 -translate-x-8' : 'opacity-100 translate-x-0'}

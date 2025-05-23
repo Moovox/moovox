@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import MainLayout from '../components/MainLayout';
 import Card from '../components/ui/Card';
@@ -11,6 +11,53 @@ import ImageCard from '../components/dashboard/ImageCard';
 import TelemetryCard from '../components/dashboard/TelemetryCard';
 
 function Dashboard() {
+    // Estados para dados dinâmicos vindos do backend
+    const [stats, setStats] = useState({
+        usuarios: 0,
+        animais: 0,
+        dosesPendentes: 0,
+        alertas: 0,
+    });
+    const [ultimosUsuarios, setUltimosUsuarios] = useState([]);
+    const [dosesMensagem, setDosesMensagem] = useState('');
+    const [localizacao, setLocalizacao] = useState({
+        imageUrl: '',
+        alt: '',
+    });
+    const [telemetria, setTelemetria] = useState({
+        animal: '',
+        temperature: '',
+        heartRate: '',
+        lastUpdate: '',
+    });
+
+    // Simulação de fetch dos dados do backend
+    useEffect(() => {
+        // Aqui você faria as requisições reais para o backend
+        setStats({
+            usuarios: 10,
+            animais: 10,
+            dosesPendentes: 0,
+            alertas: 5,
+        });
+        setUltimosUsuarios([
+            { nome: 'Administrador Moovox', papel: 'admin' },
+            { nome: 'Dr. Benjamin Nogueira', papel: 'veterinario' },
+            { nome: 'Mariana Saraiva', papel: 'veterinario' },
+        ]);
+        setDosesMensagem('Nenhuma dose pendente.');
+        setLocalizacao({
+            imageUrl: 'https://static-maps.yandex.ru/1.x/?lang=pt_BR&ll=-47.0608,-22.9099&z=13&l=map&size=450,200',
+            alt: 'Mapa',
+        });
+        setTelemetria({
+            animal: 'Branquinha',
+            temperature: '38.5ºC',
+            heartRate: '78 bpm',
+            lastUpdate: '13/04/2025 às 15:42',
+        });
+    }, []);
+
     return (
         <>
             <Helmet>
@@ -31,28 +78,28 @@ function Dashboard() {
                             <Users className="w-6 h-6 text-[#bfa77a]" />
                             <span className="font-poppins font-semibold text-base md:text-lg text-[#4e2e13]">Usuários</span>
                         </div>
-                        <span className="font-poppins font-bold text-xl md:text-2xl text-[#4e2e13]">10</span>
+                        <span className="font-poppins font-bold text-xl md:text-2xl text-[#4e2e13]">{stats.usuarios}</span>
                     </Card>
                     <Card variant="verde" className="flex flex-col justify-between p-4 md:p-6 min-h-[120px]">
                         <div className="flex items-center gap-2 mb-2">
                             <Icon iconNode={cowHead} className="w-6 h-6 text-[#bfa77a]" />
                             <span className="font-poppins font-semibold text-base md:text-lg text-[#4e2e13]">Animais Registrados</span>
                         </div>
-                        <span className="font-poppins font-bold text-xl md:text-2xl text-[#4e2e13]">10</span>
+                        <span className="font-poppins font-bold text-xl md:text-2xl text-[#4e2e13]">{stats.animais}</span>
                     </Card>
                     <Card variant="palha" className="flex flex-col justify-between p-4 md:p-6 min-h-[120px]">
                         <div className="flex items-center gap-2 mb-2">
                             <Syringe className="w-6 h-6 text-[#bfa77a]" />
                             <span className="font-poppins font-semibold text-base md:text-lg text-[#4e2e13]">Doses Pendentes</span>
                         </div>
-                        <span className="font-poppins font-bold text-xl md:text-2xl text-[#4e2e13]">0</span>
+                        <span className="font-poppins font-bold text-xl md:text-2xl text-[#4e2e13]">{stats.dosesPendentes}</span>
                     </Card>
                     <Card variant="alerta" className="flex flex-col justify-between p-4 md:p-6 min-h-[120px]">
                         <div className="flex items-center gap-2 mb-2">
                             <AlertTriangle className="w-6 h-6 text-[#a97c50]" />
                             <span className="font-poppins font-semibold text-base md:text-lg text-[#4e2e13]">Alertas de Saúde</span>
                         </div>
-                        <span className="font-poppins font-bold text-xl md:text-2xl text-[#a97c50]">5</span>
+                        <span className="font-poppins font-bold text-xl md:text-2xl text-[#a97c50]">{stats.alertas}</span>
                     </Card>
                 </div>
 
@@ -61,17 +108,15 @@ function Dashboard() {
                     <Card variant="rural" className="p-4 md:p-6">
                         <ListCard 
                             title={<span className="font-poppins font-semibold text-base md:text-lg text-[#4e2e13]">Últimos Usuários Cadastrados</span>} 
-                            items={[
-                                <span key="user-1" className="font-poppins text-sm md:text-base text-white">Administrador Moovox - admin</span>,
-                                <span key="user-2" className="font-poppins text-sm md:text-base text-white">Dr. Benjamin Nogueira - veterinario</span>,
-                                <span key="user-3" className="font-poppins text-sm md:text-base text-white">Mariana Saraiva - veterinario</span>,
-                            ]} 
+                            items={ultimosUsuarios.map((user, idx) => (
+                                <span key={user.nome + idx} className="font-poppins text-sm md:text-base text-white">{user.nome} - {user.papel}</span>
+                            ))}
                         />
                     </Card>
                     <Card variant="rural" className="p-4 md:p-6">
                         <MessageCard 
                             title={<span className="font-poppins font-semibold text-base md:text-lg text-[#4e2e13]">Doses Pendentes</span>} 
-                            message={<span className="font-poppins text-sm md:text-base text-[#a97c50]">Nenhuma dose pendente.</span>} 
+                            message={<span className="font-poppins text-sm md:text-base text-[#a97c50]">{dosesMensagem}</span>} 
                         />
                     </Card>
                 </div>
@@ -82,18 +127,18 @@ function Dashboard() {
                         <ImageCard
                             title={<span className="font-poppins font-semibold text-base md:text-lg text-[#4e2e13]">Localização dos Animais</span>}
                             icon={<MapPin className="w-6 h-6 text-[#bfa77a]" />}
-                            imageUrl="https://static-maps.yandex.ru/1.x/?lang=pt_BR&ll=-47.0608,-22.9099&z=13&l=map&size=450,200"
-                            alt="Mapa"
+                            imageUrl={localizacao.imageUrl}
+                            alt={localizacao.alt}
                         />
                     </Card>
                     <Card variant="rural" className="p-4 md:p-6">
                         <TelemetryCard
                             title={<span className="font-poppins font-semibold text-base md:text-lg text-[#4e2e13]">Telemetria do Animal</span>}
                             icon={<HeartBeatIcon className="text-[#bfa77a]" />}
-                            animal={<span className="font-poppins text-sm md:text-base text-[#a97c50]">Branquinha</span>}
-                            temperature={<span className="font-poppins text-sm md:text-base text-[#a97c50]">38.5ºC</span>}
-                            heartRate={<span className="font-poppins text-sm md:text-base text-[#a97c50]">78 bpm</span>}
-                            lastUpdate={<span className="font-poppins text-xs text-[#a97c50]">13/04/2025 às 15:42</span>}
+                            animal={<span className="font-poppins text-sm md:text-base text-[#a97c50]">{telemetria.animal}</span>}
+                            temperature={<span className="font-poppins text-sm md:text-base text-[#a97c50]">{telemetria.temperature}</span>}
+                            heartRate={<span className="font-poppins text-sm md:text-base text-[#a97c50]">{telemetria.heartRate}</span>}
+                            lastUpdate={<span className="font-poppins text-xs text-[#a97c50]">{telemetria.lastUpdate}</span>}
                         />
                     </Card>
                 </div>
