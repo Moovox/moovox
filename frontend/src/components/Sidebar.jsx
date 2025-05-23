@@ -26,7 +26,7 @@ function SidebarHeader({ expanded, isDesktop }) {
         <div className={`relative z-10 flex items-center justify-start ${!expanded && !isDesktop ? 'hidden' : ''}${!isDesktop ? 'mt-4' : ''}`}>
             <Link to="/dashboard" className="flex items-center text-xl font-bold text-[#fff8f0]">
                 {/* Logo Moovox */}
-                <img src='../../public/imgs/moovox.svg' className='w-20 h-20' alt="Logo Moovox" />
+                <img src='/imgs/moovox.svg' className='w-20 h-20' alt="Logo Moovox" />
                 {/* Nome animado */}
                 <motion.span
                     className={`transition-opacity duration-300 font-poppins tracking-wide ${expanded ? 'opacity-100' : 'opacity-0'} lg:opacity-100 text-[#fff8f0]`}
