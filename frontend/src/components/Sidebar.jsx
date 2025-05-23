@@ -111,7 +111,7 @@ function Sidebar({ onToggle, isExpanded, showContent }) {
     const expanded = isDesktop ? true : isExpanded;
     const navigate = useNavigate();
 
-    const asideBase = 'fixed inset-0 lg:relative lg:min-h-screen bg-[#10291a]/95 text-[#fff8f0] flex flex-col shadow-lg border-r-2 border-[#bfa77a] z-40 transition-all duration-300 ease-in-out overflow-y-auto hide-scrollbar';
+    const asideBase = 'fixed inset-0 lg:relative lg:min-h-screen bg-[#10291a]/95 text-[#fff8f0] flex flex-col shadow-lg z-40 transition-all duration-300 ease-in-out overflow-y-auto hide-scrollbar';
     const asideExpanded = expanded ? 'translate-x-0 w-64' : '-translate-x-0 w-0';
     const asideDesktop = 'lg:translate-x-0 lg:w-64';
     const asideShowContent = isDesktop ? (showContent ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8') : '';
@@ -145,7 +145,7 @@ function Sidebar({ onToggle, isExpanded, showContent }) {
                     willChange: 'transform, width',
                     backgroundRepeat: 'repeat',
                     backgroundSize: 'auto',
-                    boxShadow: '2px 0 12px 0 #bfa77a',
+                    boxShadow: isDesktop ? 'none' : '2px 0 12px 0 #bfa77a', // Ajuste da sombra
                 }}
                 initial={{ x: isDesktop ? 0 : -300, opacity: 0 }}
                 animate={{ x: expanded ? 0 : -300, opacity: expanded ? 1 : 0 }}

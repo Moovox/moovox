@@ -7,10 +7,10 @@ import { motion } from 'framer-motion';
 
 /**
  * Layout principal com sidebar e loader
- * @param {{ title?: string, description?: string, children?: React.ReactNode }} props
+ * @param {{ title?: string, children?: React.ReactNode }} props
  */
 
-function MainLayout({ title, description, children }) {
+function MainLayout({ title, children }) {
     const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
     const [showContent, setShowContent] = useState(false);
     const location = useLocation();
@@ -21,37 +21,30 @@ function MainLayout({ title, description, children }) {
         return () => clearTimeout(timeout);
     }, [location]);
 
-    const headerClass = `mb-6 flex items-center gap-4 rounded-2xl border-y-2 bg-amber-100 border-[#e5d3b3] py-4 relative transition-all duration-300 ${showContent ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`;
     const contentClass = `transition-all duration-300 ${showContent ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`;
 
     return (
         <div className="flex min-h-screen ">
-            <motion.button
-                onClick={() => setIsSidebarExpanded(!isSidebarExpanded)}
-                aria-label="Abrir menu lateral"
-                className={`text-black p-2 rounded-xl fixed top-4 left-4 transition-transform duration-75 active:scale-90 ${isSidebarExpanded ? 'z-10' : 'z-50'} lg:hidden`}
-                whileTap={{ scale: 0.9 }}
-            >
-                <Menu className="w-7 h-7" />
-            </motion.button>
             <Sidebar
                 onToggle={() => setIsSidebarExpanded(!isSidebarExpanded)}
                 isExpanded={isSidebarExpanded}
                 showContent={showContent}
             />
-            <main className="flex-grow p-4 transition-all duration-200 ease-in-out">
-                <header className={headerClass}>
-                    <img
-                        src="/imgs/moovox.svg"
-                        alt="Logo Moovox"
-                        className="w-24 h-24 ml-12 object-contain drop-shadow-md bg-[#f9e7c2] rounded-full border border-[#bfa77a]"
-                        draggable='false'
-                    />
-                    <div>
-                        <h2 className="text-2xl sm:text-3xl font-extrabold text-[#7c5a3a] font-poppins tracking-tight drop-shadow-sm">{title}</h2>
-                        {description && (
-                            <p className="text-sm text-[#a97c50] font-poppins mt-1">{description}</p>
-                        )}
+            
+            <main className="flex-grow transition-all duration-200 ease-in-out">
+                <header className={`flex items-center gap-4 rounded-2xl transition-all duration-300 ${showContent ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+                    <motion.button
+                        onClick={() => setIsSidebarExpanded(!isSidebarExpanded)}
+                        aria-label="Abrir menu lateral"
+                        className={`text-black rounded-xl top-4 left-4 transition-transform duration-75 lg:hidden active:scale-90 ${isSidebarExpanded ? 'z-10' : 'z-50'}`}
+                        whileTap={{ scale: 0.9 }}
+                    >
+                        <Menu className="w-7 h-7" />
+                    </motion.button>
+
+                    <div className='bg-black text-white w-full'>
+                        <h2 className="lg:text-2xl lg:ml-6 font-bold font-poppins">{title}</h2>
+                        
                     </div>
                 </header>
                 <div className={contentClass}>{children}</div>
