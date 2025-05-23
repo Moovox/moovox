@@ -3,10 +3,33 @@ import PropTypes from 'prop-types';
 import { cn } from '../../lib/utils';
 
 /**
- * Card visual reutilizável
- * @param {{ as?: React.ElementType, className?: string, children?: React.ReactNode, variant?: string }} props
+ * Card visual reutilizável e padronizado para dashboard
+ * @param {{
+ *   as?: React.ElementType,
+ *   className?: string,
+ *   variant?: string,
+ *   title?: React.ReactNode,
+ *   value?: React.ReactNode,
+ *   icon?: React.ReactNode,
+ *   subtitle?: React.ReactNode,
+ *   extra?: React.ReactNode,
+ *   tabIndex?: number,
+ *   role?: string,
+ * }} props
  */
-function Card({ as: Component = 'div', className = '', children, variant = 'default', tabIndex, role, ...props }) {
+function Card({
+  as: Component = 'div',
+  className = '',
+  variant = 'default',
+  title,
+  value,
+  icon,
+  subtitle,
+  extra,
+  tabIndex,
+  role,
+  ...props
+}) {
   // Variantes de cor: rural, terra, palha, verde, alerta, escuro
   const variants = {
     default: 'bg-white text-[#3e2c1a] border border-[#e5e0d8]',
@@ -30,7 +53,17 @@ function Card({ as: Component = 'div', className = '', children, variant = 'defa
       {...props}
     >
       <div className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-300 bg-gradient-to-br from-[#bfa77a] via-[#f9e7c2] to-[#a97c50] pointer-events-none" />
-      <div className="relative z-10">{children}</div>
+      <div className="relative z-10 flex flex-col justify-between h-full min-h-[100px]">
+        {(icon || title) && (
+          <div className="flex items-center gap-2 mb-2">
+            {icon && <span className="w-6 h-6 flex items-center justify-center">{icon}</span>}
+            {title && <span className="font-poppins font-semibold text-base md:text-lg">{title}</span>}
+          </div>
+        )}
+        {subtitle && <div className="mb-1 text-sm text-[#a97c50] font-poppins">{subtitle}</div>}
+        {value && <span className="font-poppins font-bold text-xl md:text-2xl">{value}</span>}
+        {extra && <div className="mt-2">{extra}</div>}
+      </div>
     </Component>
   );
 }
@@ -38,8 +71,12 @@ function Card({ as: Component = 'div', className = '', children, variant = 'defa
 Card.propTypes = {
   as: PropTypes.elementType,
   className: PropTypes.string,
-  children: PropTypes.node,
   variant: PropTypes.oneOf(['default', 'rural', 'terra', 'palha', 'verde', 'alerta', 'escuro']),
+  title: PropTypes.node,
+  value: PropTypes.node,
+  icon: PropTypes.node,
+  subtitle: PropTypes.node,
+  extra: PropTypes.node,
   tabIndex: PropTypes.number,
   role: PropTypes.string,
 };
