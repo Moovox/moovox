@@ -21,22 +21,11 @@ function useIsDesktop() {
 
 // Header da Sidebar com logo e nome
 function SidebarHeader({ expanded, isDesktop }) {
-    // Esconde o header se não estiver expandido e não for desktop
     return (
-        <div className={`relative z-10 flex items-center justify-start ${!expanded && !isDesktop ? 'hidden' : ''}${!isDesktop ? 'mt-4' : ''}`}>
-            <Link to="/dashboard" className="flex items-center text-xl font-bold text-[#fff8f0]">
-                {/* Logo Moovox */}
-                <img src='/imgs/moovox.svg' className='w-20 h-20' alt="Logo Moovox" />
-                {/* Nome animado */}
-                <motion.span
-                    className={`transition-opacity duration-300 font-poppins tracking-wide ${expanded ? 'opacity-100' : 'opacity-0'} lg:opacity-100 text-[#fff8f0]`}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: expanded ? 1 : 0 }}
-                    transition={{ duration: 0.5 }}
-                >
-                    Moovox
-                </motion.span>
-            </Link>
+        <div className={`flex justify-center items-center w-full min-h-16 ${!expanded && !isDesktop ? 'hidden' : ''}`}>
+            <Link to="/dashboard" children={
+                <p className='text-2xl sm:text-3xl font-semibold font-poppins'>Moovox</p>
+                }/>
         </div>
     );
 }
@@ -49,7 +38,7 @@ SidebarHeader.propTypes = {
 // Navegação da Sidebar
 function SidebarNavigation({ menuItems, expanded, isDesktop, handleLogout }) {
     return (
-        <nav className={`relative z-10 mt-6 flex flex-col gap-0 ${!expanded && !isDesktop ? 'hidden' : ''}`}>
+        <nav className={`relative z-10 mt-2 flex flex-col gap-1 ${!expanded && !isDesktop ? 'hidden' : ''}`}>
             <AnimatePresence>
                 {/* Renderiza cada item do menu com animação */}
                 {menuItems.map(({ to, icon, label }) => (
@@ -58,17 +47,17 @@ function SidebarNavigation({ menuItems, expanded, isDesktop, handleLogout }) {
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
                         exit={{ opacity: 0, x: -20 }}
-                        transition={{ duration: 0.3 }}
+                        transition={{ duration: 0.2 }}
                     >
                         <NavLink
                             to={to}
                             tabIndex={0}
                             className={({ isActive }) =>
-                                `flex items-center p-4 rounded-lg mx-2 my-1 font-semibold border border-transparent hover:bg-[#fff8f0]/10 hover:text-[#fff8f0] transition-colors duration-200 ${isActive ? 'bg-[#246426] text-[#ffffff] shadow-md border-l-4 border-[#4caf50]' : 'text-[#fff8f0]'}`
+                                `flex items-center px-3 py-2 rounded-md mx-1 my-0.5 text-sm font-medium border border-transparent hover:bg-[#fff8f0]/10 hover:text-[#fff8f0] transition-colors duration-150 ${isActive ? 'bg-[#246426] text-[#ffffff] shadow border-l-4 border-[#4caf50]' : 'text-[#fff8f0]'}`
                             }
                         >
                             {icon}
-                            <span className={`transition-opacity duration-300 ${expanded ? 'opacity-100' : 'opacity-0'} lg:opacity-100 text-[#fff8f0]`}>{label}</span>
+                            <span className={`transition-opacity duration-200 ${expanded ? 'opacity-100' : 'opacity-0'} lg:opacity-100 text-[#fff8f0] ml-1`}>{label}</span>
                         </NavLink>
                     </motion.div>
                 ))}
@@ -131,17 +120,9 @@ const menuItems = [
 // Componente principal da Sidebar
 function Sidebar({ onToggle, isExpanded, showContent }) {
     const isDesktop = useIsDesktop();
-    // Sidebar sempre expandida no desktop
-    const expanded = isDesktop ? true : isExpanded;
+    // Sidebar controlada apenas pelo estado isExpanded, independente do desktop
+    const expanded = isExpanded;
     const navigate = useNavigate();
-
-    // Classes utilitárias para responsividade e animação
-    const asideBase = 'fixed inset-0 lg:relative lg:min-h-screen bg-[#10291a]/95 text-[#fff8f0] flex flex-col shadow-lg z-40 transition-all duration-300 ease-in-out overflow-y-auto hide-scrollbar';
-    const asideExpanded = expanded ? 'translate-x-0 w-64' : '-translate-x-0 w-0';
-    const asideDesktop = 'lg:translate-x-0 lg:w-64';
-    const asideShowContent = isDesktop ? (showContent ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8') : '';
-    const asidePointer = !expanded && !isDesktop ? 'pointer-events-none select-none' : '';
-    const asideClass = `${asideBase} ${asideExpanded} ${asideDesktop} transition-all duration-300 ${asideShowContent} ${asidePointer}`;
 
     // Função de logout (pode ser expandida para lógica real)
     function handleLogout() {
@@ -168,12 +149,17 @@ function Sidebar({ onToggle, isExpanded, showContent }) {
 
             {/* Sidebar principal */}
             <motion.aside
-                className={asideClass}
+                className={`fixed inset-0 lg:relative lg:min-h-screen bg-[#10291a]/95 text-[#fff8f0] flex flex-col shadow-lg z-40 transition-all duration-300 ease-in-out overflow-y-auto hide-scrollbar
+                    ${expanded ? 'translate-x-0 w-64' : 'w-0'}
+                    lg:translate-x-0
+                    ${isDesktop && !showContent ? 'opacity-0 -translate-x-8' : 'opacity-100 translate-x-0'}
+                    ${!expanded && !isDesktop ? 'pointer-events-none select-none' : ''}
+                `}
                 style={{
                     willChange: 'transform, width',
                     backgroundRepeat: 'repeat',
                     backgroundSize: 'auto',
-                    boxShadow: isDesktop ? 'none' : '2px 0 12px 0 #bfa77a', // Sombra apenas no mobile
+                    boxShadow: isDesktop ? 'none' : '2px 0 12px 0 #bfa77a',
                 }}
                 initial={{ x: isDesktop ? 0 : -300, opacity: 0 }}
                 animate={{ x: expanded ? 0 : -300, opacity: expanded ? 1 : 0 }}
