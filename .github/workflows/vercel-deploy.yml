@@ -1,0 +1,30 @@
+name: Deploy to Vercel
+
+on:
+  push:
+    branches:
+      - frontend # ou a branch que desejar
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Instalar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Instalar dependências
+        run: npm install --force
+        working-directory: ./frontend
+
+      - name: Instalar Vercel CLI
+        run: npm install -g vercel --force
+
+      - name: Deploy na Vercel
+        run: vercel --prod --token ${{ secrets.VERCEL_TOKEN }} --yes --cwd ./frontend
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}

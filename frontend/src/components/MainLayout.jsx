@@ -2,63 +2,69 @@ import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Sidebar from './Sidebar';
+import { Menu } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 /**
- * Layout principal com sidebar e loader
- * @param {{ title?: string, description?: string, children?: React.ReactNode }} props
+ * Layout principal da aplicação, com sidebar e header animado.
+ * Exibe o conteúdo com transição suave ao trocar de rota.
+ *
+ * @param {string} title - Título exibido no header
+ * @param {React.ReactNode} children - Conteúdo da página
  */
-
-function MainLayout({ title, description, children }) {
+const MainLayout = ({ title = '', children }) => {
+    // Estado para controlar expansão do sidebar
     const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
+    // Estado para controlar animação de entrada do conteúdo
     const [showContent, setShowContent] = useState(false);
+    // Hook do React Router para detectar mudança de rota
     const location = useLocation();
 
+    // Efeito para animar entrada do conteúdo ao trocar de rota
     useEffect(() => {
-        setShowContent(false);
-        const timeout = setTimeout(() => setShowContent(true), 100);
-        return () => clearTimeout(timeout);
+        setShowContent(false); // Esconde conteúdo
+        const timeout = setTimeout(() => setShowContent(true), 100); // Mostra após 100ms
+        return () => clearTimeout(timeout); // Limpa timeout ao desmontar
     }, [location]);
 
-    const headerClass = `mb-6 flex items-center gap-4 rounded-2xl border-y-2 bg-amber-100 border-[#e5d3b3] py-4 relative transition-all duration-300 ${showContent ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`;
+    // Classe de transição para o conteúdo
     const contentClass = `transition-all duration-300 ${showContent ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`;
 
     return (
-        <div className="flex min-h-screen ">
+        <div className="flex">
+            {/* Sidebar lateral */}
             <Sidebar
-                onToggle={() => setIsSidebarExpanded(!isSidebarExpanded)}
+                onToggle={() => setIsSidebarExpanded((prev) => !prev)}
                 isExpanded={isSidebarExpanded}
                 showContent={showContent}
             />
-            <main className="flex-grow p-4 transition-all duration-200 ease-in-out">
-                <header className={headerClass}>
-                    <img
-                        src="/imgs/moovox.svg"
-                        alt="Logo Moovox"
-                        className="w-24 h-24 ml-12 object-contain drop-shadow-md bg-[#f9e7c2] rounded-full border border-[#bfa77a]"
-                        draggable='false'
-                    />
-                    <div>
-                        <h2 className="text-2xl sm:text-3xl font-extrabold text-[#7c5a3a] font-poppins tracking-tight drop-shadow-sm">{title}</h2>
-                        {description && (
-                            <p className="text-sm text-[#a97c50] font-poppins mt-1">{description}</p>
-                        )}
+            <main className="w-screen transition-all duration-200 ease-in-out">
+                {/* Header do layout */}
+                <header className="flex bg-black">
+                    {/* Botão de menu para mobile */}
+                    <motion.button
+                        onClick={() => setIsSidebarExpanded((prev) => !prev)}
+                        aria-label="Abrir menu lateral"
+                        className={`text-white rounded-xl top-4 left-4 transition-transform duration-75 lg:hidden active:scale-90 ${isSidebarExpanded ? 'z-10' : 'z-50'}`}
+                        whileTap={{ scale: 0.9 }}
+                    >
+                        <Menu className="w-7 h-7" />
+                    </motion.button>
+                    {/* Título do header */}
+                    <div className="text-white w-full">
+                        <h2 className="lg:text-2xl lg:ml-6 font-bold font-poppins">{title}</h2>
                     </div>
                 </header>
+                {/* Conteúdo principal com animação */}
                 <div className={contentClass}>{children}</div>
             </main>
         </div>
     );
-}
+};
 
 MainLayout.propTypes = {
     title: PropTypes.string,
-    description: PropTypes.string,
     children: PropTypes.node,
-};
-
-MainLayout.defaultProps = {
-    title: '',
-    description: '',
 };
 
 export default MainLayout;
