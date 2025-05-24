@@ -183,7 +183,7 @@ async function createBreedsCattle() {
         select: {
             id: true
         }
-    }); 
+    });
 
     try {
         const angus = await prisma.breeds.create({
@@ -228,7 +228,7 @@ async function createBreedsCattle() {
     }
 }
 
-async function createBreedsSwine () {
+async function createBreedsSwine() {
     try {
         const swine = await prisma.species.findFirst({
             where: {
@@ -237,9 +237,9 @@ async function createBreedsSwine () {
             select: {
                 id: true
             }
-        }); 
+        });
         const landrace = await prisma.breeds.create({
-            data:{
+            data: {
                 name: "Landrace",
                 description: "Suíno de origem dinamarquesa, muito usado em cruzamentos industriais por seu alto rendimento de carne magra.",
                 average_weight: 250.0,
@@ -248,7 +248,7 @@ async function createBreedsSwine () {
             }
         });
         const duroc = await prisma.breeds.create({
-            data:{
+            data: {
                 name: "Duroc",
                 description: "Raça americana conhecida por seu crescimento rápido e carne com boa marmorização.",
                 average_weight: 300.0,
@@ -257,7 +257,7 @@ async function createBreedsSwine () {
             }
         });
         const pietrain = await prisma.breeds.create({
-            data:{
+            data: {
                 name: "Pietrain",
                 description: "Raça belga altamente musculosa, conhecida por excelente rendimento de carne magra. Usada frequentemente em cruzamentos industriais.",
                 average_weight: 280.0,
@@ -266,7 +266,7 @@ async function createBreedsSwine () {
             }
         });
         const hampshire = await prisma.breeds.create({
-            data:{
+            data: {
                 name: "Hampshire",
                 description: "Suíno de origem americana, com corpo preto e faixa branca no dorso. É valorizado pelo bom ganho de peso e qualidade da carne.",
                 average_weight: 270.0,
@@ -275,7 +275,7 @@ async function createBreedsSwine () {
             }
         });
         const moura = await prisma.breeds.create({
-            data:{
+            data: {
                 name: "Moura",
                 description: "Raça brasileira nativa, rústica e resistente, criada tradicionalmente a pasto. Produz carne de alta qualidade e sabor acentuado",
                 average_weight: 240.0,
@@ -284,8 +284,58 @@ async function createBreedsSwine () {
             }
         });
     } catch (error) {
-        console.error("erro ao criar raça de gados" +error);
- 
+        console.error("erro ao criar raça de gados" + error);
+
+    }
+}
+
+async function createBreedsEquine() {
+    try {
+        const equine = await prisma.species.findFirst({
+            where: {
+                name: "EQUINE"
+            },
+            select: {
+                id: true
+            }
+        });
+        const crioulo = await prisma.breeds.create({
+            data: {
+                name: "Crioulo",
+                description: "Raça sul-americana extremamente resistente, ideal para trabalhos rurais em regiões inóspitas.",
+                average_weight: 430,
+                productivity: "Trabalho",
+                species: { connect: { id: equine.id } },
+            }
+        });
+    } catch (error) {
+        console.log("Erro ao criar breeds (equine):" + error);
+
+    }
+}
+
+async function createBreedsPoultry() {
+    try {
+        const poultry = await prisma.species.findFirst({
+            where: {
+                name: "POULTRY"
+            },
+            select: {
+                id: true
+            }
+        });
+        const leghorn = await prisma.breeds.create({
+            data: {
+                name: "Leghorn",
+                description: "Raça italiana de galinha muito utilizada na produção comercial de ovos, conhecida por sua alta postura.",
+                average_weight: 2.3,
+                productivity: "ovos", 
+                species: { connect: { id: poultry.id } },
+            }
+        });
+    } catch (error) {
+        console.error("erro ao criar raça de galinhas" + error);
+
     }
 }
 
@@ -294,14 +344,17 @@ async function createBreedsSwine () {
 
 async function main() {
     try {
-        
+
         await createFarm()
         await createUserVeterinarians()
         await createUserFarmhands()
         await createUserFarmer()
         await createSpecies()
-        await createBreedsCattle() 
+        await createBreedsCattle()
         await createBreedsSwine()
+        await createBreedsEquine()
+        await createBreedsPoultry()
+
 
     } catch (error) {
         console.log("Erro ao criar usuarios " + error);
