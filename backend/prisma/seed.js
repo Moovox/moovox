@@ -2,6 +2,7 @@ const prisma = require("../src/config/database");
 const { fakerPT_BR } = require("@faker-js/faker");
 const faker = fakerPT_BR;
 const bcrypt = require("bcryptjs");
+const { cnpj } = require("cpf-cnpj-validator");
 
 async function createFarm() {
   try {
@@ -374,24 +375,24 @@ async function createAnimals() {
       },
     });
     const breed_moura_id = await prisma.breeds.findFirst({
-        where: {
-            name: "Moura",
-        },
-        select: {
-            id: true,
-            },
-    })
+      where: {
+        name: "Moura",
+      },
+      select: {
+        id: true,
+      },
+    });
     const farm = await prisma.farms.findFirst({ select: { id: true } });
     // Criar Boi
     await prisma.animals.create({
       data: {
         name: "Perola",
         birth_date: new Date(),
-        species: { connect: {id:species_cattle_id.id} },
-        breed: { connect: {id: breed_nelore_id.id} },
+        species: { connect: { id: species_cattle_id.id } },
+        breed: { connect: { id: breed_nelore_id.id } },
         weight: 500,
         health_status: "HEALTHY",
-        farm: { connect: {id:farm.id} },
+        farm: { connect: { id: farm.id } },
       },
     });
 
@@ -399,30 +400,128 @@ async function createAnimals() {
       data: {
         name: "Rabicó",
         birth_date: new Date(),
-        species: {connect: {id:species_swine_id.id}},
-        breed: {connect: {id: breed_moura_id.id}},
-        weight: 240, 
+        species: { connect: { id: species_swine_id.id } },
+        breed: { connect: { id: breed_moura_id.id } },
+        weight: 240,
         health_status: "HEALTHY",
-        farm: {connect: {id: farm.id}},
+        farm: { connect: { id: farm.id } },
       },
     });
 
     await prisma.animals.create({
-        data: {
-            name: "Cocó" ,
-            birth_date: new Date(),
-            species: {connect:{id: species_poultry_id.id} }, 
-            breed: {connect: {id: breed_moura_id.id}},
-            weight: 2.4 ,
-            health_status: "HEALTHY",
-            farm: {connect: {id: farm.id} },
-        }
-    })
+      data: {
+        name: "Cocó",
+        birth_date: new Date(),
+        species: { connect: { id: species_poultry_id.id } },
+        breed: { connect: { id: breed_moura_id.id } },
+        weight: 2.4,
+        health_status: "HEALTHY",
+        farm: { connect: { id: farm.id } },
+      },
+    });
   } catch (error) {
     console.error("erro ao criar animal" + error);
   }
 }
 
+async function createTypesOfVaccines() {
+  try {
+    const types_of_vaccine = [
+      "Injectable",
+      "Oral",
+      "Intranasal",
+      "Transdermal",
+      "Intramammary",
+      "Spray",
+    ];
+    await prisma.types_of_Vaccines.createMany({
+      data: types_of_vaccine.map((type) => ({
+        name: type,
+      })),
+    });
+  } catch (error) {
+    console.error("erro ao criar tipo de vacina" + error);
+  }
+}
+
+async function createManufacturer() {
+  try {
+    const logradouro = faker.location.street();
+    const numero = faker.location.buildingNumber();
+    const bairro = faker.location.zipCode();
+    const cidade = faker.location.city();
+    const estado = faker.location.state();
+    const manufaturer = await prisma.manufacturers.create({
+      data: {
+        name: "BioVac Brasil S.A",
+        cnpj: cnpj.generate(),
+        email: "contato@biovac.com",
+        phone: faker.phone.number(),
+        address: `${logradouro}, ${numero} - ${bairro} - ${cidade} - ${estado}`,
+        country: "Brasil",
+        license_number: "VAC-MFG-2025-BR-009872",
+      },
+    });
+  } catch (error) {
+    console.error("erro ao criar fabricante" + error);
+  }
+}
+
+async function createVaccines() {
+  try {
+    const type_of_vaccine = await prisma.types_of_Vaccines.findFirst({
+      where: {
+        name: "Injectable",
+      },
+      select: {
+        id: true,
+      },
+    });
+    const manufacturer_id = await prisma.manufacturers.findFirst({
+      where: {
+        name: "BioVac Brasil S.A",
+      },
+      select: {
+        id: true,
+      },
+    });
+
+    const vaccines = await prisma.vaccines.createMany({
+      data: [
+        {
+          name: "Aftovac",
+          target_disease: "Febre Aftosa",
+          type_of_vaccine_id: type_of_vaccine.id,
+          manufacturer_id: manufacturer_id.id,
+          batch: "AFT12345BR",
+          expiration_date: faker.date.between({
+            from: "2020-01-01T00:00:00.000Z",
+            to: "2030-01-01T00:00:00.000Z",
+          }),
+          required_doses: 2,
+          dosing_interval: 180,
+          notes: "Recomendada para bovinos a partir de 3 meses de idade.",
+        },
+        {
+          name: "Clostrivet",
+          target_disease: "Clostridioses",
+          type_of_vaccine_id: type_of_vaccine.id,
+          manufacturer_id: manufacturer_id.id,
+          batch: "CLO99876CE",
+          expiration_date: faker.date.between({
+            from: "2020-01-01T00:00:00.000Z",
+            to: "2030-01-01T00:00:00.000Z",
+          }),
+          required_doses: 2,
+          dosing_interval: 90,
+          notes: "Protege contra 7 tipos de clostridioses. Reaplicação anual.",
+        },
+      ],
+    });
+  } catch (error) {
+    console.log("Erro ao criar vacinas" + error)
+  }
+}
 async function main() {
   try {
     await createFarm();
@@ -434,7 +533,10 @@ async function main() {
     await createBreedsSwine();
     await createBreedsEquine();
     await createBreedsPoultry();
-    await createAnimals(); 
+    await createAnimals();
+    await createTypesOfVaccines();
+    await createManufacturer();
+    await createVaccines();
   } catch (error) {
     console.log("Erro ao criar usuarios " + error);
   }

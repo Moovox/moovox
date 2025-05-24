@@ -11526,7 +11526,7 @@ export namespace Prisma {
   export type Types_of_VaccinesGroupByOutputType = {
     id: number
     name: string
-    description: string
+    description: string | null
     _count: Types_of_VaccinesCountAggregateOutputType | null
     _avg: Types_of_VaccinesAvgAggregateOutputType | null
     _sum: Types_of_VaccinesSumAggregateOutputType | null
@@ -11578,7 +11578,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: number
       name: string
-      description: string
+      description: string | null
     }, ExtArgs["result"]["types_of_Vaccines"]>
     composites: {}
   }
@@ -15332,14 +15332,14 @@ export namespace Prisma {
     NOT?: Types_of_VaccinesWhereInput | Types_of_VaccinesWhereInput[]
     id?: IntFilter<"Types_of_Vaccines"> | number
     name?: StringFilter<"Types_of_Vaccines"> | string
-    description?: StringFilter<"Types_of_Vaccines"> | string
+    description?: StringNullableFilter<"Types_of_Vaccines"> | string | null
     vaccines?: VaccinesListRelationFilter
   }
 
   export type Types_of_VaccinesOrderByWithRelationInput = {
     id?: SortOrder
     name?: SortOrder
-    description?: SortOrder
+    description?: SortOrderInput | SortOrder
     vaccines?: VaccinesOrderByRelationAggregateInput
     _relevance?: Types_of_VaccinesOrderByRelevanceInput
   }
@@ -15350,14 +15350,14 @@ export namespace Prisma {
     OR?: Types_of_VaccinesWhereInput[]
     NOT?: Types_of_VaccinesWhereInput | Types_of_VaccinesWhereInput[]
     name?: StringFilter<"Types_of_Vaccines"> | string
-    description?: StringFilter<"Types_of_Vaccines"> | string
+    description?: StringNullableFilter<"Types_of_Vaccines"> | string | null
     vaccines?: VaccinesListRelationFilter
   }, "id">
 
   export type Types_of_VaccinesOrderByWithAggregationInput = {
     id?: SortOrder
     name?: SortOrder
-    description?: SortOrder
+    description?: SortOrderInput | SortOrder
     _count?: Types_of_VaccinesCountOrderByAggregateInput
     _avg?: Types_of_VaccinesAvgOrderByAggregateInput
     _max?: Types_of_VaccinesMaxOrderByAggregateInput
@@ -15371,7 +15371,7 @@ export namespace Prisma {
     NOT?: Types_of_VaccinesScalarWhereWithAggregatesInput | Types_of_VaccinesScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"Types_of_Vaccines"> | number
     name?: StringWithAggregatesFilter<"Types_of_Vaccines"> | string
-    description?: StringWithAggregatesFilter<"Types_of_Vaccines"> | string
+    description?: StringNullableWithAggregatesFilter<"Types_of_Vaccines"> | string | null
   }
 
   export type ApplicationsWhereInput = {
@@ -16177,45 +16177,45 @@ export namespace Prisma {
 
   export type Types_of_VaccinesCreateInput = {
     name: string
-    description: string
+    description?: string | null
     vaccines?: VaccinesCreateNestedManyWithoutType_of_vaccineInput
   }
 
   export type Types_of_VaccinesUncheckedCreateInput = {
     id?: number
     name: string
-    description: string
+    description?: string | null
     vaccines?: VaccinesUncheckedCreateNestedManyWithoutType_of_vaccineInput
   }
 
   export type Types_of_VaccinesUpdateInput = {
     name?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     vaccines?: VaccinesUpdateManyWithoutType_of_vaccineNestedInput
   }
 
   export type Types_of_VaccinesUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     vaccines?: VaccinesUncheckedUpdateManyWithoutType_of_vaccineNestedInput
   }
 
   export type Types_of_VaccinesCreateManyInput = {
     id?: number
     name: string
-    description: string
+    description?: string | null
   }
 
   export type Types_of_VaccinesUpdateManyMutationInput = {
     name?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type Types_of_VaccinesUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ApplicationsCreateInput = {
@@ -19306,13 +19306,13 @@ export namespace Prisma {
 
   export type Types_of_VaccinesCreateWithoutVaccinesInput = {
     name: string
-    description: string
+    description?: string | null
   }
 
   export type Types_of_VaccinesUncheckedCreateWithoutVaccinesInput = {
     id?: number
     name: string
-    description: string
+    description?: string | null
   }
 
   export type Types_of_VaccinesCreateOrConnectWithoutVaccinesInput = {
@@ -19400,13 +19400,13 @@ export namespace Prisma {
 
   export type Types_of_VaccinesUpdateWithoutVaccinesInput = {
     name?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type Types_of_VaccinesUncheckedUpdateWithoutVaccinesInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ApplicationsUpsertWithWhereUniqueWithoutVaccineInput = {
