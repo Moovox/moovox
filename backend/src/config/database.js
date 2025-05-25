@@ -13,3 +13,4 @@ const prisma = new PrismaClient({
 
 // Exporta a instância do Prisma para uso em toda a aplicação
 module.exports = prisma;
+

@@ -6,7 +6,7 @@
     "dev": "nodemon src/server.js"
   },
   "prisma": {
-    "seed": "node prisma/seed.js"
+    "seed": "node prisma/seed/seed.js"
   },
   "keywords": [],
   "author": "",
