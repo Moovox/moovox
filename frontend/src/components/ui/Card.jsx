@@ -58,12 +58,12 @@ function Card({
       <div className="relative z-10 flex flex-col justify-around items-center h-full min-h-[100px]">
         {/* Header do card: ícone e título */}
         {(icon || title) && (
-          <div className="flex items-center justify-center gap-3 mb-2">
+          <div className="flex items-center justify-center sm:ml-2 gap-3 mb-2">
             {icon && (
               <span>{icon}</span>
             )}
             {title && (
-              <span className="font-poppins font-semibold text-base md:text-lg">{title}</span>
+              <span className="font-poppins font-semibold sm:text-sm md:text-base xl:text-xl">{title}</span>
             )}
           </div>
         )}
