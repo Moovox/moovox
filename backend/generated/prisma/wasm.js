@@ -120,26 +120,26 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
+exports.Prisma.FarmsScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
 exports.Prisma.UsersScalarFieldEnum = {
   id: 'id',
   name: 'name',
   email: 'email',
   password: 'password',
   profile_photo: 'profile_photo',
-  role_id: 'role_id',
+  role: 'role',
+  farm_id: 'farm_id',
   created_at: 'created_at',
   updated_at: 'updated_at'
 };
 
-exports.Prisma.RolesScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  description: 'description',
-  created_at: 'created_at',
-  updated_at: 'updated_at'
-};
-
-exports.Prisma.Farm_WorkersScalarFieldEnum = {
+exports.Prisma.FarmhandsScalarFieldEnum = {
   id: 'id',
   user_id: 'user_id'
 };
@@ -156,7 +156,8 @@ exports.Prisma.AnimalsScalarFieldEnum = {
   breed_id: 'breed_id',
   birth_date: 'birth_date',
   weight: 'weight',
-  health_status_id: 'health_status_id',
+  health_status: 'health_status',
+  farm_id: 'farm_id',
   created_at: 'created_at',
   updated_at: 'updated_at'
 };
@@ -178,14 +179,6 @@ exports.Prisma.BreedsScalarFieldEnum = {
   species_id: 'species_id',
   average_weight: 'average_weight',
   productivity: 'productivity',
-  created_at: 'created_at',
-  updated_at: 'updated_at'
-};
-
-exports.Prisma.Health_StatusScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  description: 'description',
   created_at: 'created_at',
   updated_at: 'updated_at'
 };
@@ -231,14 +224,9 @@ exports.Prisma.ApplicationsScalarFieldEnum = {
   veterinary_id: 'veterinary_id',
   application_date: 'application_date',
   next_application_date: 'next_application_date',
-  status_vaccine_application_id: 'status_vaccine_application_id',
+  status_vaccine_application: 'status_vaccine_application',
   created_at: 'created_at',
   updated_at: 'updated_at'
-};
-
-exports.Prisma.Status_Vaccine_ApplicationsScalarFieldEnum = {
-  id: 'id',
-  name: 'name'
 };
 
 exports.Prisma.LocationsScalarFieldEnum = {
@@ -256,6 +244,10 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
+exports.Prisma.FarmsOrderByRelevanceFieldEnum = {
+  name: 'name'
+};
+
 exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
@@ -266,11 +258,6 @@ exports.Prisma.UsersOrderByRelevanceFieldEnum = {
   email: 'email',
   password: 'password',
   profile_photo: 'profile_photo'
-};
-
-exports.Prisma.RolesOrderByRelevanceFieldEnum = {
-  name: 'name',
-  description: 'description'
 };
 
 exports.Prisma.AnimalsOrderByRelevanceFieldEnum = {
@@ -286,11 +273,6 @@ exports.Prisma.BreedsOrderByRelevanceFieldEnum = {
   name: 'name',
   description: 'description',
   productivity: 'productivity'
-};
-
-exports.Prisma.Health_StatusOrderByRelevanceFieldEnum = {
-  name: 'name',
-  description: 'description'
 };
 
 exports.Prisma.VaccinesOrderByRelevanceFieldEnum = {
@@ -314,26 +296,38 @@ exports.Prisma.Types_of_VaccinesOrderByRelevanceFieldEnum = {
   name: 'name',
   description: 'description'
 };
-
-exports.Prisma.Status_Vaccine_ApplicationsOrderByRelevanceFieldEnum = {
-  name: 'name'
+exports.Roles = exports.$Enums.Roles = {
+  ADMIN: 'ADMIN',
+  FARMER: 'FARMER',
+  FARMHAND: 'FARMHAND',
+  VETERINARY: 'VETERINARY'
 };
 
+exports.Health_Status = exports.$Enums.Health_Status = {
+  HEALTHY: 'HEALTHY',
+  SICK: 'SICK',
+  INJURED: 'INJURED',
+  RECOVERING: 'RECOVERING'
+};
+
+exports.Status_Vaccine_Applications = exports.$Enums.Status_Vaccine_Applications = {
+  APPLIED: 'APPLIED',
+  PENDING: 'PENDING',
+  OVERDUE: 'OVERDUE'
+};
 
 exports.Prisma.ModelName = {
+  Farms: 'Farms',
   Users: 'Users',
-  Roles: 'Roles',
-  Farm_Workers: 'Farm_Workers',
+  Farmhands: 'Farmhands',
   Veterinarians: 'Veterinarians',
   Animals: 'Animals',
   Species: 'Species',
   Breeds: 'Breeds',
-  Health_Status: 'Health_Status',
   Vaccines: 'Vaccines',
   Manufacturers: 'Manufacturers',
   Types_of_Vaccines: 'Types_of_Vaccines',
   Applications: 'Applications',
-  Status_Vaccine_Applications: 'Status_Vaccine_Applications',
   Locations: 'Locations'
 };
 

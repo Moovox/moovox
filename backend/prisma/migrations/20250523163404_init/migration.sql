@@ -1,35 +1,36 @@
 -- CreateTable
+CREATE TABLE `Farms` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(200) NOT NULL,
+    `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updated_at` DATETIME(3) NOT NULL,
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
 CREATE TABLE `Users` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(200) NOT NULL,
-    `email` VARCHAR(250) NOT NULL,
-    `password` VARCHAR(200) NOT NULL,
-    `profile_photo` VARCHAR(191) NULL,
-    `role_id` INTEGER NOT NULL,
+    `email` VARCHAR(255) NOT NULL,
+    `password` VARCHAR(255) NOT NULL,
+    `profile_photo` VARCHAR(300) NULL,
+    `role` ENUM('ADMIN', 'FARMER', 'FARMHAND', 'VETERINARY') NOT NULL,
+    `farm_id` INTEGER NOT NULL,
     `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updated_at` DATETIME(3) NOT NULL,
 
     UNIQUE INDEX `Users_email_key`(`email`),
+    INDEX `Users_farm_id_idx`(`farm_id`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `Roles` (
-    `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `name` VARCHAR(200) NOT NULL,
-    `description` VARCHAR(200) NULL,
-    `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `updated_at` DATETIME(3) NOT NULL,
-
-    PRIMARY KEY (`id`)
-) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-
--- CreateTable
-CREATE TABLE `Farm_Workers` (
+CREATE TABLE `Farmhands` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `user_id` INTEGER NOT NULL,
 
-    UNIQUE INDEX `Farm_Workers_user_id_key`(`user_id`),
+    UNIQUE INDEX `Farmhands_user_id_key`(`user_id`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -50,13 +51,14 @@ CREATE TABLE `Animals` (
     `breed_id` INTEGER NOT NULL,
     `birth_date` DATETIME(3) NOT NULL,
     `weight` DOUBLE NOT NULL,
-    `health_status_id` INTEGER NOT NULL,
+    `health_status` ENUM('HEALTHY', 'SICK', 'INJURED', 'RECOVERING') NOT NULL,
+    `farm_id` INTEGER NOT NULL,
     `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updated_at` DATETIME(3) NOT NULL,
 
     INDEX `Animals_species_id_idx`(`species_id`),
     INDEX `Animals_breed_id_idx`(`breed_id`),
-    INDEX `Animals_health_status_id_idx`(`health_status_id`),
+    INDEX `Animals_farm_id_idx`(`farm_id`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -64,7 +66,7 @@ CREATE TABLE `Animals` (
 CREATE TABLE `Species` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(200) NOT NULL,
-    `description` VARCHAR(200) NOT NULL,
+    `description` TEXT NOT NULL,
     `average_lifespan` INTEGER NULL,
     `gestation_period` INTEGER NULL,
     `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
@@ -77,7 +79,7 @@ CREATE TABLE `Species` (
 CREATE TABLE `Breeds` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(200) NOT NULL,
-    `description` VARCHAR(200) NOT NULL,
+    `description` TEXT NOT NULL,
     `species_id` INTEGER NOT NULL,
     `average_weight` DOUBLE NULL,
     `productivity` VARCHAR(191) NULL,
@@ -85,17 +87,6 @@ CREATE TABLE `Breeds` (
     `updated_at` DATETIME(3) NOT NULL,
 
     INDEX `Breeds_species_id_idx`(`species_id`),
-    PRIMARY KEY (`id`)
-) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-
--- CreateTable
-CREATE TABLE `Health_Status` (
-    `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `name` VARCHAR(200) NOT NULL,
-    `description` VARCHAR(200) NOT NULL,
-    `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `updated_at` DATETIME(3) NOT NULL,
-
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -124,7 +115,7 @@ CREATE TABLE `Manufacturers` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(200) NOT NULL,
     `cnpj` VARCHAR(200) NOT NULL,
-    `email` VARCHAR(200) NOT NULL,
+    `email` VARCHAR(250) NOT NULL,
     `phone` VARCHAR(15) NOT NULL,
     `address` VARCHAR(200) NOT NULL,
     `country` VARCHAR(200) NOT NULL,
@@ -141,7 +132,7 @@ CREATE TABLE `Manufacturers` (
 CREATE TABLE `Types_of_Vaccines` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(200) NOT NULL,
-    `description` VARCHAR(200) NOT NULL,
+    `description` TEXT NOT NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -154,23 +145,14 @@ CREATE TABLE `Applications` (
     `veterinary_id` INTEGER NOT NULL,
     `application_date` DATETIME(3) NOT NULL,
     `next_application_date` DATETIME(3) NULL,
-    `status_vaccine_application_id` INTEGER NOT NULL,
+    `status_vaccine_application` ENUM('APPLIED', 'PENDING', 'OVERDUE') NOT NULL,
     `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updated_at` DATETIME(3) NOT NULL,
 
     INDEX `Applications_animal_id_idx`(`animal_id`),
     INDEX `Applications_vaccine_id_idx`(`vaccine_id`),
     INDEX `Applications_veterinary_id_idx`(`veterinary_id`),
-    INDEX `Applications_status_vaccine_application_id_idx`(`status_vaccine_application_id`),
     INDEX `Applications_application_date_idx`(`application_date`),
-    PRIMARY KEY (`id`)
-) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-
--- CreateTable
-CREATE TABLE `Status_Vaccine_Applications` (
-    `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `name` VARCHAR(200) NOT NULL,
-
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -190,10 +172,10 @@ CREATE TABLE `Locations` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- AddForeignKey
-ALTER TABLE `Users` ADD CONSTRAINT `Users_role_id_fkey` FOREIGN KEY (`role_id`) REFERENCES `Roles`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `Users` ADD CONSTRAINT `Users_farm_id_fkey` FOREIGN KEY (`farm_id`) REFERENCES `Farms`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Farm_Workers` ADD CONSTRAINT `Farm_Workers_user_id_fkey` FOREIGN KEY (`user_id`) REFERENCES `Users`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `Farmhands` ADD CONSTRAINT `Farmhands_user_id_fkey` FOREIGN KEY (`user_id`) REFERENCES `Users`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Veterinarians` ADD CONSTRAINT `Veterinarians_user_id_fkey` FOREIGN KEY (`user_id`) REFERENCES `Users`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
@@ -205,7 +187,7 @@ ALTER TABLE `Animals` ADD CONSTRAINT `Animals_species_id_fkey` FOREIGN KEY (`spe
 ALTER TABLE `Animals` ADD CONSTRAINT `Animals_breed_id_fkey` FOREIGN KEY (`breed_id`) REFERENCES `Breeds`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Animals` ADD CONSTRAINT `Animals_health_status_id_fkey` FOREIGN KEY (`health_status_id`) REFERENCES `Health_Status`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `Animals` ADD CONSTRAINT `Animals_farm_id_fkey` FOREIGN KEY (`farm_id`) REFERENCES `Farms`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Breeds` ADD CONSTRAINT `Breeds_species_id_fkey` FOREIGN KEY (`species_id`) REFERENCES `Species`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
@@ -224,9 +206,6 @@ ALTER TABLE `Applications` ADD CONSTRAINT `Applications_vaccine_id_fkey` FOREIGN
 
 -- AddForeignKey
 ALTER TABLE `Applications` ADD CONSTRAINT `Applications_veterinary_id_fkey` FOREIGN KEY (`veterinary_id`) REFERENCES `Veterinarians`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE `Applications` ADD CONSTRAINT `Applications_status_vaccine_application_id_fkey` FOREIGN KEY (`status_vaccine_application_id`) REFERENCES `Status_Vaccine_Applications`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Locations` ADD CONSTRAINT `Locations_animal_id_fkey` FOREIGN KEY (`animal_id`) REFERENCES `Animals`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;

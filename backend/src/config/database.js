@@ -1,5 +1,5 @@
 // Importa o PrismaClient do pacote @prisma/client
-const { PrismaClient } = require('@prisma/client'); 
+const { PrismaClient } = require('../../generated/prisma'); 
 
 /**
  * Instância única do Prisma Client para acesso ao banco de dados.
@@ -13,3 +13,4 @@ const prisma = new PrismaClient({
 
 // Exporta a instância do Prisma para uso em toda a aplicação
 module.exports = prisma;
+
