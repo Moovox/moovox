@@ -54,7 +54,7 @@ function Card({
       tabIndex={tabIndex}
       role={role}
       {...props}
-    >      
+    >
       <div className="relative z-10 flex flex-col justify-around items-center h-full min-h-[100px]">
         {/* Header do card: ícone e título */}
         {(icon || title) && (
