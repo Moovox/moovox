@@ -118,16 +118,20 @@ const menuItems = [
 ];
 
 // Componente principal da Sidebar
-function Sidebar({ onToggle, isExpanded, showContent }) {
+function Sidebar({ onToggle, isExpanded, showContent, userType }) {
     const isDesktop = useIsDesktop();
-    // Sidebar controlada apenas pelo estado isExpanded, independente do desktop
     const expanded = isExpanded;
     const navigate = useNavigate();
 
-    // Função de logout (pode ser expandida para lógica real)
-    function handleLogout() {
+    // Filtra os itens do menu com base no tipo de usuário
+    const filteredMenuItems = React.useMemo(() =>
+        menuItems.filter(item => !(item.to === '/usuarios' && userType !== 'admin'))
+    , [userType]);
+
+    // Função de logout
+    const handleLogout = React.useCallback(() => {
         navigate('/');
-    }
+    }, [navigate]);
 
     return (
         <>
@@ -167,7 +171,7 @@ function Sidebar({ onToggle, isExpanded, showContent }) {
                 transition={{ type: 'tween' }}
             >
                 <SidebarHeader expanded={expanded} isDesktop={isDesktop} />
-                <SidebarNavigation menuItems={menuItems} expanded={expanded} isDesktop={isDesktop} handleLogout={handleLogout} />
+                <SidebarNavigation menuItems={filteredMenuItems} expanded={expanded} isDesktop={isDesktop} handleLogout={handleLogout} />
                 <SidebarFooter expanded={expanded} />
             </motion.aside>
         </>
@@ -178,6 +182,7 @@ Sidebar.propTypes = {
     onToggle: PropTypes.func,
     isExpanded: PropTypes.bool,
     showContent: PropTypes.bool,
+    userType: PropTypes.string.isRequired, // Adiciona a prop userType
 };
 
 Sidebar.defaultProps = {
