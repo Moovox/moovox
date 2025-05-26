@@ -6,6 +6,15 @@ on:
       - frontend # ou a branch que desejar
 
 jobs:
+  my-job:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - name: Dummy step
+        run: echo "This is a placeholder step for my-job"
+
   deploy:
     runs-on: ubuntu-latest
     steps:
