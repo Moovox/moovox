@@ -1,5 +1,6 @@
 const prisma = require('../../config/database'); 
-const {ensureNonEmpty} = require('../../utils/validators/services');
+const {ensureNonEmpty} = require('../../utils/validators/services');7
+const {logErrorAndThrow} = require('../../utils/log/services/');
 const animalServices = {
     async getAllAnimals(){
         try {
