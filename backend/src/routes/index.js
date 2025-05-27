@@ -1,15 +1,16 @@
-const {Router} = require('express'); 
-
+const { Router } = require('express'); 
 const router = Router(); 
 
-const authRoutes = require('./auth');
-const userRoutes = require('./users');
-const animalRoutes = require('./animals'); 
+const animalsRoutes = require('./animals'); 
+const usersRoutes = require('./users');
+const vaccinesRoutes = require('./vaccines');
+const vaccineApplicationsRoutes = require('./vaccine_applications');
+
+router.use(animalsRoutes); 
+router.use(usersRoutes);  
+router.use(vaccinesRoutes); 
+router.use(vaccineApplicationsRoutes); 
 
 
-router.use(authRoutes);
-router.use(userRoutes);
-router.use(animalRoutes);
 
-
-module.exports = router; 
+module.exports = router;
