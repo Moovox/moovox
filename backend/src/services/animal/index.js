@@ -1,20 +1,42 @@
-const prisma = require('../../config/database'); 
+const prisma = require('../../config/database');
 
 const animalService = {
     async getAllAnimals() {
         try {
-            const animals = await prisma.animals.findMany(); 
+            const animals = await prisma.animals.findMany({
+                include: {
+                    species: {
+                        select: {
+                            id: true,
+                            name: true,
+                        },
+                    },
+                    breed: {
+                        select: {
+                            id: true,
+                            name: true,
+                        },
+                    },
+                    farm: {
+                        select: {
+                            id: true,
+                            name: true,
+                        },
+                    },
+                },
+            });
 
-            if(!animals || animals.length === 0) {
-                throw new Error("Nenhum animal encontrado."); 
+            if (!animals || animals.length === 0) {
+                throw new Error("Nenhum animal encontrado.");
             }
 
-            return animals; 
+            return animals;
         } catch (error) {
-            console.error("Erro ao buscar animais", error); 
-            throw error; 
+            console.error("Erro ao buscar animais", error);
+            throw error;
         }
     }
 }
 
 module.exports = animalService;
+
