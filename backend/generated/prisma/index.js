@@ -314,7 +314,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Users\\victo\\OneDrive\\Área de Trabalho\\moovox\\backend\\generated\\prisma",
+      "value": "C:\\Users\\Desktop\\Documents\\projetos\\moovox\\backend\\generated\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -328,7 +328,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Users\\victo\\OneDrive\\Área de Trabalho\\moovox\\backend\\prisma\\schema.prisma",
+    "sourceFilePath": "C:\\Users\\Desktop\\Documents\\projetos\\moovox\\backend\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {

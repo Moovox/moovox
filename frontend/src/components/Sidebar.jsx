@@ -123,9 +123,10 @@ function Sidebar({ onToggle, isExpanded, showContent, userType }) {
     const expanded = isExpanded;
     const navigate = useNavigate();
 
-    // Filtra os itens do menu com base no tipo de usuário
+    // Filtra os itens do menu com base no tipo de usuário (case-insensitive)
+    console.log('userType Sidebar:', userType);
     const filteredMenuItems = React.useMemo(() =>
-        menuItems.filter(item => !(item.to === '/usuarios' && userType !== 'admin'))
+        menuItems.filter(item => !(item.to === '/usuarios' && String(userType).toLowerCase() !== 'admin'))
     , [userType]);
 
     // Função de logout
