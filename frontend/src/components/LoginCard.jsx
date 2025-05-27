@@ -1,8 +1,39 @@
 import { Mail, Lock } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
+import { useAuth } from "./AuthContext";
+import { useState } from "react";
 
 function LoginCard() {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
+    const { login } = useAuth();
+    const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+        setError("");
+        try {
+            const res = await fetch(`${import.meta.env.VITE_API_URL}/api/login`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, password })
+            });
+            if (!res.ok) throw new Error("Credenciais inválidas");
+            const data = await res.json();
+            // O backend retorna { token, user }, mas só precisamos do token
+            login(data.token);
+            navigate("/dashboard");
+        } catch (err) {
+            setError(err.message || "Erro ao fazer login");
+        } finally {
+            setLoading(false);
+        }
+    };
+
     return (
         <div className="w-full px-4">
             <div className="bg-white w-full max-w-sm sm:max-w-md md:max-w-md lg:max-w-lg flex flex-col justify-between shadow-[inset_0px_0px_4px_1px_#b3ffcf] bg-opacity-90 rounded-xl p-8 text-center items-center backdrop-blur-md mx-auto">
@@ -18,7 +49,7 @@ function LoginCard() {
                 <p className="text-sm text-gray-600 mb-6 font-poppins">
                     Gestão inteligente de animais no campo
                 </p>
-                <form className="space-y-4 text-left w-full">
+                <form className="space-y-4 text-left w-full" onSubmit={handleSubmit}>
                     <div>
                         <label htmlFor="email" className="block font-poppins text-base text-gray-700 mb-1">E-mail</label>
                         <div className="flex bg-green-100 items-center border border-gray-300 rounded-xl pl-3">
@@ -29,6 +60,9 @@ function LoginCard() {
                                 autoComplete="email"
                                 placeholder="Digite seu e-mail"
                                 className="w-full font-poppins py-2 text-sm outline-none bg-transparent focus:ring-2 focus:ring-blue-400 focus:border-blue-400 rounded-e-xl"
+                                value={email}
+                                onChange={e => setEmail(e.target.value)}
+                                required
                             />
                         </div>
                     </div>
@@ -42,15 +76,19 @@ function LoginCard() {
                                 autoComplete="current-password"
                                 placeholder="Digite sua senha"
                                 className="w-full font-poppins py-2 text-sm outline-none bg-transparent focus:ring-2 focus:ring-blue-400 focus:border-blue-400 rounded-e-xl"
+                                value={password}
+                                onChange={e => setPassword(e.target.value)}
+                                required
                             />
                         </div>
                     </div>
+                    {error && <div className="text-red-600 text-sm font-poppins">{error}</div>}
                     <Button
-                        asChild
                         type="submit"
                         className="w-full font-poppins font-bold bg-green-600 text-white p-[5px] rounded-xl hover:bg-green-700 transition"
+                        disabled={loading}
                     >
-                        <Link to="/dashboard">Entrar</Link>
+                        {loading ? "Entrando..." : "Entrar"}
                     </Button>
                 </form>
                 <Link

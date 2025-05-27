@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import Sidebar from './Sidebar';
 import { Menu } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useAuth } from './AuthContext';
 
 /**
  * Layout principal da aplicação, com sidebar e header animado.
@@ -19,6 +20,8 @@ const MainLayout = ({ title = '', children }) => {
     const [isSidebarExpanded, setIsSidebarExpanded] = useState(() => (typeof window !== 'undefined' && window.innerWidth >= 1024));
     const [showContent, setShowContent] = useState(false);
     const location = useLocation();
+    const { user } = useAuth();
+    const userType = user ? user.role : undefined;
 
     // Atualiza isDesktop ao redimensionar
     useEffect(() => {
@@ -49,6 +52,7 @@ const MainLayout = ({ title = '', children }) => {
                 onToggle={handleSidebarToggle}
                 isExpanded={isSidebarExpanded}
                 showContent={showContent}
+                userType={userType}
             />
             <main
                 className={`w-full transition-all duration-200 ease-in-out ${!isSidebarExpanded ? 'max-w-full' : ''}`}

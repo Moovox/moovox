@@ -4,6 +4,8 @@ import { SpeedInsights } from "@vercel/speed-insights/react"
 import { lazy, Suspense } from 'react';
 import AuthLayout from './components/AuthLayout';
 import PageLoader from './components/PageLoader';
+import { AuthProvider } from './components/AuthContext';
+import PrivateRoute from './components/PrivateRoute';
 import './styles/globals.css'
 
 const Dashboard = lazy(() => import('./pages/Dashboard'));
@@ -27,20 +29,24 @@ const privateRoutes = [
 
 export default function App() {
     return (
-        <BrowserRouter>
-            <Analytics mode='auto' />
-            <SpeedInsights />
-            <Suspense fallback={<PageLoader />}>
-                <Routes>
-                    <Route path="/" element={<AuthLayout />}>
-                        <Route index element={<Login />} />
-                        <Route path="forgot-pass" element={<ForgotPass />} />
-                    </Route>
-                    {privateRoutes.map(({ path, element }) => (
-                        <Route key={path} path={path} element={element} />
-                    ))}
-                </Routes>
-            </Suspense>
-        </BrowserRouter>
+        <AuthProvider>
+            <BrowserRouter>
+                <Analytics mode='auto' />
+                <SpeedInsights />
+                <Suspense fallback={<PageLoader />}>
+                    <Routes>
+                        <Route path="/" element={<AuthLayout />}>
+                            <Route index element={<Login />} />
+                            <Route path="forgot-pass" element={<ForgotPass />} />
+                        </Route>
+                        <Route element={<PrivateRoute />}>
+                            {privateRoutes.map(({ path, element }) => (
+                                <Route key={path} path={path} element={element} />
+                            ))}
+                        </Route>
+                    </Routes>
+                </Suspense>
+            </BrowserRouter>
+        </AuthProvider>
     );
 }
