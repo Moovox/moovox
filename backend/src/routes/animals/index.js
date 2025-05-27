@@ -1,8 +1,8 @@
-const {Router} = require('express');
+const {Router} = require('express'); 
 const router = Router(); 
-const animalsController = require('../../controllers/animals')
-const {authMiddleware} = require('../../middlewares/auth'); 
+const { authMiddleware } = require('../../middlewares/auth/index'); 
+const animalController = require('../../controllers/animal'); 
 
-router.get('/animals', authMiddleware, animalsController.getAllAnimals); 
+router.use('/animals', authMiddleware, animalController.getAllAnimals); 
 
-module.exports = router
+module.exports = router; 

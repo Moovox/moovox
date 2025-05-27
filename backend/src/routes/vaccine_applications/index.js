@@ -1,8 +1,8 @@
 const {Router} = require('express'); 
-const router = Router();
-const applicationsController = require('../../controllers/vaccine_applications'); 
-const {authMiddleware} = require('../../middlewares/auth'); 
+const router = Router(); 
+const { authMiddleware } = require('../../middlewares/auth/index'); 
+const vaccineApplicationController = require('../../controllers/vaccine_application'); 
 
-router.get('/applications', authMiddleware,applicationsController.getAllApplications); 
+router.use('/vaccine-applications', authMiddleware, vaccineApplicationController.getAllVaccineApplications); 
 
 module.exports = router; 
