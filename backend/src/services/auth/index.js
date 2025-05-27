@@ -15,11 +15,11 @@ const authService = {
 
             const token = jwt.sign({ id: user.id, role: user.role }, JWT_SECRET, { expiresIn: "1d" });
 
-            return {token: token, user: { id: user.id, email: user.email, role:user.role }};
+            return { token: token, user: { id: user.id, email: user.email, role: user.role } };
         } catch (error) {
             console.log("Erro ao processar login do usuário no service" + error);
             throw new Error(error.message);
-             
+
 
 
         }

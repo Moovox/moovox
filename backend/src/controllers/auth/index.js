@@ -4,7 +4,7 @@ const authService = require('../../services/auth');
 const authController = { 
     async login(req,res) {
         try {
-            // Caputrar o email e a senha do corpo da requisição.
+            // Capturar o email e a senha do corpo da requisição.
             const {email,password} = req.body;  
             // Executar o serviço do authService
             const user = await authService.login({email,password}); 
