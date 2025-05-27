@@ -26,11 +26,14 @@
   },
   "scripts": {
     "start": "vite",
-    "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview",
-    "test": "vitest run",
-    "test:ui": "vitest --ui"
+    "preview": "vite preview"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
   },
   "browserslist": {
     "production": [
