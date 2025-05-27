@@ -12,7 +12,7 @@ const animalService = {
             return animals; 
         } catch (error) {
             console.error("Erro ao buscar animais", error); 
-            throw new Error(error.message); 
+            throw error; 
         }
     }
 }

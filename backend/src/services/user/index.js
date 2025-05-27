@@ -12,9 +12,9 @@ const userService = {
             return users; 
         } catch (error) {
             console.error("Erro ao buscar usuários", error); 
-            throw new Error(error.message); 
+            throw error; 
         }
-    }
+    },
 }
 
 module.exports = userService;

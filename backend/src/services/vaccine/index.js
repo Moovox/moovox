@@ -12,9 +12,10 @@ const vaccineService = {
             return vaccines; 
         } catch (error) {
             console.error("Erro ao buscar vacinas", error); 
-            throw new Error(error.message); 
+            throw error; 
         }
-    }
+    },
+
 }
 
 module.exports = vaccineService;

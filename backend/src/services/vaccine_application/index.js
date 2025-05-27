@@ -1,4 +1,5 @@
-const prisma = require('../../config/database'); 
+const prisma = require('../../config/database');
+
 
 const vaccineApplicationService = {
     async getAllVaccineApplications() {
@@ -12,9 +13,10 @@ const vaccineApplicationService = {
             return vaccine_applications; 
         } catch (error) {
             console.error("Erro ao buscar aplicações vacinas", error); 
-            throw new Error(error.message); 
+            throw error;
         }
-    }
+    }, 
+     
 }
 
 module.exports = vaccineApplicationService;
