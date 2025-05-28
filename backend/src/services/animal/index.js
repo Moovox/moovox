@@ -35,6 +35,43 @@ const animalService = {
             console.error("Erro ao buscar animais", error);
             throw error;
         }
+    },
+
+     async getAnimalByID(id) {
+        try {
+            const animal = await prisma.animals.findUnique({
+                where: { id: Number(id) },
+                include: {
+                    species: {
+                        select: {
+                            id: true,
+                            name: true,
+                        },
+                    },
+                    breed: {
+                        select: {
+                            id: true,
+                            name: true,
+                        },
+                    },
+                    farm: {
+                        select: {
+                            id: true,
+                            name: true,
+                        },
+                    },
+                },
+            });
+
+            if (!animal) {
+                throw new Error(`Animal com ID ${id} não encontrado.`);
+            }
+
+            return animal;
+        } catch (error) {
+            console.error(`Erro ao buscar animal com ID ${id}`, error);
+            throw error;
+        }
     }
 }
 

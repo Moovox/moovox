@@ -24,6 +24,30 @@ const animalController = {
             });
             
         }
+    }, 
+     async getAnimalByID(req, res) {
+        try {
+            const { id } = req.params;
+            const animal = await animalService.getAnimalByID(id);
+            res.status(200).json({
+                status: 'success',
+                data: animal
+            });
+        } catch (error) {
+            const error_message = error.message.toLowerCase();
+
+            if (error_message.includes('não encontrado')) {
+                return res.status(404).json({
+                    status: 'error',
+                    message: error.message
+                });
+            }
+
+            res.status(500).json({
+                status: 'error',
+                message: 'Ocorreu um problema ao buscar o animal. Por favor, tente novamente mais tarde.'
+            });
+        }
     }
 }
 
