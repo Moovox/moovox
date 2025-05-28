@@ -1,5 +1,5 @@
 const app = require('./app'); 
 const PORT = 3001
 app.listen(PORT, () =>
-    console.log(`Server running on https://moovox.systems`)
+    console.log(`Server running on https://www.moovox.systems`)
 );
