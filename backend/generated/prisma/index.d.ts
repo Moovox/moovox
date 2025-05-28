@@ -75,52 +75,6 @@ export type Applications = $Result.DefaultSelection<Prisma.$ApplicationsPayload>
 export type Locations = $Result.DefaultSelection<Prisma.$LocationsPayload>
 
 /**
- * Enums
- */
-export namespace $Enums {
-  export const Status_Vaccine_Applications: {
-  APPLIED: 'APPLIED',
-  PENDING: 'PENDING',
-  OVERDUE: 'OVERDUE'
-};
-
-export type Status_Vaccine_Applications = (typeof Status_Vaccine_Applications)[keyof typeof Status_Vaccine_Applications]
-
-
-export const Roles: {
-  ADMIN: 'ADMIN',
-  FARMER: 'FARMER',
-  FARMHAND: 'FARMHAND',
-  VETERINARY: 'VETERINARY'
-};
-
-export type Roles = (typeof Roles)[keyof typeof Roles]
-
-
-export const Health_Status: {
-  HEALTHY: 'HEALTHY',
-  SICK: 'SICK',
-  INJURED: 'INJURED',
-  RECOVERING: 'RECOVERING'
-};
-
-export type Health_Status = (typeof Health_Status)[keyof typeof Health_Status]
-
-}
-
-export type Status_Vaccine_Applications = $Enums.Status_Vaccine_Applications
-
-export const Status_Vaccine_Applications: typeof $Enums.Status_Vaccine_Applications
-
-export type Roles = $Enums.Roles
-
-export const Roles: typeof $Enums.Roles
-
-export type Health_Status = $Enums.Health_Status
-
-export const Health_Status: typeof $Enums.Health_Status
-
-/**
  * ##  Prisma Client ʲˢ
  *
  * Type-safe database client for TypeScript & Node.js
@@ -2920,7 +2874,6 @@ export namespace Prisma {
      * The data used to create many Farms.
      */
     data: FarmsCreateManyInput | FarmsCreateManyInput[]
-    skipDuplicates?: boolean
   }
 
   /**
@@ -3128,7 +3081,7 @@ export namespace Prisma {
     email: string | null
     password: string | null
     profile_photo: string | null
-    role: $Enums.Roles | null
+    role: string | null
     farm_id: number | null
     created_at: Date | null
     updated_at: Date | null
@@ -3140,7 +3093,7 @@ export namespace Prisma {
     email: string | null
     password: string | null
     profile_photo: string | null
-    role: $Enums.Roles | null
+    role: string | null
     farm_id: number | null
     created_at: Date | null
     updated_at: Date | null
@@ -3299,7 +3252,7 @@ export namespace Prisma {
     email: string
     password: string
     profile_photo: string | null
-    role: $Enums.Roles
+    role: string
     farm_id: number
     created_at: Date
     updated_at: Date
@@ -3373,7 +3326,7 @@ export namespace Prisma {
       email: string
       password: string
       profile_photo: string | null
-      role: $Enums.Roles
+      role: string
       farm_id: number
       created_at: Date
       updated_at: Date
@@ -3754,7 +3707,7 @@ export namespace Prisma {
     readonly email: FieldRef<"Users", 'String'>
     readonly password: FieldRef<"Users", 'String'>
     readonly profile_photo: FieldRef<"Users", 'String'>
-    readonly role: FieldRef<"Users", 'Roles'>
+    readonly role: FieldRef<"Users", 'String'>
     readonly farm_id: FieldRef<"Users", 'Int'>
     readonly created_at: FieldRef<"Users", 'DateTime'>
     readonly updated_at: FieldRef<"Users", 'DateTime'>
@@ -3987,7 +3940,6 @@ export namespace Prisma {
      * The data used to create many Users.
      */
     data: UsersCreateManyInput | UsersCreateManyInput[]
-    skipDuplicates?: boolean
   }
 
   /**
@@ -4959,7 +4911,6 @@ export namespace Prisma {
      * The data used to create many Farmhands.
      */
     data: FarmhandsCreateManyInput | FarmhandsCreateManyInput[]
-    skipDuplicates?: boolean
   }
 
   /**
@@ -5899,7 +5850,6 @@ export namespace Prisma {
      * The data used to create many Veterinarians.
      */
     data: VeterinariansCreateManyInput | VeterinariansCreateManyInput[]
-    skipDuplicates?: boolean
   }
 
   /**
@@ -6090,7 +6040,7 @@ export namespace Prisma {
     breed_id: number | null
     birth_date: Date | null
     weight: number | null
-    health_status: $Enums.Health_Status | null
+    health_status: string | null
     farm_id: number | null
     created_at: Date | null
     updated_at: Date | null
@@ -6103,7 +6053,7 @@ export namespace Prisma {
     breed_id: number | null
     birth_date: Date | null
     weight: number | null
-    health_status: $Enums.Health_Status | null
+    health_status: string | null
     farm_id: number | null
     created_at: Date | null
     updated_at: Date | null
@@ -6273,7 +6223,7 @@ export namespace Prisma {
     breed_id: number
     birth_date: Date
     weight: number
-    health_status: $Enums.Health_Status
+    health_status: string
     farm_id: number
     created_at: Date
     updated_at: Date
@@ -6358,7 +6308,7 @@ export namespace Prisma {
       breed_id: number
       birth_date: Date
       weight: number
-      health_status: $Enums.Health_Status
+      health_status: string
       farm_id: number
       created_at: Date
       updated_at: Date
@@ -6742,7 +6692,7 @@ export namespace Prisma {
     readonly breed_id: FieldRef<"Animals", 'Int'>
     readonly birth_date: FieldRef<"Animals", 'DateTime'>
     readonly weight: FieldRef<"Animals", 'Float'>
-    readonly health_status: FieldRef<"Animals", 'Health_Status'>
+    readonly health_status: FieldRef<"Animals", 'String'>
     readonly farm_id: FieldRef<"Animals", 'Int'>
     readonly created_at: FieldRef<"Animals", 'DateTime'>
     readonly updated_at: FieldRef<"Animals", 'DateTime'>
@@ -6975,7 +6925,6 @@ export namespace Prisma {
      * The data used to create many Animals.
      */
     data: AnimalsCreateManyInput | AnimalsCreateManyInput[]
-    skipDuplicates?: boolean
   }
 
   /**
@@ -8022,7 +7971,6 @@ export namespace Prisma {
      * The data used to create many Species.
      */
     data: SpeciesCreateManyInput | SpeciesCreateManyInput[]
-    skipDuplicates?: boolean
   }
 
   /**
@@ -9080,7 +9028,6 @@ export namespace Prisma {
      * The data used to create many Breeds.
      */
     data: BreedsCreateManyInput | BreedsCreateManyInput[]
-    skipDuplicates?: boolean
   }
 
   /**
@@ -10170,7 +10117,6 @@ export namespace Prisma {
      * The data used to create many Vaccines.
      */
     data: VaccinesCreateManyInput | VaccinesCreateManyInput[]
-    skipDuplicates?: boolean
   }
 
   /**
@@ -11214,7 +11160,6 @@ export namespace Prisma {
      * The data used to create many Manufacturers.
      */
     data: ManufacturersCreateManyInput | ManufacturersCreateManyInput[]
-    skipDuplicates?: boolean
   }
 
   /**
@@ -12181,7 +12126,6 @@ export namespace Prisma {
      * The data used to create many Types_of_Vaccines.
      */
     data: Types_of_VaccinesCreateManyInput | Types_of_VaccinesCreateManyInput[]
-    skipDuplicates?: boolean
   }
 
   /**
@@ -12370,7 +12314,7 @@ export namespace Prisma {
     veterinary_id: number | null
     application_date: Date | null
     next_application_date: Date | null
-    status_vaccine_application: $Enums.Status_Vaccine_Applications | null
+    status_vaccine_application: string | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -12382,7 +12326,7 @@ export namespace Prisma {
     veterinary_id: number | null
     application_date: Date | null
     next_application_date: Date | null
-    status_vaccine_application: $Enums.Status_Vaccine_Applications | null
+    status_vaccine_application: string | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -12545,7 +12489,7 @@ export namespace Prisma {
     veterinary_id: number
     application_date: Date
     next_application_date: Date | null
-    status_vaccine_application: $Enums.Status_Vaccine_Applications
+    status_vaccine_application: string
     created_at: Date
     updated_at: Date
     _count: ApplicationsCountAggregateOutputType | null
@@ -12619,7 +12563,7 @@ export namespace Prisma {
       veterinary_id: number
       application_date: Date
       next_application_date: Date | null
-      status_vaccine_application: $Enums.Status_Vaccine_Applications
+      status_vaccine_application: string
       created_at: Date
       updated_at: Date
     }, ExtArgs["result"]["applications"]>
@@ -13000,7 +12944,7 @@ export namespace Prisma {
     readonly veterinary_id: FieldRef<"Applications", 'Int'>
     readonly application_date: FieldRef<"Applications", 'DateTime'>
     readonly next_application_date: FieldRef<"Applications", 'DateTime'>
-    readonly status_vaccine_application: FieldRef<"Applications", 'Status_Vaccine_Applications'>
+    readonly status_vaccine_application: FieldRef<"Applications", 'String'>
     readonly created_at: FieldRef<"Applications", 'DateTime'>
     readonly updated_at: FieldRef<"Applications", 'DateTime'>
   }
@@ -13232,7 +13176,6 @@ export namespace Prisma {
      * The data used to create many Applications.
      */
     data: ApplicationsCreateManyInput | ApplicationsCreateManyInput[]
-    skipDuplicates?: boolean
   }
 
   /**
@@ -14229,7 +14172,6 @@ export namespace Prisma {
      * The data used to create many Locations.
      */
     data: LocationsCreateManyInput | LocationsCreateManyInput[]
-    skipDuplicates?: boolean
   }
 
   /**
@@ -14369,7 +14311,8 @@ export namespace Prisma {
     ReadUncommitted: 'ReadUncommitted',
     ReadCommitted: 'ReadCommitted',
     RepeatableRead: 'RepeatableRead',
-    Serializable: 'Serializable'
+    Serializable: 'Serializable',
+    Snapshot: 'Snapshot'
   };
 
   export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
@@ -14538,84 +14481,12 @@ export namespace Prisma {
   export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
-  export const FarmsOrderByRelevanceFieldEnum: {
-    name: 'name'
-  };
-
-  export type FarmsOrderByRelevanceFieldEnum = (typeof FarmsOrderByRelevanceFieldEnum)[keyof typeof FarmsOrderByRelevanceFieldEnum]
-
-
   export const NullsOrder: {
     first: 'first',
     last: 'last'
   };
 
   export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
-
-
-  export const UsersOrderByRelevanceFieldEnum: {
-    name: 'name',
-    email: 'email',
-    password: 'password',
-    profile_photo: 'profile_photo'
-  };
-
-  export type UsersOrderByRelevanceFieldEnum = (typeof UsersOrderByRelevanceFieldEnum)[keyof typeof UsersOrderByRelevanceFieldEnum]
-
-
-  export const AnimalsOrderByRelevanceFieldEnum: {
-    name: 'name'
-  };
-
-  export type AnimalsOrderByRelevanceFieldEnum = (typeof AnimalsOrderByRelevanceFieldEnum)[keyof typeof AnimalsOrderByRelevanceFieldEnum]
-
-
-  export const SpeciesOrderByRelevanceFieldEnum: {
-    name: 'name',
-    description: 'description'
-  };
-
-  export type SpeciesOrderByRelevanceFieldEnum = (typeof SpeciesOrderByRelevanceFieldEnum)[keyof typeof SpeciesOrderByRelevanceFieldEnum]
-
-
-  export const BreedsOrderByRelevanceFieldEnum: {
-    name: 'name',
-    description: 'description',
-    productivity: 'productivity'
-  };
-
-  export type BreedsOrderByRelevanceFieldEnum = (typeof BreedsOrderByRelevanceFieldEnum)[keyof typeof BreedsOrderByRelevanceFieldEnum]
-
-
-  export const VaccinesOrderByRelevanceFieldEnum: {
-    name: 'name',
-    target_disease: 'target_disease',
-    batch: 'batch',
-    notes: 'notes'
-  };
-
-  export type VaccinesOrderByRelevanceFieldEnum = (typeof VaccinesOrderByRelevanceFieldEnum)[keyof typeof VaccinesOrderByRelevanceFieldEnum]
-
-
-  export const ManufacturersOrderByRelevanceFieldEnum: {
-    name: 'name',
-    cnpj: 'cnpj',
-    email: 'email',
-    phone: 'phone',
-    address: 'address',
-    country: 'country',
-    license_number: 'license_number'
-  };
-
-  export type ManufacturersOrderByRelevanceFieldEnum = (typeof ManufacturersOrderByRelevanceFieldEnum)[keyof typeof ManufacturersOrderByRelevanceFieldEnum]
-
-
-  export const Types_of_VaccinesOrderByRelevanceFieldEnum: {
-    name: 'name',
-    description: 'description'
-  };
-
-  export type Types_of_VaccinesOrderByRelevanceFieldEnum = (typeof Types_of_VaccinesOrderByRelevanceFieldEnum)[keyof typeof Types_of_VaccinesOrderByRelevanceFieldEnum]
 
 
   /**
@@ -14645,30 +14516,9 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Roles'
-   */
-  export type EnumRolesFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Roles'>
-    
-
-
-  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
-    
-
-
-  /**
-   * Reference to a field of type 'Health_Status'
-   */
-  export type EnumHealth_StatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Health_Status'>
-    
-
-
-  /**
-   * Reference to a field of type 'Status_Vaccine_Applications'
-   */
-  export type EnumStatus_Vaccine_ApplicationsFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Status_Vaccine_Applications'>
     
   /**
    * Deep Input Types
@@ -14694,7 +14544,6 @@ export namespace Prisma {
     updated_at?: SortOrder
     user?: UsersOrderByRelationAggregateInput
     animal?: AnimalsOrderByRelationAggregateInput
-    _relevance?: FarmsOrderByRelevanceInput
   }
 
   export type FarmsWhereUniqueInput = Prisma.AtLeast<{
@@ -14740,7 +14589,7 @@ export namespace Prisma {
     email?: StringFilter<"Users"> | string
     password?: StringFilter<"Users"> | string
     profile_photo?: StringNullableFilter<"Users"> | string | null
-    role?: EnumRolesFilter<"Users"> | $Enums.Roles
+    role?: StringFilter<"Users"> | string
     farm_id?: IntFilter<"Users"> | number
     created_at?: DateTimeFilter<"Users"> | Date | string
     updated_at?: DateTimeFilter<"Users"> | Date | string
@@ -14762,7 +14611,6 @@ export namespace Prisma {
     farmhand?: FarmhandsOrderByWithRelationInput
     veterinary?: VeterinariansOrderByWithRelationInput
     farm?: FarmsOrderByWithRelationInput
-    _relevance?: UsersOrderByRelevanceInput
   }
 
   export type UsersWhereUniqueInput = Prisma.AtLeast<{
@@ -14774,7 +14622,7 @@ export namespace Prisma {
     name?: StringFilter<"Users"> | string
     password?: StringFilter<"Users"> | string
     profile_photo?: StringNullableFilter<"Users"> | string | null
-    role?: EnumRolesFilter<"Users"> | $Enums.Roles
+    role?: StringFilter<"Users"> | string
     farm_id?: IntFilter<"Users"> | number
     created_at?: DateTimeFilter<"Users"> | Date | string
     updated_at?: DateTimeFilter<"Users"> | Date | string
@@ -14809,7 +14657,7 @@ export namespace Prisma {
     email?: StringWithAggregatesFilter<"Users"> | string
     password?: StringWithAggregatesFilter<"Users"> | string
     profile_photo?: StringNullableWithAggregatesFilter<"Users"> | string | null
-    role?: EnumRolesWithAggregatesFilter<"Users"> | $Enums.Roles
+    role?: StringWithAggregatesFilter<"Users"> | string
     farm_id?: IntWithAggregatesFilter<"Users"> | number
     created_at?: DateTimeWithAggregatesFilter<"Users"> | Date | string
     updated_at?: DateTimeWithAggregatesFilter<"Users"> | Date | string
@@ -14912,7 +14760,7 @@ export namespace Prisma {
     breed_id?: IntFilter<"Animals"> | number
     birth_date?: DateTimeFilter<"Animals"> | Date | string
     weight?: FloatFilter<"Animals"> | number
-    health_status?: EnumHealth_StatusFilter<"Animals"> | $Enums.Health_Status
+    health_status?: StringFilter<"Animals"> | string
     farm_id?: IntFilter<"Animals"> | number
     created_at?: DateTimeFilter<"Animals"> | Date | string
     updated_at?: DateTimeFilter<"Animals"> | Date | string
@@ -14939,7 +14787,6 @@ export namespace Prisma {
     farm?: FarmsOrderByWithRelationInput
     location?: LocationsOrderByRelationAggregateInput
     application?: ApplicationsOrderByRelationAggregateInput
-    _relevance?: AnimalsOrderByRelevanceInput
   }
 
   export type AnimalsWhereUniqueInput = Prisma.AtLeast<{
@@ -14952,7 +14799,7 @@ export namespace Prisma {
     breed_id?: IntFilter<"Animals"> | number
     birth_date?: DateTimeFilter<"Animals"> | Date | string
     weight?: FloatFilter<"Animals"> | number
-    health_status?: EnumHealth_StatusFilter<"Animals"> | $Enums.Health_Status
+    health_status?: StringFilter<"Animals"> | string
     farm_id?: IntFilter<"Animals"> | number
     created_at?: DateTimeFilter<"Animals"> | Date | string
     updated_at?: DateTimeFilter<"Animals"> | Date | string
@@ -14991,7 +14838,7 @@ export namespace Prisma {
     breed_id?: IntWithAggregatesFilter<"Animals"> | number
     birth_date?: DateTimeWithAggregatesFilter<"Animals"> | Date | string
     weight?: FloatWithAggregatesFilter<"Animals"> | number
-    health_status?: EnumHealth_StatusWithAggregatesFilter<"Animals"> | $Enums.Health_Status
+    health_status?: StringWithAggregatesFilter<"Animals"> | string
     farm_id?: IntWithAggregatesFilter<"Animals"> | number
     created_at?: DateTimeWithAggregatesFilter<"Animals"> | Date | string
     updated_at?: DateTimeWithAggregatesFilter<"Animals"> | Date | string
@@ -15022,7 +14869,6 @@ export namespace Prisma {
     updated_at?: SortOrder
     animal?: AnimalsOrderByRelationAggregateInput
     breed?: BreedsOrderByRelationAggregateInput
-    _relevance?: SpeciesOrderByRelevanceInput
   }
 
   export type SpeciesWhereUniqueInput = Prisma.AtLeast<{
@@ -15095,7 +14941,6 @@ export namespace Prisma {
     updated_at?: SortOrder
     species?: SpeciesOrderByWithRelationInput
     animal?: AnimalsOrderByRelationAggregateInput
-    _relevance?: BreedsOrderByRelevanceInput
   }
 
   export type BreedsWhereUniqueInput = Prisma.AtLeast<{
@@ -15181,7 +15026,6 @@ export namespace Prisma {
     manufacturer?: ManufacturersOrderByWithRelationInput
     type_of_vaccine?: Types_of_VaccinesOrderByWithRelationInput
     applications?: ApplicationsOrderByRelationAggregateInput
-    _relevance?: VaccinesOrderByRelevanceInput
   }
 
   export type VaccinesWhereUniqueInput = Prisma.AtLeast<{
@@ -15272,7 +15116,6 @@ export namespace Prisma {
     created_at?: SortOrder
     updated_at?: SortOrder
     vaccines?: VaccinesOrderByRelationAggregateInput
-    _relevance?: ManufacturersOrderByRelevanceInput
   }
 
   export type ManufacturersWhereUniqueInput = Prisma.AtLeast<{
@@ -15341,7 +15184,6 @@ export namespace Prisma {
     name?: SortOrder
     description?: SortOrderInput | SortOrder
     vaccines?: VaccinesOrderByRelationAggregateInput
-    _relevance?: Types_of_VaccinesOrderByRelevanceInput
   }
 
   export type Types_of_VaccinesWhereUniqueInput = Prisma.AtLeast<{
@@ -15384,7 +15226,7 @@ export namespace Prisma {
     veterinary_id?: IntFilter<"Applications"> | number
     application_date?: DateTimeFilter<"Applications"> | Date | string
     next_application_date?: DateTimeNullableFilter<"Applications"> | Date | string | null
-    status_vaccine_application?: EnumStatus_Vaccine_ApplicationsFilter<"Applications"> | $Enums.Status_Vaccine_Applications
+    status_vaccine_application?: StringFilter<"Applications"> | string
     created_at?: DateTimeFilter<"Applications"> | Date | string
     updated_at?: DateTimeFilter<"Applications"> | Date | string
     animal?: XOR<AnimalsScalarRelationFilter, AnimalsWhereInput>
@@ -15417,7 +15259,7 @@ export namespace Prisma {
     veterinary_id?: IntFilter<"Applications"> | number
     application_date?: DateTimeFilter<"Applications"> | Date | string
     next_application_date?: DateTimeNullableFilter<"Applications"> | Date | string | null
-    status_vaccine_application?: EnumStatus_Vaccine_ApplicationsFilter<"Applications"> | $Enums.Status_Vaccine_Applications
+    status_vaccine_application?: StringFilter<"Applications"> | string
     created_at?: DateTimeFilter<"Applications"> | Date | string
     updated_at?: DateTimeFilter<"Applications"> | Date | string
     animal?: XOR<AnimalsScalarRelationFilter, AnimalsWhereInput>
@@ -15452,7 +15294,7 @@ export namespace Prisma {
     veterinary_id?: IntWithAggregatesFilter<"Applications"> | number
     application_date?: DateTimeWithAggregatesFilter<"Applications"> | Date | string
     next_application_date?: DateTimeNullableWithAggregatesFilter<"Applications"> | Date | string | null
-    status_vaccine_application?: EnumStatus_Vaccine_ApplicationsWithAggregatesFilter<"Applications"> | $Enums.Status_Vaccine_Applications
+    status_vaccine_application?: StringWithAggregatesFilter<"Applications"> | string
     created_at?: DateTimeWithAggregatesFilter<"Applications"> | Date | string
     updated_at?: DateTimeWithAggregatesFilter<"Applications"> | Date | string
   }
@@ -15559,7 +15401,6 @@ export namespace Prisma {
   }
 
   export type FarmsCreateManyInput = {
-    id?: number
     name: string
     created_at?: Date | string
     updated_at?: Date | string
@@ -15583,7 +15424,7 @@ export namespace Prisma {
     email: string
     password: string
     profile_photo?: string | null
-    role: $Enums.Roles
+    role: string
     created_at?: Date | string
     updated_at?: Date | string
     farmhand?: FarmhandsCreateNestedOneWithoutUserInput
@@ -15597,7 +15438,7 @@ export namespace Prisma {
     email: string
     password: string
     profile_photo?: string | null
-    role: $Enums.Roles
+    role: string
     farm_id: number
     created_at?: Date | string
     updated_at?: Date | string
@@ -15610,7 +15451,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     profile_photo?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: EnumRolesFieldUpdateOperationsInput | $Enums.Roles
+    role?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     farmhand?: FarmhandsUpdateOneWithoutUserNestedInput
@@ -15624,7 +15465,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     profile_photo?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: EnumRolesFieldUpdateOperationsInput | $Enums.Roles
+    role?: StringFieldUpdateOperationsInput | string
     farm_id?: IntFieldUpdateOperationsInput | number
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -15633,12 +15474,11 @@ export namespace Prisma {
   }
 
   export type UsersCreateManyInput = {
-    id?: number
     name: string
     email: string
     password: string
     profile_photo?: string | null
-    role: $Enums.Roles
+    role: string
     farm_id: number
     created_at?: Date | string
     updated_at?: Date | string
@@ -15649,7 +15489,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     profile_photo?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: EnumRolesFieldUpdateOperationsInput | $Enums.Roles
+    role?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -15660,7 +15500,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     profile_photo?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: EnumRolesFieldUpdateOperationsInput | $Enums.Roles
+    role?: StringFieldUpdateOperationsInput | string
     farm_id?: IntFieldUpdateOperationsInput | number
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -15685,7 +15525,6 @@ export namespace Prisma {
   }
 
   export type FarmhandsCreateManyInput = {
-    id?: number
     user_id: number
   }
 
@@ -15721,7 +15560,6 @@ export namespace Prisma {
   }
 
   export type VeterinariansCreateManyInput = {
-    id?: number
     user_id: number
   }
 
@@ -15738,7 +15576,7 @@ export namespace Prisma {
     name: string
     birth_date: Date | string
     weight: number
-    health_status: $Enums.Health_Status
+    health_status: string
     created_at?: Date | string
     updated_at?: Date | string
     species: SpeciesCreateNestedOneWithoutAnimalInput
@@ -15755,7 +15593,7 @@ export namespace Prisma {
     breed_id: number
     birth_date: Date | string
     weight: number
-    health_status: $Enums.Health_Status
+    health_status: string
     farm_id: number
     created_at?: Date | string
     updated_at?: Date | string
@@ -15767,7 +15605,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
     weight?: FloatFieldUpdateOperationsInput | number
-    health_status?: EnumHealth_StatusFieldUpdateOperationsInput | $Enums.Health_Status
+    health_status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     species?: SpeciesUpdateOneRequiredWithoutAnimalNestedInput
@@ -15784,7 +15622,7 @@ export namespace Prisma {
     breed_id?: IntFieldUpdateOperationsInput | number
     birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
     weight?: FloatFieldUpdateOperationsInput | number
-    health_status?: EnumHealth_StatusFieldUpdateOperationsInput | $Enums.Health_Status
+    health_status?: StringFieldUpdateOperationsInput | string
     farm_id?: IntFieldUpdateOperationsInput | number
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -15793,13 +15631,12 @@ export namespace Prisma {
   }
 
   export type AnimalsCreateManyInput = {
-    id?: number
     name: string
     species_id: number
     breed_id: number
     birth_date: Date | string
     weight: number
-    health_status: $Enums.Health_Status
+    health_status: string
     farm_id: number
     created_at?: Date | string
     updated_at?: Date | string
@@ -15809,7 +15646,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
     weight?: FloatFieldUpdateOperationsInput | number
-    health_status?: EnumHealth_StatusFieldUpdateOperationsInput | $Enums.Health_Status
+    health_status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -15821,7 +15658,7 @@ export namespace Prisma {
     breed_id?: IntFieldUpdateOperationsInput | number
     birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
     weight?: FloatFieldUpdateOperationsInput | number
-    health_status?: EnumHealth_StatusFieldUpdateOperationsInput | $Enums.Health_Status
+    health_status?: StringFieldUpdateOperationsInput | string
     farm_id?: IntFieldUpdateOperationsInput | number
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -15874,7 +15711,6 @@ export namespace Prisma {
   }
 
   export type SpeciesCreateManyInput = {
-    id?: number
     name: string
     description: string
     average_lifespan?: number | null
@@ -15949,7 +15785,6 @@ export namespace Prisma {
   }
 
   export type BreedsCreateManyInput = {
-    id?: number
     name: string
     description: string
     species_id: number
@@ -16042,7 +15877,6 @@ export namespace Prisma {
   }
 
   export type VaccinesCreateManyInput = {
-    id?: number
     name: string
     target_disease: string
     manufacturer_id: number
@@ -16138,7 +15972,6 @@ export namespace Prisma {
   }
 
   export type ManufacturersCreateManyInput = {
-    id?: number
     name: string
     cnpj: string
     email: string
@@ -16202,7 +16035,6 @@ export namespace Prisma {
   }
 
   export type Types_of_VaccinesCreateManyInput = {
-    id?: number
     name: string
     description?: string | null
   }
@@ -16221,7 +16053,7 @@ export namespace Prisma {
   export type ApplicationsCreateInput = {
     application_date: Date | string
     next_application_date?: Date | string | null
-    status_vaccine_application: $Enums.Status_Vaccine_Applications
+    status_vaccine_application: string
     created_at?: Date | string
     updated_at?: Date | string
     animal: AnimalsCreateNestedOneWithoutApplicationInput
@@ -16236,7 +16068,7 @@ export namespace Prisma {
     veterinary_id: number
     application_date: Date | string
     next_application_date?: Date | string | null
-    status_vaccine_application: $Enums.Status_Vaccine_Applications
+    status_vaccine_application: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -16244,7 +16076,7 @@ export namespace Prisma {
   export type ApplicationsUpdateInput = {
     application_date?: DateTimeFieldUpdateOperationsInput | Date | string
     next_application_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status_vaccine_application?: EnumStatus_Vaccine_ApplicationsFieldUpdateOperationsInput | $Enums.Status_Vaccine_Applications
+    status_vaccine_application?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     animal?: AnimalsUpdateOneRequiredWithoutApplicationNestedInput
@@ -16259,19 +16091,18 @@ export namespace Prisma {
     veterinary_id?: IntFieldUpdateOperationsInput | number
     application_date?: DateTimeFieldUpdateOperationsInput | Date | string
     next_application_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status_vaccine_application?: EnumStatus_Vaccine_ApplicationsFieldUpdateOperationsInput | $Enums.Status_Vaccine_Applications
+    status_vaccine_application?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ApplicationsCreateManyInput = {
-    id?: number
     animal_id: number
     vaccine_id: number
     veterinary_id: number
     application_date: Date | string
     next_application_date?: Date | string | null
-    status_vaccine_application: $Enums.Status_Vaccine_Applications
+    status_vaccine_application: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -16279,7 +16110,7 @@ export namespace Prisma {
   export type ApplicationsUpdateManyMutationInput = {
     application_date?: DateTimeFieldUpdateOperationsInput | Date | string
     next_application_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status_vaccine_application?: EnumStatus_Vaccine_ApplicationsFieldUpdateOperationsInput | $Enums.Status_Vaccine_Applications
+    status_vaccine_application?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -16291,7 +16122,7 @@ export namespace Prisma {
     veterinary_id?: IntFieldUpdateOperationsInput | number
     application_date?: DateTimeFieldUpdateOperationsInput | Date | string
     next_application_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status_vaccine_application?: EnumStatus_Vaccine_ApplicationsFieldUpdateOperationsInput | $Enums.Status_Vaccine_Applications
+    status_vaccine_application?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -16335,7 +16166,6 @@ export namespace Prisma {
   }
 
   export type LocationsCreateManyInput = {
-    id?: number
     animal_id: number
     latitude: number
     longitude: number
@@ -16384,7 +16214,6 @@ export namespace Prisma {
     contains?: string | StringFieldRefInput<$PrismaModel>
     startsWith?: string | StringFieldRefInput<$PrismaModel>
     endsWith?: string | StringFieldRefInput<$PrismaModel>
-    search?: string
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
@@ -16417,12 +16246,6 @@ export namespace Prisma {
 
   export type AnimalsOrderByRelationAggregateInput = {
     _count?: SortOrder
-  }
-
-  export type FarmsOrderByRelevanceInput = {
-    fields: FarmsOrderByRelevanceFieldEnum | FarmsOrderByRelevanceFieldEnum[]
-    sort: SortOrder
-    search: string
   }
 
   export type FarmsCountOrderByAggregateInput = {
@@ -16481,7 +16304,6 @@ export namespace Prisma {
     contains?: string | StringFieldRefInput<$PrismaModel>
     startsWith?: string | StringFieldRefInput<$PrismaModel>
     endsWith?: string | StringFieldRefInput<$PrismaModel>
-    search?: string
     not?: NestedStringWithAggregatesFilter<$PrismaModel> | string
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedStringFilter<$PrismaModel>
@@ -16513,15 +16335,7 @@ export namespace Prisma {
     contains?: string | StringFieldRefInput<$PrismaModel>
     startsWith?: string | StringFieldRefInput<$PrismaModel>
     endsWith?: string | StringFieldRefInput<$PrismaModel>
-    search?: string
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
-  }
-
-  export type EnumRolesFilter<$PrismaModel = never> = {
-    equals?: $Enums.Roles | EnumRolesFieldRefInput<$PrismaModel>
-    in?: $Enums.Roles[]
-    notIn?: $Enums.Roles[]
-    not?: NestedEnumRolesFilter<$PrismaModel> | $Enums.Roles
   }
 
   export type FarmhandsNullableScalarRelationFilter = {
@@ -16542,12 +16356,6 @@ export namespace Prisma {
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
-  }
-
-  export type UsersOrderByRelevanceInput = {
-    fields: UsersOrderByRelevanceFieldEnum | UsersOrderByRelevanceFieldEnum[]
-    sort: SortOrder
-    search: string
   }
 
   export type UsersCountOrderByAggregateInput = {
@@ -16607,21 +16415,10 @@ export namespace Prisma {
     contains?: string | StringFieldRefInput<$PrismaModel>
     startsWith?: string | StringFieldRefInput<$PrismaModel>
     endsWith?: string | StringFieldRefInput<$PrismaModel>
-    search?: string
     not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedStringNullableFilter<$PrismaModel>
     _max?: NestedStringNullableFilter<$PrismaModel>
-  }
-
-  export type EnumRolesWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.Roles | EnumRolesFieldRefInput<$PrismaModel>
-    in?: $Enums.Roles[]
-    notIn?: $Enums.Roles[]
-    not?: NestedEnumRolesWithAggregatesFilter<$PrismaModel> | $Enums.Roles
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumRolesFilter<$PrismaModel>
-    _max?: NestedEnumRolesFilter<$PrismaModel>
   }
 
   export type UsersScalarRelationFilter = {
@@ -16700,13 +16497,6 @@ export namespace Prisma {
     not?: NestedFloatFilter<$PrismaModel> | number
   }
 
-  export type EnumHealth_StatusFilter<$PrismaModel = never> = {
-    equals?: $Enums.Health_Status | EnumHealth_StatusFieldRefInput<$PrismaModel>
-    in?: $Enums.Health_Status[]
-    notIn?: $Enums.Health_Status[]
-    not?: NestedEnumHealth_StatusFilter<$PrismaModel> | $Enums.Health_Status
-  }
-
   export type SpeciesScalarRelationFilter = {
     is?: SpeciesWhereInput
     isNot?: SpeciesWhereInput
@@ -16725,12 +16515,6 @@ export namespace Prisma {
 
   export type LocationsOrderByRelationAggregateInput = {
     _count?: SortOrder
-  }
-
-  export type AnimalsOrderByRelevanceInput = {
-    fields: AnimalsOrderByRelevanceFieldEnum | AnimalsOrderByRelevanceFieldEnum[]
-    sort: SortOrder
-    search: string
   }
 
   export type AnimalsCountOrderByAggregateInput = {
@@ -16804,16 +16588,6 @@ export namespace Prisma {
     _max?: NestedFloatFilter<$PrismaModel>
   }
 
-  export type EnumHealth_StatusWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.Health_Status | EnumHealth_StatusFieldRefInput<$PrismaModel>
-    in?: $Enums.Health_Status[]
-    notIn?: $Enums.Health_Status[]
-    not?: NestedEnumHealth_StatusWithAggregatesFilter<$PrismaModel> | $Enums.Health_Status
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumHealth_StatusFilter<$PrismaModel>
-    _max?: NestedEnumHealth_StatusFilter<$PrismaModel>
-  }
-
   export type IntNullableFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel> | null
     in?: number[] | null
@@ -16833,12 +16607,6 @@ export namespace Prisma {
 
   export type BreedsOrderByRelationAggregateInput = {
     _count?: SortOrder
-  }
-
-  export type SpeciesOrderByRelevanceInput = {
-    fields: SpeciesOrderByRelevanceFieldEnum | SpeciesOrderByRelevanceFieldEnum[]
-    sort: SortOrder
-    search: string
   }
 
   export type SpeciesCountOrderByAggregateInput = {
@@ -16908,12 +16676,6 @@ export namespace Prisma {
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
-  }
-
-  export type BreedsOrderByRelevanceInput = {
-    fields: BreedsOrderByRelevanceFieldEnum | BreedsOrderByRelevanceFieldEnum[]
-    sort: SortOrder
-    search: string
   }
 
   export type BreedsCountOrderByAggregateInput = {
@@ -16987,12 +16749,6 @@ export namespace Prisma {
     isNot?: Types_of_VaccinesWhereInput
   }
 
-  export type VaccinesOrderByRelevanceInput = {
-    fields: VaccinesOrderByRelevanceFieldEnum | VaccinesOrderByRelevanceFieldEnum[]
-    sort: SortOrder
-    search: string
-  }
-
   export type VaccinesCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
@@ -17064,12 +16820,6 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
-  export type ManufacturersOrderByRelevanceInput = {
-    fields: ManufacturersOrderByRelevanceFieldEnum | ManufacturersOrderByRelevanceFieldEnum[]
-    sort: SortOrder
-    search: string
-  }
-
   export type ManufacturersCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
@@ -17117,12 +16867,6 @@ export namespace Prisma {
     id?: SortOrder
   }
 
-  export type Types_of_VaccinesOrderByRelevanceInput = {
-    fields: Types_of_VaccinesOrderByRelevanceFieldEnum | Types_of_VaccinesOrderByRelevanceFieldEnum[]
-    sort: SortOrder
-    search: string
-  }
-
   export type Types_of_VaccinesCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
@@ -17158,13 +16902,6 @@ export namespace Prisma {
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
-  }
-
-  export type EnumStatus_Vaccine_ApplicationsFilter<$PrismaModel = never> = {
-    equals?: $Enums.Status_Vaccine_Applications | EnumStatus_Vaccine_ApplicationsFieldRefInput<$PrismaModel>
-    in?: $Enums.Status_Vaccine_Applications[]
-    notIn?: $Enums.Status_Vaccine_Applications[]
-    not?: NestedEnumStatus_Vaccine_ApplicationsFilter<$PrismaModel> | $Enums.Status_Vaccine_Applications
   }
 
   export type AnimalsScalarRelationFilter = {
@@ -17244,16 +16981,6 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedDateTimeNullableFilter<$PrismaModel>
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
-  }
-
-  export type EnumStatus_Vaccine_ApplicationsWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.Status_Vaccine_Applications | EnumStatus_Vaccine_ApplicationsFieldRefInput<$PrismaModel>
-    in?: $Enums.Status_Vaccine_Applications[]
-    notIn?: $Enums.Status_Vaccine_Applications[]
-    not?: NestedEnumStatus_Vaccine_ApplicationsWithAggregatesFilter<$PrismaModel> | $Enums.Status_Vaccine_Applications
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumStatus_Vaccine_ApplicationsFilter<$PrismaModel>
-    _max?: NestedEnumStatus_Vaccine_ApplicationsFilter<$PrismaModel>
   }
 
   export type LocationsCountOrderByAggregateInput = {
@@ -17434,10 +17161,6 @@ export namespace Prisma {
     set?: string | null
   }
 
-  export type EnumRolesFieldUpdateOperationsInput = {
-    set?: $Enums.Roles
-  }
-
   export type FarmhandsUpdateOneWithoutUserNestedInput = {
     create?: XOR<FarmhandsCreateWithoutUserInput, FarmhandsUncheckedCreateWithoutUserInput>
     connectOrCreate?: FarmhandsCreateOrConnectWithoutUserInput
@@ -17608,10 +17331,6 @@ export namespace Prisma {
     decrement?: number
     multiply?: number
     divide?: number
-  }
-
-  export type EnumHealth_StatusFieldUpdateOperationsInput = {
-    set?: $Enums.Health_Status
   }
 
   export type SpeciesUpdateOneRequiredWithoutAnimalNestedInput = {
@@ -18026,10 +17745,6 @@ export namespace Prisma {
     set?: Date | string | null
   }
 
-  export type EnumStatus_Vaccine_ApplicationsFieldUpdateOperationsInput = {
-    set?: $Enums.Status_Vaccine_Applications
-  }
-
   export type AnimalsUpdateOneRequiredWithoutApplicationNestedInput = {
     create?: XOR<AnimalsCreateWithoutApplicationInput, AnimalsUncheckedCreateWithoutApplicationInput>
     connectOrCreate?: AnimalsCreateOrConnectWithoutApplicationInput
@@ -18090,7 +17805,6 @@ export namespace Prisma {
     contains?: string | StringFieldRefInput<$PrismaModel>
     startsWith?: string | StringFieldRefInput<$PrismaModel>
     endsWith?: string | StringFieldRefInput<$PrismaModel>
-    search?: string
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
@@ -18143,7 +17857,6 @@ export namespace Prisma {
     contains?: string | StringFieldRefInput<$PrismaModel>
     startsWith?: string | StringFieldRefInput<$PrismaModel>
     endsWith?: string | StringFieldRefInput<$PrismaModel>
-    search?: string
     not?: NestedStringWithAggregatesFilter<$PrismaModel> | string
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedStringFilter<$PrismaModel>
@@ -18175,15 +17888,7 @@ export namespace Prisma {
     contains?: string | StringFieldRefInput<$PrismaModel>
     startsWith?: string | StringFieldRefInput<$PrismaModel>
     endsWith?: string | StringFieldRefInput<$PrismaModel>
-    search?: string
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
-  }
-
-  export type NestedEnumRolesFilter<$PrismaModel = never> = {
-    equals?: $Enums.Roles | EnumRolesFieldRefInput<$PrismaModel>
-    in?: $Enums.Roles[]
-    notIn?: $Enums.Roles[]
-    not?: NestedEnumRolesFilter<$PrismaModel> | $Enums.Roles
   }
 
   export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -18197,7 +17902,6 @@ export namespace Prisma {
     contains?: string | StringFieldRefInput<$PrismaModel>
     startsWith?: string | StringFieldRefInput<$PrismaModel>
     endsWith?: string | StringFieldRefInput<$PrismaModel>
-    search?: string
     not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedStringNullableFilter<$PrismaModel>
@@ -18215,23 +17919,6 @@ export namespace Prisma {
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
-  export type NestedEnumRolesWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.Roles | EnumRolesFieldRefInput<$PrismaModel>
-    in?: $Enums.Roles[]
-    notIn?: $Enums.Roles[]
-    not?: NestedEnumRolesWithAggregatesFilter<$PrismaModel> | $Enums.Roles
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumRolesFilter<$PrismaModel>
-    _max?: NestedEnumRolesFilter<$PrismaModel>
-  }
-
-  export type NestedEnumHealth_StatusFilter<$PrismaModel = never> = {
-    equals?: $Enums.Health_Status | EnumHealth_StatusFieldRefInput<$PrismaModel>
-    in?: $Enums.Health_Status[]
-    notIn?: $Enums.Health_Status[]
-    not?: NestedEnumHealth_StatusFilter<$PrismaModel> | $Enums.Health_Status
-  }
-
   export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel>
     in?: number[]
@@ -18246,16 +17933,6 @@ export namespace Prisma {
     _sum?: NestedFloatFilter<$PrismaModel>
     _min?: NestedFloatFilter<$PrismaModel>
     _max?: NestedFloatFilter<$PrismaModel>
-  }
-
-  export type NestedEnumHealth_StatusWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.Health_Status | EnumHealth_StatusFieldRefInput<$PrismaModel>
-    in?: $Enums.Health_Status[]
-    notIn?: $Enums.Health_Status[]
-    not?: NestedEnumHealth_StatusWithAggregatesFilter<$PrismaModel> | $Enums.Health_Status
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumHealth_StatusFilter<$PrismaModel>
-    _max?: NestedEnumHealth_StatusFilter<$PrismaModel>
   }
 
   export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -18312,13 +17989,6 @@ export namespace Prisma {
     not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
-  export type NestedEnumStatus_Vaccine_ApplicationsFilter<$PrismaModel = never> = {
-    equals?: $Enums.Status_Vaccine_Applications | EnumStatus_Vaccine_ApplicationsFieldRefInput<$PrismaModel>
-    in?: $Enums.Status_Vaccine_Applications[]
-    notIn?: $Enums.Status_Vaccine_Applications[]
-    not?: NestedEnumStatus_Vaccine_ApplicationsFilter<$PrismaModel> | $Enums.Status_Vaccine_Applications
-  }
-
   export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
     in?: Date[] | string[] | null
@@ -18333,22 +18003,12 @@ export namespace Prisma {
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
-  export type NestedEnumStatus_Vaccine_ApplicationsWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.Status_Vaccine_Applications | EnumStatus_Vaccine_ApplicationsFieldRefInput<$PrismaModel>
-    in?: $Enums.Status_Vaccine_Applications[]
-    notIn?: $Enums.Status_Vaccine_Applications[]
-    not?: NestedEnumStatus_Vaccine_ApplicationsWithAggregatesFilter<$PrismaModel> | $Enums.Status_Vaccine_Applications
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumStatus_Vaccine_ApplicationsFilter<$PrismaModel>
-    _max?: NestedEnumStatus_Vaccine_ApplicationsFilter<$PrismaModel>
-  }
-
   export type UsersCreateWithoutFarmInput = {
     name: string
     email: string
     password: string
     profile_photo?: string | null
-    role: $Enums.Roles
+    role: string
     created_at?: Date | string
     updated_at?: Date | string
     farmhand?: FarmhandsCreateNestedOneWithoutUserInput
@@ -18361,7 +18021,7 @@ export namespace Prisma {
     email: string
     password: string
     profile_photo?: string | null
-    role: $Enums.Roles
+    role: string
     created_at?: Date | string
     updated_at?: Date | string
     farmhand?: FarmhandsUncheckedCreateNestedOneWithoutUserInput
@@ -18375,14 +18035,13 @@ export namespace Prisma {
 
   export type UsersCreateManyFarmInputEnvelope = {
     data: UsersCreateManyFarmInput | UsersCreateManyFarmInput[]
-    skipDuplicates?: boolean
   }
 
   export type AnimalsCreateWithoutFarmInput = {
     name: string
     birth_date: Date | string
     weight: number
-    health_status: $Enums.Health_Status
+    health_status: string
     created_at?: Date | string
     updated_at?: Date | string
     species: SpeciesCreateNestedOneWithoutAnimalInput
@@ -18398,7 +18057,7 @@ export namespace Prisma {
     breed_id: number
     birth_date: Date | string
     weight: number
-    health_status: $Enums.Health_Status
+    health_status: string
     created_at?: Date | string
     updated_at?: Date | string
     location?: LocationsUncheckedCreateNestedManyWithoutAnimalInput
@@ -18412,7 +18071,6 @@ export namespace Prisma {
 
   export type AnimalsCreateManyFarmInputEnvelope = {
     data: AnimalsCreateManyFarmInput | AnimalsCreateManyFarmInput[]
-    skipDuplicates?: boolean
   }
 
   export type UsersUpsertWithWhereUniqueWithoutFarmInput = {
@@ -18440,7 +18098,7 @@ export namespace Prisma {
     email?: StringFilter<"Users"> | string
     password?: StringFilter<"Users"> | string
     profile_photo?: StringNullableFilter<"Users"> | string | null
-    role?: EnumRolesFilter<"Users"> | $Enums.Roles
+    role?: StringFilter<"Users"> | string
     farm_id?: IntFilter<"Users"> | number
     created_at?: DateTimeFilter<"Users"> | Date | string
     updated_at?: DateTimeFilter<"Users"> | Date | string
@@ -18472,7 +18130,7 @@ export namespace Prisma {
     breed_id?: IntFilter<"Animals"> | number
     birth_date?: DateTimeFilter<"Animals"> | Date | string
     weight?: FloatFilter<"Animals"> | number
-    health_status?: EnumHealth_StatusFilter<"Animals"> | $Enums.Health_Status
+    health_status?: StringFilter<"Animals"> | string
     farm_id?: IntFilter<"Animals"> | number
     created_at?: DateTimeFilter<"Animals"> | Date | string
     updated_at?: DateTimeFilter<"Animals"> | Date | string
@@ -18595,7 +18253,7 @@ export namespace Prisma {
     email: string
     password: string
     profile_photo?: string | null
-    role: $Enums.Roles
+    role: string
     created_at?: Date | string
     updated_at?: Date | string
     veterinary?: VeterinariansCreateNestedOneWithoutUserInput
@@ -18608,7 +18266,7 @@ export namespace Prisma {
     email: string
     password: string
     profile_photo?: string | null
-    role: $Enums.Roles
+    role: string
     farm_id: number
     created_at?: Date | string
     updated_at?: Date | string
@@ -18636,7 +18294,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     profile_photo?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: EnumRolesFieldUpdateOperationsInput | $Enums.Roles
+    role?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     veterinary?: VeterinariansUpdateOneWithoutUserNestedInput
@@ -18649,7 +18307,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     profile_photo?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: EnumRolesFieldUpdateOperationsInput | $Enums.Roles
+    role?: StringFieldUpdateOperationsInput | string
     farm_id?: IntFieldUpdateOperationsInput | number
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -18661,7 +18319,7 @@ export namespace Prisma {
     email: string
     password: string
     profile_photo?: string | null
-    role: $Enums.Roles
+    role: string
     created_at?: Date | string
     updated_at?: Date | string
     farmhand?: FarmhandsCreateNestedOneWithoutUserInput
@@ -18674,7 +18332,7 @@ export namespace Prisma {
     email: string
     password: string
     profile_photo?: string | null
-    role: $Enums.Roles
+    role: string
     farm_id: number
     created_at?: Date | string
     updated_at?: Date | string
@@ -18689,7 +18347,7 @@ export namespace Prisma {
   export type ApplicationsCreateWithoutVeterinaryInput = {
     application_date: Date | string
     next_application_date?: Date | string | null
-    status_vaccine_application: $Enums.Status_Vaccine_Applications
+    status_vaccine_application: string
     created_at?: Date | string
     updated_at?: Date | string
     animal: AnimalsCreateNestedOneWithoutApplicationInput
@@ -18702,7 +18360,7 @@ export namespace Prisma {
     vaccine_id: number
     application_date: Date | string
     next_application_date?: Date | string | null
-    status_vaccine_application: $Enums.Status_Vaccine_Applications
+    status_vaccine_application: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -18714,7 +18372,6 @@ export namespace Prisma {
 
   export type ApplicationsCreateManyVeterinaryInputEnvelope = {
     data: ApplicationsCreateManyVeterinaryInput | ApplicationsCreateManyVeterinaryInput[]
-    skipDuplicates?: boolean
   }
 
   export type UsersUpsertWithoutVeterinaryInput = {
@@ -18733,7 +18390,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     profile_photo?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: EnumRolesFieldUpdateOperationsInput | $Enums.Roles
+    role?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     farmhand?: FarmhandsUpdateOneWithoutUserNestedInput
@@ -18746,7 +18403,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     profile_photo?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: EnumRolesFieldUpdateOperationsInput | $Enums.Roles
+    role?: StringFieldUpdateOperationsInput | string
     farm_id?: IntFieldUpdateOperationsInput | number
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -18779,7 +18436,7 @@ export namespace Prisma {
     veterinary_id?: IntFilter<"Applications"> | number
     application_date?: DateTimeFilter<"Applications"> | Date | string
     next_application_date?: DateTimeNullableFilter<"Applications"> | Date | string | null
-    status_vaccine_application?: EnumStatus_Vaccine_ApplicationsFilter<"Applications"> | $Enums.Status_Vaccine_Applications
+    status_vaccine_application?: StringFilter<"Applications"> | string
     created_at?: DateTimeFilter<"Applications"> | Date | string
     updated_at?: DateTimeFilter<"Applications"> | Date | string
   }
@@ -18880,13 +18537,12 @@ export namespace Prisma {
 
   export type LocationsCreateManyAnimalInputEnvelope = {
     data: LocationsCreateManyAnimalInput | LocationsCreateManyAnimalInput[]
-    skipDuplicates?: boolean
   }
 
   export type ApplicationsCreateWithoutAnimalInput = {
     application_date: Date | string
     next_application_date?: Date | string | null
-    status_vaccine_application: $Enums.Status_Vaccine_Applications
+    status_vaccine_application: string
     created_at?: Date | string
     updated_at?: Date | string
     vaccine: VaccinesCreateNestedOneWithoutApplicationsInput
@@ -18899,7 +18555,7 @@ export namespace Prisma {
     veterinary_id: number
     application_date: Date | string
     next_application_date?: Date | string | null
-    status_vaccine_application: $Enums.Status_Vaccine_Applications
+    status_vaccine_application: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -18911,7 +18567,6 @@ export namespace Prisma {
 
   export type ApplicationsCreateManyAnimalInputEnvelope = {
     data: ApplicationsCreateManyAnimalInput | ApplicationsCreateManyAnimalInput[]
-    skipDuplicates?: boolean
   }
 
   export type SpeciesUpsertWithoutAnimalInput = {
@@ -19053,7 +18708,7 @@ export namespace Prisma {
     name: string
     birth_date: Date | string
     weight: number
-    health_status: $Enums.Health_Status
+    health_status: string
     created_at?: Date | string
     updated_at?: Date | string
     breed: BreedsCreateNestedOneWithoutAnimalInput
@@ -19068,7 +18723,7 @@ export namespace Prisma {
     breed_id: number
     birth_date: Date | string
     weight: number
-    health_status: $Enums.Health_Status
+    health_status: string
     farm_id: number
     created_at?: Date | string
     updated_at?: Date | string
@@ -19083,7 +18738,6 @@ export namespace Prisma {
 
   export type AnimalsCreateManySpeciesInputEnvelope = {
     data: AnimalsCreateManySpeciesInput | AnimalsCreateManySpeciesInput[]
-    skipDuplicates?: boolean
   }
 
   export type BreedsCreateWithoutSpeciesInput = {
@@ -19114,7 +18768,6 @@ export namespace Prisma {
 
   export type BreedsCreateManySpeciesInputEnvelope = {
     data: BreedsCreateManySpeciesInput | BreedsCreateManySpeciesInput[]
-    skipDuplicates?: boolean
   }
 
   export type AnimalsUpsertWithWhereUniqueWithoutSpeciesInput = {
@@ -19193,7 +18846,7 @@ export namespace Prisma {
     name: string
     birth_date: Date | string
     weight: number
-    health_status: $Enums.Health_Status
+    health_status: string
     created_at?: Date | string
     updated_at?: Date | string
     species: SpeciesCreateNestedOneWithoutAnimalInput
@@ -19208,7 +18861,7 @@ export namespace Prisma {
     species_id: number
     birth_date: Date | string
     weight: number
-    health_status: $Enums.Health_Status
+    health_status: string
     farm_id: number
     created_at?: Date | string
     updated_at?: Date | string
@@ -19223,7 +18876,6 @@ export namespace Prisma {
 
   export type AnimalsCreateManyBreedInputEnvelope = {
     data: AnimalsCreateManyBreedInput | AnimalsCreateManyBreedInput[]
-    skipDuplicates?: boolean
   }
 
   export type SpeciesUpsertWithoutBreedInput = {
@@ -19323,7 +18975,7 @@ export namespace Prisma {
   export type ApplicationsCreateWithoutVaccineInput = {
     application_date: Date | string
     next_application_date?: Date | string | null
-    status_vaccine_application: $Enums.Status_Vaccine_Applications
+    status_vaccine_application: string
     created_at?: Date | string
     updated_at?: Date | string
     animal: AnimalsCreateNestedOneWithoutApplicationInput
@@ -19336,7 +18988,7 @@ export namespace Prisma {
     veterinary_id: number
     application_date: Date | string
     next_application_date?: Date | string | null
-    status_vaccine_application: $Enums.Status_Vaccine_Applications
+    status_vaccine_application: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -19348,7 +19000,6 @@ export namespace Prisma {
 
   export type ApplicationsCreateManyVaccineInputEnvelope = {
     data: ApplicationsCreateManyVaccineInput | ApplicationsCreateManyVaccineInput[]
-    skipDuplicates?: boolean
   }
 
   export type ManufacturersUpsertWithoutVaccinesInput = {
@@ -19461,7 +19112,6 @@ export namespace Prisma {
 
   export type VaccinesCreateManyManufacturerInputEnvelope = {
     data: VaccinesCreateManyManufacturerInput | VaccinesCreateManyManufacturerInput[]
-    skipDuplicates?: boolean
   }
 
   export type VaccinesUpsertWithWhereUniqueWithoutManufacturerInput = {
@@ -19534,7 +19184,6 @@ export namespace Prisma {
 
   export type VaccinesCreateManyType_of_vaccineInputEnvelope = {
     data: VaccinesCreateManyType_of_vaccineInput | VaccinesCreateManyType_of_vaccineInput[]
-    skipDuplicates?: boolean
   }
 
   export type VaccinesUpsertWithWhereUniqueWithoutType_of_vaccineInput = {
@@ -19557,7 +19206,7 @@ export namespace Prisma {
     name: string
     birth_date: Date | string
     weight: number
-    health_status: $Enums.Health_Status
+    health_status: string
     created_at?: Date | string
     updated_at?: Date | string
     species: SpeciesCreateNestedOneWithoutAnimalInput
@@ -19573,7 +19222,7 @@ export namespace Prisma {
     breed_id: number
     birth_date: Date | string
     weight: number
-    health_status: $Enums.Health_Status
+    health_status: string
     farm_id: number
     created_at?: Date | string
     updated_at?: Date | string
@@ -19648,7 +19297,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
     weight?: FloatFieldUpdateOperationsInput | number
-    health_status?: EnumHealth_StatusFieldUpdateOperationsInput | $Enums.Health_Status
+    health_status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     species?: SpeciesUpdateOneRequiredWithoutAnimalNestedInput
@@ -19664,7 +19313,7 @@ export namespace Prisma {
     breed_id?: IntFieldUpdateOperationsInput | number
     birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
     weight?: FloatFieldUpdateOperationsInput | number
-    health_status?: EnumHealth_StatusFieldUpdateOperationsInput | $Enums.Health_Status
+    health_status?: StringFieldUpdateOperationsInput | string
     farm_id?: IntFieldUpdateOperationsInput | number
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -19735,7 +19384,7 @@ export namespace Prisma {
     name: string
     birth_date: Date | string
     weight: number
-    health_status: $Enums.Health_Status
+    health_status: string
     created_at?: Date | string
     updated_at?: Date | string
     species: SpeciesCreateNestedOneWithoutAnimalInput
@@ -19751,7 +19400,7 @@ export namespace Prisma {
     breed_id: number
     birth_date: Date | string
     weight: number
-    health_status: $Enums.Health_Status
+    health_status: string
     farm_id: number
     created_at?: Date | string
     updated_at?: Date | string
@@ -19778,7 +19427,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
     weight?: FloatFieldUpdateOperationsInput | number
-    health_status?: EnumHealth_StatusFieldUpdateOperationsInput | $Enums.Health_Status
+    health_status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     species?: SpeciesUpdateOneRequiredWithoutAnimalNestedInput
@@ -19794,7 +19443,7 @@ export namespace Prisma {
     breed_id?: IntFieldUpdateOperationsInput | number
     birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
     weight?: FloatFieldUpdateOperationsInput | number
-    health_status?: EnumHealth_StatusFieldUpdateOperationsInput | $Enums.Health_Status
+    health_status?: StringFieldUpdateOperationsInput | string
     farm_id?: IntFieldUpdateOperationsInput | number
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -19802,24 +19451,22 @@ export namespace Prisma {
   }
 
   export type UsersCreateManyFarmInput = {
-    id?: number
     name: string
     email: string
     password: string
     profile_photo?: string | null
-    role: $Enums.Roles
+    role: string
     created_at?: Date | string
     updated_at?: Date | string
   }
 
   export type AnimalsCreateManyFarmInput = {
-    id?: number
     name: string
     species_id: number
     breed_id: number
     birth_date: Date | string
     weight: number
-    health_status: $Enums.Health_Status
+    health_status: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -19829,7 +19476,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     profile_photo?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: EnumRolesFieldUpdateOperationsInput | $Enums.Roles
+    role?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     farmhand?: FarmhandsUpdateOneWithoutUserNestedInput
@@ -19842,7 +19489,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     profile_photo?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: EnumRolesFieldUpdateOperationsInput | $Enums.Roles
+    role?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     farmhand?: FarmhandsUncheckedUpdateOneWithoutUserNestedInput
@@ -19855,7 +19502,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     profile_photo?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: EnumRolesFieldUpdateOperationsInput | $Enums.Roles
+    role?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -19864,7 +19511,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
     weight?: FloatFieldUpdateOperationsInput | number
-    health_status?: EnumHealth_StatusFieldUpdateOperationsInput | $Enums.Health_Status
+    health_status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     species?: SpeciesUpdateOneRequiredWithoutAnimalNestedInput
@@ -19880,7 +19527,7 @@ export namespace Prisma {
     breed_id?: IntFieldUpdateOperationsInput | number
     birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
     weight?: FloatFieldUpdateOperationsInput | number
-    health_status?: EnumHealth_StatusFieldUpdateOperationsInput | $Enums.Health_Status
+    health_status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     location?: LocationsUncheckedUpdateManyWithoutAnimalNestedInput
@@ -19894,18 +19541,17 @@ export namespace Prisma {
     breed_id?: IntFieldUpdateOperationsInput | number
     birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
     weight?: FloatFieldUpdateOperationsInput | number
-    health_status?: EnumHealth_StatusFieldUpdateOperationsInput | $Enums.Health_Status
+    health_status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ApplicationsCreateManyVeterinaryInput = {
-    id?: number
     animal_id: number
     vaccine_id: number
     application_date: Date | string
     next_application_date?: Date | string | null
-    status_vaccine_application: $Enums.Status_Vaccine_Applications
+    status_vaccine_application: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -19913,7 +19559,7 @@ export namespace Prisma {
   export type ApplicationsUpdateWithoutVeterinaryInput = {
     application_date?: DateTimeFieldUpdateOperationsInput | Date | string
     next_application_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status_vaccine_application?: EnumStatus_Vaccine_ApplicationsFieldUpdateOperationsInput | $Enums.Status_Vaccine_Applications
+    status_vaccine_application?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     animal?: AnimalsUpdateOneRequiredWithoutApplicationNestedInput
@@ -19926,7 +19572,7 @@ export namespace Prisma {
     vaccine_id?: IntFieldUpdateOperationsInput | number
     application_date?: DateTimeFieldUpdateOperationsInput | Date | string
     next_application_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status_vaccine_application?: EnumStatus_Vaccine_ApplicationsFieldUpdateOperationsInput | $Enums.Status_Vaccine_Applications
+    status_vaccine_application?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -19937,13 +19583,12 @@ export namespace Prisma {
     vaccine_id?: IntFieldUpdateOperationsInput | number
     application_date?: DateTimeFieldUpdateOperationsInput | Date | string
     next_application_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status_vaccine_application?: EnumStatus_Vaccine_ApplicationsFieldUpdateOperationsInput | $Enums.Status_Vaccine_Applications
+    status_vaccine_application?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type LocationsCreateManyAnimalInput = {
-    id?: number
     latitude: number
     longitude: number
     captured_at: Date | string
@@ -19952,12 +19597,11 @@ export namespace Prisma {
   }
 
   export type ApplicationsCreateManyAnimalInput = {
-    id?: number
     vaccine_id: number
     veterinary_id: number
     application_date: Date | string
     next_application_date?: Date | string | null
-    status_vaccine_application: $Enums.Status_Vaccine_Applications
+    status_vaccine_application: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -19991,7 +19635,7 @@ export namespace Prisma {
   export type ApplicationsUpdateWithoutAnimalInput = {
     application_date?: DateTimeFieldUpdateOperationsInput | Date | string
     next_application_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status_vaccine_application?: EnumStatus_Vaccine_ApplicationsFieldUpdateOperationsInput | $Enums.Status_Vaccine_Applications
+    status_vaccine_application?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     vaccine?: VaccinesUpdateOneRequiredWithoutApplicationsNestedInput
@@ -20004,7 +19648,7 @@ export namespace Prisma {
     veterinary_id?: IntFieldUpdateOperationsInput | number
     application_date?: DateTimeFieldUpdateOperationsInput | Date | string
     next_application_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status_vaccine_application?: EnumStatus_Vaccine_ApplicationsFieldUpdateOperationsInput | $Enums.Status_Vaccine_Applications
+    status_vaccine_application?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -20015,25 +19659,23 @@ export namespace Prisma {
     veterinary_id?: IntFieldUpdateOperationsInput | number
     application_date?: DateTimeFieldUpdateOperationsInput | Date | string
     next_application_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status_vaccine_application?: EnumStatus_Vaccine_ApplicationsFieldUpdateOperationsInput | $Enums.Status_Vaccine_Applications
+    status_vaccine_application?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type AnimalsCreateManySpeciesInput = {
-    id?: number
     name: string
     breed_id: number
     birth_date: Date | string
     weight: number
-    health_status: $Enums.Health_Status
+    health_status: string
     farm_id: number
     created_at?: Date | string
     updated_at?: Date | string
   }
 
   export type BreedsCreateManySpeciesInput = {
-    id?: number
     name: string
     description: string
     average_weight?: number | null
@@ -20046,7 +19688,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
     weight?: FloatFieldUpdateOperationsInput | number
-    health_status?: EnumHealth_StatusFieldUpdateOperationsInput | $Enums.Health_Status
+    health_status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     breed?: BreedsUpdateOneRequiredWithoutAnimalNestedInput
@@ -20061,7 +19703,7 @@ export namespace Prisma {
     breed_id?: IntFieldUpdateOperationsInput | number
     birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
     weight?: FloatFieldUpdateOperationsInput | number
-    health_status?: EnumHealth_StatusFieldUpdateOperationsInput | $Enums.Health_Status
+    health_status?: StringFieldUpdateOperationsInput | string
     farm_id?: IntFieldUpdateOperationsInput | number
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -20075,7 +19717,7 @@ export namespace Prisma {
     breed_id?: IntFieldUpdateOperationsInput | number
     birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
     weight?: FloatFieldUpdateOperationsInput | number
-    health_status?: EnumHealth_StatusFieldUpdateOperationsInput | $Enums.Health_Status
+    health_status?: StringFieldUpdateOperationsInput | string
     farm_id?: IntFieldUpdateOperationsInput | number
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -20113,12 +19755,11 @@ export namespace Prisma {
   }
 
   export type AnimalsCreateManyBreedInput = {
-    id?: number
     name: string
     species_id: number
     birth_date: Date | string
     weight: number
-    health_status: $Enums.Health_Status
+    health_status: string
     farm_id: number
     created_at?: Date | string
     updated_at?: Date | string
@@ -20128,7 +19769,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
     weight?: FloatFieldUpdateOperationsInput | number
-    health_status?: EnumHealth_StatusFieldUpdateOperationsInput | $Enums.Health_Status
+    health_status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     species?: SpeciesUpdateOneRequiredWithoutAnimalNestedInput
@@ -20143,7 +19784,7 @@ export namespace Prisma {
     species_id?: IntFieldUpdateOperationsInput | number
     birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
     weight?: FloatFieldUpdateOperationsInput | number
-    health_status?: EnumHealth_StatusFieldUpdateOperationsInput | $Enums.Health_Status
+    health_status?: StringFieldUpdateOperationsInput | string
     farm_id?: IntFieldUpdateOperationsInput | number
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -20157,19 +19798,18 @@ export namespace Prisma {
     species_id?: IntFieldUpdateOperationsInput | number
     birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
     weight?: FloatFieldUpdateOperationsInput | number
-    health_status?: EnumHealth_StatusFieldUpdateOperationsInput | $Enums.Health_Status
+    health_status?: StringFieldUpdateOperationsInput | string
     farm_id?: IntFieldUpdateOperationsInput | number
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ApplicationsCreateManyVaccineInput = {
-    id?: number
     animal_id: number
     veterinary_id: number
     application_date: Date | string
     next_application_date?: Date | string | null
-    status_vaccine_application: $Enums.Status_Vaccine_Applications
+    status_vaccine_application: string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -20177,7 +19817,7 @@ export namespace Prisma {
   export type ApplicationsUpdateWithoutVaccineInput = {
     application_date?: DateTimeFieldUpdateOperationsInput | Date | string
     next_application_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status_vaccine_application?: EnumStatus_Vaccine_ApplicationsFieldUpdateOperationsInput | $Enums.Status_Vaccine_Applications
+    status_vaccine_application?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     animal?: AnimalsUpdateOneRequiredWithoutApplicationNestedInput
@@ -20190,7 +19830,7 @@ export namespace Prisma {
     veterinary_id?: IntFieldUpdateOperationsInput | number
     application_date?: DateTimeFieldUpdateOperationsInput | Date | string
     next_application_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status_vaccine_application?: EnumStatus_Vaccine_ApplicationsFieldUpdateOperationsInput | $Enums.Status_Vaccine_Applications
+    status_vaccine_application?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -20201,13 +19841,12 @@ export namespace Prisma {
     veterinary_id?: IntFieldUpdateOperationsInput | number
     application_date?: DateTimeFieldUpdateOperationsInput | Date | string
     next_application_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status_vaccine_application?: EnumStatus_Vaccine_ApplicationsFieldUpdateOperationsInput | $Enums.Status_Vaccine_Applications
+    status_vaccine_application?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type VaccinesCreateManyManufacturerInput = {
-    id?: number
     name: string
     target_disease: string
     batch: string
@@ -20264,7 +19903,6 @@ export namespace Prisma {
   }
 
   export type VaccinesCreateManyType_of_vaccineInput = {
-    id?: number
     name: string
     target_disease: string
     manufacturer_id: number

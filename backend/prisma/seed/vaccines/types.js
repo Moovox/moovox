@@ -6,8 +6,7 @@ async function createTypesOfVaccines(){
         const types = ["Injectable", "Oral", "Intranasal", "Transdermal", "Intramammary", "Spray" ];
 
         await prisma.types_of_Vaccines.createMany({
-            data: types.map((type) => ({ name: type})),
-            skipDuplicates: true,
+            data: types.map((type) => ({ name: type}))
         });
 
         
