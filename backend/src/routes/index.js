@@ -7,11 +7,11 @@ const usersRoutes = require('./users');
 const vaccinesRoutes = require('./vaccines');
 const vaccineApplicationsRoutes = require('./vaccine_applications');
 
-router.use(authRoutes); 
-router.use(animalsRoutes); 
-router.use(usersRoutes);  
-router.use(vaccinesRoutes); 
-router.use(vaccineApplicationsRoutes); 
+router.use('/auth', authRoutes); 
+router.use('/animals', animalsRoutes); 
+router.use('/users', usersRoutes);  
+router.use('/vaccines', vaccinesRoutes); 
+router.use('/vaccine-applications', vaccineApplicationsRoutes); 
 
 
 
