@@ -41,4 +41,6 @@ app.use((req, res, next) => {
 
 app.use('/api', routes);
 
+console.log('Express inicializado e aguardando requisições...');
+
 module.exports = app;
