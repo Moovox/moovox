@@ -9,6 +9,7 @@ const app = express();
 app.use(express.urlencoded({extended: true})); 
 app.use(express.json()); 
 app.use(cors({origin: 'https://moovox.systems', credentials: true}));
+app.options('*', cors({origin: 'https://moovox.systems', credentials: true}));
 
 app.use('/api', routes); 
 
