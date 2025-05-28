@@ -44,6 +44,10 @@ app.use((req, res, next) => {
 // Suas rotas da API
 app.use('/api', routes);
 
+app.get('/', (req, res) => {
+    res.send('Servidor Moovox está rodando ✅');
+});
+
 // Mensagem no terminal
 console.log('Express inicializado e aguardando requisições...');
 
