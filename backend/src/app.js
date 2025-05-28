@@ -6,18 +6,8 @@ const routes = require('./routes');
 
 const app = express();
 
-// Lista de domínios permitidos
-const allowedOrigins = ['https://moovox.systems', 'https://www.moovox.systems'];
-
-// CORS (deve ser o primeiro middleware)
 app.use(cors({
-    origin: function (origin, callback) {
-        if (!origin || allowedOrigins.includes(origin)) {
-            callback(null, true);
-        } else {
-            callback(new Error('Not allowed by CORS'));
-        }
-    },
+    origin: ['https://moovox.systems', 'https://www.moovox.systems'],
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization']
@@ -36,14 +26,14 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // Middleware de log para depuração
 app.use((req, res, next) => {
-    res.on('finish', () => {
-        console.log(`[${req.method}] ${req.originalUrl} - Status: ${res.statusCode}`);
-    });
+    console.log(`[${new Date().toISOString()}] ${req.method} ${req.path}`);
+    console.log('Headers:', req.headers);
+    console.log('Body:', req.body);
     next();
 });
 
