@@ -9,11 +9,10 @@ const app = express();
 app.use(express.urlencoded({extended: true})); 
 app.use(express.json()); 
 app.use(cors({
-    origin: ['https://www.moovox.systems', 'http://localhost:3000'], 
+    origin: ['https://www.moovox.systems', 'https://moovox.systems', 'http://localhost:5173'], 
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders:['Content-Type', 'Authorization'],
 }));
-
 
 app.use('/api', routes); 
 
