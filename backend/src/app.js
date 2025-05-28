@@ -6,8 +6,10 @@ const routes = require('./routes');
 
 const app = express();
 
+const allowedOrigins = ['https://moovox.systems', 'https://www.moovox.systems'];
+
 app.use(cors({
-    origin: ['https://moovox.systems', 'https://www.moovox.systems'],
+    origin: allowedOrigins,
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization']
