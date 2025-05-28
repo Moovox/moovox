@@ -117,7 +117,8 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   ReadUncommitted: 'ReadUncommitted',
   ReadCommitted: 'ReadCommitted',
   RepeatableRead: 'RepeatableRead',
-  Serializable: 'Serializable'
+  Serializable: 'Serializable',
+  Snapshot: 'Snapshot'
 });
 
 exports.Prisma.FarmsScalarFieldEnum = {
@@ -244,77 +245,11 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
-exports.Prisma.FarmsOrderByRelevanceFieldEnum = {
-  name: 'name'
-};
-
 exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
 
-exports.Prisma.UsersOrderByRelevanceFieldEnum = {
-  name: 'name',
-  email: 'email',
-  password: 'password',
-  profile_photo: 'profile_photo'
-};
-
-exports.Prisma.AnimalsOrderByRelevanceFieldEnum = {
-  name: 'name'
-};
-
-exports.Prisma.SpeciesOrderByRelevanceFieldEnum = {
-  name: 'name',
-  description: 'description'
-};
-
-exports.Prisma.BreedsOrderByRelevanceFieldEnum = {
-  name: 'name',
-  description: 'description',
-  productivity: 'productivity'
-};
-
-exports.Prisma.VaccinesOrderByRelevanceFieldEnum = {
-  name: 'name',
-  target_disease: 'target_disease',
-  batch: 'batch',
-  notes: 'notes'
-};
-
-exports.Prisma.ManufacturersOrderByRelevanceFieldEnum = {
-  name: 'name',
-  cnpj: 'cnpj',
-  email: 'email',
-  phone: 'phone',
-  address: 'address',
-  country: 'country',
-  license_number: 'license_number'
-};
-
-exports.Prisma.Types_of_VaccinesOrderByRelevanceFieldEnum = {
-  name: 'name',
-  description: 'description'
-};
-exports.Roles = exports.$Enums.Roles = {
-  ADMIN: 'ADMIN',
-  FARMER: 'FARMER',
-  FARMHAND: 'FARMHAND',
-  VETERINARY: 'VETERINARY'
-};
-
-exports.Health_Status = exports.$Enums.Health_Status = {
-  HEALTHY: 'HEALTHY',
-  SICK: 'SICK',
-  INJURED: 'INJURED',
-  RECOVERING: 'RECOVERING'
-};
-
-exports.Status_Vaccine_Applications = exports.$Enums.Status_Vaccine_Applications = {
-  APPLIED: 'APPLIED',
-  PENDING: 'PENDING',
-  OVERDUE: 'OVERDUE'
-};
 
 exports.Prisma.ModelName = {
   Farms: 'Farms',

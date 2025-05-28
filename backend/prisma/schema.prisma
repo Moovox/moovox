@@ -4,33 +4,14 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "sqlserver"
   url      = env("DATABASE_URL")
-}
-
-enum Status_Vaccine_Applications {
-  APPLIED
-  PENDING
-  OVERDUE // A vacina deveria ter sido aplicada, mas a data já passou.
-}
-
-enum Roles {
-  ADMIN
-  FARMER
-  FARMHAND
-  VETERINARY
-}
-
-enum Health_Status {
-  HEALTHY
-  SICK
-  INJURED
-  RECOVERING
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
 model Farms {
   id         Int      @id @default(autoincrement())
-  name       String   @db.VarChar(200)
+  name       String
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
@@ -41,11 +22,11 @@ model Farms {
 
 model Users {
   id            Int      @id @default(autoincrement())
-  name          String   @db.VarChar(200)
-  email         String   @unique @db.VarChar(255)
-  password      String   @db.VarChar(255)
-  profile_photo String?  @db.VarChar(300) // Armazena caminho da imagem ou URL externa
-  role          Roles
+  name          String
+  email         String   @unique
+  password      String
+  profile_photo String?  
+  role          String
   farm_id       Int
   created_at    DateTime @default(now())
   updated_at    DateTime @updatedAt
@@ -53,7 +34,7 @@ model Users {
   // Relações: 
   farmhand   Farmhands?
   veterinary Veterinarians?
-  farm       Farms          @relation(fields: [farm_id], references: [id], onDelete: Cascade)
+  farm       Farms          @relation(fields: [farm_id], references: [id], onDelete: NoAction)
 
   @@index([farm_id])
 }
@@ -63,7 +44,7 @@ model Farmhands {
   user_id Int @unique
 
   // Relações
-  user Users @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user Users @relation(fields: [user_id], references: [id], onDelete: NoAction)
 }
 
 model Veterinarians {
@@ -71,26 +52,26 @@ model Veterinarians {
   user_id Int @unique
 
   // Relações
-  user        Users          @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user        Users          @relation(fields: [user_id], references: [id], onDelete: NoAction)
   application Applications[]
 }
 
 model Animals {
   id            Int           @id @default(autoincrement())
-  name          String        @db.VarChar(200)
+  name          String
   species_id    Int
   breed_id      Int
   birth_date    DateTime
   weight        Float // em KG
-  health_status Health_Status
+  health_status String
   farm_id       Int
   created_at    DateTime      @default(now())
   updated_at    DateTime      @updatedAt
 
   // Relações
-  species Species @relation(fields: [species_id], references: [id], onDelete: Cascade)
-  breed   Breeds  @relation(fields: [breed_id], references: [id], onDelete: Cascade)
-  farm    Farms   @relation(fields: [farm_id], references: [id], onDelete: Cascade)
+  species Species @relation(fields: [species_id], references: [id], onUpdate: NoAction, onDelete: NoAction)
+  breed   Breeds  @relation(fields: [breed_id], references: [id], onDelete: NoAction)
+  farm    Farms   @relation(fields: [farm_id], references: [id], onDelete: NoAction)
 
   location    Locations[]
   application Applications[]
@@ -102,8 +83,8 @@ model Animals {
 
 model Species {
   id               Int      @id @default(autoincrement())
-  name             String   @db.VarChar(200)
-  description      String   @db.Text
+  name             String
+  description      String
   average_lifespan Int? // em anos 
   gestation_period Int? // em dias 
   created_at       DateTime @default(now())
@@ -116,8 +97,8 @@ model Species {
 
 model Breeds {
   id             Int      @id @default(autoincrement())
-  name           String   @db.VarChar(200)
-  description    String   @db.Text
+  name           String
+  description    String
   species_id     Int
   average_weight Float? // em KG
   productivity   String? // (ex. leiteira, corte, tração)
@@ -125,7 +106,7 @@ model Breeds {
   updated_at     DateTime @updatedAt
 
   // Relações 
-  species Species   @relation(fields: [species_id], references: [id], onDelete: Cascade)
+  species Species   @relation(fields: [species_id], references: [id], onDelete: NoAction)
   animal  Animals[]
 
   @@index([species_id])
@@ -133,21 +114,21 @@ model Breeds {
 
 model Vaccines {
   id                 Int      @id @default(autoincrement())
-  name               String   @db.VarChar(200)
-  target_disease     String   @db.VarChar(200)
+  name               String
+  target_disease     String
   manufacturer_id    Int
-  batch              String   @db.VarChar(200)
+  batch              String
   expiration_date    DateTime
   required_doses     Int
   dosing_interval    Int?     @default(0) // Em dias
   type_of_vaccine_id Int
-  notes              String   @db.VarChar(200)
+  notes              String
   created_at         DateTime @default(now())
   updated_at         DateTime @updatedAt
 
   // Relações
-  manufacturer    Manufacturers     @relation(fields: [manufacturer_id], references: [id], onDelete: Cascade)
-  type_of_vaccine Types_of_Vaccines @relation(fields: [type_of_vaccine_id], references: [id], onDelete: Cascade)
+  manufacturer    Manufacturers     @relation(fields: [manufacturer_id], references: [id], onDelete: NoAction)
+  type_of_vaccine Types_of_Vaccines @relation(fields: [type_of_vaccine_id], references: [id], onDelete: NoAction)
   applications    Applications[]
 
   @@index([manufacturer_id])
@@ -156,13 +137,13 @@ model Vaccines {
 
 model Manufacturers {
   id             Int      @id @default(autoincrement())
-  name           String   @db.VarChar(200)
-  cnpj           String   @unique @db.VarChar(200)
-  email          String   @unique @db.VarChar(250)
-  phone          String   @db.VarChar(15)
-  address        String   @db.VarChar(200)
-  country        String   @db.VarChar(200)
-  license_number String   @db.VarChar(200)
+  name           String
+  cnpj           String   @unique
+  email          String   @unique
+  phone          String
+  address        String
+  country        String
+  license_number String
   created_at     DateTime @default(now())
   updated_at     DateTime @updatedAt
 
@@ -172,8 +153,8 @@ model Manufacturers {
 
 model Types_of_Vaccines {
   id          Int    @id @default(autoincrement())
-  name        String @db.VarChar(200)
-  description String? @db.Text
+  name        String
+  description String?
 
   // Relaçoes 
   vaccines Vaccines[]
@@ -186,14 +167,14 @@ model Applications {
   veterinary_id              Int
   application_date           DateTime
   next_application_date      DateTime?
-  status_vaccine_application Status_Vaccine_Applications
+  status_vaccine_application String
   created_at                 DateTime                    @default(now())
   updated_at                 DateTime                    @updatedAt
 
   // Relações
-  animal     Animals       @relation(fields: [animal_id], references: [id], onDelete: Cascade)
-  vaccine    Vaccines      @relation(fields: [vaccine_id], references: [id], onDelete: Cascade)
-  veterinary Veterinarians @relation(fields: [veterinary_id], references: [id], onDelete: Cascade)
+  animal     Animals       @relation(fields: [animal_id], references: [id], onDelete: NoAction)
+  vaccine    Vaccines      @relation(fields: [vaccine_id], references: [id], onDelete: NoAction)
+  veterinary Veterinarians @relation(fields: [veterinary_id], references: [id], onUpdate: NoAction, onDelete: NoAction)
 
   @@index([animal_id])
   @@index([vaccine_id])
@@ -211,7 +192,7 @@ model Locations {
   updated_at  DateTime @updatedAt
 
   // Relações 
-  animal Animals @relation(fields: [animal_id], references: [id], onDelete: Cascade)
+  animal Animals @relation(fields: [animal_id], references: [id], onDelete: NoAction)
 
   @@index([animal_id])
   @@index([captured_at])
