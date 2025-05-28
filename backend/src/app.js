@@ -21,19 +21,6 @@ app.use(cors({
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
-// Middleware para responder manualmente a OPTIONS (pré-vôo)
-app.use((req, res, next) => {
-    const origin = req.headers.origin;
-    if (req.method === 'OPTIONS' && allowedOrigins.includes(origin)) {
-        res.header('Access-Control-Allow-Origin', origin);
-        res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
-        res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-        res.header('Access-Control-Allow-Credentials', 'true');
-        return res.sendStatus(204);
-    }
-    next();
-});
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
