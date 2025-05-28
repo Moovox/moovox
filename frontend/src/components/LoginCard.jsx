@@ -17,7 +17,7 @@ function LoginCard() {
         setLoading(true);
         setError("");
         try {
-            const res = await fetch(`${import.meta.env.VITE_API_URL}/api/login`, {
+            const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/login`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 credentials: "include",
@@ -25,7 +25,6 @@ function LoginCard() {
             });
             if (!res.ok) throw new Error("Credenciais inválidas");
             const data = await res.json();
-            // O backend retorna { token, user }, mas só precisamos do token
             login(data.token);
             navigate("/dashboard");
         } catch (err) {
