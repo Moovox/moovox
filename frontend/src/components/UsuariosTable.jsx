@@ -3,17 +3,17 @@ import { Table, TableHeader, TableBody, TableHead, TableRow, TableCell } from '.
 import { Input } from './ui/input';
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from './ui/select';
 import { Button } from './ui/button';
-import { Pencil, Trash2 } from 'lucide-react';
+import { Pencil, Trash2, Loader2 } from 'lucide-react';
 
 const tipos = [
     { value: 'all', label: 'Todos os tipos' },
-    { value: 'fazendeiro', label: 'Fazendeiro' },
-    { value: 'veterinario', label: 'Veterinário' },
-    { value: 'funcionario', label: 'Funcionário' },
+    { value: 'farmer', label: 'Fazendeiro' },
+    { value: 'veterinary', label: 'Veterinário' },
+    { value: 'farmhand', label: 'Funcionário' },
     { value: 'admin', label: 'Admin' },
 ];
 
-function UsuariosTable({ usuarios }) {
+function UsuariosTable({ usuarios, loading }) {
     const [busca, setBusca] = useState('');
     const [tipo, setTipo] = useState('all');
 
@@ -23,25 +23,31 @@ function UsuariosTable({ usuarios }) {
     );
 
     return (
-        <div className="flex flex-col gap-6 p-4">
-            <div className="flex flex-col md:flex-row gap-3 mb-2">
-                <Input
-                    placeholder="Pesquisar por nome ou email..."
-                    value={busca}
-                    onChange={e => setBusca(e.target.value)}
-                    className="md:w-1/3"
-                />
-                <Select value={tipo} onValueChange={setTipo}>
-                    <SelectTrigger className="md:w-48">
-                        <SelectValue placeholder="Todos os tipos" />
-                    </SelectTrigger>
-                    <SelectContent>
-                        {tipos.map(t => (
-                            <SelectItem key={t.value} value={t.value}>{t.label}</SelectItem>
-                        ))}
-                    </SelectContent>
-                </Select>
+        <div className="space-y-4">
+            <div className="flex gap-4">
+                <div className="flex-1">
+                    <Input
+                        placeholder="Buscar por nome, email ou ID..."
+                        value={busca}
+                        onChange={(e) => setBusca(e.target.value)}
+                    />
+                </div>
+                <div className="w-[200px]">
+                    <Select value={tipo} onValueChange={setTipo}>
+                        <SelectTrigger>
+                            <SelectValue placeholder="Filtrar por tipo" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            {tipos.map((t) => (
+                                <SelectItem key={t.value} value={t.value}>
+                                    {t.label}
+                                </SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
+                </div>
             </div>
+
             <div className="rounded-xl border bg-white/80 shadow-sm overflow-x-auto">
                 <Table>
                     <TableHeader>
@@ -54,24 +60,38 @@ function UsuariosTable({ usuarios }) {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {usuariosFiltrados.length === 0 ? (
+                        {loading ? (
                             <TableRow>
-                                <TableCell colSpan={5} className="text-center text-muted-foreground py-8">Nenhum usuário encontrado.</TableCell>
+                                <TableCell colSpan={5} className="h-24 text-center">
+                                    <div className="flex items-center justify-center">
+                                        <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+                                    </div>
+                                </TableCell>
+                            </TableRow>
+                        ) : usuariosFiltrados.length === 0 ? (
+                            <TableRow>
+                                <TableCell colSpan={5} className="text-center text-muted-foreground py-8">
+                                    Nenhum usuário encontrado.
+                                </TableCell>
                             </TableRow>
                         ) : (
-                            usuariosFiltrados.map(usuario => (
-                                <TableRow key={usuario.id} className="hover:bg-[#F6E3B3]/60">
+                            usuariosFiltrados.map((usuario) => (
+                                <TableRow key={usuario.id}>
                                     <TableCell>{usuario.id}</TableCell>
-                                    <TableCell className="font-medium">{usuario.nome}</TableCell>
+                                    <TableCell>{usuario.nome}</TableCell>
                                     <TableCell>{usuario.email}</TableCell>
-                                    <TableCell className="capitalize">{usuario.tipo}</TableCell>
-                                    <TableCell className="flex gap-2 justify-center">
-                                        <Button size="icon" variant="ghost" className="text-primary hover:bg-primary/10">
-                                            <Pencil className="w-4 h-4" />
-                                        </Button>
-                                        <Button size="icon" variant="ghost" className="text-destructive hover:bg-destructive/10">
-                                            <Trash2 className="w-4 h-4" />
-                                        </Button>
+                                    <TableCell>
+                                        {tipos.find(t => t.value === usuario.tipo)?.label || usuario.tipo}
+                                    </TableCell>
+                                    <TableCell>
+                                        <div className="flex justify-center gap-2">
+                                            <Button variant="ghost" size="icon">
+                                                <Pencil className="h-4 w-4" />
+                                            </Button>
+                                            <Button variant="ghost" size="icon">
+                                                <Trash2 className="h-4 w-4" />
+                                            </Button>
+                                        </div>
                                     </TableCell>
                                 </TableRow>
                             ))

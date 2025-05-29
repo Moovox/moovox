@@ -1,8 +1,16 @@
-const {Router} = require('express'); 
+const { Router } = require('express'); 
 const router = Router(); 
 const { authMiddleware } = require('../../middlewares/auth/index'); 
 const animalController = require('../../controllers/animal'); 
 
-router.get('/', authMiddleware, animalController.getAllAnimals); 
+// Todas as rotas precisam de autenticação
+router.use(authMiddleware);
+
+// Rotas para animais
+router.get('/', animalController.listarAnimais);
+router.get('/:id', animalController.buscarAnimalPorId);
+router.post('/', animalController.criarAnimal);
+router.put('/:id', animalController.atualizarAnimal);
+router.delete('/:id', animalController.excluirAnimal);
 
 module.exports = router; 
