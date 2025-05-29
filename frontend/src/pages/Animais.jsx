@@ -1,6 +1,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import MainLayout from '../components/MainLayout';
+import AnimaisTable from '../components/AnimaisTable';
 
 function Animais() {
     return (
@@ -10,7 +11,7 @@ function Animais() {
                 <meta name='description' content='Gestão de Animais' />
             </Helmet>
             <MainLayout title="Animais">
-                <p className="text-gray-800">Página de gestão de animais.</p>
+                <AnimaisTable />
             </MainLayout>
         </>
     );
