@@ -6,6 +6,8 @@ const routes = require('./routes')
 
 const app = express(); 
 
+
+
 app.use(express.urlencoded({extended: true})); 
 app.use(express.json()); 
 app.use(cors({
@@ -14,6 +16,16 @@ app.use(cors({
     allowedHeaders:['Content-Type', 'Authorization'],
 }));
 
+app.use((err, req, res, next) => {
+    if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
+        return res.status(400).json({
+            status: 'error',
+            message: 'O corpo da requisição está em formato JSON inválido.'
+        });
+    }
+
+    next(err); // Passa para outros middlewares se não for erro de JSON
+});
 
 app.use('/api', routes); 
 
