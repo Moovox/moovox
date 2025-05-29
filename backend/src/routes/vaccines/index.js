@@ -4,5 +4,6 @@ const { authMiddleware } = require('../../middlewares/auth/index');
 const vaccineController = require('../../controllers/vaccine'); 
 
 router.get('/', authMiddleware, vaccineController.getAllVaccines);
+router.get('/:id', authMiddleware, vaccineController.getVaccineByID);
 
 module.exports = router; 
