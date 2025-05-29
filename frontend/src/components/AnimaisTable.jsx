@@ -10,7 +10,8 @@ import { useToast } from './ui/use-toast';
 const especies = [
     { value: 'all', label: 'Todas as espécies' },
     { value: 'bovino', label: 'Bovino' },
-    { value: 'suino', label: 'Suíno' },
+    { value: 'suíno', label: 'Suíno' },
+    { value: 'ave', label: 'Ave' },
     { value: 'caprino', label: 'Caprino' },
     { value: 'ovino', label: 'Ovino' },
 ];
@@ -47,7 +48,6 @@ function AnimaisTable() {
             try {
                 await animaisService.excluirAnimal(id);
                 toast({
-                    variant: "success",
                     title: "Animal excluído",
                     description: "O animal foi excluído com sucesso."
                 });
@@ -67,7 +67,7 @@ function AnimaisTable() {
         ((a.identificacao.toLowerCase().includes(busca.toLowerCase()) || 
           a.nome?.toLowerCase().includes(busca.toLowerCase()) || 
           a.id.toString().includes(busca))) &&
-        (especie === 'all' || a.especie === especie)
+        (especie === 'all' || a.especie.toLowerCase() === especie.toLowerCase())
     );
 
     return (
@@ -78,10 +78,10 @@ function AnimaisTable() {
                         placeholder="Pesquisar por identificação ou nome..."
                         value={busca}
                         onChange={e => setBusca(e.target.value)}
-                        className="md:w-64"
+                        className="md:w-64 bg-white/80"
                     />
                     <Select value={especie} onValueChange={setEspecie}>
-                        <SelectTrigger className="md:w-48">
+                        <SelectTrigger className="md:w-48 bg-white/80">
                             <SelectValue placeholder="Todas as espécies" />
                         </SelectTrigger>
                         <SelectContent>
@@ -91,7 +91,7 @@ function AnimaisTable() {
                         </SelectContent>
                     </Select>
                 </div>
-                <Button className="bg-primary hover:bg-primary/90">
+                <Button className="bg-[#4e2e13] hover:bg-[#4e2e13]/90 text-white">
                     <Plus className="w-4 h-4 mr-2" />
                     Novo Animal
                 </Button>
@@ -99,7 +99,7 @@ function AnimaisTable() {
             <div className="rounded-xl border bg-white/80 shadow-sm overflow-x-auto">
                 <Table>
                     <TableHeader>
-                        <TableRow>
+                        <TableRow className="hover:bg-[#F6E3B3]/60">
                             <TableHead className="w-12">ID</TableHead>
                             <TableHead>Identificação</TableHead>
                             <TableHead>Nome</TableHead>
@@ -129,10 +129,15 @@ function AnimaisTable() {
                                     <TableCell className="font-medium">{animal.identificacao}</TableCell>
                                     <TableCell>{animal.nome || '-'}</TableCell>
                                     <TableCell className="capitalize">{animal.especie}</TableCell>
-                                    <TableCell>{new Date(animal.dataNascimento).toLocaleDateString()}</TableCell>
+                                    <TableCell>{new Date(animal.dataNascimento).toLocaleDateString('pt-BR')}</TableCell>
                                     <TableCell>{animal.peso}</TableCell>
                                     <TableCell className="flex gap-2 justify-center">
-                                        <Button size="icon" variant="ghost" className="text-primary hover:bg-primary/10">
+                                        <Button 
+                                            size="icon" 
+                                            variant="ghost" 
+                                            className="text-primary hover:bg-primary/10"
+                                            title="Editar"
+                                        >
                                             <Pencil className="w-4 h-4" />
                                         </Button>
                                         <Button 
@@ -140,6 +145,7 @@ function AnimaisTable() {
                                             variant="ghost" 
                                             className="text-destructive hover:bg-destructive/10"
                                             onClick={() => handleExcluir(animal.id)}
+                                            title="Excluir"
                                         >
                                             <Trash2 className="w-4 h-4" />
                                         </Button>

@@ -8,20 +8,22 @@ const authService = {
     async login(data) {
         try {
             const user = await prisma.users.findUnique({ where: { email: data.email } });
-            if (!user) throw new Error("Usuário não encontrado.");
-
+            
+            if (!user) {
+                throw new Error("Usuário não encontrado.");
+            }
+            
             const isPasswordValid = await bcrypt.compare(data.password, user.password);
-            if (!isPasswordValid) throw new Error("Email ou senha inválidos.");
-
+            
+            if (!isPasswordValid) {
+                throw new Error("Email ou senha inválidos.");
+            }
+            
             const token = jwt.sign({ id: user.id, role: user.role }, JWT_SECRET, { expiresIn: "1d" });
 
             return { token: token, user: { id: user.id, email: user.email, role: user.role } };
         } catch (error) {
-            console.log("Erro ao processar login do usuário no service" + error);
-            throw new Error(error.message);
-
-
-
+            throw error;
         }
     }
 }

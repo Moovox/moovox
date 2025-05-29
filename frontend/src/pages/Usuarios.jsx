@@ -13,14 +13,8 @@ function Usuarios() {
     useEffect(() => {
         const carregarUsuarios = async () => {
             try {
-                const response = await usuariosService.listarUsuarios();
-                const usuariosFormatados = response.data.map(user => ({
-                    id: user.id,
-                    nome: user.name,
-                    email: user.email,
-                    tipo: user.role
-                }));
-                setUsuarios(usuariosFormatados);
+                const data = await usuariosService.listarUsuarios();
+                setUsuarios(data);
             } catch (error) {
                 console.error('Erro ao carregar usuários:', error);
                 toast({
@@ -42,7 +36,8 @@ function Usuarios() {
                 <title>Moovox | Usuários</title>
                 <meta name='description' content='Gestão de Usuários' />
             </Helmet>
-            <MainLayout title="Usuários">
+            <MainLayout title="Usuários" className="min-h-screen bg-gradient-to-br from-[#fff8f0] via-[#f9e7c2] to-[#bfa77a]">
+                <div className="mt-6 md:mt-8 lg:mt-10" />
                 <UsuariosTable usuarios={usuarios} loading={loading} />
             </MainLayout>
         </>

@@ -1,5 +1,17 @@
 const prisma = require('../../config/database');
 
+// Mapeamento de tradução de espécies
+const traduzirEspecie = (especie) => {
+    const traducoes = {
+        'swine': 'suíno',
+        'poultry': 'ave',
+        'cattle': 'bovino',
+        'sheep': 'ovino',
+        'goat': 'caprino'
+    };
+    return traducoes[especie.toLowerCase()] || especie;
+};
+
 const animalService = {
     async getAllAnimals(farmId) {
         try {
@@ -34,7 +46,7 @@ const animalService = {
                 id: animal.id,
                 identificacao: `${animal.species.name.substring(0, 3).toUpperCase()}-${animal.id.toString().padStart(3, '0')}`,
                 nome: animal.name,
-                especie: animal.species.name.toLowerCase(),
+                especie: traduzirEspecie(animal.species.name),
                 dataNascimento: animal.birth_date,
                 peso: animal.weight,
                 raca: animal.breed.name,
@@ -67,7 +79,7 @@ const animalService = {
                 id: animal.id,
                 identificacao: `${animal.species.name.substring(0, 3).toUpperCase()}-${animal.id.toString().padStart(3, '0')}`,
                 nome: animal.name,
-                especie: animal.species.name.toLowerCase(),
+                especie: traduzirEspecie(animal.species.name),
                 dataNascimento: animal.birth_date,
                 peso: animal.weight,
                 raca: animal.breed.name,
@@ -101,7 +113,7 @@ const animalService = {
                 id: animal.id,
                 identificacao: `${animal.species.name.substring(0, 3).toUpperCase()}-${animal.id.toString().padStart(3, '0')}`,
                 nome: animal.name,
-                especie: animal.species.name.toLowerCase(),
+                especie: traduzirEspecie(animal.species.name),
                 dataNascimento: animal.birth_date,
                 peso: animal.weight,
                 raca: animal.breed.name,
@@ -137,7 +149,7 @@ const animalService = {
                 id: animal.id,
                 identificacao: `${animal.species.name.substring(0, 3).toUpperCase()}-${animal.id.toString().padStart(3, '0')}`,
                 nome: animal.name,
-                especie: animal.species.name.toLowerCase(),
+                especie: traduzirEspecie(animal.species.name),
                 dataNascimento: animal.birth_date,
                 peso: animal.weight,
                 raca: animal.breed.name,

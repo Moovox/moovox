@@ -3,38 +3,39 @@ import { Table, TableHeader, TableBody, TableHead, TableRow, TableCell } from '.
 import { Input } from './ui/input';
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from './ui/select';
 import { Button } from './ui/button';
-import { Pencil, Trash2, Loader2 } from 'lucide-react';
+import { Pencil, Trash2, Loader2, Plus } from 'lucide-react';
 
 const tipos = [
     { value: 'all', label: 'Todos os tipos' },
-    { value: 'farmer', label: 'Fazendeiro' },
-    { value: 'veterinary', label: 'Veterinário' },
-    { value: 'farmhand', label: 'Funcionário' },
-    { value: 'admin', label: 'Admin' },
+    { value: 'Administrador', label: 'Administrador' },
+    { value: 'Fazendeiro', label: 'Fazendeiro' },
+    { value: 'Funcionário', label: 'Funcionário' },
+    { value: 'Veterinário', label: 'Veterinário' },
 ];
 
 function UsuariosTable({ usuarios, loading }) {
     const [busca, setBusca] = useState('');
     const [tipo, setTipo] = useState('all');
 
-    const usuariosFiltrados = usuarios.filter(u =>
-        ((u.nome.toLowerCase().includes(busca.toLowerCase()) || u.email.toLowerCase().includes(busca.toLowerCase()) || u.id.toString().includes(busca))) &&
-        (tipo === 'all' || u.tipo === tipo)
-    );
+    const usuariosFiltrados = usuarios?.filter(u =>
+        ((u?.nome?.toLowerCase().includes(busca.toLowerCase()) || 
+          u?.email?.toLowerCase().includes(busca.toLowerCase()) || 
+          u?.id?.toString().includes(busca))) &&
+        (tipo === 'all' || u?.tipo === tipo)
+    ) || [];
 
     return (
-        <div className="space-y-4">
-            <div className="flex gap-4">
-                <div className="flex-1">
+        <div className="flex flex-col gap-6 p-4">
+            <div className="flex flex-col md:flex-row gap-3 mb-2 justify-between">
+                <div className="flex flex-col md:flex-row gap-3">
                     <Input
                         placeholder="Buscar por nome, email ou ID..."
                         value={busca}
                         onChange={(e) => setBusca(e.target.value)}
+                        className="md:w-64 bg-white/80"
                     />
-                </div>
-                <div className="w-[200px]">
                     <Select value={tipo} onValueChange={setTipo}>
-                        <SelectTrigger>
+                        <SelectTrigger className="md:w-48 bg-white/80">
                             <SelectValue placeholder="Filtrar por tipo" />
                         </SelectTrigger>
                         <SelectContent>
@@ -46,12 +47,16 @@ function UsuariosTable({ usuarios, loading }) {
                         </SelectContent>
                     </Select>
                 </div>
+                <Button className="bg-[#4e2e13] hover:bg-[#4e2e13]/90 text-white">
+                    <Plus className="w-4 h-4 mr-2" />
+                    Novo Usuário
+                </Button>
             </div>
 
             <div className="rounded-xl border bg-white/80 shadow-sm overflow-x-auto">
                 <Table>
                     <TableHeader>
-                        <TableRow>
+                        <TableRow className="hover:bg-[#F6E3B3]/60">
                             <TableHead className="w-12">ID</TableHead>
                             <TableHead>Nome</TableHead>
                             <TableHead>Email</TableHead>
@@ -80,16 +85,24 @@ function UsuariosTable({ usuarios, loading }) {
                                     <TableCell>{usuario.id}</TableCell>
                                     <TableCell>{usuario.nome}</TableCell>
                                     <TableCell>{usuario.email}</TableCell>
-                                    <TableCell>
-                                        {tipos.find(t => t.value === usuario.tipo)?.label || usuario.tipo}
-                                    </TableCell>
+                                    <TableCell>{usuario.tipo}</TableCell>
                                     <TableCell>
                                         <div className="flex justify-center gap-2">
-                                            <Button variant="ghost" size="icon">
-                                                <Pencil className="h-4 w-4" />
+                                            <Button 
+                                                size="icon" 
+                                                variant="ghost" 
+                                                className="text-primary hover:bg-primary/10"
+                                                title="Editar"
+                                            >
+                                                <Pencil className="w-4 h-4" />
                                             </Button>
-                                            <Button variant="ghost" size="icon">
-                                                <Trash2 className="h-4 w-4" />
+                                            <Button 
+                                                size="icon" 
+                                                variant="ghost" 
+                                                className="text-destructive hover:bg-destructive/10"
+                                                title="Excluir"
+                                            >
+                                                <Trash2 className="w-4 h-4" />
                                             </Button>
                                         </div>
                                     </TableCell>
