@@ -104,8 +104,8 @@ function Dashboard() {
     }, [user]);
 
     const cardAnimation = {
-        hover: { scale: 1.01 },
-        tap: { scale: 0.99 }
+        hover: { scale: 1.02 },
+        tap: { scale: 0.98}
     };
 
     const mainCards = [
