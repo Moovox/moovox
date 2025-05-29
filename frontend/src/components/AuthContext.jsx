@@ -27,25 +27,29 @@ export function AuthProvider({ children }) {
                 token,
                 role: payload.role,
                 email: payload.email,
-                id: payload.id
+                id: payload.id,
+                farmId: payload.farmId
             });
         }
         setLoading(false);
     }, []);
 
-    const login = (token) => {
+    const login = (token, userData) => {
         localStorage.setItem('token', token);
+        localStorage.setItem('farmId', userData.farmId);
         const payload = parseJwt(token);
         setUser({
             token,
             role: payload.role,
             email: payload.email,
-            id: payload.id
+            id: payload.id,
+            farmId: userData.farmId
         });
     };
 
     const logout = () => {
         localStorage.removeItem('token');
+        localStorage.removeItem('farmId');
         setUser(null);
     };
 

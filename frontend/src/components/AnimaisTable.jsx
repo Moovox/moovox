@@ -7,6 +7,7 @@ import { Pencil, Trash2 } from 'lucide-react';
 import { animaisService } from '../services/animaisService';
 import { useToast } from './ui/use-toast';
 import ModalCadastroAnimal from './ModalCadastroAnimal';
+import ModalEditarAnimal from './ModalEditarAnimal';
 
 const especies = [
     { value: 'all', label: 'Todas as espécies' },
@@ -17,11 +18,20 @@ const especies = [
     { value: 'ovino', label: 'Ovino' },
 ];
 
+const statusMap = {
+    'saudavel': { label: 'Saudável', className: 'text-green-600' },
+    'em_tratamento': { label: 'Em Tratamento', className: 'text-yellow-600' },
+    'em_recuperacao': { label: 'Em Recuperação', className: 'text-blue-600' },
+    'doente': { label: 'Doente', className: 'text-red-600' }
+};
+
 function AnimaisTable() {
     const [busca, setBusca] = useState('');
     const [especie, setEspecie] = useState('all');
     const [animais, setAnimais] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [animalParaEditar, setAnimalParaEditar] = useState(null);
+    const [modalEditarAberto, setModalEditarAberto] = useState(false);
     const { toast } = useToast();
 
     useEffect(() => {
@@ -64,6 +74,11 @@ function AnimaisTable() {
         }
     };
 
+    const handleEditar = (animal) => {
+        setAnimalParaEditar(animal);
+        setModalEditarAberto(true);
+    };
+
     const animaisFiltrados = animais.filter(a =>
         ((a.identificacao.toLowerCase().includes(busca.toLowerCase()) || 
           a.nome?.toLowerCase().includes(busca.toLowerCase()) || 
@@ -104,19 +119,20 @@ function AnimaisTable() {
                             <TableHead>Espécie</TableHead>
                             <TableHead>Data Nasc.</TableHead>
                             <TableHead>Peso (kg)</TableHead>
+                            <TableHead>Estado</TableHead>
                             <TableHead className="w-28 text-center">Ações</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
                         {loading ? (
                             <TableRow>
-                                <TableCell colSpan={7} className="text-center text-muted-foreground py-8">
+                                <TableCell colSpan={8} className="text-center text-muted-foreground py-8">
                                     Carregando...
                                 </TableCell>
                             </TableRow>
                         ) : animaisFiltrados.length === 0 ? (
                             <TableRow>
-                                <TableCell colSpan={7} className="text-center text-muted-foreground py-8">
+                                <TableCell colSpan={8} className="text-center text-muted-foreground py-8">
                                     Nenhum animal encontrado.
                                 </TableCell>
                             </TableRow>
@@ -129,11 +145,17 @@ function AnimaisTable() {
                                     <TableCell className="capitalize">{animal.especie}</TableCell>
                                     <TableCell>{new Date(animal.dataNascimento).toLocaleDateString('pt-BR')}</TableCell>
                                     <TableCell>{animal.peso}</TableCell>
+                                    <TableCell>
+                                        <span className={`font-medium ${statusMap[animal.status]?.className || 'text-gray-600'}`}>
+                                            {statusMap[animal.status]?.label || animal.status}
+                                        </span>
+                                    </TableCell>
                                     <TableCell className="flex gap-2 justify-center">
                                         <Button 
                                             size="icon" 
                                             variant="ghost" 
                                             className="text-primary hover:bg-primary/10"
+                                            onClick={() => handleEditar(animal)}
                                             title="Editar"
                                         >
                                             <Pencil className="w-4 h-4" />
@@ -154,6 +176,13 @@ function AnimaisTable() {
                     </TableBody>
                 </Table>
             </div>
+
+            <ModalEditarAnimal 
+                animal={animalParaEditar}
+                open={modalEditarAberto}
+                onOpenChange={setModalEditarAberto}
+                onSuccess={carregarAnimais}
+            />
         </div>
     );
 }

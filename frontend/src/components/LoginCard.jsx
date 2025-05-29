@@ -19,8 +19,8 @@ function LoginCard() {
         setLoading(true);
         
         try {
-            const data = await authService.login({ email, password });
-            login(data.token);
+            const { token, user } = await authService.login({ email, password });
+            login(token, user);
             navigate("/dashboard");
         } catch (error) {
             console.error('Erro ao fazer login:', error);
@@ -49,52 +49,46 @@ function LoginCard() {
                 <p className="text-sm text-gray-600 mb-6 font-poppins">
                     Gestão inteligente de animais no campo
                 </p>
-                <form className="space-y-4 text-left w-full" onSubmit={handleSubmit}>
-                    <div>
-                        <label htmlFor="email" className="block font-poppins text-base text-gray-700 mb-1">E-mail</label>
-                        <div className="flex bg-green-100 items-center border border-gray-300 rounded-xl pl-3">
-                            <Mail className="w-4 h-4 text-gray-700 mr-2" />
-                            <input
-                                id="email"
-                                type="email"
-                                autoComplete="email"
-                                placeholder="Digite seu e-mail"
-                                className="w-full font-poppins py-2 text-sm outline-none bg-transparent focus:ring-2 focus:ring-blue-400 focus:border-blue-400 rounded-e-xl"
-                                value={email}
-                                onChange={e => setEmail(e.target.value)}
-                                required
-                            />
-                        </div>
+
+                <form onSubmit={handleSubmit} className="w-full space-y-4">
+                    <div className="relative">
+                        <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+                        <input
+                            type="email"
+                            placeholder="Email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            required
+                            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-green-500"
+                        />
                     </div>
-                    <div>
-                        <label htmlFor="password" className="block font-poppins text-base text-gray-700 mb-1">Senha</label>
-                        <div className="flex bg-green-100 items-center border border-gray-300 rounded-xl pl-3">
-                            <Lock className="w-4 h-4 text-gray-700 mr-2" />
-                            <input
-                                id="password"
-                                type="password"
-                                autoComplete="current-password"
-                                placeholder="Digite sua senha"
-                                className="w-full font-poppins py-2 text-sm outline-none bg-transparent focus:ring-2 focus:ring-blue-400 focus:border-blue-400 rounded-e-xl"
-                                value={password}
-                                onChange={e => setPassword(e.target.value)}
-                                required
-                            />
-                        </div>
+
+                    <div className="relative">
+                        <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+                        <input
+                            type="password"
+                            placeholder="Senha"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
+                            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-green-500"
+                        />
                     </div>
+
                     <Button
                         type="submit"
-                        className="w-full font-poppins font-bold bg-green-600 text-white p-[5px] rounded-xl hover:bg-green-700 transition"
                         disabled={loading}
+                        className="w-full bg-[#4e2e13] hover:bg-[#4e2e13]/90 text-white"
                     >
                         {loading ? "Entrando..." : "Entrar"}
                     </Button>
                 </form>
+
                 <Link
                     to="/forgot-pass"
-                    className="block text-sm text-green-600 mt-4 hover:underline font-poppins"
+                    className="mt-4 text-sm text-gray-600 hover:text-[#4e2e13] transition-colors"
                 >
-                    Esqueci minha senha
+                    Esqueceu sua senha?
                 </Link>
             </div>
         </div>

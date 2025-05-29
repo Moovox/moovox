@@ -26,6 +26,7 @@ function authMiddleware(req, res, next) {
         req.user = {
             id: decoded.id,
             role: decoded.role,
+            farmId: decoded.farmId,
             iat: decoded.iat,
             exp: decoded.exp
         };

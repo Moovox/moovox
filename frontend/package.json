@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@hookform/resolvers": "^5.0.1",
     "@lucide/lab": "^0.1.2",
     "@radix-ui/react-dialog": "^1.1.14",
     "@radix-ui/react-label": "^2.1.7",
@@ -25,8 +24,7 @@
     "react-helmet-async": "^2.0.5",
     "react-hook-form": "^7.56.4",
     "react-router-dom": "^7.6.0",
-    "tailwind-merge": "^3.3.0",
-    "zod": "^3.24.4"
+    "tailwind-merge": "^3.3.0"
   },
   "scripts": {
     "start": "vite",

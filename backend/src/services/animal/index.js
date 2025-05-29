@@ -127,6 +127,18 @@ const animalService = {
 
     async updateAnimal(id, data) {
         try {
+            // Primeiro verifica se o animal existe e pertence à fazenda correta
+            const existingAnimal = await prisma.animals.findFirst({
+                where: {
+                    id: parseInt(id),
+                    farm_id: data.farmId
+                }
+            });
+
+            if (!existingAnimal) {
+                throw new Error("Animal não encontrado ou não pertence à fazenda especificada");
+            }
+
             const animal = await prisma.animals.update({
                 where: {
                     id: parseInt(id)
@@ -137,7 +149,8 @@ const animalService = {
                     breed_id: parseInt(data.racaId),
                     birth_date: new Date(data.dataNascimento),
                     weight: parseFloat(data.peso),
-                    health_status: data.status
+                    health_status: data.status,
+                    farm_id: data.farmId // Mantém o mesmo farmId
                 },
                 include: {
                     species: true,

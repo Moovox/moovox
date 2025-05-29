@@ -2,6 +2,15 @@ import React from 'react';
 import { Input } from './ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import FormModal from './ui/form-modal';
+import { userService } from '../services/userService';
+import { useToast } from './ui/use-toast';
+
+const tipoToRole = {
+    'Administrador': 'ADMIN',
+    'Fazendeiro': 'FARMER',
+    'Funcionário': 'FARMHAND',
+    'Veterinário': 'VETERINARY'
+};
 
 const tipos = [
     { value: 'Administrador', label: 'Administrador' },
@@ -10,15 +19,51 @@ const tipos = [
     { value: 'Veterinário', label: 'Veterinário' },
 ];
 
-function ModalCadastroUsuario() {
+const initialFormData = {
+    nome: '',
+    email: '',
+    tipo: '',
+    senha: '',
+    confirmarSenha: ''
+};
+
+function ModalCadastroUsuario({ onSuccess }) {
     const [open, setOpen] = React.useState(false);
-    const [formData, setFormData] = React.useState({
-        nome: '',
-        email: '',
-        tipo: '',
-        senha: '',
-        confirmarSenha: ''
-    });
+    const [loading, setLoading] = React.useState(false);
+    const [formData, setFormData] = React.useState(initialFormData);
+    const [errors, setErrors] = React.useState({});
+    const { toast } = useToast();
+
+    const validateForm = () => {
+        const newErrors = {};
+
+        if (!formData.nome?.trim()) {
+            newErrors.nome = 'Nome é obrigatório';
+        }
+
+        if (!formData.email?.trim()) {
+            newErrors.email = 'Email é obrigatório';
+        } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+            newErrors.email = 'Email inválido';
+        }
+
+        if (!formData.tipo) {
+            newErrors.tipo = 'Tipo de usuário é obrigatório';
+        }
+
+        if (!formData.senha) {
+            newErrors.senha = 'Senha é obrigatória';
+        } else if (formData.senha.length < 6) {
+            newErrors.senha = 'A senha deve ter no mínimo 6 caracteres';
+        }
+
+        if (formData.senha !== formData.confirmarSenha) {
+            newErrors.confirmarSenha = 'As senhas não coincidem';
+        }
+
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -26,95 +71,170 @@ function ModalCadastroUsuario() {
             ...prev,
             [name]: value
         }));
+        // Limpa o erro do campo quando o usuário começa a digitar
+        if (errors[name]) {
+            setErrors(prev => ({
+                ...prev,
+                [name]: ''
+            }));
+        }
     };
 
-    const handleSubmit = (e) => {
+    const handleSelectChange = (value) => {
+        setFormData(prev => ({
+            ...prev,
+            tipo: value
+        }));
+        if (errors.tipo) {
+            setErrors(prev => ({
+                ...prev,
+                tipo: ''
+            }));
+        }
+    };
+
+    const resetForm = () => {
+        setFormData(initialFormData);
+        setErrors({});
+    };
+
+    const handleOpenChange = (newOpen) => {
+        setOpen(newOpen);
+        if (!newOpen) {
+            resetForm();
+        }
+    };
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // TODO: Implementar a lógica de cadastro
-        console.log('Dados do formulário:', formData);
-        setOpen(false);
-    };
+        
+        if (!validateForm()) {
+            return;
+        }
 
-    const formFields = (
-        <>
-            <div className="space-y-2">
-                <label className="text-sm font-medium text-[#4e2e13]">Nome</label>
-                <Input
-                    name="nome"
-                    value={formData.nome}
-                    onChange={handleChange}
-                    placeholder="Digite o nome completo"
-                    className="border-[#e5e0d8] focus:border-[#4e2e13] focus:ring-0"
-                    required
-                />
-            </div>
-            <div className="space-y-2">
-                <label className="text-sm font-medium text-[#4e2e13]">Email</label>
-                <Input
-                    name="email"
-                    type="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    placeholder="Digite o email"
-                    className="border-[#e5e0d8] focus:border-[#4e2e13] focus:ring-0"
-                    required
-                />
-            </div>
-            <div className="space-y-2">
-                <label className="text-sm font-medium text-[#4e2e13]">Tipo de Usuário</label>
-                <Select
-                    value={formData.tipo}
-                    onValueChange={(value) => setFormData(prev => ({ ...prev, tipo: value }))}
-                    required
-                >
-                    <SelectTrigger className="border-[#e5e0d8] focus:border-[#4e2e13] focus:ring-0">
-                        <SelectValue placeholder="Selecione o tipo" />
-                    </SelectTrigger>
-                    <SelectContent>
-                        {tipos.map((tipo) => (
-                            <SelectItem key={tipo.value} value={tipo.value}>
-                                {tipo.label}
-                            </SelectItem>
-                        ))}
-                    </SelectContent>
-                </Select>
-            </div>
-            <div className="space-y-2">
-                <label className="text-sm font-medium text-[#4e2e13]">Senha</label>
-                <Input
-                    name="senha"
-                    type="password"
-                    value={formData.senha}
-                    onChange={handleChange}
-                    placeholder="Digite a senha"
-                    className="border-[#e5e0d8] focus:border-[#4e2e13] focus:ring-0"
-                    required
-                />
-            </div>
-            <div className="space-y-2">
-                <label className="text-sm font-medium text-[#4e2e13]">Confirmar Senha</label>
-                <Input
-                    name="confirmarSenha"
-                    type="password"
-                    value={formData.confirmarSenha}
-                    onChange={handleChange}
-                    placeholder="Confirme a senha"
-                    className="border-[#e5e0d8] focus:border-[#4e2e13] focus:ring-0"
-                    required
-                />
-            </div>
-        </>
-    );
+        setLoading(true);
+        try {
+            const farmId = parseInt(localStorage.getItem('farmId'), 10);
+            if (!farmId || isNaN(farmId)) {
+                throw new Error('ID da fazenda não encontrado ou inválido');
+            }
+
+            const userData = {
+                name: formData.nome,
+                email: formData.email,
+                password: formData.senha,
+                role: tipoToRole[formData.tipo],
+                farmId
+            };
+
+            const response = await userService.createUser(userData);
+            console.log('Resposta do cadastro:', response);
+            
+            toast({
+                title: "Sucesso",
+                description: "Usuário cadastrado com sucesso!",
+                variant: "default"
+            });
+            
+            handleOpenChange(false);
+            if (onSuccess) {
+                onSuccess();
+            }
+        } catch (error) {
+            console.error('Erro completo:', error);
+            
+            toast({
+                title: "Erro ao cadastrar usuário",
+                description: error.message || 'Ocorreu um erro ao cadastrar o usuário',
+                variant: "destructive"
+            });
+        } finally {
+            setLoading(false);
+        }
+    };
 
     return (
         <FormModal
             title="Cadastrar Novo Usuário"
             triggerText="Novo Usuário"
             open={open}
-            onOpenChange={setOpen}
+            onOpenChange={handleOpenChange}
             onSubmit={handleSubmit}
+            loading={loading}
         >
-            {formFields}
+            <div className="space-y-4">
+                <div className="space-y-2">
+                    <label className="text-sm font-medium text-[#4e2e13]">Nome</label>
+                    <Input
+                        name="nome"
+                        value={formData.nome || ''}
+                        onChange={handleChange}
+                        placeholder="Digite o nome completo"
+                        className={`border-[#e5e0d8] focus:border-[#4e2e13] focus:ring-0 ${errors.nome ? 'border-red-500' : ''}`}
+                        required
+                    />
+                    {errors.nome && <span className="text-xs text-red-500">{errors.nome}</span>}
+                </div>
+                <div className="space-y-2">
+                    <label className="text-sm font-medium text-[#4e2e13]">Email</label>
+                    <Input
+                        name="email"
+                        type="email"
+                        value={formData.email || ''}
+                        onChange={handleChange}
+                        placeholder="Digite o email"
+                        className={`border-[#e5e0d8] focus:border-[#4e2e13] focus:ring-0 ${errors.email ? 'border-red-500' : ''}`}
+                        required
+                    />
+                    {errors.email && <span className="text-xs text-red-500">{errors.email}</span>}
+                </div>
+                <div className="space-y-2">
+                    <label className="text-sm font-medium text-[#4e2e13]">Tipo de Usuário</label>
+                    <Select
+                        value={formData.tipo || ''}
+                        onValueChange={handleSelectChange}
+                        required
+                    >
+                        <SelectTrigger className={`border-[#e5e0d8] focus:border-[#4e2e13] focus:ring-0 ${errors.tipo ? 'border-red-500' : ''}`}>
+                            <SelectValue placeholder="Selecione o tipo" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            {tipos.map((tipo) => (
+                                <SelectItem key={tipo.value} value={tipo.value}>
+                                    {tipo.label}
+                                </SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
+                    {errors.tipo && <span className="text-xs text-red-500">{errors.tipo}</span>}
+                </div>
+                <div className="space-y-2">
+                    <label className="text-sm font-medium text-[#4e2e13]">Senha</label>
+                    <Input
+                        name="senha"
+                        type="password"
+                        value={formData.senha || ''}
+                        onChange={handleChange}
+                        placeholder="Digite a senha"
+                        className={`border-[#e5e0d8] focus:border-[#4e2e13] focus:ring-0 ${errors.senha ? 'border-red-500' : ''}`}
+                        required
+                    />
+                    {errors.senha && <span className="text-xs text-red-500">{errors.senha}</span>}
+                </div>
+                <div className="space-y-2">
+                    <label className="text-sm font-medium text-[#4e2e13]">Confirmar Senha</label>
+                    <Input
+                        name="confirmarSenha"
+                        type="password"
+                        value={formData.confirmarSenha || ''}
+                        onChange={handleChange}
+                        placeholder="Confirme a senha"
+                        className={`border-[#e5e0d8] focus:border-[#4e2e13] focus:ring-0 ${errors.confirmarSenha ? 'border-red-500' : ''}`}
+                        required
+                    />
+                    {errors.confirmarSenha && <span className="text-xs text-red-500">{errors.confirmarSenha}</span>}
+                </div>
+            </div>
         </FormModal>
     );
 }
