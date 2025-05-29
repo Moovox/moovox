@@ -24,6 +24,29 @@ const userService = {
             throw error;
         }
     },
+    async getUserByID(id) {
+        try {
+            const user = await prisma.users.findUnique({
+                where: { id: Number(id) },
+                include: {
+                    farm: {
+                        select: {
+                            id: true,
+                            name: true
+                        }
+                    }
+                }
+            });
+            if (!user) {
+                throw new Error(`Usuário com ID ${id} não encontrado.`);
+            }
+            return user;
+        } catch (error) {
+            console.error(`Erro ao buscar usuário com ID ${id}`, error);
+            throw error;
+
+        }
+    }
 }
 
 module.exports = userService;
