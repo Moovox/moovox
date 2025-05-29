@@ -13,6 +13,7 @@ import { cn } from '../../lib/utils';
  *   icon?: React.ReactNode,
  *   subtitle?: React.ReactNode,
  *   extra?: React.ReactNode,
+ *   children?: React.ReactNode,
  *   tabIndex?: number,
  *   role?: string,
  * }} props
@@ -26,6 +27,7 @@ function Card({
   icon,
   subtitle,
   extra,
+  children,
   tabIndex,
   role,
   ...props
@@ -42,10 +44,9 @@ function Card({
   };
 
   const cardClass = cn(
-    'rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-[1.025]',
+    'rounded-2xl shadow-lg p-4',
     variants[variant] || variants.default,
-    className,
-    'group relative overflow-hidden'
+    className
   );
 
   return (
@@ -55,26 +56,29 @@ function Card({
       role={role}
       {...props}
     >
-      <div className="relative z-10 flex flex-col justify-around items-center h-full min-h-[100px]">
+      <div className="flex flex-col h-full">
         {/* Header do card: ícone e título */}
         {(icon || title) && (
-          <div className="flex items-center justify-center sm:ml-2 gap-3 mb-2">
+          <div className="flex items-center gap-3 mb-4">
             {icon && (
-              <span>{icon}</span>
+              <div className="flex-shrink-0">{icon}</div>
             )}
             {title && (
-              <span className="font-poppins font-semibold sm:text-sm md:text-base xl:text-xl">{title}</span>
+              <h3 className="font-poppins font-semibold text-lg">{title}</h3>
             )}
           </div>
         )}
+
         {/* Valor principal do card */}
-        {value && (
-          <span className="font-poppins font-bold text-xl md:text-2xl">{value}</span>
+        {value !== undefined && (
+          <div className="flex justify-center items-center flex-grow">
+            <span className="font-poppins font-bold text-3xl">{value}</span>
+          </div>
         )}
-        {/* Conteúdo extra (ex: lista, imagem, etc) */}
-        {extra && (
-          <div className="mt-2">{extra}</div>
-        )}
+
+        {/* Conteúdo extra ou children */}
+        {extra && <div className="mt-4">{extra}</div>}
+        {children && <div className="mt-4">{children}</div>}
       </div>
     </Component>
   );
@@ -89,6 +93,7 @@ Card.propTypes = {
   icon: PropTypes.node,
   subtitle: PropTypes.node,
   extra: PropTypes.node,
+  children: PropTypes.node,
   tabIndex: PropTypes.number,
   role: PropTypes.string,
 };

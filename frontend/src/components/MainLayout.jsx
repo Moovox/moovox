@@ -5,6 +5,7 @@ import Sidebar from './Sidebar';
 import { Menu } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useAuth } from './AuthContext';
+import { cn } from '../lib/utils';
 
 /**
  * Layout principal da aplicação, com sidebar e header animado.
@@ -12,9 +13,10 @@ import { useAuth } from './AuthContext';
  *
  * @param {string} title - Título exibido no header
  * @param {React.ReactNode} children - Conteúdo da página
+ * @param {string} className - Classes adicionais para o container principal
  */
 
-const MainLayout = ({ title = '', children }) => {
+const MainLayout = ({ title = '', children, className }) => {
     // Estado para controlar expansão do sidebar
     const [isDesktop, setIsDesktop] = useState(() => typeof window !== 'undefined' && window.innerWidth >= 1024);
     const [isSidebarExpanded, setIsSidebarExpanded] = useState(() => (typeof window !== 'undefined' && window.innerWidth >= 1024));
@@ -43,7 +45,10 @@ const MainLayout = ({ title = '', children }) => {
     const handleSidebarToggle = () => setIsSidebarExpanded((prev) => !prev);
 
     // Classe de transição para o conteúdo
-    const contentClass = `transition-all duration-300 ${showContent ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`;
+    const contentClass = cn(
+        'transition-all duration-300',
+        showContent ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+    );
 
     return (
         <div className="flex w-full">
@@ -55,12 +60,16 @@ const MainLayout = ({ title = '', children }) => {
                 userType={userType}
             />
             <main
-                className={`w-full transition-all duration-200 ease-in-out ${!isSidebarExpanded ? 'max-w-full' : ''}`}
+                className={cn(
+                    'w-full transition-all duration-200 ease-in-out',
+                    !isSidebarExpanded ? 'max-w-full' : '',
+                    className
+                )}
                 style={!isSidebarExpanded ? { marginLeft: 0, width: '100%' } : {}}
             >
                 <Header title={title} onMenuClick={handleSidebarToggle} />
                 {/* Conteúdo principal com animação */}
-                <div className={contentClass}>{children}</div>
+                <div className={cn(contentClass, 'px-4')}>{children}</div>
             </main>
         </div>
     );
@@ -69,7 +78,7 @@ const MainLayout = ({ title = '', children }) => {
 // Header separado para clareza
 function Header({ title, onMenuClick }) {
     return (
-        <header className="flex items-center px-2 py-3 bg-transparent shadow-none">
+        <header className="flex items-center px-6 py-3 bg-transparent shadow-none">
             <motion.button
                 onClick={onMenuClick}
                 aria-label="Abrir menu lateral"
@@ -94,6 +103,7 @@ Header.propTypes = {
 MainLayout.propTypes = {
     title: PropTypes.string,
     children: PropTypes.node,
+    className: PropTypes.string,
 };
 
 export default MainLayout;

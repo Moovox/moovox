@@ -3,7 +3,8 @@ import { Table, TableHeader, TableBody, TableHead, TableRow, TableCell } from '.
 import { Input } from './ui/input';
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from './ui/select';
 import { Button } from './ui/button';
-import { Pencil, Trash2, Loader2, Plus } from 'lucide-react';
+import { Pencil, Trash2, Loader2 } from 'lucide-react';
+import ModalCadastroUsuario from './ModalCadastroUsuario';
 
 const tipos = [
     { value: 'all', label: 'Todos os tipos' },
@@ -47,10 +48,7 @@ function UsuariosTable({ usuarios, loading }) {
                         </SelectContent>
                     </Select>
                 </div>
-                <Button className="bg-[#4e2e13] hover:bg-[#4e2e13]/90 text-white">
-                    <Plus className="w-4 h-4 mr-2" />
-                    Novo Usuário
-                </Button>
+                <ModalCadastroUsuario />
             </div>
 
             <div className="rounded-xl border bg-white/80 shadow-sm overflow-x-auto">
