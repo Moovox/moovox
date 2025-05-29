@@ -1,0 +1,42 @@
+/* Estilo para scrollbar personalizada */
+.custom-scrollbar::-webkit-scrollbar {
+    width: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.3);
+}
+
+/* Animações suaves */
+.card-transition {
+    transition: all 0.3s ease;
+}
+
+.card-transition:hover {
+    transform: translateY(-2px);
+}
+
+/* Estilos para os cards */
+.dashboard-card {
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Estilos para os ícones */
+.dashboard-icon {
+    transition: transform 0.2s ease;
+}
+
+.dashboard-card:hover .dashboard-icon {
+    transform: scale(1.1);
+} 

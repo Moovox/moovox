@@ -1,21 +1,16 @@
-const { Router } = require('express');
-const router = Router();
-const { authMiddleware } = require('../../middlewares/auth/index');
-const animalController = require('../../controllers/animal');
+const { Router } = require('express'); 
+const router = Router(); 
+const { authMiddleware } = require('../../middlewares/auth/index'); 
+const animalController = require('../../controllers/animal'); 
 
-// Listar todos os animais
-router.get('/', authMiddleware, animalController.getAllAnimals);
+// Todas as rotas precisam de autenticação
+router.use(authMiddleware);
 
-// Buscar animal por ID
-router.get('/:id', authMiddleware, animalController.getAnimalById);
-
-// Criar novo animal
-router.post('/', authMiddleware, animalController.createAnimal);
-
-// Atualizar animal
-router.put('/:id', authMiddleware, animalController.updateAnimal);
-
-// Excluir animal
-router.delete('/:id', authMiddleware, animalController.deleteAnimal);
+// Rotas para animais
+router.get('/', animalController.listarAnimais);
+router.get('/:id', animalController.buscarAnimalPorId);
+router.post('/', animalController.criarAnimal);
+router.put('/:id', animalController.atualizarAnimal);
+router.delete('/:id', animalController.excluirAnimal);
 
 module.exports = router; 

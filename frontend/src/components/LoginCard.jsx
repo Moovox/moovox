@@ -3,31 +3,32 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
 import { useAuth } from "./AuthContext";
 import { useState } from "react";
+import { authService } from "../services/authService";
+import { useToast } from "./ui/use-toast";
 
 function LoginCard() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);
     const { login } = useAuth();
     const navigate = useNavigate();
-    const [loading, setLoading] = useState(false);
+    const { toast } = useToast();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-        setError("");
+        
         try {
-            const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/login`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ email, password })
-            });
-            if (!res.ok) throw new Error("Credenciais inválidas");
-            const data = await res.json();
+            const data = await authService.login({ email, password });
             login(data.token);
             navigate("/dashboard");
-        } catch (err) {
-            setError(err.message || "Erro ao fazer login");
+        } catch (error) {
+            console.error('Erro ao fazer login:', error);
+            toast({
+                variant: "destructive",
+                title: "Erro ao fazer login",
+                description: error.response?.data?.message || "Credenciais inválidas"
+            });
         } finally {
             setLoading(false);
         }
@@ -81,7 +82,6 @@ function LoginCard() {
                             />
                         </div>
                     </div>
-                    {error && <div className="text-red-600 text-sm font-poppins">{error}</div>}
                     <Button
                         type="submit"
                         className="w-full font-poppins font-bold bg-green-600 text-white p-[5px] rounded-xl hover:bg-green-700 transition"

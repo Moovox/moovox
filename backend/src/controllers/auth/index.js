@@ -1,6 +1,5 @@
 const authService = require('../../services/auth'); 
 
-
 const authController = { 
     async login(req,res) {
         try {
@@ -11,7 +10,6 @@ const authController = {
             // Retornar para o cliente um status 201 e informando a criação do token
             res.status(201).json(user); 
         } catch (error) {
-            console.log("Usuário não autorizado" + error); 
             res.status(401).json({message: "Usuário não autorizado" , error: error.message});
         }
     }
