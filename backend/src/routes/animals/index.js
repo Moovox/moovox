@@ -7,5 +7,6 @@ router.get('/', authMiddleware, animalController.getAllAnimals);
 router.get('/:id', authMiddleware, animalController.getAnimalByID);
 router.post('/',authMiddleware,animalController.createAnimal);
 router.put('/:id',authMiddleware,animalController.updateAnimal);
+router.delete('/:id',authMiddleware,animalController.deleteAnimal);
 
 module.exports = router; 

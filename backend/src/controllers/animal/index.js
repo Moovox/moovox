@@ -51,11 +51,11 @@ const animalController = {
     },
     async createAnimal(req, res) {
         try {
-            const newAnimal = await animalService.createAnimal(req.body); 
+            const newAnimal = await animalService.createAnimal(req.body);
             res.status(201).json({
-                status: 'success', 
+                status: 'success',
                 data: newAnimal
-            }); 
+            });
         } catch (error) {
             const error_message = error.message.toLowerCase();
 
@@ -76,7 +76,7 @@ const animalController = {
                 message: 'Ocorreu um problema ao criar o animal. Por favor, tente novamente mais tarde.'
             });
         }
-    }, 
+    },
     async updateAnimal(req, res) {
         try {
             const { id } = req.params;
@@ -105,6 +105,31 @@ const animalController = {
             res.status(500).json({
                 status: 'error',
                 message: 'Ocorreu um problema ao atualizar o animal. Por favor, tente novamente mais tarde.'
+            });
+        }
+    },
+    async deleteAnimal(req, res) {
+        try {
+            const { id } = req.params;
+            const result = await animalService.deleteAnimal(id);
+
+            res.status(200).json({
+                status: 'success',
+                message: result.message
+            });
+        } catch (error) {
+            const error_message = error.message.toLowerCase();
+
+            if (error_message.includes('não encontrado')) {
+                return res.status(404).json({
+                    status: 'error',
+                    message: error.message
+                });
+            }
+
+            res.status(500).json({
+                status: 'error',
+                message: 'Ocorreu um problema ao deletar o animal. Por favor, tente novamente mais tarde.'
             });
         }
     }
