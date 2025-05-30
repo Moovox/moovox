@@ -391,6 +391,39 @@ function DetalheFazenda({ fazenda, onReturn }) {
     const [usuarios, setUsuarios] = useState([]);
     const [activeTab, setActiveTab] = useState('estatisticas');
     const { toast } = useToast();
+    
+    // Dados para demonstração - em um ambiente real, viriam do banco de dados
+    const dadosSustentabilidade = {
+        areaPreservacao: Math.round(fazenda.size * 0.2), // 20% de área de preservação
+        fontesRenovaveis: ["Solar", "Biodigestor"],
+        certificacoes: ["Orgânico", "Bem-estar animal"],
+        praticasSustentaveis: [
+            "Rotação de pastagens",
+            "Compostagem de resíduos",
+            "Captação de água da chuva",
+            "Controle biológico de pragas"
+        ]
+    };
+    
+    const dadosProducao = {
+        producaoLeiteira: fazenda.size > 10 ? `${Math.round(fazenda.size * 50)} litros/dia` : "N/A",
+        produtosDerivados: ["Leite", "Queijo", "Carne"],
+        cultivos: ["Milho", "Soja", "Pastagem"],
+        ciclosProducao: [
+            { periodo: "Jan-Mar", atividade: "Plantio de milho" },
+            { periodo: "Abr-Jun", atividade: "Colheita e armazenamento" },
+            { periodo: "Jul-Set", atividade: "Manejo de pastagem" },
+            { periodo: "Out-Dez", atividade: "Reprodução animal" }
+        ]
+    };
+    
+    const historicoAtividades = [
+        { data: "20/05/2025", atividade: "Vacinação em massa", responsavel: "Dr. Carlos Silva" },
+        { data: "15/05/2025", atividade: "Manutenção de cercas", responsavel: "Equipe de campo" },
+        { data: "10/05/2025", atividade: "Inseminação artificial", responsavel: "Técnico João" },
+        { data: "05/05/2025", atividade: "Entrega de ração", responsavel: "Fornecedor" },
+        { data: "01/05/2025", atividade: "Controle sanitário", responsavel: "Equipe veterinária" }
+    ];
 
     useEffect(() => {
         const carregarDados = async () => {
@@ -452,6 +485,22 @@ function DetalheFazenda({ fazenda, onReturn }) {
         );
     }
 
+    // Componente de mapa estático simplificado (simulado)
+    const MapaEstatico = () => (
+        <div className="relative w-full h-[200px] bg-amber-50 rounded-lg overflow-hidden border border-amber-200">
+            <div className="absolute inset-0 bg-gradient-to-br from-green-100 to-amber-100 opacity-70"></div>
+            <div className="absolute inset-0 flex items-center justify-center">
+                <div className="bg-white p-2 rounded-lg shadow-md border border-amber-200">
+                    <Building2 className="w-8 h-8 text-amber-700" />
+                    <div className="text-xs font-medium text-center mt-1">{fazenda.name}</div>
+                </div>
+            </div>
+            <div className="absolute bottom-2 right-2 text-xs bg-white px-2 py-1 rounded shadow border border-amber-100">
+                Localização: {fazenda.location}
+            </div>
+        </div>
+    );
+
     return (
         <div>
             <div className="flex items-center justify-between mb-6">
@@ -471,8 +520,16 @@ function DetalheFazenda({ fazenda, onReturn }) {
                 </Button>
             </div>
 
-            <div className="bg-white rounded-lg border border-amber-100 shadow-md overflow-hidden">
-                <div className="flex border-b border-amber-100">
+            {/* Descrição da fazenda, se existir */}
+            {fazenda.description && (
+                <div className="mb-6 bg-amber-50/60 p-4 rounded-lg border border-amber-100">
+                    <h3 className="text-lg font-semibold text-amber-800 mb-2">Sobre a fazenda</h3>
+                    <p className="text-amber-700">{fazenda.description}</p>
+                </div>
+            )}
+
+            <div className="bg-white rounded-lg border border-amber-100 shadow-md overflow-hidden mb-6">
+                <div className="flex flex-wrap border-b border-amber-100">
                     <button
                         className={`px-4 py-3 font-medium text-sm focus:outline-none transition-colors ${activeTab === 'estatisticas'
                                 ? 'bg-amber-50 text-amber-900 border-b-2 border-amber-500'
@@ -481,6 +538,33 @@ function DetalheFazenda({ fazenda, onReturn }) {
                         onClick={() => setActiveTab('estatisticas')}
                     >
                         Estatísticas
+                    </button>
+                    <button
+                        className={`px-4 py-3 font-medium text-sm focus:outline-none transition-colors ${activeTab === 'sustentabilidade'
+                                ? 'bg-amber-50 text-amber-900 border-b-2 border-amber-500'
+                                : 'text-amber-700 hover:bg-amber-50/50'
+                            }`}
+                        onClick={() => setActiveTab('sustentabilidade')}
+                    >
+                        Sustentabilidade
+                    </button>
+                    <button
+                        className={`px-4 py-3 font-medium text-sm focus:outline-none transition-colors ${activeTab === 'producao'
+                                ? 'bg-amber-50 text-amber-900 border-b-2 border-amber-500'
+                                : 'text-amber-700 hover:bg-amber-50/50'
+                            }`}
+                        onClick={() => setActiveTab('producao')}
+                    >
+                        Produção
+                    </button>
+                    <button
+                        className={`px-4 py-3 font-medium text-sm focus:outline-none transition-colors ${activeTab === 'atividades'
+                                ? 'bg-amber-50 text-amber-900 border-b-2 border-amber-500'
+                                : 'text-amber-700 hover:bg-amber-50/50'
+                            }`}
+                        onClick={() => setActiveTab('atividades')}
+                    >
+                        Histórico
                     </button>
                     <button
                         className={`px-4 py-3 font-medium text-sm focus:outline-none transition-colors ${activeTab === 'animais'
@@ -566,7 +650,158 @@ function DetalheFazenda({ fazenda, onReturn }) {
                                     </CardContent>
                                 </Card>
                             )}
+                            
+                            <Card variant="rural" className="shadow-sm md:col-span-2 lg:col-span-3">
+                                <CardHeader>
+                                    <CardTitle>Localização</CardTitle>
+                                </CardHeader>
+                                <CardContent>
+                                    <MapaEstatico />
+                                </CardContent>
+                            </Card>
                         </div>
+                    )}
+                    
+                    {activeTab === 'sustentabilidade' && (
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <Card variant="rural" className="shadow-sm">
+                                <CardHeader>
+                                    <CardTitle>Práticas Sustentáveis</CardTitle>
+                                </CardHeader>
+                                <CardContent>
+                                    <ul className="space-y-2 list-disc list-inside text-amber-800">
+                                        {dadosSustentabilidade.praticasSustentaveis.map((pratica, index) => (
+                                            <li key={index}>{pratica}</li>
+                                        ))}
+                                    </ul>
+                                </CardContent>
+                            </Card>
+                            
+                            <Card variant="verde" className="shadow-sm">
+                                <CardHeader>
+                                    <CardTitle>Fontes Renováveis</CardTitle>
+                                </CardHeader>
+                                <CardContent>
+                                    <div className="space-y-4">
+                                        <div className="flex justify-between items-center">
+                                            <span className="text-white">Área de Preservação:</span>
+                                            <span className="font-medium bg-green-700 text-white px-2 py-1 rounded-full text-xs">
+                                                {dadosSustentabilidade.areaPreservacao} hectares
+                                            </span>
+                                        </div>
+                                        <div>
+                                            <span className="text-white block mb-2">Energias utilizadas:</span>
+                                            <div className="flex flex-wrap gap-2">
+                                                {dadosSustentabilidade.fontesRenovaveis.map((fonte, index) => (
+                                                    <span key={index} className="bg-green-700 text-white px-2 py-1 rounded-full text-xs">
+                                                        {fonte}
+                                                    </span>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </CardContent>
+                            </Card>
+                            
+                            <Card variant="palha" className="shadow-sm md:col-span-2">
+                                <CardHeader>
+                                    <CardTitle>Certificações</CardTitle>
+                                </CardHeader>
+                                <CardContent>
+                                    <div className="flex flex-wrap gap-3">
+                                        {dadosSustentabilidade.certificacoes.map((certificacao, index) => (
+                                            <div key={index} className="flex items-center gap-2 bg-amber-100 border border-amber-200 px-3 py-2 rounded-lg">
+                                                <Check className="text-green-600 w-5 h-5" />
+                                                <span className="text-amber-800 font-medium">{certificacao}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </CardContent>
+                            </Card>
+                        </div>
+                    )}
+                    
+                    {activeTab === 'producao' && (
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <Card variant="rural" className="shadow-sm">
+                                <CardHeader>
+                                    <CardTitle>Produção Principal</CardTitle>
+                                </CardHeader>
+                                <CardContent>
+                                    <div className="space-y-3">
+                                        <div className="flex justify-between">
+                                            <span className="text-amber-800">Produção Leiteira:</span>
+                                            <span className="font-medium">{dadosProducao.producaoLeiteira}</span>
+                                        </div>
+                                        <div>
+                                            <span className="text-amber-800 block mb-2">Produtos:</span>
+                                            <div className="flex flex-wrap gap-2">
+                                                {dadosProducao.produtosDerivados.map((produto, index) => (
+                                                    <span key={index} className="bg-amber-100 text-amber-800 px-2 py-1 rounded-full text-xs border border-amber-200">
+                                                        {produto}
+                                                    </span>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </CardContent>
+                            </Card>
+                            
+                            <Card variant="palha" className="shadow-sm">
+                                <CardHeader>
+                                    <CardTitle>Cultivos</CardTitle>
+                                </CardHeader>
+                                <CardContent>
+                                    <div className="grid grid-cols-2 gap-2">
+                                        {dadosProducao.cultivos.map((cultivo, index) => (
+                                            <div key={index} className="bg-amber-50 border border-amber-200 p-2 rounded text-center">
+                                                <span className="text-amber-800">{cultivo}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </CardContent>
+                            </Card>
+                            
+                            <Card variant="rural" className="shadow-sm md:col-span-2">
+                                <CardHeader>
+                                    <CardTitle>Ciclos de Produção</CardTitle>
+                                </CardHeader>
+                                <CardContent>
+                                    <div className="grid grid-cols-1 md:grid-cols-4 gap-2">
+                                        {dadosProducao.ciclosProducao.map((ciclo, index) => (
+                                            <div key={index} className="bg-amber-50 border border-amber-200 p-3 rounded">
+                                                <span className="block text-amber-700 font-semibold text-sm">{ciclo.periodo}</span>
+                                                <span className="block text-amber-900">{ciclo.atividade}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </CardContent>
+                            </Card>
+                        </div>
+                    )}
+                    
+                    {activeTab === 'atividades' && (
+                        <Card variant="rural" className="shadow-sm">
+                            <CardHeader>
+                                <CardTitle>Histórico de Atividades</CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                                <div className="space-y-4">
+                                    {historicoAtividades.map((atividade, index) => (
+                                        <div key={index} className="flex items-start gap-3 pb-3 border-b border-amber-100 last:border-0">
+                                            <div className="bg-amber-100 p-2 rounded-lg border border-amber-200 text-center min-w-[80px]">
+                                                <span className="block text-xs text-amber-700">{atividade.data.split('/')[0]}</span>
+                                                <span className="block text-sm font-medium text-amber-900">{atividade.data.split('/')[1]}/{atividade.data.split('/')[2]}</span>
+                                            </div>
+                                            <div>
+                                                <h4 className="font-medium text-amber-900">{atividade.atividade}</h4>
+                                                <p className="text-sm text-amber-700">Responsável: {atividade.responsavel}</p>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </CardContent>
+                        </Card>
                     )}
 
                     {activeTab === 'animais' && (
@@ -597,9 +832,16 @@ function DetalheFazenda({ fazenda, onReturn }) {
                                                     <TableCell>
                                                         <span className={`px-2 py-1 rounded-full text-xs font-medium ${animal.status === 'saudavel' ? 'bg-green-100 text-green-800' :
                                                                 animal.status === 'doente' ? 'bg-red-100 text-red-800' :
-                                                                    'bg-yellow-100 text-yellow-800'
+                                                                animal.status === 'em_tratamento' ? 'bg-amber-100 text-amber-800' :
+                                                                animal.status === 'em_recuperacao' ? 'bg-blue-100 text-blue-800' :
+                                                                'bg-gray-100 text-gray-800'
                                                             }`}>
-                                                            {animal.status}
+                                                            {animal.status === 'saudavel' ? 'Saudável' :
+                                                                animal.status === 'doente' ? 'Doente' :
+                                                                animal.status === 'em_tratamento' ? 'Em Tratamento' :
+                                                                animal.status === 'em_recuperacao' ? 'Em Recuperação' :
+                                                                animal.status
+                                                            }
                                                         </span>
                                                     </TableCell>
                                                 </TableRow>
@@ -611,6 +853,7 @@ function DetalheFazenda({ fazenda, onReturn }) {
                         </div>
                     )}
 
+                    {/* Manter o código existente para a aba de usuários */}
                     {activeTab === 'usuarios' && (
                         <div>
                             {usuarios.length === 0 ? (
@@ -664,6 +907,14 @@ export default function FazendasPage() {
     const [fazendaSelecionada, setFazendaSelecionada] = useState(null);
     const [loading, setLoading] = useState(true);
     const [loadingExclusao, setLoadingExclusao] = useState(false);
+    const [estatisticasGerais, setEstatisticasGerais] = useState({
+        totalFazendas: 0,
+        totalAnimais: 0,
+        totalUsuarios: 0,
+        areaTotal: 0,
+        maioresPropriedades: []
+    });
+    const [viewMode, setViewMode] = useState('cards'); // 'cards' ou 'table'
     const { user } = useAuth();
     const navigate = useNavigate();
     const { toast } = useToast();
@@ -686,6 +937,34 @@ export default function FazendasPage() {
             setLoading(true);
             const data = await fazendaService.listarFazendas();
             setFazendas(data || []);
+            
+            // Calcular estatísticas gerais
+            if (data && data.length > 0) {
+                const totalAnimais = data.reduce((sum, farm) => sum + (farm.animalCount || 0), 0);
+                const totalUsuarios = data.reduce((sum, farm) => sum + (farm.userCount || 0), 0);
+                const areaTotal = data.reduce((sum, farm) => sum + (Number(farm.size) || 0), 0);
+                
+                // Encontrar as 3 maiores propriedades por área
+                const maioresPropriedades = [...data]
+                    .sort((a, b) => (Number(b.size) || 0) - (Number(a.size) || 0))
+                    .slice(0, 3);
+                
+                setEstatisticasGerais({
+                    totalFazendas: data.length,
+                    totalAnimais,
+                    totalUsuarios,
+                    areaTotal,
+                    maioresPropriedades
+                });
+            } else {
+                setEstatisticasGerais({
+                    totalFazendas: 0,
+                    totalAnimais: 0,
+                    totalUsuarios: 0,
+                    areaTotal: 0,
+                    maioresPropriedades: []
+                });
+            }
         } catch (error) {
             console.error('Erro ao carregar fazendas:', error);
             
@@ -700,6 +979,13 @@ export default function FazendasPage() {
             
             // Se houver erro, definir fazendas como array vazio
             setFazendas([]);
+            setEstatisticasGerais({
+                totalFazendas: 0,
+                totalAnimais: 0,
+                totalUsuarios: 0,
+                areaTotal: 0,
+                maioresPropriedades: []
+            });
         } finally {
             setLoading(false);
         }
@@ -740,6 +1026,9 @@ export default function FazendasPage() {
             // Limpar o estado
             setFazendaParaExcluir(null);
             setModalExclusaoAberto(false);
+            
+            // Atualizar estatísticas após exclusão
+            carregarFazendas();
             
         } catch (error) {
             console.error('Erro detalhado ao excluir fazenda:', error);
@@ -787,6 +1076,86 @@ export default function FazendasPage() {
     const handleVoltarParaLista = () => {
         setFazendaSelecionada(null);
     };
+    
+    const toggleViewMode = () => {
+        setViewMode(prev => prev === 'cards' ? 'table' : 'cards');
+    };
+
+    // Componente de cartão para cada fazenda
+    const FazendaCard = ({ fazenda }) => (
+        <div className="bg-white rounded-xl border border-amber-200 shadow-sm overflow-hidden hover:shadow-md transition-shadow">
+            <div className="border-b border-amber-100 bg-amber-50 p-3">
+                <h3 className="font-semibold text-lg text-amber-900 truncate">{fazenda.name}</h3>
+                <p className="text-amber-700 text-sm">{fazenda.location}</p>
+            </div>
+            <div className="p-4">
+                <div className="space-y-2 mb-4">
+                    <div className="flex justify-between items-center">
+                        <span className="text-amber-800 text-sm">Tamanho:</span>
+                        <span className="font-medium text-sm bg-amber-100 px-2 py-0.5 rounded-full">{fazenda.size} hectares</span>
+                    </div>
+                    {fazenda.animalCount !== undefined && (
+                        <div className="flex justify-between items-center">
+                            <span className="text-amber-800 text-sm">Animais:</span>
+                            <span className="font-medium text-sm">{fazenda.animalCount || 0}</span>
+                        </div>
+                    )}
+                    {fazenda.userCount !== undefined && (
+                        <div className="flex justify-between items-center">
+                            <span className="text-amber-800 text-sm">Usuários:</span>
+                            <span className="font-medium text-sm">{fazenda.userCount || 0}</span>
+                        </div>
+                    )}
+                </div>
+                
+                {fazenda.description && (
+                    <p className="text-amber-600 text-sm mb-4 line-clamp-2">{fazenda.description}</p>
+                )}
+                
+                <div className="flex flex-wrap gap-2 mt-3">
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        className="flex items-center space-x-1 flex-1"
+                        onClick={() => handleVerDetalhesFazenda(fazenda)}
+                    >
+                        <Building2 className="h-3 w-3" />
+                        <span>Detalhes</span>
+                    </Button>
+
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        className="flex items-center space-x-1 flex-1"
+                        onClick={() => handleAbrirEdicao(fazenda)}
+                    >
+                        <Pencil className="h-3 w-3" />
+                        <span>Editar</span>
+                    </Button>
+
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        className="flex items-center space-x-1 flex-1 bg-green-50 hover:bg-green-100 border-green-300 text-green-700"
+                        onClick={() => handleSelecionarFazenda(fazenda)}
+                    >
+                        <Check className="h-3 w-3" />
+                        <span>Selecionar</span>
+                    </Button>
+
+                    <Button
+                        variant="destructive"
+                        size="sm"
+                        className="flex items-center space-x-1 flex-1"
+                        onClick={() => handleAbrirExclusao(fazenda)}
+                    >
+                        <Trash2 className="h-3 w-3" />
+                        <span>Excluir</span>
+                    </Button>
+                </div>
+            </div>
+        </div>
+    );
 
     if (loading) {
         return (
@@ -824,8 +1193,60 @@ export default function FazendasPage() {
                                 />
                             ) : (
                                 <>
-                                    <div className="mb-6">
+                                    {/* Painel de estatísticas */}
+                                    {fazendas.length > 0 && (
+                                        <div className="mb-6 grid grid-cols-2 md:grid-cols-4 gap-4">
+                                            <Card variant="rural" className="shadow-sm">
+                                                <CardContent className="p-4">
+                                                    <div className="flex flex-col items-center text-center">
+                                                        <Building2 className="w-8 h-8 text-amber-700 mb-2" />
+                                                        <h3 className="text-lg font-semibold text-amber-900">{estatisticasGerais.totalFazendas}</h3>
+                                                        <p className="text-amber-700 text-sm">Fazendas Cadastradas</p>
+                                                    </div>
+                                                </CardContent>
+                                            </Card>
+                                            
+                                            <Card variant="palha" className="shadow-sm">
+                                                <CardContent className="p-4">
+                                                    <div className="flex flex-col items-center text-center">
+                                                        <span className="text-2xl font-bold text-amber-800 mb-2">{estatisticasGerais.areaTotal}</span>
+                                                        <p className="text-amber-700 text-sm">Hectares Totais</p>
+                                                    </div>
+                                                </CardContent>
+                                            </Card>
+                                            
+                                            <Card variant="verde" className="shadow-sm">
+                                                <CardContent className="p-4">
+                                                    <div className="flex flex-col items-center text-center">
+                                                        <span className="text-2xl font-bold text-white mb-2">{estatisticasGerais.totalAnimais}</span>
+                                                        <p className="text-white text-sm">Animais Registrados</p>
+                                                    </div>
+                                                </CardContent>
+                                            </Card>
+                                            
+                                            <Card variant="terra" className="shadow-sm">
+                                                <CardContent className="p-4">
+                                                    <div className="flex flex-col items-center text-center">
+                                                        <span className="text-2xl font-bold text-white mb-2">{estatisticasGerais.totalUsuarios}</span>
+                                                        <p className="text-white text-sm">Usuários Vinculados</p>
+                                                    </div>
+                                                </CardContent>
+                                            </Card>
+                                        </div>
+                                    )}
+
+                                    <div className="mb-6 flex justify-between items-center">
                                         <ModalCriacaoFazenda onSuccess={carregarFazendas} />
+                                        
+                                        {fazendas.length > 0 && (
+                                            <Button
+                                                variant="outline"
+                                                onClick={toggleViewMode}
+                                                className="border-amber-300 text-amber-800"
+                                            >
+                                                {viewMode === 'cards' ? 'Visualizar como Tabela' : 'Visualizar como Cards'}
+                                            </Button>
+                                        )}
                                     </div>
 
                                     {fazendas.length === 0 ? (
@@ -833,6 +1254,12 @@ export default function FazendasPage() {
                                             <Building2 className="w-10 h-10 mx-auto text-amber-300 mb-2" />
                                             <p className="text-amber-800">Nenhuma fazenda cadastrada</p>
                                             <p className="text-amber-600 text-sm mt-1">Clique em "Nova Fazenda" para cadastrar</p>
+                                        </div>
+                                    ) : viewMode === 'cards' ? (
+                                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                                            {fazendas.map((fazenda) => (
+                                                <FazendaCard key={fazenda.id} fazenda={fazenda} />
+                                            ))}
                                         </div>
                                     ) : (
                                         <div className="bg-white rounded-lg overflow-hidden border border-amber-100 shadow">

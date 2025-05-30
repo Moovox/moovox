@@ -113,5 +113,44 @@ export const fazendaService = {
     limparFazendaSelecionada: () => {
         localStorage.removeItem('farmId');
         return true;
+    },
+
+    verificarFazendaSelecionada: async () => {
+        try {
+            const farmId = localStorage.getItem('farmId');
+            if (!farmId) {
+                return { valido: false, mensagem: 'Nenhuma fazenda selecionada' };
+            }
+
+            // Tentar buscar a fazenda no servidor
+            const response = await api.get(`/farms/${farmId}`);
+            if (response.data && response.data.data) {
+                return { valido: true, fazenda: response.data.data };
+            } else {
+                // Se não encontrou dados válidos, limpar o localStorage
+                localStorage.removeItem('farmId');
+                return { valido: false, mensagem: 'A fazenda selecionada não existe ou foi removida' };
+            }
+        } catch (error) {
+            console.error('Erro ao verificar fazenda selecionada:', error);
+            
+            // Se o erro for 404, a fazenda não existe
+            if (error.response?.status === 404) {
+                localStorage.removeItem('farmId');
+                return { valido: false, mensagem: 'A fazenda selecionada não existe no sistema' };
+            }
+            
+            // Se o erro for 403, o usuário não tem permissão
+            if (error.response?.status === 403) {
+                return { valido: false, mensagem: 'Você não tem permissão para acessar esta fazenda' };
+            }
+            
+            // Outros erros
+            return { 
+                valido: false, 
+                mensagem: 'Erro ao verificar a fazenda selecionada',
+                erro: error.response?.data?.message || error.message
+            };
+        }
     }
 }; 

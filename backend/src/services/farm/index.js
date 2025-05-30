@@ -12,13 +12,41 @@ const farmService = {
             if (!farms) {
                 return [];
             }
+            
+            // Buscar contagens para todas as fazendas em uma única operação para melhor performance
+            const animalCounts = await prisma.animals.groupBy({
+                by: ['farm_id'],
+                _count: {
+                    id: true
+                }
+            });
+            
+            const userCounts = await prisma.users.groupBy({
+                by: ['farm_id'],
+                _count: {
+                    id: true
+                }
+            });
+            
+            // Criar mapa para rápido acesso às contagens
+            const animalCountMap = animalCounts.reduce((map, item) => {
+                map[item.farm_id] = item._count.id;
+                return map;
+            }, {});
+            
+            const userCountMap = userCounts.reduce((map, item) => {
+                map[item.farm_id] = item._count.id;
+                return map;
+            }, {});
 
             return farms.map(farm => ({
                 id: farm.id,
                 name: farm.name,
                 location: farm.location || '',
                 size: farm.size || 0,
-                description: farm.description || ''
+                description: farm.description || '',
+                animalCount: animalCountMap[farm.id] || 0,
+                userCount: userCountMap[farm.id] || 0
             }));
         } catch (error) {
             console.error("Erro ao buscar fazendas:", error);

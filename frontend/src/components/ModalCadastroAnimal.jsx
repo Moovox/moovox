@@ -4,12 +4,12 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import FormModal from './ui/form-modal';
 import { useToast } from './ui/use-toast';
 import { animaisService } from '../services/animaisService';
+import { fazendaService } from '../services/fazendaService';
 import { useNavigate } from 'react-router-dom';
 import { Alert, AlertDescription, AlertTitle } from './ui/alert';
-import { AlertCircle, Building2 } from 'lucide-react';
+import { AlertCircle, Building2, RefreshCw } from 'lucide-react';
 import { Button } from './ui/button';
 import { useAuth } from './AuthContext';
-import api from '../lib/api';
 
 const status = [
     { value: 'saudavel', label: 'Saudável' },
@@ -27,6 +27,8 @@ function ModalCadastroAnimal({ onSuccess }) {
     const navigate = useNavigate();
     const { user } = useAuth();
     const [farmId, setFarmId] = React.useState(null);
+    const [farmInfo, setFarmInfo] = React.useState(null);
+    const [farmLoading, setFarmLoading] = React.useState(false);
     const [formData, setFormData] = React.useState({
         identificacao: '',
         nome: '',
@@ -37,13 +39,46 @@ function ModalCadastroAnimal({ onSuccess }) {
         status: 'saudavel'
     });
 
+    // Função para buscar a fazenda atual
+    const buscarFazendaAtual = async () => {
+        setFarmLoading(true);
+        try {
+            const resultado = await fazendaService.verificarFazendaSelecionada();
+            
+            if (resultado.valido) {
+                setFarmInfo(resultado.fazenda);
+                setFarmId(resultado.fazenda.id.toString());
+                console.log('Fazenda encontrada:', resultado.fazenda);
+            } else {
+                // Se não for válida, limpar o estado e mostrar mensagem
+                setFarmId(null);
+                setFarmInfo(null);
+                toast({
+                    title: "Fazenda não disponível",
+                    description: resultado.mensagem,
+                    variant: "destructive"
+                });
+            }
+        } catch (error) {
+            console.error('Erro ao buscar fazenda:', error);
+            setFarmId(null);
+            setFarmInfo(null);
+            toast({
+                title: "Erro ao buscar fazenda",
+                description: "Não foi possível verificar a fazenda selecionada. Por favor, selecione outra.",
+                variant: "destructive"
+            });
+        } finally {
+            setFarmLoading(false);
+        }
+    };
+
     useEffect(() => {
         // Carregar espécies ao montar o componente
         setEspecies(animaisService.getEspecies());
         
         // Verificar se existe uma fazenda selecionada
-        const storedFarmId = localStorage.getItem('farmId');
-        setFarmId(storedFarmId);
+        buscarFazendaAtual();
     }, []);
 
     useEffect(() => {
@@ -184,7 +219,7 @@ function ModalCadastroAnimal({ onSuccess }) {
             onSubmit={handleSubmit}
             loading={loading}
         >
-            {!farmId && (
+            {!farmId ? (
                 <Alert variant="destructive" className="mb-4">
                     <AlertCircle className="h-4 w-4" />
                     <AlertTitle>Atenção!</AlertTitle>
@@ -207,6 +242,28 @@ function ModalCadastroAnimal({ onSuccess }) {
                                 Contate um administrador para selecionar uma fazenda para você.
                             </p>
                         )}
+                    </AlertDescription>
+                </Alert>
+            ) : (
+                <Alert variant="info" className="mb-4 bg-amber-50 border-amber-200">
+                    <Building2 className="h-4 w-4 text-amber-800" />
+                    <AlertTitle className="text-amber-800">Fazenda selecionada</AlertTitle>
+                    <AlertDescription className="text-amber-700">
+                        <div className="flex justify-between items-center">
+                            <div>
+                                <p>{farmInfo?.name || `Fazenda ID: ${farmId}`}</p>
+                            </div>
+                            <Button 
+                                variant="outline" 
+                                size="sm" 
+                                className="flex items-center gap-2 border-amber-300 text-amber-800 hover:bg-amber-100"
+                                onClick={buscarFazendaAtual}
+                                disabled={farmLoading}
+                            >
+                                <RefreshCw className={`h-3 w-3 ${farmLoading ? 'animate-spin' : ''}`} />
+                                Atualizar
+                            </Button>
+                        </div>
                     </AlertDescription>
                 </Alert>
             )}
