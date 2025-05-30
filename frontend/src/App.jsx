@@ -7,6 +7,7 @@ import PageLoader from './components/PageLoader';
 import { AuthProvider } from './components/AuthContext';
 import PrivateRoute from './components/PrivateRoute';
 import Toaster from './components/Toaster';
+import ErrorBoundary from './components/ErrorBoundary';
 import './styles/globals.css'
 
 const Dashboard = lazy(() => import('./pages/Dashboard'));
@@ -17,6 +18,15 @@ const Animais = lazy(() => import('./pages/Animais'));
 const Vacinas = lazy(() => import('./pages/Vacinas'));
 const Aplicacoes = lazy(() => import('./pages/Aplicacoes'));
 const MeuPerfil = lazy(() => import('./pages/MeuPerfil'));
+const MapaAnimais = lazy(() => import('./pages/MapaAnimais'));
+const Fazendas = lazy(() => import('./pages/FazendasPage'));
+
+// Envolver MapaAnimais com ErrorBoundary
+const SafeMapaAnimais = () => (
+    <ErrorBoundary>
+        <MapaAnimais />
+    </ErrorBoundary>
+);
 
 const privateRoutes = [
     { path: '/dashboard', element: <Dashboard /> },
@@ -25,6 +35,8 @@ const privateRoutes = [
     { path: '/vacinas', element: <Vacinas /> },
     { path: '/aplicacoes', element: <Aplicacoes /> },
     { path: '/meu-perfil', element: <MeuPerfil /> },
+    { path: '/mapa-animais', element: <SafeMapaAnimais /> },
+    { path: '/fazendas', element: <Fazendas /> },
 ];
 
 export default function App() {

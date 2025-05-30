@@ -2,12 +2,20 @@ import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import MainLayout from '../components/MainLayout';
 import Card from '../components/ui/Card';
-import { Users, Syringe, AlertTriangle, MapPin, Activity, CircleDot } from 'lucide-react';
+import { 
+  User2 as Users, 
+  Syringe, 
+  AlertTriangle, 
+  MapPin, 
+  Activity, 
+  CircleDot 
+} from 'lucide-react';
 import { dashboardService } from '../services/dashboardService';
 import { useToast } from '../components/ui/use-toast';
 import { useAuth } from '../components/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import SafeAnimalMap from '../components/SafeAnimalMap';
 import '../styles/dashboard.css';
 
 function Dashboard() {
@@ -168,7 +176,7 @@ function Dashboard() {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.5 }}
-                            className="space-y-8 overflow-hidden"
+                            className="space-y-8 overflow-hidden pb-10 mb-6"
                         >
                             {/* Cards principais */}
                             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 overflow-visible">
@@ -233,18 +241,20 @@ function Dashboard() {
 
                             {/* Mapa e Telemetria */}
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 overflow-visible">
-                                <motion.div whileHover={cardAnimation.hover} whileTap={cardAnimation.tap}>
+                                <motion.div whileHover={cardAnimation.hover} whileTap={cardAnimation.tap} className="h-full">
                                     <Card
                                         variant="rural"
                                         title="Localização dos Animais"
                                         icon={<MapPin className='text-black w-6 h-6' />}
-                                        className="h-[280px] transform-gpu"
+                                        className="h-full md:h-[400px] transform-gpu overflow-hidden"
                                     >
-                                        <div className="flex items-center justify-center h-full">
-                                            <span className="text-sm text-gray-600">
-                                                Mapa via Google Maps será aplicado aqui futuramente.
-                                            </span>
-                                        </div>
+                                        <SafeAnimalMap 
+                                            exibirFiltros={false}
+                                            altura="300px"
+                                            mapZoom={4}
+                                            titulo={null}
+                                            exibirLegendaInterna={false}
+                                        />
                                     </Card>
                                 </motion.div>
 

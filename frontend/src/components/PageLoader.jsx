@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import React from 'react';
 import { cowHead } from '@lucide/lab';
 import { Icon } from 'lucide-react';
 import PropTypes from 'prop-types';
@@ -19,39 +19,40 @@ const COLOR_MAP = {
   // Adicione mais cores conforme necessário
 };
 
-function PageLoader({ icon, color = 'green-700', className = '' }) {
-    const iconColorClass = COLOR_MAP[color] || color;
-    return (
-        <div
-            className={`fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 ${className}`}
-            role="status"
-            aria-live="polite"
-        >
-            <div className="relative flex items-center justify-center">
-                {/* Pulsos de radar */}
-                <span className="absolute w-32 h-32 rounded-full border-4 border-green-400 opacity-60 animate-pulse-slow" />
-                <span className="absolute w-20 h-20 rounded-full border-2 border-green-300 opacity-40 animate-pulse-medium" />
-                <span className="absolute w-12 h-12 rounded-full border-2 border-green-200 opacity-30 animate-pulse-fast" />
-                {/* Ícone customizável */}
-                <span className="relative z-10 bg-white rounded-full p-4 shadow-lg flex items-center justify-center">
-                    {icon || <Icon iconNode={cowHead} className={`w-12 h-12 ${iconColorClass}`} />}
-                </span>
-                {/* Texto alternativo para leitores de tela */}
-                <span className="sr-only">Carregando...</span>
-            </div>
+function PageLoader({ text, icon, color = 'amber-800', className = '' }) {
+  const iconColorClass = color || "text-amber-800";
+
+  return (
+    <div className={`flex flex-col items-center justify-center h-full min-h-screen bg-gradient-to-br from-[#fff8f0] via-[#f9e7c2] to-[#bfa77a] ${className}`}>
+      <div className="flex flex-col items-center">
+        <div className="animate-bounce mb-6">
+          {icon || <Icon iconNode={cowHead} className={`w-12 h-12 ${iconColorClass}`} />}
         </div>
-    );
+        <div className="text-lg font-semibold text-amber-900">
+          {text || "Carregando..."}
+        </div>
+        <div className="mt-4 flex space-x-2">
+          <div className="w-2 h-2 rounded-full bg-amber-700 animate-pulse"></div>
+          <div className="w-2 h-2 rounded-full bg-amber-700 animate-pulse delay-75"></div>
+          <div className="w-2 h-2 rounded-full bg-amber-700 animate-pulse delay-150"></div>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 PageLoader.propTypes = {
+  text: PropTypes.string,
   icon: PropTypes.node,
-  color: PropTypes.oneOf(Object.keys(COLOR_MAP)),
+  color: PropTypes.string,
   className: PropTypes.string,
 };
 
 PageLoader.defaultProps = {
-  color: 'green-700',
-  className: '',
+  text: "Carregando...",
+  icon: null,
+  color: "text-amber-800",
+  className: "",
 };
 
-export default memo(PageLoader);
+export default PageLoader;

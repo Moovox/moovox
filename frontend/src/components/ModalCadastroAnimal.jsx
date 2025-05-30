@@ -1,17 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Input } from './ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import FormModal from './ui/form-modal';
 import { useToast } from './ui/use-toast';
 import { animaisService } from '../services/animaisService';
-
-const especies = [
-    { value: 'bovino', label: 'Bovino' },
-    { value: 'suíno', label: 'Suíno' },
-    { value: 'ave', label: 'Ave' },
-    { value: 'caprino', label: 'Caprino' },
-    { value: 'ovino', label: 'Ovino' },
-];
+import { useNavigate } from 'react-router-dom';
+import { Alert, AlertDescription, AlertTitle } from './ui/alert';
+import { AlertCircle, Building2 } from 'lucide-react';
+import { Button } from './ui/button';
+import { useAuth } from './AuthContext';
 
 const status = [
     { value: 'saudavel', label: 'Saudável' },
@@ -23,16 +20,39 @@ const status = [
 function ModalCadastroAnimal({ onSuccess }) {
     const [open, setOpen] = React.useState(false);
     const [loading, setLoading] = React.useState(false);
+    const [especies, setEspecies] = React.useState([]);
+    const [racas, setRacas] = React.useState([]);
     const { toast } = useToast();
+    const navigate = useNavigate();
+    const { user } = useAuth();
+    const [farmId, setFarmId] = React.useState(null);
     const [formData, setFormData] = React.useState({
         identificacao: '',
         nome: '',
-        especie: '',
-        raca: '',
+        especieId: '',
+        racaId: '',
         dataNascimento: '',
         peso: '',
-        saude: 'saudavel'
+        status: 'saudavel'
     });
+
+    useEffect(() => {
+        // Carregar espécies ao montar o componente
+        setEspecies(animaisService.getEspecies());
+        
+        // Verificar se existe uma fazenda selecionada
+        const storedFarmId = localStorage.getItem('farmId');
+        setFarmId(storedFarmId);
+    }, []);
+
+    useEffect(() => {
+        // Atualizar raças quando a espécie mudar
+        if (formData.especieId) {
+            setRacas(animaisService.getRacasPorEspecie(formData.especieId));
+        } else {
+            setRacas([]);
+        }
+    }, [formData.especieId]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -45,8 +65,19 @@ function ModalCadastroAnimal({ onSuccess }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         
+        // Verificar se existe uma fazenda selecionada
+        if (!farmId) {
+            toast({
+                title: "Erro",
+                description: "Nenhuma fazenda selecionada. Por favor, selecione uma fazenda primeiro.",
+                variant: "destructive"
+            });
+            setOpen(false);
+            return;
+        }
+        
         // Validação básica
-        if (!formData.identificacao || !formData.especie || !formData.dataNascimento || !formData.peso) {
+        if (!formData.identificacao || !formData.especieId || !formData.racaId || !formData.dataNascimento || !formData.peso) {
             toast({
                 title: "Campos obrigatórios",
                 description: "Por favor, preencha todos os campos obrigatórios",
@@ -57,17 +88,20 @@ function ModalCadastroAnimal({ onSuccess }) {
         
         setLoading(true);
         try {
-            const farmId = parseInt(localStorage.getItem('farmId'), 10);
-            await animaisService.cadastrarAnimal({
-                identificacao: formData.identificacao,
-                nome: formData.nome,
-                especieId: especies.findIndex(e => e.value === formData.especie) + 1,
-                racaId: 1, // Temporário até implementar seleção de raça
+            // Garantir que todos os dados estão no formato correto
+            const animalData = {
+                nome: formData.nome || formData.identificacao, // Usar identificação como nome se nome estiver vazio
+                especieId: parseInt(formData.especieId),
+                racaId: parseInt(formData.racaId),
                 dataNascimento: formData.dataNascimento,
                 peso: parseFloat(formData.peso),
-                status: formData.saude,
-                farmId
-            });
+                status: formData.status,
+                farmId: parseInt(farmId)
+            };
+            
+            console.log('Dados do animal a serem enviados:', animalData);
+            
+            await animaisService.criarAnimal(animalData);
             
             toast({
                 title: "Sucesso",
@@ -91,6 +125,11 @@ function ModalCadastroAnimal({ onSuccess }) {
         }
     };
 
+    const handleNavigateToFazendas = () => {
+        setOpen(false);
+        navigate('/fazendas');
+    };
+
     return (
         <FormModal
             title="Cadastrar Novo Animal"
@@ -100,6 +139,33 @@ function ModalCadastroAnimal({ onSuccess }) {
             onSubmit={handleSubmit}
             loading={loading}
         >
+            {!farmId && (
+                <Alert variant="destructive" className="mb-4">
+                    <AlertCircle className="h-4 w-4" />
+                    <AlertTitle>Atenção!</AlertTitle>
+                    <AlertDescription>
+                        <p>O ID da fazenda é obrigatório para criar um animal.</p>
+                        {user?.role === 'ADMIN' ? (
+                            <div className="mt-2">
+                                <Button 
+                                    variant="outline" 
+                                    size="sm" 
+                                    className="flex items-center gap-2"
+                                    onClick={handleNavigateToFazendas}
+                                >
+                                    <Building2 className="h-4 w-4" />
+                                    Ir para gerenciamento de fazendas
+                                </Button>
+                            </div>
+                        ) : (
+                            <p className="mt-2 text-sm">
+                                Contate um administrador para selecionar uma fazenda para você.
+                            </p>
+                        )}
+                    </AlertDescription>
+                </Alert>
+            )}
+
             <div className="flex flex-col gap-4">
                 <div className="space-y-1.5">
                     <label className="text-sm font-medium text-amber-900">Identificação</label>
@@ -125,8 +191,12 @@ function ModalCadastroAnimal({ onSuccess }) {
                 <div className="space-y-1.5">
                     <label className="text-sm font-medium text-amber-900">Espécie</label>
                     <Select
-                        value={formData.especie}
-                        onValueChange={(value) => setFormData(prev => ({ ...prev, especie: value }))}
+                        value={formData.especieId}
+                        onValueChange={(value) => setFormData(prev => ({ 
+                            ...prev, 
+                            especieId: value,
+                            racaId: '' // Limpar a raça quando trocar a espécie
+                        }))}
                         required
                     >
                         <SelectTrigger className="border-amber-200">
@@ -134,7 +204,7 @@ function ModalCadastroAnimal({ onSuccess }) {
                         </SelectTrigger>
                         <SelectContent>
                             {especies.map((especie) => (
-                                <SelectItem key={especie.value} value={especie.value}>
+                                <SelectItem key={especie.id} value={especie.id.toString()}>
                                     {especie.label}
                                 </SelectItem>
                             ))}
@@ -143,14 +213,23 @@ function ModalCadastroAnimal({ onSuccess }) {
                 </div>
                 <div className="space-y-1.5">
                     <label className="text-sm font-medium text-amber-900">Raça</label>
-                    <Input
-                        name="raca"
-                        value={formData.raca}
-                        onChange={handleChange}
-                        placeholder="Digite a raça"
-                        className="border-amber-200"
+                    <Select
+                        value={formData.racaId}
+                        onValueChange={(value) => setFormData(prev => ({ ...prev, racaId: value }))}
                         required
-                    />
+                        disabled={!formData.especieId}
+                    >
+                        <SelectTrigger className="border-amber-200">
+                            <SelectValue placeholder={formData.especieId ? "Selecione a raça" : "Selecione uma espécie primeiro"} />
+                        </SelectTrigger>
+                        <SelectContent>
+                            {racas.map((raca) => (
+                                <SelectItem key={raca.id} value={raca.id.toString()}>
+                                    {raca.name}
+                                </SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
                 </div>
                 <div className="space-y-1.5">
                     <label className="text-sm font-medium text-amber-900">Data de Nascimento</label>
@@ -179,8 +258,8 @@ function ModalCadastroAnimal({ onSuccess }) {
                 <div className="space-y-1.5">
                     <label className="text-sm font-medium text-amber-900">Estado de Saúde</label>
                     <Select
-                        value={formData.saude}
-                        onValueChange={(value) => setFormData(prev => ({ ...prev, saude: value }))}
+                        value={formData.status}
+                        onValueChange={(value) => setFormData(prev => ({ ...prev, status: value }))}
                         required
                     >
                         <SelectTrigger className="border-amber-200">

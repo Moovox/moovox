@@ -18,17 +18,85 @@ export const animaisService = {
                 throw new Error('ID da fazenda não encontrado. Por favor, faça login novamente.');
             }
 
+            // Garantir que farmId seja um número e que todos os outros campos estejam formatados corretamente
             const animalData = {
-                ...animal,
-                farmId: parseInt(farmId)
+                name: animal.nome, // Backend espera "name" em vez de "nome"
+                species_id: parseInt(animal.especieId),
+                breed_id: parseInt(animal.racaId),
+                birth_date: animal.dataNascimento,
+                weight: parseFloat(animal.peso),
+                health_status: animal.status,
+                farm_id: parseInt(farmId)
             };
 
+            console.log('Enviando para o backend:', animalData);
             const response = await api.post('/animals', animalData);
             return response.data.data;
         } catch (error) {
             console.error('Erro ao criar animal:', error);
             throw error.response?.data || error;
         }
+    },
+
+    // Mapeamento para espécies
+    getEspecies: () => {
+        return [
+            { id: 1, name: "CATTLE", label: "Bovino" },
+            { id: 2, name: "SWINE", label: "Suíno" },
+            { id: 3, name: "EQUINE", label: "Equino" },
+            { id: 4, name: "POULTRY", label: "Ave" },
+            { id: 5, name: "CAPRINE", label: "Caprino" },
+            { id: 6, name: "OVINE", label: "Ovino" }
+        ];
+    },
+
+    // Mapeamento para raças por espécie
+    getRacasPorEspecie: (especieId) => {
+        const racasPorEspecie = {
+            // Bovinos (CATTLE)
+            1: [
+                { id: 1, name: "Angus" },
+                { id: 2, name: "Brahman" },
+                { id: 3, name: "Nelore" },
+                { id: 4, name: "Holstein" }
+            ],
+            // Suínos (SWINE)
+            2: [
+                { id: 5, name: "Pietrain" },
+                { id: 6, name: "Landrace" },
+                { id: 7, name: "Large White" },
+                { id: 8, name: "Duroc" },
+                { id: 9, name: "Moura" }
+            ],
+            // Equinos (EQUINE)
+            3: [
+                { id: 10, name: "Crioulo" },
+                { id: 11, name: "Mangalarga Marchador" },
+                { id: 12, name: "Quarto de Milha" },
+                { id: 13, name: "Percheron" }
+            ],
+            // Aves (POULTRY)
+            4: [
+                { id: 14, name: "Leghorn" },
+                { id: 15, name: "Rhode Island Red" },
+                { id: 16, name: "Plymouth Rock" },
+                { id: 17, name: "Sussex" }
+            ],
+            // Caprinos (CAPRINE)
+            5: [
+                { id: 18, name: "Boer" },
+                { id: 19, name: "Anglo-Nubiana" },
+                { id: 20, name: "Saanen" }
+            ],
+            // Ovinos (OVINE)
+            6: [
+                { id: 21, name: "Suffolk" },
+                { id: 22, name: "Santa Inês" },
+                { id: 23, name: "Dorper" }
+            ]
+        };
+
+        return racasPorEspecie[especieId] || [];
     },
 
     atualizarAnimal: async (id, animal) => {

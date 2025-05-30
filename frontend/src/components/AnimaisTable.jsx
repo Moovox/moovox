@@ -3,12 +3,13 @@ import { Table, TableHeader, TableBody, TableHead, TableRow, TableCell } from '.
 import { Input } from './ui/input';
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from './ui/select';
 import { Button } from './ui/button';
-import { Pencil, Trash2, Loader2 } from 'lucide-react';
+import { Pencil, Trash2, Loader2, Map } from 'lucide-react';
 import { animaisService } from '../services/animaisService';
 import { useToast } from './ui/use-toast';
 import ModalCadastroAnimal from './ModalCadastroAnimal';
 import ModalEditarAnimal from './ModalEditarAnimal';
 import { Pagination } from './ui/pagination';
+import { useNavigate } from 'react-router-dom';
 
 const especies = [
     { value: 'all', label: 'Todas as espécies' },
@@ -27,6 +28,7 @@ const statusMap = {
 };
 
 function AnimaisTable() {
+    const navigate = useNavigate();
     const [busca, setBusca] = useState('');
     const [especie, setEspecie] = useState('all');
     const [animais, setAnimais] = useState([]);
@@ -204,7 +206,16 @@ function AnimaisTable() {
                         </SelectContent>
                     </Select>
                 </div>
-                <ModalCadastroAnimal onSuccess={carregarAnimais} />
+                <div className="flex gap-2">
+                    <Button 
+                        onClick={() => navigate('/mapa-animais')}
+                        className="bg-amber-600 hover:bg-amber-700 text-white"
+                    >
+                        <Map className="w-4 h-4 mr-2" />
+                        Ver no Mapa
+                    </Button>
+                    <ModalCadastroAnimal onSuccess={carregarAnimais} />
+                </div>
             </div>
             <div className="rounded-xl border bg-white shadow-sm overflow-x-auto">
                 <Table>

@@ -1,10 +1,21 @@
 import { memo, useState, useEffect, useMemo, useCallback } from 'react';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, Users, Droplets, Package, User, Icon } from 'lucide-react';
+import { Link, NavLink, useNavigate, useLocation } from 'react-router-dom';
+import { 
+    LayoutDashboard, 
+    User2 as Users, 
+    Droplets, 
+    Package, 
+    User, 
+    Map,
+    Icon,
+    Building2
+} from 'lucide-react';
 import { cowHead } from '@lucide/lab';
 import { motion, AnimatePresence } from 'framer-motion';
 import PropTypes from 'prop-types';
 import LogoutButton from './LogoutButton';
+import { useAuth } from './AuthContext';
+import '../styles/sidebar.css';
 
 // Hook customizado para detectar se é desktop
 function useIsDesktop() {
@@ -100,12 +111,16 @@ const animaisIcon = <Icon iconNode={cowHead} className="mr-2 w-5 h-5" />;
 const vacinasIcon = <Droplets className="mr-2 w-5 h-5" />;
 const aplicacoesIcon = <Package className="mr-2 w-5 h-5" />;
 const perfilIcon = <User className="mr-2 w-5 h-5" />;
+const mapaIcon = <Map className="mr-2 w-5 h-5" />;
+const fazendasIcon = <Building2 className="mr-2 w-5 h-5" />;
 
 // Itens do menu lateral
 const menuItems = [
     { to: '/dashboard', icon: dashboardIcon, label: 'Dashboard' },
-    { to: '/usuarios', icon: usersIcon, label: 'Usuários' },
+    { to: '/usuarios', icon: usersIcon, label: 'Usuários', adminOnly: true },
+    { to: '/fazendas', icon: fazendasIcon, label: 'Fazendas', adminOnly: true },
     { to: '/animais', icon: animaisIcon, label: 'Animais' },
+    { to: '/mapa-animais', icon: mapaIcon, label: 'Mapa de Animais' },
     { to: '/vacinas', icon: vacinasIcon, label: 'Vacinas' },
     { to: '/aplicacoes', icon: aplicacoesIcon, label: 'Aplicações' },
     { to: '/meu-perfil', icon: perfilIcon, label: 'Meu Perfil' },
@@ -119,7 +134,7 @@ function Sidebar({ onToggle, isExpanded, showContent, userType }) {
 
     // Filtra os itens do menu com base no tipo de usuário
     const filteredMenuItems = useMemo(() =>
-        menuItems.filter(item => !(item.to === '/usuarios' && String(userType).toLowerCase() !== 'admin'))
+        menuItems.filter(item => !(item.adminOnly === true && String(userType).toLowerCase() !== 'admin'))
     , [userType]);
 
     // Função de logout

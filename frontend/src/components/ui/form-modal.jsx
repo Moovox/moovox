@@ -35,44 +35,44 @@ function FormModal({
                 {/* Cabeçalho */}
                 <div className="flex items-center justify-between p-3 border-b border-amber-100 bg-amber-50">
                     <DialogTitle className="text-base font-semibold text-amber-900 line-clamp-1">
-                        {title}
-                    </DialogTitle>
-                    <Button
-                        type="button"
-                        variant="ghost"
+                            {title}
+                        </DialogTitle>
+                        <Button
+                            type="button"
+                            variant="ghost"
                         className="h-8 w-8 p-0 text-amber-700 hover:bg-amber-100 rounded-full"
-                        onClick={() => onOpenChange && onOpenChange(false)}
-                    >
-                        <X className="h-4 w-4" />
-                    </Button>
-                </div>
+                            onClick={() => onOpenChange && onOpenChange(false)}
+                        >
+                            <X className="h-4 w-4" />
+                        </Button>
+                    </div>
 
                 {/* Conteúdo */}
                 <div className="p-4 overflow-y-auto max-h-[calc(85vh-120px)]">
                     <form id="modalForm" onSubmit={handleSubmit}>
-                        {children}
-                    </form>
-                </div>
+                                    {children}
+                                </form>
+                    </div>
 
                 {/* Rodapé */}
                 <div className="border-t border-amber-100 bg-amber-50/50 p-3 mt-auto">
-                    <div className="flex flex-col-reverse sm:flex-row justify-end gap-2">
-                        <Button
-                            type="button"
-                            variant="outline"
-                            onClick={() => onOpenChange && onOpenChange(false)}
+                            <div className="flex flex-col-reverse sm:flex-row justify-end gap-2">
+                                <Button
+                                    type="button"
+                                    variant="outline"
+                                    onClick={() => onOpenChange && onOpenChange(false)}
                             className="w-full sm:w-auto border-amber-300 text-amber-800 hover:bg-amber-50 hover:border-amber-400"
-                        >
-                            {cancelText}
-                        </Button>
-                        <Button
-                            type="submit"
+                                >
+                                    {cancelText}
+                                </Button>
+                                <Button
+                                    type="submit"
                             form="modalForm"
-                            disabled={loading}
+                                    disabled={loading}
                             className="w-full sm:w-auto bg-amber-800 hover:bg-amber-700 text-white"
-                        >
+                                >
                             {loading ? "Processando..." : submitText}
-                        </Button>
+                                </Button>
                     </div>
                 </div>
             </DialogContent>

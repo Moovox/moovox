@@ -54,17 +54,47 @@ const animalController = {
 
     async criarAnimal(req, res) {
         try {
+            console.log('Dados recebidos no controller:', req.body);
             const farmId = req.user.farm_id;
+            
+            // Verificar se o corpo da requisição contém os dados necessários
+            if (!req.body) {
+                return res.status(400).json({
+                    status: 'error',
+                    message: 'Dados do animal não fornecidos'
+                });
+            }
+            
+            // Mapear dados da requisição para o formato esperado pelo serviço
             const animalData = {
-                ...req.body,
-                farmId
+                name: req.body.name,
+                species_id: parseInt(req.body.species_id),
+                breed_id: parseInt(req.body.breed_id),
+                birth_date: req.body.birth_date,
+                weight: parseFloat(req.body.weight),
+                health_status: req.body.health_status,
+                farm_id: farmId
             };
+            
+            console.log('Dados a serem enviados para o serviço:', animalData);
+            
             const animal = await animalService.createAnimal(animalData);
+            
             res.status(201).json({
                 status: 'success',
                 data: animal
             });
         } catch (error) {
+            console.error('Erro ao criar animal:', error);
+            
+            // Retornar mensagem de erro específica se disponível
+            if (error.message) {
+                return res.status(400).json({
+                    status: 'error',
+                    message: error.message
+                });
+            }
+            
             res.status(500).json({
                 status: 'error',
                 message: 'Ocorreu um problema ao processar sua solicitação. Por favor, tente novamente mais tarde.'
