@@ -100,8 +100,8 @@ function ModalCadastroAnimal({ onSuccess }) {
             onSubmit={handleSubmit}
             loading={loading}
         >
-            <div className="space-y-4">
-                <div className="space-y-2">
+            <div className="flex flex-col gap-4">
+                <div className="space-y-1.5">
                     <label className="text-sm font-medium text-amber-900">Identificação</label>
                     <Input
                         name="identificacao"
@@ -112,7 +112,7 @@ function ModalCadastroAnimal({ onSuccess }) {
                         required
                     />
                 </div>
-                <div className="space-y-2">
+                <div className="space-y-1.5">
                     <label className="text-sm font-medium text-amber-900">Nome (opcional)</label>
                     <Input
                         name="nome"
@@ -122,7 +122,7 @@ function ModalCadastroAnimal({ onSuccess }) {
                         className="border-amber-200"
                     />
                 </div>
-                <div className="space-y-2">
+                <div className="space-y-1.5">
                     <label className="text-sm font-medium text-amber-900">Espécie</label>
                     <Select
                         value={formData.especie}
@@ -141,7 +141,7 @@ function ModalCadastroAnimal({ onSuccess }) {
                         </SelectContent>
                     </Select>
                 </div>
-                <div className="space-y-2">
+                <div className="space-y-1.5">
                     <label className="text-sm font-medium text-amber-900">Raça</label>
                     <Input
                         name="raca"
@@ -152,7 +152,7 @@ function ModalCadastroAnimal({ onSuccess }) {
                         required
                     />
                 </div>
-                <div className="space-y-2">
+                <div className="space-y-1.5">
                     <label className="text-sm font-medium text-amber-900">Data de Nascimento</label>
                     <Input
                         name="dataNascimento"
@@ -163,7 +163,7 @@ function ModalCadastroAnimal({ onSuccess }) {
                         required
                     />
                 </div>
-                <div className="space-y-2">
+                <div className="space-y-1.5">
                     <label className="text-sm font-medium text-amber-900">Peso (kg)</label>
                     <Input
                         name="peso"
@@ -176,7 +176,7 @@ function ModalCadastroAnimal({ onSuccess }) {
                         required
                     />
                 </div>
-                <div className="space-y-2">
+                <div className="space-y-1.5">
                     <label className="text-sm font-medium text-amber-900">Estado de Saúde</label>
                     <Select
                         value={formData.saude}

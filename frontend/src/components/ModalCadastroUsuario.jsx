@@ -161,8 +161,8 @@ function ModalCadastroUsuario({ onSuccess }) {
             onSubmit={handleSubmit}
             loading={loading}
         >
-            <div className="space-y-4">
-                <div className="space-y-2">
+            <div className="flex flex-col gap-4">
+                <div className="space-y-1.5">
                     <label className="text-sm font-medium text-amber-900">Nome</label>
                     <Input
                         name="nome"
@@ -174,7 +174,7 @@ function ModalCadastroUsuario({ onSuccess }) {
                     />
                     {errors.nome && <span className="text-xs text-red-500">{errors.nome}</span>}
                 </div>
-                <div className="space-y-2">
+                <div className="space-y-1.5">
                     <label className="text-sm font-medium text-amber-900">Email</label>
                     <Input
                         name="email"
@@ -187,7 +187,7 @@ function ModalCadastroUsuario({ onSuccess }) {
                     />
                     {errors.email && <span className="text-xs text-red-500">{errors.email}</span>}
                 </div>
-                <div className="space-y-2">
+                <div className="space-y-1.5">
                     <label className="text-sm font-medium text-amber-900">Tipo de Usuário</label>
                     <Select
                         value={formData.tipo || ''}
@@ -207,7 +207,7 @@ function ModalCadastroUsuario({ onSuccess }) {
                     </Select>
                     {errors.tipo && <span className="text-xs text-red-500">{errors.tipo}</span>}
                 </div>
-                <div className="space-y-2">
+                <div className="space-y-1.5">
                     <label className="text-sm font-medium text-amber-900">Senha</label>
                     <Input
                         name="senha"
@@ -220,7 +220,7 @@ function ModalCadastroUsuario({ onSuccess }) {
                     />
                     {errors.senha && <span className="text-xs text-red-500">{errors.senha}</span>}
                 </div>
-                <div className="space-y-2">
+                <div className="space-y-1.5">
                     <label className="text-sm font-medium text-amber-900">Confirmar Senha</label>
                     <Input
                         name="confirmarSenha"

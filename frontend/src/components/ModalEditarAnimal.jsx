@@ -108,8 +108,8 @@ function ModalEditarAnimal({ animal, open, onOpenChange, onSuccess }) {
             submitText="Salvar"
             loading={loading}
         >
-            <div className="space-y-4">
-                <div className="space-y-2">
+            <div className="flex flex-col gap-4">
+                <div className="space-y-1.5">
                     <label className="text-sm font-medium text-amber-900">Identificação</label>
                     <Input
                         value={animal?.identificacao || ''}
@@ -117,7 +117,7 @@ function ModalEditarAnimal({ animal, open, onOpenChange, onSuccess }) {
                         className="bg-gray-100 border-amber-200"
                     />
                 </div>
-                <div className="space-y-2">
+                <div className="space-y-1.5">
                     <label className="text-sm font-medium text-amber-900">Nome (opcional)</label>
                     <Input
                         name="nome"
@@ -127,7 +127,7 @@ function ModalEditarAnimal({ animal, open, onOpenChange, onSuccess }) {
                         className="border-amber-200"
                     />
                 </div>
-                <div className="space-y-2">
+                <div className="space-y-1.5">
                     <label className="text-sm font-medium text-amber-900">Espécie</label>
                     <Select
                         value={formData.especie}
@@ -146,7 +146,7 @@ function ModalEditarAnimal({ animal, open, onOpenChange, onSuccess }) {
                         </SelectContent>
                     </Select>
                 </div>
-                <div className="space-y-2">
+                <div className="space-y-1.5">
                     <label className="text-sm font-medium text-amber-900">Raça</label>
                     <Input
                         name="raca"
@@ -157,7 +157,7 @@ function ModalEditarAnimal({ animal, open, onOpenChange, onSuccess }) {
                         required
                     />
                 </div>
-                <div className="space-y-2">
+                <div className="space-y-1.5">
                     <label className="text-sm font-medium text-amber-900">Data de Nascimento</label>
                     <Input
                         name="dataNascimento"
@@ -168,7 +168,7 @@ function ModalEditarAnimal({ animal, open, onOpenChange, onSuccess }) {
                         required
                     />
                 </div>
-                <div className="space-y-2">
+                <div className="space-y-1.5">
                     <label className="text-sm font-medium text-amber-900">Peso (kg)</label>
                     <Input
                         name="peso"
@@ -181,7 +181,7 @@ function ModalEditarAnimal({ animal, open, onOpenChange, onSuccess }) {
                         required
                     />
                 </div>
-                <div className="space-y-2">
+                <div className="space-y-1.5">
                     <label className="text-sm font-medium text-amber-900">Estado de Saúde</label>
                     <Select
                         value={formData.status}

@@ -174,8 +174,8 @@ function ModalEditarUsuario({ usuario, onSuccess }) {
                 loading={loading}
                 submitText="Salvar"
             >
-                <div className="space-y-4">
-                    <div className="space-y-2">
+                <div className="flex flex-col gap-4">
+                    <div className="space-y-1.5">
                         <label className="text-sm font-medium text-amber-900">Nome</label>
                         <Input
                             name="nome"
@@ -187,7 +187,7 @@ function ModalEditarUsuario({ usuario, onSuccess }) {
                         />
                         {errors.nome && <span className="text-xs text-red-500">{errors.nome}</span>}
                     </div>
-                    <div className="space-y-2">
+                    <div className="space-y-1.5">
                         <label className="text-sm font-medium text-amber-900">Email</label>
                         <Input
                             name="email"
@@ -200,7 +200,7 @@ function ModalEditarUsuario({ usuario, onSuccess }) {
                         />
                         {errors.email && <span className="text-xs text-red-500">{errors.email}</span>}
                     </div>
-                    <div className="space-y-2">
+                    <div className="space-y-1.5">
                         <label className="text-sm font-medium text-amber-900">Tipo de Usuário</label>
                         <Select
                             value={formData.tipo || ''}

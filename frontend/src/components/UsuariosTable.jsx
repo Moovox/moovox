@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Table, TableHeader, TableBody, TableHead, TableRow, TableCell } from './ui/table';
 import { Input } from './ui/input';
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from './ui/select';
@@ -9,6 +9,7 @@ import ModalEditarUsuario from './ModalEditarUsuario';
 import { userService } from '../services/userService';
 import { useToast } from './ui/use-toast';
 import { Alert, AlertDescription } from './ui/alert';
+import { Pagination } from './ui/pagination';
 
 const tipos = [
     { value: 'all', label: 'Todos os tipos' },
@@ -22,7 +23,26 @@ function UsuariosTable({ usuarios, loading, onUserCreated, error }) {
     const [busca, setBusca] = useState('');
     const [tipo, setTipo] = useState('all');
     const [loadingDelete, setLoadingDelete] = useState(null);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [isMobile, setIsMobile] = useState(false);
     const { toast } = useToast();
+    const itemsPerPage = 10;
+
+    useEffect(() => {
+        const checkIfMobile = () => {
+            setIsMobile(window.innerWidth < 768);
+        };
+        
+        checkIfMobile();
+        window.addEventListener('resize', checkIfMobile);
+        
+        return () => window.removeEventListener('resize', checkIfMobile);
+    }, []);
+
+    // Reset para a primeira página quando filtros são alterados
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [busca, tipo]);
 
     const usuariosFiltrados = usuarios?.filter(u =>
         ((u?.nome?.toLowerCase().includes(busca.toLowerCase()) || 
@@ -30,6 +50,15 @@ function UsuariosTable({ usuarios, loading, onUserCreated, error }) {
           u?.id?.toString().includes(busca))) &&
         (tipo === 'all' || u?.tipo === tipo)
     ) || [];
+
+    // Calcula o total de páginas
+    const totalPages = Math.max(1, Math.ceil(usuariosFiltrados.length / itemsPerPage));
+    
+    // Pega apenas os usuários da página atual
+    const usuariosPaginados = usuariosFiltrados.slice(
+        (currentPage - 1) * itemsPerPage, 
+        currentPage * itemsPerPage
+    );
 
     const handleDelete = async (id, nome) => {
         if (!id) {
@@ -73,9 +102,9 @@ function UsuariosTable({ usuarios, loading, onUserCreated, error }) {
         if (loading) {
             return (
                 <TableRow>
-                    <TableCell colSpan={5} className="h-24 text-center">
+                    <TableCell colSpan={isMobile ? 3 : 5} className="h-24 text-center">
                         <div className="flex items-center justify-center">
-                            <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+                            <Loader2 className="h-6 w-6 animate-spin text-amber-700" />
                         </div>
                     </TableCell>
                 </TableRow>
@@ -85,7 +114,7 @@ function UsuariosTable({ usuarios, loading, onUserCreated, error }) {
         if (error) {
             return (
                 <TableRow>
-                    <TableCell colSpan={5} className="h-24">
+                    <TableCell colSpan={isMobile ? 3 : 5} className="h-24">
                         <Alert variant="destructive" className="flex items-center gap-2">
                             <AlertCircle className="h-4 w-4" />
                             <AlertDescription>
@@ -100,18 +129,18 @@ function UsuariosTable({ usuarios, loading, onUserCreated, error }) {
         if (usuariosFiltrados.length === 0) {
             return (
                 <TableRow>
-                    <TableCell colSpan={5} className="text-center text-muted-foreground py-8">
+                    <TableCell colSpan={isMobile ? 3 : 5} className="text-center text-muted-foreground py-8">
                         Nenhum usuário encontrado.
                     </TableCell>
                 </TableRow>
             );
         }
 
-        return usuariosFiltrados.map((usuario) => (
+        return usuariosPaginados.map((usuario) => (
             <TableRow key={usuario.id}>
-                <TableCell>{usuario.id}</TableCell>
+                {!isMobile && <TableCell>{usuario.id}</TableCell>}
                 <TableCell>{usuario.nome}</TableCell>
-                <TableCell>{usuario.email}</TableCell>
+                {!isMobile && <TableCell>{usuario.email}</TableCell>}
                 <TableCell>{usuario.tipo}</TableCell>
                 <TableCell>
                     <div className="flex justify-center gap-2">
@@ -147,7 +176,7 @@ function UsuariosTable({ usuarios, loading, onUserCreated, error }) {
                         placeholder="Buscar por nome, email ou ID..."
                         value={busca}
                         onChange={(e) => setBusca(e.target.value)}
-                        className="md:w-64 bg-white/80"
+                        className="md:w-64 bg-white"
                     />
                     <Select value={tipo} onValueChange={setTipo}>
                         <SelectTrigger className="md:w-48 bg-white">
@@ -165,13 +194,13 @@ function UsuariosTable({ usuarios, loading, onUserCreated, error }) {
                 <ModalCadastroUsuario onSuccess={onUserCreated} />
             </div>
 
-            <div className="rounded-xl border bg-white/80 shadow-sm overflow-x-auto">
+            <div className="rounded-xl border bg-white shadow-sm overflow-x-auto">
                 <Table>
                     <TableHeader>
-                        <TableRow className="hover:bg-[#F6E3B3]/60">
-                            <TableHead className="w-12">ID</TableHead>
+                        <TableRow className="hover:bg-amber-50">
+                            {!isMobile && <TableHead className="w-12">ID</TableHead>}
                             <TableHead>Nome</TableHead>
-                            <TableHead>Email</TableHead>
+                            {!isMobile && <TableHead>Email</TableHead>}
                             <TableHead>Tipo</TableHead>
                             <TableHead className="w-28 text-center">Ações</TableHead>
                         </TableRow>
@@ -180,6 +209,22 @@ function UsuariosTable({ usuarios, loading, onUserCreated, error }) {
                         {renderTableContent()}
                     </TableBody>
                 </Table>
+            </div>
+            
+            {/* Paginação */}
+            <Pagination 
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={setCurrentPage}
+            />
+            
+            {/* Exibir informações sobre a paginação */}
+            <div className="text-sm text-gray-500 text-center">
+                {usuariosFiltrados.length > 0 ? (
+                    <span>
+                        Mostrando {(currentPage - 1) * itemsPerPage + 1} a {Math.min(currentPage * itemsPerPage, usuariosFiltrados.length)} de {usuariosFiltrados.length} usuários
+                    </span>
+                ) : null}
             </div>
         </div>
     );
