@@ -217,6 +217,26 @@ const vaccineApplicationService = {
             console.error(`Erro ao atualizar aplicação de vacina com ID ${id}`, error);
             throw error;
         }
+    }, 
+    async deleteVaccineApplication(id) {
+        try {
+            const existingVaccineApplication = await prisma.applications.findUnique({
+                where: { id: Number(id) },
+            });
+
+            if (!existingVaccineApplication) {
+                throw new Error(`Aplicação de vacina com ID ${id} não encontrado.`);
+            }
+
+            await prisma.applications.delete({
+                where: { id: Number(id) },
+            });
+
+            return { message: `Aplicação de vacina com ID ${id} foi deletado com sucesso.` };
+        } catch (error) {
+            console.error(`Erro ao deletar aplicação de vacina com ID ${id}`, error);
+            throw error;
+        }
     }
 }
 

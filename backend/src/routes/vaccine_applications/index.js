@@ -7,5 +7,6 @@ router.get('/', authMiddleware, vaccineApplicationController.getAllVaccineApplic
 router.get('/:id', authMiddleware, vaccineApplicationController.getVaccineApplicationByID);
 router.post('/', authMiddleware, vaccineApplicationController.createVaccineApplication);
 router.put('/:id', authMiddleware, vaccineApplicationController.updateVaccineApplication);
+router.delete('/:id', authMiddleware, vaccineApplicationController.deleteVaccineApplication);
 
 module.exports = router; 
