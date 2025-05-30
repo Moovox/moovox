@@ -79,6 +79,37 @@ const userController = {
                 message: 'Ocorreu um problema ao criar o usuário. Por favor, tente novamente mais tarde.'
             });
         }
+    },
+    async updateUser(req, res) {
+        try {
+            const { id } = req.params;
+            const updatedUser = await userService.updateUser(id, req.body);
+            res.status(200).json({
+                status: 'success',
+                data: updatedUser
+            });
+        } catch (error) {
+            console.log("Erro apresentado: ", error);
+            const error_message = error.message.toLowerCase();
+
+            if (
+                error_message.includes('não encontrado') ||
+                error_message.includes('obrigatório') ||
+                error_message.includes('deve ser') ||
+                error_message.includes('inválido') ||
+                error_message.includes('não pode ser')
+            ) {
+                return res.status(400).json({
+                    status: 'error',
+                    message: error.message
+                });
+            }
+
+            res.status(500).json({
+                status: 'error',
+                message: 'Ocorreu um problema ao atualizar o usuário. Por favor, tente novamente mais tarde.'
+            });
+        }
     }
 }
 
