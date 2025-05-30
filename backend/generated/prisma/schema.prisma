@@ -10,74 +10,63 @@ datasource db {
 }
 
 model Farms {
-  id          Int      @id @default(autoincrement())
+  id          Int       @id @default(autoincrement())
   name        String
-  location    String?  @default("")
-  size        Float?   @default(0)
-  description String?  @default("")
-  created_at  DateTime @default(now())
-  updated_at  DateTime @updatedAt
-
-  // Relações
-  user   Users[]
-  animal Animals[]
+  created_at  DateTime  @default(now())
+  updated_at  DateTime  @updatedAt
+  description String?   @default("")
+  location    String?   @default("")
+  size        Float?    @default(0)
+  animal      Animals[]
+  user        Users[]
 }
 
 model Users {
-  id            Int      @id @default(autoincrement())
+  id            Int            @id @default(autoincrement())
   name          String
-  email         String   @unique
+  email         String         @unique
   password      String
   profile_photo String?
   role          String
   farm_id       Int
-  created_at    DateTime @default(now())
-  updated_at    DateTime @updatedAt
-
-  // Relações: 
-  farmhand   Farmhands?
-  veterinary Veterinarians?
-  farm       Farms          @relation(fields: [farm_id], references: [id], onDelete: NoAction)
+  created_at    DateTime       @default(now())
+  updated_at    DateTime       @updatedAt
+  farmhand      Farmhands?
+  farm          Farms          @relation(fields: [farm_id], references: [id])
+  veterinary    Veterinarians?
 
   @@index([farm_id])
 }
 
 model Farmhands {
-  id      Int @id @default(autoincrement())
-  user_id Int @unique
-
-  // Relações
-  user Users @relation(fields: [user_id], references: [id], onDelete: NoAction)
+  id      Int   @id @default(autoincrement())
+  user_id Int   @unique
+  user    Users @relation(fields: [user_id], references: [id])
 }
 
 model Veterinarians {
-  id      Int @id @default(autoincrement())
-  user_id Int @unique
-
-  // Relações
-  user        Users          @relation(fields: [user_id], references: [id], onDelete: NoAction)
+  id          Int            @id @default(autoincrement())
+  user_id     Int            @unique
   application Applications[]
+  user        Users          @relation(fields: [user_id], references: [id])
 }
 
 model Animals {
-  id            Int      @id @default(autoincrement())
+  id            Int            @id @default(autoincrement())
   name          String
   species_id    Int
   breed_id      Int
   birth_date    DateTime
-  weight        Float // em KG
+  weight        Float
   health_status String
   farm_id       Int
-  created_at    DateTime @default(now())
-  updated_at    DateTime @updatedAt
-
-  // Relações
-  species Species @relation(fields: [species_id], references: [id], onUpdate: NoAction, onDelete: NoAction)
-  breed   Breeds  @relation(fields: [breed_id], references: [id], onDelete: NoAction)
-  farm    Farms   @relation(fields: [farm_id], references: [id], onDelete: NoAction)
-
-  location    Locations[]
-  application Applications[]
+  created_at    DateTime       @default(now())
+  updated_at    DateTime       @updatedAt
+  breed         Breeds         @relation(fields: [breed_id], references: [id])
+  farm          Farms          @relation(fields: [farm_id], references: [id])
+  species       Species        @relation(fields: [species_id], references: [id], onUpdate: NoAction)
+  application   Applications[]
+  location      Locations[]
 
   @@index([species_id])
   @@index([breed_id])
@@ -85,99 +74,87 @@ model Animals {
 }
 
 model Species {
-  id               Int      @id @default(autoincrement())
+  id               Int       @id @default(autoincrement())
   name             String
   description      String
-  average_lifespan Int? // em anos 
-  gestation_period Int? // em dias 
-  created_at       DateTime @default(now())
-  updated_at       DateTime @updatedAt
-
-  // Relações 
-  animal Animals[]
-  breed  Breeds[]
+  average_lifespan Int?
+  gestation_period Int?
+  created_at       DateTime  @default(now())
+  updated_at       DateTime  @updatedAt
+  animal           Animals[]
+  breed            Breeds[]
 }
 
 model Breeds {
-  id             Int      @id @default(autoincrement())
+  id             Int       @id @default(autoincrement())
   name           String
   description    String
   species_id     Int
-  average_weight Float? // em KG
-  productivity   String? // (ex. leiteira, corte, tração)
-  created_at     DateTime @default(now())
-  updated_at     DateTime @updatedAt
-
-  // Relações 
-  species Species   @relation(fields: [species_id], references: [id], onDelete: NoAction)
-  animal  Animals[]
+  average_weight Float?
+  productivity   String?
+  created_at     DateTime  @default(now())
+  updated_at     DateTime  @updatedAt
+  animal         Animals[]
+  species        Species   @relation(fields: [species_id], references: [id])
 
   @@index([species_id])
 }
 
 model Vaccines {
-  id                 Int      @id @default(autoincrement())
+  id                 Int               @id @default(autoincrement())
   name               String
   target_disease     String
   manufacturer_id    Int
   batch              String
   expiration_date    DateTime
   required_doses     Int
-  dosing_interval    Int?     @default(0) // Em dias
+  dosing_interval    Int?              @default(0)
   type_of_vaccine_id Int
   notes              String
-  created_at         DateTime @default(now())
-  updated_at         DateTime @updatedAt
-
-  // Relações
-  manufacturer    Manufacturers     @relation(fields: [manufacturer_id], references: [id], onDelete: NoAction)
-  type_of_vaccine Types_of_Vaccines @relation(fields: [type_of_vaccine_id], references: [id], onDelete: NoAction)
-  applications    Applications[]
+  created_at         DateTime          @default(now())
+  updated_at         DateTime          @updatedAt
+  applications       Applications[]
+  manufacturer       Manufacturers     @relation(fields: [manufacturer_id], references: [id])
+  type_of_vaccine    Types_of_Vaccines @relation(fields: [type_of_vaccine_id], references: [id])
 
   @@index([manufacturer_id])
   @@index([type_of_vaccine_id])
 }
 
 model Manufacturers {
-  id             Int      @id @default(autoincrement())
+  id             Int        @id @default(autoincrement())
   name           String
-  cnpj           String   @unique
-  email          String   @unique
+  cnpj           String     @unique
+  email          String     @unique
   phone          String
   address        String
   country        String
   license_number String
-  created_at     DateTime @default(now())
-  updated_at     DateTime @updatedAt
-
-  // Relações 
-  vaccines Vaccines[]
+  created_at     DateTime   @default(now())
+  updated_at     DateTime   @updatedAt
+  vaccines       Vaccines[]
 }
 
 model Types_of_Vaccines {
-  id          Int     @id @default(autoincrement())
+  id          Int        @id @default(autoincrement())
   name        String
   description String?
-
-  // Relaçoes 
-  vaccines Vaccines[]
+  vaccines    Vaccines[]
 }
 
 model Applications {
-  id                         Int       @id @default(autoincrement())
+  id                         Int           @id @default(autoincrement())
   animal_id                  Int
   vaccine_id                 Int
   veterinary_id              Int
   application_date           DateTime
   next_application_date      DateTime?
   status_vaccine_application String
-  created_at                 DateTime  @default(now())
-  updated_at                 DateTime  @updatedAt
-
-  // Relações
-  animal     Animals       @relation(fields: [animal_id], references: [id], onDelete: NoAction)
-  vaccine    Vaccines      @relation(fields: [vaccine_id], references: [id], onDelete: NoAction)
-  veterinary Veterinarians @relation(fields: [veterinary_id], references: [id], onUpdate: NoAction, onDelete: NoAction)
+  created_at                 DateTime      @default(now())
+  updated_at                 DateTime      @updatedAt
+  animal                     Animals       @relation(fields: [animal_id], references: [id])
+  vaccine                    Vaccines      @relation(fields: [vaccine_id], references: [id])
+  veterinary                 Veterinarians @relation(fields: [veterinary_id], references: [id], onUpdate: NoAction)
 
   @@index([animal_id])
   @@index([vaccine_id])
@@ -193,9 +170,7 @@ model Locations {
   captured_at DateTime
   created_at  DateTime @default(now())
   updated_at  DateTime @updatedAt
-
-  // Relações 
-  animal Animals @relation(fields: [animal_id], references: [id], onDelete: NoAction)
+  animal      Animals  @relation(fields: [animal_id], references: [id])
 
   @@index([animal_id])
   @@index([captured_at])
