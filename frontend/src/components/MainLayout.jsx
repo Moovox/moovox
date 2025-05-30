@@ -119,7 +119,7 @@ function Header({ title, onMenuClick, farmInfo, user, onRefreshFarm }) {
     };
     
     return (
-        <header className="flex items-center justify-between px-3 sm:px-6 py-3 bg-transparent border-b border-amber-100">
+        <header className="flex items-center justify-between px-2 sm:px-6 py-2 sm:py-3 bg-transparent border-b border-amber-100">
             <div className="flex items-center">
                 <motion.button
                     onClick={onMenuClick}
@@ -128,22 +128,22 @@ function Header({ title, onMenuClick, farmInfo, user, onRefreshFarm }) {
                     whileTap={{ scale: 0.9 }}
                     type="button"
                 >
-                    <Menu className="w-6 h-6 sm:w-7 sm:h-7 text-[#10291a]" />
+                    <Menu className="w-5 h-5 sm:w-7 sm:h-7 text-[#10291a]" />
                 </motion.button>
                 <div className="text-[#10291a]">
-                    <h2 className="text-lg sm:text-xl lg:text-2xl ml-2 font-bold font-poppins truncate max-w-[180px] sm:max-w-none">{title}</h2>
+                    <h2 className="text-base sm:text-xl lg:text-2xl ml-2 font-bold font-poppins truncate max-w-[100px] xs:max-w-[140px] sm:max-w-none">{title}</h2>
                 </div>
             </div>
             
             {/* Área direita com fazenda selecionada e avatar do usuário */}
-            <div className="flex items-center space-x-2 sm:space-x-4">
+            <div className="flex items-center gap-1 sm:gap-4">
                 {/* Fazenda selecionada */}
                 <div 
-                    className="flex items-center px-2 sm:px-3 py-1.5 bg-amber-50 rounded-md border border-amber-200 hover:bg-amber-100 transition-colors group"
+                    className="flex items-center px-1.5 sm:px-3 py-1 sm:py-1.5 bg-amber-50 rounded-md border border-amber-200 hover:bg-amber-100 transition-colors group"
                     title="Informações da fazenda atual"
                 >
-                    <Building2 className="w-4 h-4 text-amber-700 mr-1 sm:mr-2 flex-shrink-0" />
-                    <span className="text-xs sm:text-sm font-medium text-amber-800 truncate max-w-[80px] sm:max-w-[120px] md:max-w-[150px] lg:max-w-[200px]">
+                    <Building2 className="w-3 h-3 sm:w-4 sm:h-4 text-amber-700 mr-1 sm:mr-2 flex-shrink-0" />
+                    <span className="text-xs sm:text-sm font-medium text-amber-800 truncate max-w-[70px] xs:max-w-[100px] sm:max-w-[120px] md:max-w-[150px] lg:max-w-[200px]">
                         {farmInfo ? farmInfo.name : "Sem fazenda"}
                     </span>
                     <button
@@ -162,7 +162,7 @@ function Header({ title, onMenuClick, farmInfo, user, onRefreshFarm }) {
                     title={user?.name || "Usuário"}
                 >
                     <div 
-                        className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-amber-200 flex items-center justify-center text-amber-800 border-2 border-amber-300 hover:border-amber-400 transition-colors cursor-pointer shadow-sm"
+                        className="w-7 h-7 sm:w-10 sm:h-10 rounded-full bg-amber-200 flex items-center justify-center text-amber-800 border-2 border-amber-300 hover:border-amber-400 transition-colors cursor-pointer shadow-sm"
                         onClick={handleProfileClick}
                     >
                         {user?.profile_photo ? (
@@ -172,7 +172,7 @@ function Header({ title, onMenuClick, farmInfo, user, onRefreshFarm }) {
                                 className="w-full h-full rounded-full object-cover"
                             />
                         ) : (
-                            <User className="w-4 h-4 sm:w-5 sm:h-5" />
+                            <User className="w-3 h-3 sm:w-5 sm:h-5" />
                         )}
                     </div>
                     

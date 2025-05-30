@@ -1,5 +1,6 @@
 const prisma = require('../../../src/config/database'); 
 const {logError, getFirstFarm, faker} = require('./index'); 
+
 async function findSpeciesByName(name){
   return await prisma.species.findFirst({
     where: {name}, 
@@ -9,12 +10,10 @@ async function findSpeciesByName(name){
 
 async function findBreedByName(name){
   return await prisma.breeds.findFirst({
-    where: {name},
+    where: {name}, 
     select: {id: true}
   })
 }
-
-
 
 async function createAnimalsForEachBreedBySpecies(speciesName){
     try {
@@ -26,23 +25,27 @@ async function createAnimalsForEachBreedBySpecies(speciesName){
             select: {id: true, name: true}
         });
 
-        const animalsData = breeds.map((breed, index) => ({
-            name: faker.animal.petName(),
-            birth_date: new Date(),
-            species_id: species.id,
-            breed_id: breed.id, 
-            weight: 100 + index * 10, 
-            health_status: "HEALTHY",
-            farm_id: farm.id
-        }));
-
-        await prisma.animals.createMany({data: animalsData});
+        // Criar cada animal individualmente para poder usar o connect
+        for (const breed of breeds) {
+            const animal = await prisma.animals.create({
+                data: {
+                    name: faker.animal.petName(),
+                    birth_date: new Date(),
+                    species_id: species.id,
+                    breed_id: breed.id, 
+                    weight: 100 + Math.floor(Math.random() * 50), 
+                    health_status: "HEALTHY",
+                    farm: {
+                        connect: { id: farm.id }
+                    }
+                }
+            });
+        }
 
         console.log(`✅ Animals created for species ${speciesName}:`, breeds.map(b => b.name));
 
     } catch (error) {
         logError(`createAnimalsForEachBreedBySpecies(${speciesName})`, error);
-
     }
 }
 
