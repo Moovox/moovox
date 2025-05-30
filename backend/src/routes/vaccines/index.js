@@ -6,5 +6,6 @@ const vaccineController = require('../../controllers/vaccine');
 router.get('/', authMiddleware, vaccineController.getAllVaccines);
 router.get('/:id', authMiddleware, vaccineController.getVaccineByID);
 router.post('/', authMiddleware, vaccineController.createVaccine);
+router.put('/:id', authMiddleware, vaccineController.updateVaccine);
 
 module.exports = router; 
