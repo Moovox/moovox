@@ -13,33 +13,36 @@ function Usuarios() {
     const carregarUsuarios = async () => {
         try {
             setLoading(true);
-            const response = await userService.getAllUsers();
+            const result = await userService.getAllUsers();
             
-            if (!response.data) {
-                throw new Error('Dados não encontrados');
+            // Se houver erro no resultado, tratamos aqui
+            if (result.error) {
+                throw result.error;
             }
-
-            console.log('Dados recebidos na página:', response.data);
             
-            // Garante que os dados são um array
-            const usuariosArray = Array.isArray(response.data) ? response.data : [];
-            setUsuarios(usuariosArray);
+            // Garantindo que temos um array, mesmo vazio
+            setUsuarios(result.data || []);
             
         } catch (error) {
             console.error('Erro ao carregar usuários:', error);
-            let mensagem = "Não foi possível carregar a lista de usuários.";
-            
-            if (error.response?.status === 401) {
-                mensagem = "Sessão expirada. Por favor, faça login novamente.";
-            } else if (error.message) {
-                mensagem = error.message;
+            // Só mostramos o toast para erros reais, não para listas vazias
+            if (error.message && !error.message.includes('Nenhum') && !error.message.includes('não encontrado')) {
+                let mensagem = "Não foi possível carregar a lista de usuários.";
+                
+                if (error.response?.status === 401) {
+                    mensagem = "Sessão expirada. Por favor, faça login novamente.";
+                } else if (error.message) {
+                    mensagem = error.message;
+                }
+                
+                toast({
+                    variant: "destructive",
+                    title: "Erro",
+                    description: mensagem
+                });
             }
             
-            toast({
-                variant: "destructive",
-                title: "Erro",
-                description: mensagem
-            });
+            // Se der erro, garantimos que a lista é inicializada como vazia
             setUsuarios([]);
         } finally {
             setLoading(false);

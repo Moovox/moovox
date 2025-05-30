@@ -1,17 +1,36 @@
-const userService = require('../../services/user'); 
+const userService = require('../../services/user');
 
 const userController = {
     async getAllUsers(req, res) {
         try {
-            const users = await userService.getAllUsers(); 
+            const users = await userService.getAllUsers();
             res.status(200).json({
-                status: 'success', 
+                status: 'success',
                 data: users
-            }); 
+            });
         } catch (error) {
-            const error_message = error.message.toLowerCase();
+            console.error('Erro ao buscar usuários:', error);
+            
+            res.status(500).json({
+                status: 'error',
+                message: 'Ocorreu um problema ao processar sua solicitação. Por favor, tente novamente mais tarde.'
+            });
+        }
+    },
 
-            if(error_message.includes('nenhum') && error_message.includes('encontrado')) {
+    async getUserByID(req, res) {
+        try {
+            const { id } = req.params
+            const user = await userService.getUserByID(parseInt(id, 10));
+            res.status(200).json({
+                status: 'success',
+                data: user
+            });
+        } catch (error) {
+            console.error('Erro ao buscar usuário por ID:', error);
+            const error_message = error.message.toLowerCase();
+            
+            if (error_message.includes('não encontrado')) {
                 return res.status(404).json({
                     status: 'error',
                     message: error.message
@@ -20,7 +39,7 @@ const userController = {
 
             res.status(500).json({
                 status: 'error',
-                message: 'Ocorreu um problema ao processar sua solicitação. Por favor, tente novamente mais tarde.'
+                message: 'Ocorreu um problema ao buscar o usuário. Por favor, tente novamente mais tarde.'
             });
         }
     },
@@ -35,6 +54,7 @@ const userController = {
                 data: newUser
             });
         } catch (error) {
+            console.error('Erro ao criar usuário:', error);
             const error_message = error.message.toLowerCase();
 
             if (error_message.includes('já existe')) {
@@ -51,9 +71,21 @@ const userController = {
                 });
             }
 
+            if (
+                error_message.includes('obrigatório') ||
+                error_message.includes('deve ser') ||
+                error_message.includes('inválido') ||
+                error_message.includes('não pode ser')
+            ) {
+                return res.status(400).json({
+                    status: 'error',
+                    message: error.message
+                });
+            }
+
             res.status(500).json({
                 status: 'error',
-                message: 'Ocorreu um problema ao processar sua solicitação. Por favor, tente novamente mais tarde.'
+                message: 'Ocorreu um problema ao criar o usuário. Por favor, tente novamente mais tarde.'
             });
         }
     },
@@ -63,13 +95,14 @@ const userController = {
             const { id } = req.params;
             const userData = req.body;
             
-            const updatedUser = await userService.updateUser(id, userData);
+            const updatedUser = await userService.updateUser(parseInt(id, 10), userData);
             
             res.status(200).json({
                 status: 'success',
                 data: updatedUser
             });
         } catch (error) {
+            console.error('Erro ao atualizar usuário:', error);
             const error_message = error.message.toLowerCase();
 
             if (error_message.includes('não encontrado')) {
@@ -86,9 +119,21 @@ const userController = {
                 });
             }
 
+            if (
+                error_message.includes('obrigatório') ||
+                error_message.includes('deve ser') ||
+                error_message.includes('inválido') ||
+                error_message.includes('não pode ser')
+            ) {
+                return res.status(400).json({
+                    status: 'error',
+                    message: error.message
+                });
+            }
+
             res.status(500).json({
                 status: 'error',
-                message: 'Ocorreu um problema ao processar sua solicitação. Por favor, tente novamente mais tarde.'
+                message: 'Ocorreu um problema ao atualizar o usuário. Por favor, tente novamente mais tarde.'
             });
         }
     },
@@ -96,13 +141,14 @@ const userController = {
     async deleteUser(req, res) {
         try {
             const { id } = req.params;
-            await userService.deleteUser(id);
+            await userService.deleteUser(parseInt(id, 10));
             
             res.status(200).json({
                 status: 'success',
                 message: 'Usuário excluído com sucesso'
             });
         } catch (error) {
+            console.error('Erro ao excluir usuário:', error);
             const error_message = error.message.toLowerCase();
 
             if (error_message.includes('não encontrado')) {
@@ -121,10 +167,10 @@ const userController = {
 
             res.status(500).json({
                 status: 'error',
-                message: 'Ocorreu um problema ao processar sua solicitação. Por favor, tente novamente mais tarde.'
+                message: 'Ocorreu um problema ao excluir o usuário. Por favor, tente novamente mais tarde.'
             });
         }
     }
-}
+};
 
 module.exports = userController; 

@@ -1,7 +1,8 @@
-import BackgroundVideo from '../components/BackgroundVideo';
+import { memo } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
+import BackgroundVideo from './BackgroundVideo';
 import PageLoader from './PageLoader';
-import React, { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 
 function AuthLayout() {
     const [loading, setLoading] = useState(false);
@@ -24,4 +25,4 @@ function AuthLayout() {
     );
 }
 
-export default AuthLayout;
+export default memo(AuthLayout);

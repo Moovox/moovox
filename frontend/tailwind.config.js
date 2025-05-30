@@ -12,6 +12,9 @@ module.exports = {
       fontFamily: {
         poppins: ["Poppins", "sans-serif"],
       },
+      screens: {
+        'xs': '480px',
+      },
     },
   },
   plugins: [require('@tailwindcss/typography')],

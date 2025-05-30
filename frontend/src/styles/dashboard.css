@@ -39,4 +39,60 @@
 
 .dashboard-card:hover .dashboard-icon {
     transform: scale(1.1);
+}
+
+/* Melhorias de responsividade */
+@media (max-width: 640px) {
+    /* Ajustes para telas muito pequenas */
+    .dashboard-card {
+        padding: 0.75rem !important;
+    }
+    
+    .dashboard-card h3 {
+        font-size: 0.875rem !important;
+    }
+    
+    .dashboard-card span.text-3xl {
+        font-size: 1.5rem !important;
+    }
+}
+
+/* Orientação paisagem em dispositivos móveis */
+@media (max-width: 768px) and (orientation: landscape) {
+    .dashboard-layout {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+    
+    .dashboard-map-section {
+        grid-column: span 2 !important;
+    }
+}
+
+/* Melhorias para cards em telas pequenas */
+@media (max-width: 480px) {
+    .card-content {
+        padding: 0.5rem !important;
+    }
+    
+    .card-title {
+        font-size: 0.875rem !important;
+        margin-bottom: 0.5rem !important;
+    }
+    
+    .card-value {
+        font-size: 1.25rem !important;
+    }
+}
+
+/* Ajustar dimensionamento de texto em cartões de dashboard */
+.dashboard-text-adjust {
+    font-size: clamp(0.75rem, 2vw, 1rem);
+}
+
+.dashboard-title-adjust {
+    font-size: clamp(0.875rem, 3vw, 1.125rem);
+}
+
+.dashboard-value-adjust {
+    font-size: clamp(1.25rem, 4vw, 1.875rem);
 } 

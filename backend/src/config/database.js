@@ -3,18 +3,30 @@ const { PrismaClient } = require('../../generated/prisma');
 const config = require('./env');
 
 /**
- * Instância única do Prisma Client para acesso ao banco de dados.
- * 
- * A opção `errorFormat: 'pretty'` melhora a legibilidade dos erros
- * lançados durante operações com o banco de dados.
- * 
- * Em ambiente de desenvolvimento, habilitamos logs para debug.
+ * Singleton para o Prisma Client garantindo apenas uma instância em toda a aplicação
  */
-const prisma = new PrismaClient({
-    errorFormat: 'pretty',
-    log: config.isDevelopment ? ['query', 'info', 'warn', 'error'] : ['error']
-});
+class PrismaInstance {
+    constructor() {
+        if (!PrismaInstance.instance) {
+            try {
+                PrismaInstance.instance = new PrismaClient({
+                    errorFormat: 'pretty',
+                    log: config.isDevelopment ? ['error', 'warn'] : ['error']
+                });
+                
+                console.log('Conexão com o banco de dados inicializada');
+            } catch (error) {
+                console.error('Erro ao inicializar o banco de dados:', error.message);
+                throw error;
+            }
+        }
+    }
 
-// Exporta a instância do Prisma para uso em toda a aplicação
-module.exports = prisma;
+    getInstance() {
+        return PrismaInstance.instance;
+    }
+}
+
+// Exporta a instância única do Prisma para uso em toda a aplicação
+module.exports = new PrismaInstance().getInstance();
 

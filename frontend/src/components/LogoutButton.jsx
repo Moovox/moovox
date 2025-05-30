@@ -1,4 +1,4 @@
-import React from 'react';
+import { memo, useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowLeftFromLine } from 'lucide-react';
 import PropTypes from 'prop-types';
@@ -12,7 +12,7 @@ import {
 } from './ui/dialog';
 
 function LogoutButton({ onLogout, expanded }) {
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>
@@ -46,7 +46,7 @@ function LogoutButton({ onLogout, expanded }) {
                         Cancelar
                     </Button>
                     <Button
-                        className={'bg-red-500'}
+                        className="bg-red-500"
                         variant="destructive"
                         onClick={onLogout}
                         tabIndex={0}
@@ -68,4 +68,4 @@ LogoutButton.defaultProps = {
     expanded: false,
 };
 
-export default LogoutButton;
+export default memo(LogoutButton);

@@ -1,14 +1,15 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect, useMemo } from 'react';
 
 const AuthContext = createContext();
 
 function parseJwt(token) {
+    if (!token) return {};
     try {
         const base64Url = token.split('.')[1];
         const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-        const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
-            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-        }).join(''));
+        const jsonPayload = decodeURIComponent(
+            atob(base64).split('').map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join('')
+        );
         return JSON.parse(jsonPayload);
     } catch {
         return {};
@@ -28,7 +29,7 @@ export function AuthProvider({ children }) {
                 role: payload.role,
                 email: payload.email,
                 id: payload.id,
-                farmId: payload.farmId
+                farmId: payload.farmId || localStorage.getItem('farmId')
             });
         }
         setLoading(false);
@@ -53,8 +54,15 @@ export function AuthProvider({ children }) {
         setUser(null);
     };
 
+    const value = useMemo(() => ({ 
+        user, 
+        login, 
+        logout, 
+        loading 
+    }), [user, loading]);
+
     return (
-        <AuthContext.Provider value={{ user, login, logout, loading }}>
+        <AuthContext.Provider value={value}>
             {children}
         </AuthContext.Provider>
     );

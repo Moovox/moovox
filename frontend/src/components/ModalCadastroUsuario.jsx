@@ -128,12 +128,11 @@ function ModalCadastroUsuario({ onSuccess }) {
             };
 
             const response = await userService.createUser(userData);
-            console.log('Resposta do cadastro:', response);
             
             toast({
                 title: "Sucesso",
                 description: "Usuário cadastrado com sucesso!",
-                variant: "default"
+                variant: "success"
             });
             
             handleOpenChange(false);
@@ -162,40 +161,40 @@ function ModalCadastroUsuario({ onSuccess }) {
             onSubmit={handleSubmit}
             loading={loading}
         >
-            <div className="space-y-4">
-                <div className="space-y-2">
-                    <label className="text-sm font-medium text-[#4e2e13]">Nome</label>
+            <div className="flex flex-col gap-4">
+                <div className="space-y-1.5">
+                    <label className="text-sm font-medium text-amber-900">Nome</label>
                     <Input
                         name="nome"
                         value={formData.nome || ''}
                         onChange={handleChange}
                         placeholder="Digite o nome completo"
-                        className={`border-[#e5e0d8] focus:border-[#4e2e13] focus:ring-0 ${errors.nome ? 'border-red-500' : ''}`}
+                        className={`${errors.nome ? 'border-red-500' : 'border-amber-200'}`}
                         required
                     />
                     {errors.nome && <span className="text-xs text-red-500">{errors.nome}</span>}
                 </div>
-                <div className="space-y-2">
-                    <label className="text-sm font-medium text-[#4e2e13]">Email</label>
+                <div className="space-y-1.5">
+                    <label className="text-sm font-medium text-amber-900">Email</label>
                     <Input
                         name="email"
                         type="email"
                         value={formData.email || ''}
                         onChange={handleChange}
                         placeholder="Digite o email"
-                        className={`border-[#e5e0d8] focus:border-[#4e2e13] focus:ring-0 ${errors.email ? 'border-red-500' : ''}`}
+                        className={`${errors.email ? 'border-red-500' : 'border-amber-200'}`}
                         required
                     />
                     {errors.email && <span className="text-xs text-red-500">{errors.email}</span>}
                 </div>
-                <div className="space-y-2">
-                    <label className="text-sm font-medium text-[#4e2e13]">Tipo de Usuário</label>
+                <div className="space-y-1.5">
+                    <label className="text-sm font-medium text-amber-900">Tipo de Usuário</label>
                     <Select
                         value={formData.tipo || ''}
                         onValueChange={handleSelectChange}
                         required
                     >
-                        <SelectTrigger className={`border-[#e5e0d8] focus:border-[#4e2e13] focus:ring-0 ${errors.tipo ? 'border-red-500' : ''}`}>
+                        <SelectTrigger className={`${errors.tipo ? 'border-red-500' : 'border-amber-200'}`}>
                             <SelectValue placeholder="Selecione o tipo" />
                         </SelectTrigger>
                         <SelectContent>
@@ -208,28 +207,28 @@ function ModalCadastroUsuario({ onSuccess }) {
                     </Select>
                     {errors.tipo && <span className="text-xs text-red-500">{errors.tipo}</span>}
                 </div>
-                <div className="space-y-2">
-                    <label className="text-sm font-medium text-[#4e2e13]">Senha</label>
+                <div className="space-y-1.5">
+                    <label className="text-sm font-medium text-amber-900">Senha</label>
                     <Input
                         name="senha"
                         type="password"
                         value={formData.senha || ''}
                         onChange={handleChange}
                         placeholder="Digite a senha"
-                        className={`border-[#e5e0d8] focus:border-[#4e2e13] focus:ring-0 ${errors.senha ? 'border-red-500' : ''}`}
+                        className={`${errors.senha ? 'border-red-500' : 'border-amber-200'}`}
                         required
                     />
                     {errors.senha && <span className="text-xs text-red-500">{errors.senha}</span>}
                 </div>
-                <div className="space-y-2">
-                    <label className="text-sm font-medium text-[#4e2e13]">Confirmar Senha</label>
+                <div className="space-y-1.5">
+                    <label className="text-sm font-medium text-amber-900">Confirmar Senha</label>
                     <Input
                         name="confirmarSenha"
                         type="password"
                         value={formData.confirmarSenha || ''}
                         onChange={handleChange}
                         placeholder="Confirme a senha"
-                        className={`border-[#e5e0d8] focus:border-[#4e2e13] focus:ring-0 ${errors.confirmarSenha ? 'border-red-500' : ''}`}
+                        className={`${errors.confirmarSenha ? 'border-red-500' : 'border-amber-200'}`}
                         required
                     />
                     {errors.confirmarSenha && <span className="text-xs text-red-500">{errors.confirmarSenha}</span>}
