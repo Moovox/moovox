@@ -217,6 +217,26 @@ const vaccineService = {
             console.error(`Erro ao atualizar vacina com ID ${id}`, error);
             throw error;
         }
+    },
+    async deleteVaccine(id) {
+        try {
+            const existingVaccine = await prisma.vaccines.findUnique({
+                where: { id: Number(id) },
+            });
+
+            if (!existingVaccine) {
+                throw new Error(`Vacina com ID ${id} não encontrado.`);
+            }
+
+            await prisma.vaccines.delete({
+                where: { id: Number(id) },
+            });
+
+            return { message: `Vacina com ID ${id} foi deletado com sucesso.` };
+        } catch (error) {
+            console.error(`Erro ao deletar vacina com ID ${id}`, error);
+            throw error;
+        }
     }
 
 }
