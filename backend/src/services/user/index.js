@@ -92,6 +92,7 @@ const userService = {
                     password: hashed_password,
                     role: role,
                     farm_id: Number(data.farm_id),
+                    ...(data.profile_photo && { profile_photo: data.profile_photo }),
                 },
             });
             return newUser;
