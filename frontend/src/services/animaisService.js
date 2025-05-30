@@ -15,7 +15,7 @@ export const animaisService = {
         try {
             const farmId = localStorage.getItem('farmId');
             if (!farmId) {
-                throw new Error('ID da fazenda não encontrado. Por favor, faça login novamente.');
+                throw new Error('ID da fazenda não encontrado. Por favor, selecione uma fazenda primeiro.');
             }
 
             // Garantir que farmId seja um número e que todos os outros campos estejam formatados corretamente
@@ -34,7 +34,34 @@ export const animaisService = {
             return response.data.data;
         } catch (error) {
             console.error('Erro ao criar animal:', error);
-            throw error.response?.data || error;
+            
+            // Verificar o tipo de erro para dar mensagens mais específicas
+            if (error.response) {
+                // O servidor respondeu com um status de erro
+                if (error.response.status === 400 && error.response.data?.code === 'FARM_ERROR') {
+                    // Limpar o farmId inválido do localStorage
+                    localStorage.removeItem('farmId');
+                    throw new Error(error.response.data.message || 'A fazenda selecionada não existe ou não está disponível.');
+                }
+                
+                if (error.response.status === 404) {
+                    // Provavelmente um erro de rota ou recurso não encontrado
+                    throw new Error('Recurso não encontrado. Verifique a configuração do sistema.');
+                }
+                
+                if (error.response.status === 403) {
+                    throw new Error('Você não tem permissão para acessar este recurso.');
+                }
+                
+                // Outros erros do servidor
+                throw error.response.data || new Error('Erro ao processar a requisição no servidor.');
+            } else if (error.request) {
+                // A requisição foi feita mas não houve resposta do servidor
+                throw new Error('Não foi possível conectar ao servidor. Verifique sua conexão de internet.');
+            } else {
+                // Algo aconteceu na configuração da requisição que acionou um erro
+                throw error;
+            }
         }
     },
 

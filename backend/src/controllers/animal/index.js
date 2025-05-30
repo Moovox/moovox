@@ -89,6 +89,15 @@ const animalController = {
             
             // Retornar mensagem de erro específica se disponível
             if (error.message) {
+                // Verificar se é um erro relacionado à fazenda
+                if (error.message.includes('fazenda') || error.message.includes('farm')) {
+                    return res.status(400).json({
+                        status: 'error',
+                        message: error.message,
+                        code: 'FARM_ERROR'
+                    });
+                }
+                
                 return res.status(400).json({
                     status: 'error',
                     message: error.message

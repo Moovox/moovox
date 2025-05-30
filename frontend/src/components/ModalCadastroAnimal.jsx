@@ -9,6 +9,7 @@ import { Alert, AlertDescription, AlertTitle } from './ui/alert';
 import { AlertCircle, Building2 } from 'lucide-react';
 import { Button } from './ui/button';
 import { useAuth } from './AuthContext';
+import api from '../lib/api';
 
 const status = [
     { value: 'saudavel', label: 'Saudável' },
@@ -64,25 +65,29 @@ function ModalCadastroAnimal({ onSuccess }) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
-        // Verificar se existe uma fazenda selecionada
-        if (!farmId) {
+
+        if (!formData.identificacao || !formData.especieId || !formData.racaId || !formData.dataNascimento || !formData.peso || !formData.status) {
             toast({
-                title: "Erro",
-                description: "Nenhuma fazenda selecionada. Por favor, selecione uma fazenda primeiro.",
-                variant: "destructive"
-            });
-            setOpen(false);
-            return;
-        }
-        
-        // Validação básica
-        if (!formData.identificacao || !formData.especieId || !formData.racaId || !formData.dataNascimento || !formData.peso) {
-            toast({
-                title: "Campos obrigatórios",
+                title: "Campos incompletos",
                 description: "Por favor, preencha todos os campos obrigatórios",
                 variant: "destructive"
             });
+            return;
+        }
+        
+        if (!farmId) {
+            toast({
+                title: "Fazenda não selecionada",
+                description: "Por favor, selecione uma fazenda antes de cadastrar um animal",
+                variant: "destructive"
+            });
+            if (user?.role === 'ADMIN') {
+                // Sugerir ir para a página de fazendas para selecionar uma
+                const shouldGoToFazendas = window.confirm("Deseja ir para a página de gerenciamento de fazendas para selecionar uma?");
+                if (shouldGoToFazendas) {
+                    navigate('/fazendas');
+                }
+            }
             return;
         }
         
@@ -115,11 +120,51 @@ function ModalCadastroAnimal({ onSuccess }) {
             }
         } catch (error) {
             console.error('Erro ao cadastrar animal:', error);
-            toast({
-                title: "Erro",
-                description: error.message || "Ocorreu um erro ao cadastrar o animal",
-                variant: "destructive"
-            });
+            const errorMessage = error.message || "Ocorreu um erro ao cadastrar o animal";
+            
+            // Verificar se é um erro de conexão
+            if (errorMessage.includes('conectar') || 
+                errorMessage.includes('conexão') || 
+                errorMessage.includes('connection') || 
+                errorMessage.includes('network') ||
+                error.code === 'ERR_NETWORK') {
+                toast({
+                    title: "Erro de conexão",
+                    description: "Não foi possível conectar ao servidor. Verifique sua conexão de internet e tente novamente.",
+                    variant: "destructive"
+                });
+                setLoading(false);
+                return;
+            }
+            
+            // Se o erro estiver relacionado à fazenda, dar opções adicionais
+            if (errorMessage.includes('fazenda') || 
+               (error.response?.data?.code === 'FARM_ERROR')) {
+                toast({
+                    title: "Erro na seleção de fazenda",
+                    description: errorMessage,
+                    variant: "destructive",
+                    action: user?.role === 'ADMIN' ? (
+                        <Button 
+                            variant="outline" 
+                            size="sm" 
+                            onClick={handleNavigateToFazendas}
+                        >
+                            Gerenciar Fazendas
+                        </Button>
+                    ) : undefined
+                });
+                
+                // Atualizar farmId no localStorage
+                localStorage.removeItem('farmId');
+                setFarmId(null);
+            } else {
+                toast({
+                    title: "Erro",
+                    description: errorMessage,
+                    variant: "destructive"
+                });
+            }
         } finally {
             setLoading(false);
         }

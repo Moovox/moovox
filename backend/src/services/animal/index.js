@@ -39,7 +39,7 @@ const animalService = {
             });
 
             if (!animals || animals.length === 0) {
-                throw new Error("Nenhum animal encontrado.");
+                return [];
             }
 
             return animals.map(animal => ({
@@ -118,6 +118,16 @@ const animalService = {
                 throw new Error('O ID da fazenda é obrigatório');
             }
             
+            // Verificar se a fazenda existe antes de tentar criar o animal
+            const farmId = parseInt(data.farm_id);
+            const farm = await prisma.farms.findUnique({
+                where: { id: farmId }
+            });
+            
+            if (!farm) {
+                throw new Error(`A fazenda com ID ${farmId} não existe. Selecione uma fazenda válida.`);
+            }
+            
             const animal = await prisma.animals.create({
                 data: {
                     name: data.name,
@@ -126,7 +136,7 @@ const animalService = {
                     birth_date: new Date(data.birth_date),
                     weight: parseFloat(data.weight),
                     health_status: data.health_status,
-                    farm_id: parseInt(data.farm_id)
+                    farm_id: farmId
                 },
                 include: {
                     species: true,

@@ -25,8 +25,9 @@ const userService = {
                 }
             });
 
+            // Retornar array vazio se não houver usuários
             if (!users || users.length === 0) {
-                throw new Error("Nenhum usuário encontrado.");
+                return [];
             }
 
             return users.map(user => ({
@@ -264,6 +265,43 @@ const userService = {
             return true;
         } catch (error) {
             console.error("Erro ao excluir usuário:", error);
+            throw error;
+        }
+    },
+
+    async getUsersByFarm(farmId) {
+        try {
+            // Verifica se o ID da fazenda é válido
+            if (!farmId || isNaN(farmId)) {
+                throw new Error("ID de fazenda inválido");
+            }
+            
+            // Busca os usuários da fazenda
+            const users = await prisma.users.findMany({
+                where: { farm_id: farmId },
+                include: {
+                    farm: {
+                        select: {
+                            name: true
+                        }
+                    }
+                }
+            });
+
+            // Retornar array vazio se não houver usuários, em vez de lançar erro
+            if (!users || users.length === 0) {
+                return [];
+            }
+
+            return users.map(user => ({
+                id: user.id,
+                nome: user.name,
+                email: user.email,
+                tipo: traduzirTipo(user.role),
+                fazenda: user.farm.name
+            }));
+        } catch (error) {
+            console.error(`Erro ao buscar usuários da fazenda ${farmId}:`, error);
             throw error;
         }
     }

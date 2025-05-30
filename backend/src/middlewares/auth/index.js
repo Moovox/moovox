@@ -26,7 +26,7 @@ function authMiddleware(req, res, next) {
         req.user = {
             id: decoded.id,
             role: decoded.role,
-            farmId: decoded.farmId,
+            farm_id: decoded.farmId, // Mantém compatibilidade com os nomes de campo do banco
             iat: decoded.iat,
             exp: decoded.exp
         };
@@ -55,9 +55,25 @@ function authorizeRole(requiredRole) {
     };
 }
 
+/**
+ * Middleware que verifica se o usuário é administrador
+ */
+function adminMiddleware(req, res, next) {
+    if (!req.user) {
+        return res.status(401).json({ message: 'Não autenticado' });
+    }
+
+    if (req.user.role !== 'ADMIN') {
+        return res.status(403).json({ message: 'Acesso negado: apenas administradores podem realizar esta operação' });
+    }
+
+    next();
+}
+
 module.exports = {
     authMiddleware,
     authorizeRole,
+    adminMiddleware
 };
 
 

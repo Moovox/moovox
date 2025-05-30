@@ -64,8 +64,8 @@ export const userService = {
         try {
             const response = await api.get('/users');
 
-            if (!response.data || !response.data.data) {
-                throw new Error('Nenhum dado retornado da API');
+            if (!response.data) {
+                return { data: [] };
             }
 
             const usersData = Array.isArray(response.data.data) ? response.data.data : [];
@@ -81,7 +81,7 @@ export const userService = {
             return { data: users };
         } catch (error) {
             console.error('Erro ao buscar usuários:', error);
-            throw error.response?.data || error;
+            return { data: [], error };
         }
     }
 };
