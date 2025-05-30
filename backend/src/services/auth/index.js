@@ -1,12 +1,21 @@
 const prisma = require('../../config/database');
-const bcrypt = require('bcryptjs');
+const { comparePassword } = require('../../utils/auth');
 const jwt = require('jsonwebtoken');
-const JWT_SECRET = process.env.JWT_SECRET || "minhachaveultrasecreta123"
+const config = require('../../config/env');
 
-
+/**
+ * Serviço responsável pelas operações de autenticação
+ */
 const authService = {
+    /**
+     * Realiza o login do usuário verificando credenciais e gerando token
+     * @param {Object} data - Objeto contendo email e senha
+     * @returns {Object} Token e dados do usuário autenticado
+     * @throws {Error} Se as credenciais forem inválidas ou ocorrer algum erro
+     */
     async login(data) {
         try {
+            // Busca o usuário pelo email
             const user = await prisma.users.findUnique({ 
                 where: { email: data.email },
                 include: {
@@ -19,26 +28,35 @@ const authService = {
                 }
             });
             
+            // Verifica se o usuário existe
             if (!user) {
-                throw new Error("Usuário não encontrado.");
+                const error = new Error("Usuário não encontrado");
+                error.statusCode = 404;
+                throw error;
             }
             
-            const isPasswordValid = await bcrypt.compare(data.password, user.password);
+            // Verifica se a senha está correta
+            const isPasswordValid = await comparePassword(data.password, user.password);
             
             if (!isPasswordValid) {
-                throw new Error("Email ou senha inválidos.");
+                const error = new Error("Email ou senha inválidos");
+                error.statusCode = 401;
+                throw error;
             }
             
+            // Gera o token JWT
             const token = jwt.sign(
                 { 
                     id: user.id, 
                     role: user.role,
-                    farmId: user.farm.id 
+                    farmId: user.farm.id,
+                    email: user.email
                 }, 
-                JWT_SECRET, 
-                { expiresIn: "1d" }
+                config.jwt.secret, 
+                { expiresIn: config.jwt.expiresIn }
             );
 
+            // Retorna os dados de autenticação
             return { 
                 token, 
                 user: { 
@@ -53,6 +71,6 @@ const authService = {
             throw error;
         }
     }
-}
+};
 
 module.exports = authService; 

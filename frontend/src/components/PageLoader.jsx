@@ -1,4 +1,4 @@
-import React from 'react';
+import { memo } from 'react';
 import { cowHead } from '@lucide/lab';
 import { Icon } from 'lucide-react';
 import PropTypes from 'prop-types';
@@ -45,7 +45,7 @@ function PageLoader({ icon, color = 'green-700', className = '' }) {
 
 PageLoader.propTypes = {
   icon: PropTypes.node,
-  color: PropTypes.string,
+  color: PropTypes.oneOf(Object.keys(COLOR_MAP)),
   className: PropTypes.string,
 };
 
@@ -54,4 +54,4 @@ PageLoader.defaultProps = {
   className: '',
 };
 
-export default PageLoader;
+export default memo(PageLoader);

@@ -22,6 +22,7 @@ const status = [
 
 function ModalEditarAnimal({ animal, open, onOpenChange, onSuccess }) {
     const { toast } = useToast();
+    const [loading, setLoading] = React.useState(false);
     const [formData, setFormData] = React.useState({
         nome: '',
         especie: '',
@@ -54,6 +55,18 @@ function ModalEditarAnimal({ animal, open, onOpenChange, onSuccess }) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        
+        // Validações básicas
+        if (!formData.especie || !formData.dataNascimento || !formData.peso) {
+            toast({
+                title: "Campos obrigatórios",
+                description: "Por favor, preencha todos os campos obrigatórios",
+                variant: "destructive"
+            });
+            return;
+        }
+        
+        setLoading(true);
         try {
             await animaisService.atualizarAnimal(animal.id, {
                 nome: formData.nome,
@@ -65,11 +78,14 @@ function ModalEditarAnimal({ animal, open, onOpenChange, onSuccess }) {
             });
 
             toast({
-                title: "Animal atualizado",
-                description: "As informações do animal foram atualizadas com sucesso."
+                title: "Sucesso",
+                description: "Animal atualizado com sucesso!",
+                variant: "success"
             });
 
-            onSuccess();
+            if (onSuccess) {
+                await onSuccess();
+            }
             onOpenChange(false);
         } catch (error) {
             console.error('Erro ao atualizar animal:', error);
@@ -78,104 +94,10 @@ function ModalEditarAnimal({ animal, open, onOpenChange, onSuccess }) {
                 title: "Erro ao atualizar",
                 description: error.message || "Não foi possível atualizar o animal. Tente novamente mais tarde."
             });
+        } finally {
+            setLoading(false);
         }
     };
-
-    const formFields = (
-        <>
-            <div className="space-y-2">
-                <label className="text-sm font-medium text-[#4e2e13]">Identificação</label>
-                <Input
-                    value={animal?.identificacao || ''}
-                    disabled
-                    className="border-[#e5e0d8] focus:border-[#4e2e13] focus:ring-0 bg-gray-100"
-                />
-            </div>
-            <div className="space-y-2">
-                <label className="text-sm font-medium text-[#4e2e13]">Nome (opcional)</label>
-                <Input
-                    name="nome"
-                    value={formData.nome}
-                    onChange={handleChange}
-                    placeholder="Digite o nome do animal"
-                    className="border-[#e5e0d8] focus:border-[#4e2e13] focus:ring-0"
-                />
-            </div>
-            <div className="space-y-2">
-                <label className="text-sm font-medium text-[#4e2e13]">Espécie</label>
-                <Select
-                    value={formData.especie}
-                    onValueChange={(value) => setFormData(prev => ({ ...prev, especie: value }))}
-                    required
-                >
-                    <SelectTrigger className="border-[#e5e0d8] focus:border-[#4e2e13] focus:ring-0">
-                        <SelectValue placeholder="Selecione a espécie" />
-                    </SelectTrigger>
-                    <SelectContent>
-                        {especies.map((especie) => (
-                            <SelectItem key={especie.value} value={especie.value}>
-                                {especie.label}
-                            </SelectItem>
-                        ))}
-                    </SelectContent>
-                </Select>
-            </div>
-            <div className="space-y-2">
-                <label className="text-sm font-medium text-[#4e2e13]">Raça</label>
-                <Input
-                    name="raca"
-                    value={formData.raca}
-                    onChange={handleChange}
-                    placeholder="Digite a raça"
-                    className="border-[#e5e0d8] focus:border-[#4e2e13] focus:ring-0"
-                    required
-                />
-            </div>
-            <div className="space-y-2">
-                <label className="text-sm font-medium text-[#4e2e13]">Data de Nascimento</label>
-                <Input
-                    name="dataNascimento"
-                    type="date"
-                    value={formData.dataNascimento}
-                    onChange={handleChange}
-                    className="border-[#e5e0d8] focus:border-[#4e2e13] focus:ring-0"
-                    required
-                />
-            </div>
-            <div className="space-y-2">
-                <label className="text-sm font-medium text-[#4e2e13]">Peso (kg)</label>
-                <Input
-                    name="peso"
-                    type="number"
-                    step="0.1"
-                    value={formData.peso}
-                    onChange={handleChange}
-                    placeholder="Digite o peso"
-                    className="border-[#e5e0d8] focus:border-[#4e2e13] focus:ring-0"
-                    required
-                />
-            </div>
-            <div className="space-y-2">
-                <label className="text-sm font-medium text-[#4e2e13]">Estado de Saúde</label>
-                <Select
-                    value={formData.status}
-                    onValueChange={(value) => setFormData(prev => ({ ...prev, status: value }))}
-                    required
-                >
-                    <SelectTrigger className="border-[#e5e0d8] focus:border-[#4e2e13] focus:ring-0">
-                        <SelectValue placeholder="Selecione o estado de saúde" />
-                    </SelectTrigger>
-                    <SelectContent>
-                        {status.map((estado) => (
-                            <SelectItem key={estado.value} value={estado.value}>
-                                {estado.label}
-                            </SelectItem>
-                        ))}
-                    </SelectContent>
-                </Select>
-            </div>
-        </>
-    );
 
     return (
         <FormModal
@@ -183,9 +105,102 @@ function ModalEditarAnimal({ animal, open, onOpenChange, onSuccess }) {
             open={open}
             onOpenChange={onOpenChange}
             onSubmit={handleSubmit}
-            showTrigger={false}
+            submitText="Salvar"
+            loading={loading}
         >
-            {formFields}
+            <div className="space-y-4">
+                <div className="space-y-2">
+                    <label className="text-sm font-medium text-amber-900">Identificação</label>
+                    <Input
+                        value={animal?.identificacao || ''}
+                        disabled
+                        className="bg-gray-100 border-amber-200"
+                    />
+                </div>
+                <div className="space-y-2">
+                    <label className="text-sm font-medium text-amber-900">Nome (opcional)</label>
+                    <Input
+                        name="nome"
+                        value={formData.nome}
+                        onChange={handleChange}
+                        placeholder="Digite o nome do animal"
+                        className="border-amber-200"
+                    />
+                </div>
+                <div className="space-y-2">
+                    <label className="text-sm font-medium text-amber-900">Espécie</label>
+                    <Select
+                        value={formData.especie}
+                        onValueChange={(value) => setFormData(prev => ({ ...prev, especie: value }))}
+                        required
+                    >
+                        <SelectTrigger className="border-amber-200">
+                            <SelectValue placeholder="Selecione a espécie" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            {especies.map((especie) => (
+                                <SelectItem key={especie.value} value={especie.value}>
+                                    {especie.label}
+                                </SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
+                </div>
+                <div className="space-y-2">
+                    <label className="text-sm font-medium text-amber-900">Raça</label>
+                    <Input
+                        name="raca"
+                        value={formData.raca}
+                        onChange={handleChange}
+                        placeholder="Digite a raça"
+                        className="border-amber-200"
+                        required
+                    />
+                </div>
+                <div className="space-y-2">
+                    <label className="text-sm font-medium text-amber-900">Data de Nascimento</label>
+                    <Input
+                        name="dataNascimento"
+                        type="date"
+                        value={formData.dataNascimento}
+                        onChange={handleChange}
+                        className="border-amber-200"
+                        required
+                    />
+                </div>
+                <div className="space-y-2">
+                    <label className="text-sm font-medium text-amber-900">Peso (kg)</label>
+                    <Input
+                        name="peso"
+                        type="number"
+                        step="0.1"
+                        value={formData.peso}
+                        onChange={handleChange}
+                        placeholder="Digite o peso"
+                        className="border-amber-200"
+                        required
+                    />
+                </div>
+                <div className="space-y-2">
+                    <label className="text-sm font-medium text-amber-900">Estado de Saúde</label>
+                    <Select
+                        value={formData.status}
+                        onValueChange={(value) => setFormData(prev => ({ ...prev, status: value }))}
+                        required
+                    >
+                        <SelectTrigger className="border-amber-200">
+                            <SelectValue placeholder="Selecione o estado de saúde" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            {status.map((estado) => (
+                                <SelectItem key={estado.value} value={estado.value}>
+                                    {estado.label}
+                                </SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
+                </div>
+            </div>
         </FormModal>
     );
 }

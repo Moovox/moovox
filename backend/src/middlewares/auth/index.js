@@ -1,26 +1,26 @@
 const jwt = require('jsonwebtoken');
-const JWT_SECRET = process.env.JWT_SECRET || "minhachaveultrasecreta123";
+const config = require('../../config/env');
 
+const JWT_SECRET = config.jwt.secret || process.env.JWT_SECRET || "minhachaveultrasecreta123";
+
+/**
+ * Middleware de autenticação que verifica a validade do token JWT
+ */
 function authMiddleware(req, res, next) {
     const authHeader = req.headers.authorization;
-    console.log('Headers recebidos:', req.headers);
 
     if (!authHeader) {
-        console.log('Nenhum header de autorização encontrado');
         return res.status(401).json({ error: 'Token não fornecido.' });
     }
 
     if (!authHeader.startsWith('Bearer ')) {
-        console.log('Header de autorização não está no formato Bearer');
         return res.status(401).json({ error: 'Formato de token inválido.' });
     }
 
     const token = authHeader.split(' ')[1];
-    console.log('Token extraído:', token ? 'Presente' : 'Ausente');
 
     try {
         const decoded = jwt.verify(token, JWT_SECRET);
-        console.log('Token decodificado:', decoded);
         
         // Configurar req.user com as informações do token
         req.user = {
@@ -31,14 +31,16 @@ function authMiddleware(req, res, next) {
             exp: decoded.exp
         };
         
-        console.log('req.user configurado:', req.user);
         next();
     } catch (error) {
-        console.error('Erro ao verificar token:', error);
         return res.status(401).json({ error: 'Token inválido.' });
     }
 }
 
+/**
+ * Middleware para autorização baseada em roles
+ * @param {string} requiredRole - O papel necessário para acessar o recurso
+ */
 function authorizeRole(requiredRole) {
     return (req, res, next) => {
         if (!req.user) {

@@ -6,7 +6,7 @@ import AuthLayout from './components/AuthLayout';
 import PageLoader from './components/PageLoader';
 import { AuthProvider } from './components/AuthContext';
 import PrivateRoute from './components/PrivateRoute';
-import { Toaster } from './components/Toaster';
+import Toaster from './components/Toaster';
 import './styles/globals.css'
 
 const Dashboard = lazy(() => import('./pages/Dashboard'));
@@ -18,7 +18,6 @@ const Vacinas = lazy(() => import('./pages/Vacinas'));
 const Aplicacoes = lazy(() => import('./pages/Aplicacoes'));
 const MeuPerfil = lazy(() => import('./pages/MeuPerfil'));
 
-// Separação das rotas em um array para facilitar manutenção e escalabilidade
 const privateRoutes = [
     { path: '/dashboard', element: <Dashboard /> },
     { path: '/usuarios', element: <Usuarios /> },
@@ -41,7 +40,6 @@ export default function App() {
                             <Route index element={<Login />} />
                             <Route path="forgot-pass" element={<ForgotPass />} />
                         </Route>
-                        <Route path="/usuarios" element={<Usuarios />} />
                         <Route element={<PrivateRoute />}>
                             {privateRoutes.map(({ path, element }) => (
                                 <Route key={path} path={path} element={element} />

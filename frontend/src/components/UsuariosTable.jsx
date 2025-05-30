@@ -32,6 +32,15 @@ function UsuariosTable({ usuarios, loading, onUserCreated, error }) {
     ) || [];
 
     const handleDelete = async (id, nome) => {
+        if (!id) {
+            toast({
+                title: "Erro",
+                description: "ID de usuário inválido.",
+                variant: "destructive"
+            });
+            return;
+        }
+
         if (!window.confirm(`Tem certeza que deseja excluir o usuário "${nome}"?`)) {
             return;
         }
@@ -42,8 +51,9 @@ function UsuariosTable({ usuarios, loading, onUserCreated, error }) {
             toast({
                 title: "Sucesso",
                 description: "Usuário excluído com sucesso!",
-                variant: "default"
+                variant: "success"
             });
+            
             if (onUserCreated) {
                 await onUserCreated();
             }
@@ -112,7 +122,7 @@ function UsuariosTable({ usuarios, loading, onUserCreated, error }) {
                         <Button 
                             size="icon" 
                             variant="ghost" 
-                            className="text-destructive hover:bg-destructive/10"
+                            className="text-red-500 hover:bg-red-50 hover:text-red-600 transition-colors"
                             title="Excluir"
                             onClick={() => handleDelete(usuario.id, usuario.nome)}
                             disabled={loadingDelete === usuario.id}
@@ -140,7 +150,7 @@ function UsuariosTable({ usuarios, loading, onUserCreated, error }) {
                         className="md:w-64 bg-white/80"
                     />
                     <Select value={tipo} onValueChange={setTipo}>
-                        <SelectTrigger className="md:w-48 bg-white/80">
+                        <SelectTrigger className="md:w-48 bg-white">
                             <SelectValue placeholder="Filtrar por tipo" />
                         </SelectTrigger>
                         <SelectContent>

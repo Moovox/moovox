@@ -42,9 +42,57 @@ const userService = {
         }
     },
 
+    async getUserByID(id) {
+        try {
+            const userId = parseInt(id, 10);
+            if (isNaN(userId)) {
+                throw new Error("ID de usuário inválido.");
+            }
+
+            const user = await prisma.users.findUnique({
+                where: { id: userId },
+                include: {
+                    farm: {
+                        select: {
+                            id: true,
+                            name: true
+                        }
+                    }
+                }
+            });
+
+            if (!user) {
+                throw new Error("Usuário não encontrado.");
+            }
+
+            return {
+                id: user.id,
+                nome: user.name,
+                email: user.email,
+                tipo: traduzirTipo(user.role),
+                fazenda: user.farm.name
+            };
+        } catch (error) {
+            console.error("Erro ao buscar usuário por ID:", error);
+            throw error;
+        }
+    },
+
     async createUser(userData) {
         try {
             const { name, email, password, role, farmId } = userData;
+
+            // Validações básicas
+            if (!name) throw new Error("Nome é obrigatório");
+            if (!email) throw new Error("Email é obrigatório");
+            if (!password) throw new Error("Senha é obrigatória");
+            if (!role) throw new Error("Função do usuário é obrigatória");
+            if (!farmId) throw new Error("ID da fazenda é obrigatório");
+
+            const farmIdNum = parseInt(farmId, 10);
+            if (isNaN(farmIdNum)) {
+                throw new Error("ID de fazenda inválido");
+            }
 
             // Verifica se o email já existe
             const existingUser = await prisma.users.findUnique({
@@ -57,7 +105,7 @@ const userService = {
 
             // Verifica se a fazenda existe
             const farm = await prisma.farms.findUnique({
-                where: { id: farmId }
+                where: { id: farmIdNum }
             });
 
             if (!farm) {
@@ -73,7 +121,7 @@ const userService = {
                     password: hashedPassword,
                     role,
                     farm: {
-                        connect: { id: farmId }
+                        connect: { id: farmIdNum }
                     }
                 },
                 include: {
@@ -100,11 +148,16 @@ const userService = {
 
     async updateUser(id, userData) {
         try {
+            const userId = parseInt(id, 10);
+            if (isNaN(userId)) {
+                throw new Error("ID de usuário inválido.");
+            }
+
             const { name, email, password, role, farmId } = userData;
 
             // Verifica se o usuário existe
             const existingUser = await prisma.users.findUnique({
-                where: { id }
+                where: { id: userId }
             });
 
             if (!existingUser) {
@@ -123,16 +176,29 @@ const userService = {
             }
 
             // Prepara os dados para atualização
-            const updateData = {
-                ...(name && { name }),
-                ...(email && { email }),
-                ...(role && { role }),
-                ...(farmId && {
-                    farm: {
-                        connect: { id: farmId }
-                    }
-                })
-            };
+            const updateData = {};
+            
+            if (name) updateData.name = name;
+            if (email) updateData.email = email;
+            if (role) updateData.role = role;
+            
+            // Se houver ID da fazenda, converte para número e verifica se existe
+            if (farmId) {
+                const farmIdNum = parseInt(farmId, 10);
+                if (isNaN(farmIdNum)) {
+                    throw new Error("ID de fazenda inválido");
+                }
+                
+                const farm = await prisma.farms.findUnique({
+                    where: { id: farmIdNum }
+                });
+                
+                if (!farm) {
+                    throw new Error("Fazenda não encontrada.");
+                }
+                
+                updateData.farm = { connect: { id: farmIdNum } };
+            }
 
             // Se houver nova senha, faz o hash
             if (password) {
@@ -140,7 +206,7 @@ const userService = {
             }
 
             const updatedUser = await prisma.users.update({
-                where: { id },
+                where: { id: userId },
                 data: updateData,
                 include: {
                     farm: {
@@ -166,9 +232,14 @@ const userService = {
 
     async deleteUser(id) {
         try {
+            const userId = parseInt(id, 10);
+            if (isNaN(userId)) {
+                throw new Error("ID de usuário inválido.");
+            }
+
             // Verifica se o usuário existe
             const user = await prisma.users.findUnique({
-                where: { id: Number(id) }
+                where: { id: userId }
             });
 
             if (!user) {
@@ -187,7 +258,7 @@ const userService = {
             }
 
             await prisma.users.delete({
-                where: { id }
+                where: { id: userId }
             });
 
             return true;
@@ -196,6 +267,6 @@ const userService = {
             throw error;
         }
     }
-}
+};
 
 module.exports = userService;

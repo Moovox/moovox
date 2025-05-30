@@ -1,4 +1,14 @@
-# Configuração do banco de dados
+/**
+ * Script para criar um arquivo .env.example atualizado
+ */
+
+const fs = require('fs');
+const path = require('path');
+
+const rootDir = path.resolve(__dirname, '../');
+const envExamplePath = path.join(rootDir, '.env.example');
+
+const envExampleContent = `# Configuração do banco de dados
 # DESCOMENTE E CONFIGURE A OPÇÃO DESEJADA:
 
 ## Opção 1: Configuração para desenvolvimento local (SQL Server com autenticação Windows)
@@ -10,8 +20,8 @@
 # SHADOW_DATABASE_URL="sqlserver://localhost:1433;database=moovox_shadow;user=USUARIO;password=SENHA;trustServerCertificate=true"
 
 ## Opção 3: Configuração para produção (Azure SQL)
-# DATABASE_URL="sqlserver://moovox.database.windows.net:1433;database=Moovox;user=CloudSAf9e4385f;password=481626Alfa..;encrypt=true"
-# SHADOW_DATABASE_URL="sqlserver://moovox_shadow.database.windows.net:1433;database=moovoxShadow;user=USUARIO;password=481626Alfa..;encrypt=true"
+# DATABASE_URL="sqlserver://SERVIDOR.database.windows.net:1433;database=moovox;user=USUARIO;password=SENHA;encrypt=true"
+# SHADOW_DATABASE_URL="sqlserver://SERVIDOR.database.windows.net:1433;database=moovoxShadow;user=USUARIO;password=SENHA;encrypt=true"
 
 # Porta do servidor
 PORT=3001
@@ -25,3 +35,12 @@ NODE_ENV="development"
 # Configurações adicionais (opcional)
 # BCRYPT_SALT_ROUNDS=10
 # JWT_EXPIRES_IN=24h
+`;
+
+try {
+    fs.writeFileSync(envExamplePath, envExampleContent, 'utf8');
+    console.log('Arquivo .env.example criado com sucesso!');
+} catch (error) {
+    console.error('Erro ao criar arquivo .env.example:', error.message);
+    process.exit(1);
+} 

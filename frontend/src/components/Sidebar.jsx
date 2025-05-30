@@ -1,4 +1,4 @@
-import React from 'react';
+import { memo, useState, useEffect, useMemo, useCallback } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { LayoutDashboard, Users, Droplets, Package, User, Icon } from 'lucide-react';
 import { cowHead } from '@lucide/lab';
@@ -8,27 +8,27 @@ import LogoutButton from './LogoutButton';
 
 // Hook customizado para detectar se é desktop
 function useIsDesktop() {
-    const [isDesktop, setIsDesktop] = React.useState(() => typeof window !== 'undefined' && window.innerWidth >= 1024);
-    React.useEffect(() => {
-        function handleResize() {
-            setIsDesktop(window.innerWidth >= 1024);
-        }
+    const [isDesktop, setIsDesktop] = useState(() => 
+        typeof window !== 'undefined' && window.innerWidth >= 1024
+    );
+    
+    useEffect(() => {
+        const handleResize = () => setIsDesktop(window.innerWidth >= 1024);
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
     }, []);
+    
     return isDesktop;
 }
 
 // Header da Sidebar com logo e nome
-function SidebarHeader({ expanded, isDesktop }) {
-    return (
-        <div className={`flex justify-center items-center w-full min-h-16 ${!expanded && !isDesktop ? 'hidden' : ''}`}>
-            <Link to="/dashboard" children={
-                <p className='text-2xl sm:text-3xl font-semibold font-poppins'>Moovox</p>
-                }/>
-        </div>
-    );
-}
+const SidebarHeader = memo(({ expanded, isDesktop }) => (
+    <div className={`flex justify-center items-center w-full min-h-16 ${!expanded && !isDesktop ? 'hidden' : ''}`}>
+        <Link to="/dashboard">
+            <p className='text-2xl sm:text-3xl font-semibold font-poppins'>Moovox</p>
+        </Link>
+    </div>
+));
 
 SidebarHeader.propTypes = {
     expanded: PropTypes.bool.isRequired,
@@ -36,37 +36,33 @@ SidebarHeader.propTypes = {
 };
 
 // Navegação da Sidebar
-function SidebarNavigation({ menuItems, expanded, isDesktop, handleLogout }) {
-    return (
-        <nav className={`relative z-10 mt-2 flex flex-col gap-1 ${!expanded && !isDesktop ? 'hidden' : ''}`}>
-            <AnimatePresence>
-                {/* Renderiza cada item do menu com animação */}
-                {menuItems.map(({ to, icon, label }) => (
-                    <motion.div
-                        key={to}
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: -20 }}
-                        transition={{ duration: 0.2 }}
+const SidebarNavigation = memo(({ menuItems, expanded, isDesktop, handleLogout }) => (
+    <nav className={`relative z-10 mt-2 flex flex-col gap-1 ${!expanded && !isDesktop ? 'hidden' : ''}`}>
+        <AnimatePresence>
+            {menuItems.map(({ to, icon, label }) => (
+                <motion.div
+                    key={to}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -20 }}
+                    transition={{ duration: 0.2 }}
+                >
+                    <NavLink
+                        to={to}
+                        tabIndex={0}
+                        className={({ isActive }) =>
+                            `flex items-center px-3 py-2 rounded-md mx-1 my-0.5 text-sm font-medium border border-transparent hover:bg-[#fff8f0]/10 hover:text-[#fff8f0] transition-colors duration-150 ${isActive ? 'bg-[#246426] text-[#ffffff] shadow border-l-4 border-[#4caf50]' : 'text-[#fff8f0]'}`
+                        }
                     >
-                        <NavLink
-                            to={to}
-                            tabIndex={0}
-                            className={({ isActive }) =>
-                                `flex items-center px-3 py-2 rounded-md mx-1 my-0.5 text-sm font-medium border border-transparent hover:bg-[#fff8f0]/10 hover:text-[#fff8f0] transition-colors duration-150 ${isActive ? 'bg-[#246426] text-[#ffffff] shadow border-l-4 border-[#4caf50]' : 'text-[#fff8f0]'}`
-                            }
-                        >
-                            {icon}
-                            <span className={`transition-opacity duration-200 ${expanded ? 'opacity-100' : 'opacity-0'} lg:opacity-100 text-[#fff8f0] ml-1`}>{label}</span>
-                        </NavLink>
-                    </motion.div>
-                ))}
-            </AnimatePresence>
-            {/* Botão de logout */}
-            <LogoutButton onLogout={handleLogout} expanded={expanded} />
-        </nav>
-    );
-}
+                        {icon}
+                        <span className={`transition-opacity duration-200 ${expanded ? 'opacity-100' : 'opacity-0'} lg:opacity-100 text-[#fff8f0] ml-1`}>{label}</span>
+                    </NavLink>
+                </motion.div>
+            ))}
+        </AnimatePresence>
+        <LogoutButton onLogout={handleLogout} expanded={expanded} />
+    </nav>
+));
 
 SidebarNavigation.propTypes = {
     menuItems: PropTypes.arrayOf(
@@ -82,24 +78,22 @@ SidebarNavigation.propTypes = {
 };
 
 // Footer da Sidebar
-function SidebarFooter({ expanded }) {
-    return (
-        <motion.div
-            className={`relative z-10 p-4 mt-auto text-center text-xs text-[#ffe6c7] transition-opacity duration-300 ${!expanded ? 'hidden' : ''}`}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: expanded ? 1 : 0 }}
-            transition={{ duration: 0.5 }}
-        >
-            <span className={`${expanded ? 'opacity-100' : 'opacity-0'}`}>© 2025 Moovox</span>
-        </motion.div>
-    );
-}
+const SidebarFooter = memo(({ expanded }) => (
+    <motion.div
+        className={`relative z-10 p-4 mt-auto text-center text-xs text-[#ffe6c7] transition-opacity duration-300 ${!expanded ? 'hidden' : ''}`}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: expanded ? 1 : 0 }}
+        transition={{ duration: 0.5 }}
+    >
+        <span className={`${expanded ? 'opacity-100' : 'opacity-0'}`}>© 2025 Moovox</span>
+    </motion.div>
+));
 
 SidebarFooter.propTypes = {
     expanded: PropTypes.bool.isRequired,
 };
 
-// Ícones do menu (memorizados para performance)
+// Ícones do menu
 const dashboardIcon = <LayoutDashboard className="mr-2 w-5 h-5" />;
 const usersIcon = <Users className="mr-2 w-5 h-5" />;
 const animaisIcon = <Icon iconNode={cowHead} className="mr-2 w-5 h-5" />;
@@ -123,14 +117,13 @@ function Sidebar({ onToggle, isExpanded, showContent, userType }) {
     const expanded = isExpanded;
     const navigate = useNavigate();
 
-    // Filtra os itens do menu com base no tipo de usuário (case-insensitive)
-    console.log('userType Sidebar:', userType);
-    const filteredMenuItems = React.useMemo(() =>
+    // Filtra os itens do menu com base no tipo de usuário
+    const filteredMenuItems = useMemo(() =>
         menuItems.filter(item => !(item.to === '/usuarios' && String(userType).toLowerCase() !== 'admin'))
     , [userType]);
 
     // Função de logout
-    const handleLogout = React.useCallback(() => {
+    const handleLogout = useCallback(() => {
         navigate('/');
     }, [navigate]);
 
@@ -183,13 +176,13 @@ Sidebar.propTypes = {
     onToggle: PropTypes.func,
     isExpanded: PropTypes.bool,
     showContent: PropTypes.bool,
-    userType: PropTypes.string.isRequired, // Adiciona a prop userType
+    userType: PropTypes.string.isRequired,
 };
 
 Sidebar.defaultProps = {
-    onToggle: () => { },
+    onToggle: () => {},
     isExpanded: false,
     showContent: false,
 };
 
-export default Sidebar;
+export default memo(Sidebar);

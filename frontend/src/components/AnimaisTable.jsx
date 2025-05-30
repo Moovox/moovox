@@ -3,7 +3,7 @@ import { Table, TableHeader, TableBody, TableHead, TableRow, TableCell } from '.
 import { Input } from './ui/input';
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from './ui/select';
 import { Button } from './ui/button';
-import { Pencil, Trash2 } from 'lucide-react';
+import { Pencil, Trash2, Loader2 } from 'lucide-react';
 import { animaisService } from '../services/animaisService';
 import { useToast } from './ui/use-toast';
 import ModalCadastroAnimal from './ModalCadastroAnimal';
@@ -32,6 +32,7 @@ function AnimaisTable() {
     const [loading, setLoading] = useState(true);
     const [animalParaEditar, setAnimalParaEditar] = useState(null);
     const [modalEditarAberto, setModalEditarAberto] = useState(false);
+    const [animalExcluindo, setAnimalExcluindo] = useState(null);
     const { toast } = useToast();
 
     useEffect(() => {
@@ -56,11 +57,13 @@ function AnimaisTable() {
 
     const handleExcluir = async (id) => {
         if (window.confirm('Tem certeza que deseja excluir este animal?')) {
+            setAnimalExcluindo(id);
             try {
                 await animaisService.excluirAnimal(id);
                 toast({
                     title: "Animal excluído",
-                    description: "O animal foi excluído com sucesso."
+                    description: "O animal foi excluído com sucesso.",
+                    variant: "success"
                 });
                 carregarAnimais();
             } catch (error) {
@@ -70,6 +73,8 @@ function AnimaisTable() {
                     title: "Erro ao excluir",
                     description: "Não foi possível excluir o animal. Tente novamente mais tarde."
                 });
+            } finally {
+                setAnimalExcluindo(null);
             }
         }
     };
@@ -94,10 +99,10 @@ function AnimaisTable() {
                         placeholder="Pesquisar por identificação ou nome..."
                         value={busca}
                         onChange={e => setBusca(e.target.value)}
-                        className="md:w-64 bg-white/80"
+                        className="md:w-64 bg-white"
                     />
                     <Select value={especie} onValueChange={setEspecie}>
-                        <SelectTrigger className="md:w-48 bg-white/80">
+                        <SelectTrigger className="md:w-48 bg-white">
                             <SelectValue placeholder="Todas as espécies" />
                         </SelectTrigger>
                         <SelectContent>
@@ -107,12 +112,12 @@ function AnimaisTable() {
                         </SelectContent>
                     </Select>
                 </div>
-                <ModalCadastroAnimal />
+                <ModalCadastroAnimal onSuccess={carregarAnimais} />
             </div>
-            <div className="rounded-xl border bg-white/80 shadow-sm overflow-x-auto">
+            <div className="rounded-xl border bg-white shadow-sm overflow-x-auto">
                 <Table>
                     <TableHeader>
-                        <TableRow className="hover:bg-[#F6E3B3]/60">
+                        <TableRow className="hover:bg-amber-50">
                             <TableHead className="w-12">ID</TableHead>
                             <TableHead>Identificação</TableHead>
                             <TableHead>Nome</TableHead>
@@ -126,8 +131,10 @@ function AnimaisTable() {
                     <TableBody>
                         {loading ? (
                             <TableRow>
-                                <TableCell colSpan={8} className="text-center text-muted-foreground py-8">
-                                    Carregando...
+                                <TableCell colSpan={8} className="h-24 text-center">
+                                    <div className="flex items-center justify-center">
+                                        <Loader2 className="h-6 w-6 animate-spin text-amber-700" />
+                                    </div>
                                 </TableCell>
                             </TableRow>
                         ) : animaisFiltrados.length === 0 ? (
@@ -138,7 +145,7 @@ function AnimaisTable() {
                             </TableRow>
                         ) : (
                             animaisFiltrados.map(animal => (
-                                <TableRow key={animal.id} className="hover:bg-[#F6E3B3]/60">
+                                <TableRow key={animal.id} className="hover:bg-amber-50/50">
                                     <TableCell>{animal.id}</TableCell>
                                     <TableCell className="font-medium">{animal.identificacao}</TableCell>
                                     <TableCell>{animal.nome || '-'}</TableCell>
@@ -154,7 +161,7 @@ function AnimaisTable() {
                                         <Button 
                                             size="icon" 
                                             variant="ghost" 
-                                            className="text-primary hover:bg-primary/10"
+                                            className="text-amber-700 hover:bg-amber-100 hover:text-amber-800 transition-colors"
                                             onClick={() => handleEditar(animal)}
                                             title="Editar"
                                         >
@@ -163,11 +170,16 @@ function AnimaisTable() {
                                         <Button 
                                             size="icon" 
                                             variant="ghost" 
-                                            className="text-destructive hover:bg-destructive/10"
+                                            className="text-red-500 hover:bg-red-50 hover:text-red-600 transition-colors"
                                             onClick={() => handleExcluir(animal.id)}
                                             title="Excluir"
+                                            disabled={animalExcluindo === animal.id}
                                         >
-                                            <Trash2 className="w-4 h-4" />
+                                            {animalExcluindo === animal.id ? (
+                                                <Loader2 className="h-4 w-4 animate-spin" />
+                                            ) : (
+                                                <Trash2 className="w-4 h-4" />
+                                            )}
                                         </Button>
                                     </TableCell>
                                 </TableRow>

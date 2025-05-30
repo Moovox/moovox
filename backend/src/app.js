@@ -2,35 +2,34 @@ const express = require('express');
 const path = require('path');
 require('dotenv').config();
 const cors = require('cors');
-const routes = require('./routes') 
+const routes = require('./routes');
+const config = require('./config/env');
 
-const app = express(); 
+const app = express();
 
-// Configuração do CORS baseada no ambiente
-const allowedOrigins = process.env.NODE_ENV === 'development' 
-    ? ['http://localhost:5173', 'http://localhost:3000', 'http://localhost:3001']
-    : ['https://www.moovox.systems', 'https://moovox.systems'];
-
-app.use(express.urlencoded({extended: true})); 
-app.use(express.json()); 
+// Middlewares
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 app.use(cors({
-    origin: allowedOrigins,
+    origin: config.cors.allowedOrigins,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'X-Farm-ID'],
+    credentials: true
 }));
 
-// Middleware para adicionar headers de CORS em todas as respostas
+// Roteamento
+app.use('/api', routes);
+
+// Middleware para rotas não encontradas
 app.use((req, res, next) => {
-    const origin = req.headers.origin;
-    if (allowedOrigins.includes(origin)) {
-        res.setHeader('Access-Control-Allow-Origin', origin);
-    }
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Farm-ID');
-    res.setHeader('Access-Control-Allow-Credentials', 'true');
-    next();
+    console.log(`Rota não encontrada: ${req.method} ${req.originalUrl}`);
+    res.status(404).json({ message: `Rota não encontrada: ${req.method} ${req.originalUrl}` });
 });
 
-app.use('/api', routes); 
+// Middleware para tratamento de erros
+app.use((err, req, res, next) => {
+    console.error('Erro na aplicação:', err);
+    res.status(500).json({ message: 'Erro interno do servidor', error: err.message });
+});
 
 module.exports = app;

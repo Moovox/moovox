@@ -25,22 +25,22 @@ function ModalEditarUsuario({ usuario, onSuccess }) {
     const [open, setOpen] = React.useState(false);
     const [loading, setLoading] = React.useState(false);
     const [formData, setFormData] = React.useState({
-        nome: usuario?.nome || '',
-        email: usuario?.email || '',
-        tipo: usuario?.tipo || '',
+        nome: '',
+        email: '',
+        tipo: '',
     });
     const [errors, setErrors] = React.useState({});
     const { toast } = useToast();
 
     React.useEffect(() => {
-        if (usuario) {
+        if (usuario && open) {
             setFormData({
                 nome: usuario.nome || '',
                 email: usuario.email || '',
                 tipo: usuario.tipo || '',
             });
         }
-    }, [usuario]);
+    }, [usuario, open]);
 
     const validateForm = () => {
         const newErrors = {};
@@ -134,19 +134,19 @@ function ModalEditarUsuario({ usuario, onSuccess }) {
             toast({
                 title: "Sucesso",
                 description: "Usuário atualizado com sucesso!",
-                variant: "default"
+                variant: "success"
             });
             
             handleOpenChange(false);
             if (onSuccess) {
-                onSuccess();
+                await onSuccess();
             }
         } catch (error) {
-            console.error('Erro completo:', error);
+            console.error('Erro ao atualizar usuário:', error);
             
             toast({
                 title: "Erro ao atualizar usuário",
-                description: error.message || 'Ocorreu um erro ao atualizar o usuário',
+                description: error.response?.data?.message || error.message || 'Ocorreu um erro ao atualizar o usuário',
                 variant: "destructive"
             });
         } finally {
@@ -159,7 +159,7 @@ function ModalEditarUsuario({ usuario, onSuccess }) {
             <Button 
                 size="icon" 
                 variant="ghost" 
-                className="text-primary hover:bg-primary/10"
+                className="text-amber-700 hover:bg-amber-100 hover:text-amber-800 transition-colors"
                 title="Editar"
                 onClick={() => setOpen(true)}
             >
@@ -172,41 +172,42 @@ function ModalEditarUsuario({ usuario, onSuccess }) {
                 onOpenChange={handleOpenChange}
                 onSubmit={handleSubmit}
                 loading={loading}
+                submitText="Salvar"
             >
                 <div className="space-y-4">
                     <div className="space-y-2">
-                        <label className="text-sm font-medium text-[#4e2e13]">Nome</label>
+                        <label className="text-sm font-medium text-amber-900">Nome</label>
                         <Input
                             name="nome"
                             value={formData.nome || ''}
                             onChange={handleChange}
                             placeholder="Digite o nome completo"
-                            className={`border-[#e5e0d8] focus:border-[#4e2e13] focus:ring-0 ${errors.nome ? 'border-red-500' : ''}`}
+                            className={`${errors.nome ? 'border-red-500' : 'border-amber-200'}`}
                             required
                         />
                         {errors.nome && <span className="text-xs text-red-500">{errors.nome}</span>}
                     </div>
                     <div className="space-y-2">
-                        <label className="text-sm font-medium text-[#4e2e13]">Email</label>
+                        <label className="text-sm font-medium text-amber-900">Email</label>
                         <Input
                             name="email"
                             type="email"
                             value={formData.email || ''}
                             onChange={handleChange}
                             placeholder="Digite o email"
-                            className={`border-[#e5e0d8] focus:border-[#4e2e13] focus:ring-0 ${errors.email ? 'border-red-500' : ''}`}
+                            className={`${errors.email ? 'border-red-500' : 'border-amber-200'}`}
                             required
                         />
                         {errors.email && <span className="text-xs text-red-500">{errors.email}</span>}
                     </div>
                     <div className="space-y-2">
-                        <label className="text-sm font-medium text-[#4e2e13]">Tipo de Usuário</label>
+                        <label className="text-sm font-medium text-amber-900">Tipo de Usuário</label>
                         <Select
                             value={formData.tipo || ''}
                             onValueChange={handleSelectChange}
                             required
                         >
-                            <SelectTrigger className={`border-[#e5e0d8] focus:border-[#4e2e13] focus:ring-0 ${errors.tipo ? 'border-red-500' : ''}`}>
+                            <SelectTrigger className={`${errors.tipo ? 'border-red-500' : 'border-amber-200'}`}>
                                 <SelectValue placeholder="Selecione o tipo" />
                             </SelectTrigger>
                             <SelectContent>

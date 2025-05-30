@@ -23,6 +23,8 @@ export const userService = {
 
     async updateUser(id, userData) {
         try {
+            if (!id) throw new Error("ID do usuário não fornecido");
+            
             const response = await api.put(`/users/${id}`, userData);
             return response.data;
         } catch (error) {
@@ -32,12 +34,9 @@ export const userService = {
 
     async deleteUser(id) {
         try {
-            console.log('Iniciando exclusão do usuário:', id);
+            if (!id) throw new Error("ID do usuário não fornecido");
             
-            // Tenta excluir o usuário usando a rota correta
             const response = await api.delete(`/users/${id}`);
-            
-            console.log('Resposta da exclusão:', response);
             
             if (response.status === 204 || response.status === 200) {
                 return { success: true, message: 'Usuário excluído com sucesso' };
@@ -45,14 +44,6 @@ export const userService = {
             
             return response.data;
         } catch (error) {
-            console.error('Erro detalhado ao excluir usuário:', {
-                error: error,
-                response: error.response,
-                message: error.message,
-                status: error.response?.status,
-                data: error.response?.data
-            });
-
             if (error.response?.status === 404) {
                 throw new Error('Usuário não encontrado');
             }
@@ -63,14 +54,15 @@ export const userService = {
                 throw new Error('Erro interno do servidor. Por favor, tente novamente mais tarde.');
             }
             
-            throw error.response?.data?.message || error.message || 'Erro ao excluir usuário';
+            throw error.response?.data?.message 
+                ? { message: error.response.data.message }
+                : { message: error.message || 'Erro ao excluir usuário' };
         }
     },
 
     async getAllUsers() {
         try {
             const response = await api.get('/users');
-            console.log('Resposta da API:', response.data);
 
             if (!response.data || !response.data.data) {
                 throw new Error('Nenhum dado retornado da API');
@@ -86,14 +78,10 @@ export const userService = {
                 fazenda: user.fazenda
             }));
 
-            console.log('Usuários mapeados:', users);
             return { data: users };
         } catch (error) {
             console.error('Erro ao buscar usuários:', error);
-            if (error.response?.data) {
-                console.error('Detalhes do erro:', error.response.data);
-            }
-            throw error;
+            throw error.response?.data || error;
         }
     }
 };
