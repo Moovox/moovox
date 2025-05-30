@@ -133,7 +133,84 @@ const animalService = {
             console.error("Erro ao criar animal", error);
             throw error;
         }
+    }, 
+    async updateAnimal(id, data) {
+    try {
+        const existingAnimal = await prisma.animals.findUnique({
+            where: { id: Number(id) },
+        });
+
+        if (!existingAnimal) {
+            throw new Error(`Animal com ID ${id} não encontrado.`);
+        }
+
+        const updatableFields = ['name', 'species_id', 'breed_id', 'birth_date', 'weight', 'health_status', 'farm_id'];
+        const updateData = {};
+
+        for (const field of updatableFields) {
+            if (data[field] !== undefined) {
+                switch (field) {
+                    case 'name':
+                        if (typeof data.name !== 'string' || data.name.trim().length === 0) {
+                            throw new Error("O campo 'name' deve ser uma string não vazia.");
+                        }
+                        updateData.name = data.name.trim();
+                        break;
+                    case 'species_id':
+                        if (isNaN(Number(data.species_id))) {
+                            throw new Error("O campo 'species_id' deve ser um número.");
+                        }
+                        updateData.species_id = Number(data.species_id);
+                        break;
+                    case 'breed_id':
+                        if (isNaN(Number(data.breed_id))) {
+                            throw new Error("O campo 'breed_id' deve ser um número.");
+                        }
+                        updateData.breed_id = Number(data.breed_id);
+                        break;
+                    case 'birth_date':
+                        const birthDate = new Date(data.birth_date);
+                        if (isNaN(birthDate.getTime())) {
+                            throw new Error("O campo 'birth_date' deve ser uma data válida.");
+                        }
+                        if (birthDate > new Date()) {
+                            throw new Error("O campo 'birth_date' não pode ser uma data futura.");
+                        }
+                        updateData.birth_date = birthDate;
+                        break;
+                    case 'weight':
+                        if (typeof data.weight !== 'number' || data.weight <= 0) {
+                            throw new Error("O campo 'weight' deve ser um número positivo, do tipo Number.");
+                        }
+                        updateData.weight = data.weight;
+                        break;
+                    case 'health_status':
+                        if (!VALID_HEALTH_STATUSES.includes(data.health_status)) {
+                            throw new Error(`O campo 'health_status' deve ser um dos seguintes valores: ${VALID_HEALTH_STATUSES.join(', ')}`);
+                        }
+                        updateData.health_status = data.health_status;
+                        break;
+                    case 'farm_id':
+                        if (isNaN(Number(data.farm_id))) {
+                            throw new Error("O campo 'farm_id' deve ser um número.");
+                        }
+                        updateData.farm_id = Number(data.farm_id);
+                        break;
+                }
+            }
+        }
+
+        const updatedAnimal = await prisma.animals.update({
+            where: { id: Number(id) },
+            data: updateData,
+        });
+
+        return updatedAnimal;
+    } catch (error) {
+        console.error(`Erro ao atualizar animal com ID ${id}`, error);
+        throw error;
     }
+}
 
 }
 
