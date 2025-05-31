@@ -11,7 +11,7 @@ const userController = {
         } catch (error) {
             const error_message = error.message.toLowerCase();
 
-            if (error_message.includes('nenhum') && error_message.includes('encontrado')) {
+            if (error_message.includes('não encontrado')) {
                 return res.status(404).json({
                     status: 'error',
                     message: error.message
