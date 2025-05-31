@@ -89,6 +89,36 @@ const farmService = {
             console.error("Erro ao criar fazenda", error);
             throw error;
         }
+    },
+    async updateFarm(id, data) {
+        try {
+            const existingFarm = await prisma.farms.findUnique({
+                where: { id: Number(id) },
+            });
+
+            if (!existingFarm) {
+                throw new Error(`Fazenda com ID ${id} não encontrado.`);
+            }
+
+            const updateData = {};
+
+            if (data.name !== undefined) {
+                if (typeof data.name !== 'string' || data.name.trim().length === 0) {
+                    throw new Error("O campo 'name' deve ser uma string não vazia.");
+                }
+                updateData.name = data.name.trim();
+            }
+
+            const updatedFarm = await prisma.farms.update({
+                where: { id: Number(id) },
+                data: updateData,
+            });
+
+            return updatedFarm;
+        } catch (error) {
+            console.error(`Erro ao atualizar fazenda com ID ${id}`, error);
+            throw error;
+        }
     }
 }
 

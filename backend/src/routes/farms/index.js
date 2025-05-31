@@ -6,8 +6,8 @@ const farmController = require('../../controllers/farm');
 router.get('/', authMiddleware, farmController.getAllFarms);
 router.get('/:id', authMiddleware,farmController.getFarmByID);
  router.post('/', authMiddleware,farmController.createFarm);
-/*router.put('/:id', authMiddleware,farmController.updateUser);
-router.delete('/:id', authMiddleware,farmController.deleteUser); */
+router.put('/:id', authMiddleware,farmController.updateFarm);
+/*router.delete('/:id', authMiddleware,farmController.deleteUser); */
 
 
 module.exports = router; 
