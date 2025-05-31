@@ -3,7 +3,22 @@ const userService = require('../../services/user');
 const userController = {
     async getAllUsers(req, res) {
         try {
-            const users = await userService.getAllUsers();
+            // Obter farmId da query string, se fornecido
+            const farmId = req.query.farmId ? parseInt(req.query.farmId, 10) : null;
+            
+            // Se o usuário não for admin e tentar acessar fazenda diferente da sua
+            if (farmId && req.user.role !== 'ADMIN' && req.user.farm_id !== farmId) {
+                return res.status(403).json({
+                    status: 'error',
+                    message: 'Você não tem permissão para acessar os usuários desta fazenda'
+                });
+            }
+            
+            // Buscar usuários, filtrando por fazenda se o farmId for fornecido
+            const users = farmId 
+                ? await userService.getUsersByFarm(farmId)
+                : await userService.getAllUsers();
+                
             res.status(200).json({
                 status: 'success',
                 data: users

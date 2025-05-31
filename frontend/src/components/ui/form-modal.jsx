@@ -10,6 +10,7 @@ function FormModal({
     onOpenChange, 
     onSubmit,
     triggerText,
+    triggerElement,
     submitText = "Cadastrar",
     cancelText = "Cancelar",
     loading = false
@@ -31,6 +32,13 @@ function FormModal({
                     </Button>
                 </DialogTrigger>
             )}
+            
+            {triggerElement && (
+                <DialogTrigger asChild>
+                    {triggerElement}
+                </DialogTrigger>
+            )}
+            
             <DialogContent className="w-[95%] max-w-[425px] p-0 bg-white border-amber-100 shadow-lg flex flex-col">
                 {/* Cabeçalho */}
                 <div className="flex items-center justify-between p-3 border-b border-amber-100 bg-amber-50">
@@ -69,7 +77,7 @@ function FormModal({
                                     type="submit"
                             form="modalForm"
                                     disabled={loading}
-                            className="w-full sm:w-auto bg-amber-800 hover:bg-amber-700 text-white"
+                            className={`w-full sm:w-auto ${submitText === "Sair" ? "bg-red-500 hover:bg-red-600" : "bg-amber-800 hover:bg-amber-700"} text-white`}
                                 >
                             {loading ? "Processando..." : submitText}
                                 </Button>
