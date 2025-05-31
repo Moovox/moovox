@@ -170,6 +170,105 @@ const userController = {
                 message: 'Ocorreu um problema ao excluir o usuário. Por favor, tente novamente mais tarde.'
             });
         }
+    },
+
+    // Remove o vínculo de trabalhador rural (Farmhand) de um usuário
+    async removeFarmhandRole(req, res) {
+        try {
+            const { id } = req.params;
+            await userService.removeFarmhandRole(parseInt(id, 10));
+            
+            res.status(200).json({
+                status: 'success',
+                message: 'Vínculo como trabalhador rural removido com sucesso'
+            });
+        } catch (error) {
+            console.error('Erro ao remover vínculo de trabalhador rural:', error);
+            const error_message = error.message.toLowerCase();
+
+            if (error_message.includes('não encontrado') || error_message.includes('não está vinculado')) {
+                return res.status(404).json({
+                    status: 'error',
+                    message: error.message
+                });
+            }
+
+            res.status(500).json({
+                status: 'error',
+                message: error.message || 'Ocorreu um problema ao remover o vínculo. Por favor, tente novamente mais tarde.'
+            });
+        }
+    },
+
+    // Remove o vínculo de veterinário de um usuário
+    async removeVeterinarianRole(req, res) {
+        try {
+            const { id } = req.params;
+            await userService.removeVeterinarianRole(parseInt(id, 10));
+            
+            res.status(200).json({
+                status: 'success',
+                message: 'Vínculo como veterinário removido com sucesso'
+            });
+        } catch (error) {
+            console.error('Erro ao remover vínculo de veterinário:', error);
+            const error_message = error.message.toLowerCase();
+
+            if (error_message.includes('não encontrado') || error_message.includes('não está vinculado')) {
+                return res.status(404).json({
+                    status: 'error',
+                    message: error.message
+                });
+            }
+
+            if (error_message.includes('aplicações')) {
+                return res.status(400).json({
+                    status: 'error',
+                    message: error.message
+                });
+            }
+
+            res.status(500).json({
+                status: 'error',
+                message: error.message || 'Ocorreu um problema ao remover o vínculo. Por favor, tente novamente mais tarde.'
+            });
+        }
+    },
+
+    // Transfere aplicações de um veterinário para outro
+    async transferVeterinarianApplications(req, res) {
+        try {
+            const { sourceId, targetId } = req.body;
+            
+            if (!sourceId || !targetId) {
+                return res.status(400).json({
+                    status: 'error',
+                    message: 'IDs de origem e destino são obrigatórios'
+                });
+            }
+            
+            const result = await userService.transferVeterinarianApplications(sourceId, targetId);
+            
+            res.status(200).json({
+                status: 'success',
+                ...result
+            });
+        } catch (error) {
+            console.error('Erro ao transferir aplicações:', error);
+            const error_message = error.message.toLowerCase();
+
+            if (error_message.includes('não encontrado')) {
+                return res.status(404).json({
+                    status: 'error',
+                    message: error.message
+                });
+            }
+
+            res.status(500).json({
+                status: 'error',
+                message: error.message || 'Ocorreu um problema ao transferir as aplicações. Por favor, tente novamente mais tarde.'
+            });
+        }
     }
 };
 

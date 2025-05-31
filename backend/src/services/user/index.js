@@ -240,7 +240,15 @@ const userService = {
 
             // Verifica se o usuário existe
             const user = await prisma.users.findUnique({
-                where: { id: userId }
+                where: { id: userId },
+                include: {
+                    farmhand: true,
+                    veterinary: {
+                        include: {
+                            application: true
+                        }
+                    }
+                }
             });
 
             if (!user) {
@@ -258,13 +266,53 @@ const userService = {
                 }
             }
 
-            await prisma.users.delete({
-                where: { id: userId }
+            // Usar uma transação para garantir que todas as operações sejam bem-sucedidas
+            await prisma.$transaction(async (tx) => {
+                // Exclui registros relacionados em Farmhands, se existir
+                if (user.farmhand) {
+                    await tx.farmhands.delete({
+                        where: { user_id: userId }
+                    });
+                }
+
+                // Exclui registros relacionados em Veterinarians, se existir
+                if (user.veterinary) {
+                    // Verificar se há Applications vinculadas ao veterinário
+                    if (user.veterinary.application && user.veterinary.application.length > 0) {
+                        // Opção 1: Impedir a exclusão quando há aplicações vinculadas
+                        throw new Error(`Não é possível excluir o usuário pois existem ${user.veterinary.application.length} aplicações de vacinas registradas para este veterinário. Transfira estas aplicações para outro veterinário antes de excluir.`);
+                        
+                        // Opção 2: Definir veterinary_id como nulo nas aplicações (comentada pois pode causar problemas de integridade de dados)
+                        // await tx.applications.updateMany({
+                        //     where: { veterinary_id: user.veterinary.id },
+                        //     data: { veterinary_id: null }
+                        // });
+                    }
+
+                    await tx.veterinarians.delete({
+                        where: { user_id: userId }
+                    });
+                }
+
+                // Por fim, exclui o usuário
+                await tx.users.delete({
+                    where: { id: userId }
+                });
             });
 
             return true;
         } catch (error) {
             console.error("Erro ao excluir usuário:", error);
+            // Se for um erro de restrição de chave estrangeira, enviar mensagem mais amigável
+            if (error.code === 'P2003') {
+                if (error.meta?.constraint?.includes('Farmhands_user_id_fkey')) {
+                    throw new Error(`Não é possível excluir o usuário pois ele está registrado como trabalhador rural (Farmhand). Remova este vínculo primeiro.`);
+                } else if (error.meta?.constraint?.includes('Veterinarians_user_id_fkey')) {
+                    throw new Error(`Não é possível excluir o usuário pois ele está registrado como veterinário. Remova este vínculo primeiro.`);
+                } else {
+                    throw new Error(`Não é possível excluir o usuário pois existem outros registros vinculados a ele (${error.meta?.constraint}).`);
+                }
+            }
             throw error;
         }
     },
@@ -302,6 +350,131 @@ const userService = {
             }));
         } catch (error) {
             console.error(`Erro ao buscar usuários da fazenda ${farmId}:`, error);
+            throw error;
+        }
+    },
+
+    // Remover o vínculo de trabalhador rural (Farmhand) de um usuário
+    async removeFarmhandRole(userId) {
+        try {
+            const parsedUserId = parseInt(userId, 10);
+            if (isNaN(parsedUserId)) {
+                throw new Error("ID de usuário inválido.");
+            }
+
+            // Verifica se o usuário existe e tem a função de Farmhand
+            const user = await prisma.users.findUnique({
+                where: { id: parsedUserId },
+                include: { farmhand: true }
+            });
+
+            if (!user) {
+                throw new Error("Usuário não encontrado.");
+            }
+
+            if (!user.farmhand) {
+                throw new Error("Este usuário não está vinculado como trabalhador rural.");
+            }
+
+            // Remove o vínculo
+            await prisma.farmhands.delete({
+                where: { user_id: parsedUserId }
+            });
+
+            return true;
+        } catch (error) {
+            console.error("Erro ao remover vínculo de trabalhador rural:", error);
+            throw error;
+        }
+    },
+
+    // Remover o vínculo de veterinário de um usuário
+    async removeVeterinarianRole(userId) {
+        try {
+            const parsedUserId = parseInt(userId, 10);
+            if (isNaN(parsedUserId)) {
+                throw new Error("ID de usuário inválido.");
+            }
+
+            // Verifica se o usuário existe e tem a função de Veterinarian
+            const user = await prisma.users.findUnique({
+                where: { id: parsedUserId },
+                include: { 
+                    veterinary: {
+                        include: {
+                            application: true
+                        }
+                    }
+                }
+            });
+
+            if (!user) {
+                throw new Error("Usuário não encontrado.");
+            }
+
+            if (!user.veterinary) {
+                throw new Error("Este usuário não está vinculado como veterinário.");
+            }
+
+            // Verifica se há aplicações vinculadas
+            if (user.veterinary.application && user.veterinary.application.length > 0) {
+                throw new Error(`Não é possível remover o vínculo pois existem ${user.veterinary.application.length} aplicações de vacinas registradas para este veterinário. Transfira estas aplicações para outro veterinário primeiro.`);
+            }
+
+            // Remove o vínculo
+            await prisma.veterinarians.delete({
+                where: { user_id: parsedUserId }
+            });
+
+            return true;
+        } catch (error) {
+            console.error("Erro ao remover vínculo de veterinário:", error);
+            throw error;
+        }
+    },
+
+    // Transferir aplicações de um veterinário para outro
+    async transferVeterinarianApplications(sourceUserId, targetUserId) {
+        try {
+            const sourceId = parseInt(sourceUserId, 10);
+            const targetId = parseInt(targetUserId, 10);
+            
+            if (isNaN(sourceId) || isNaN(targetId)) {
+                throw new Error("IDs de usuário inválidos.");
+            }
+
+            // Verifica se ambos os usuários existem e têm vínculos como veterinários
+            const sourceUser = await prisma.users.findUnique({
+                where: { id: sourceId },
+                include: { veterinary: true }
+            });
+
+            const targetUser = await prisma.users.findUnique({
+                where: { id: targetId },
+                include: { veterinary: true }
+            });
+
+            if (!sourceUser || !sourceUser.veterinary) {
+                throw new Error("Veterinário de origem não encontrado.");
+            }
+
+            if (!targetUser || !targetUser.veterinary) {
+                throw new Error("Veterinário de destino não encontrado.");
+            }
+
+            // Transfere todas as aplicações
+            const result = await prisma.applications.updateMany({
+                where: { veterinary_id: sourceUser.veterinary.id },
+                data: { veterinary_id: targetUser.veterinary.id }
+            });
+
+            return {
+                success: true,
+                transferredCount: result.count,
+                message: `${result.count} aplicações foram transferidas com sucesso.`
+            };
+        } catch (error) {
+            console.error("Erro ao transferir aplicações:", error);
             throw error;
         }
     }

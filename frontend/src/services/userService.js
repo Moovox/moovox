@@ -60,6 +60,78 @@ export const userService = {
         }
     },
 
+    async removeFarmhandRole(id) {
+        try {
+            if (!id) throw new Error("ID do usuário não fornecido");
+            
+            const response = await api.delete(`/users/${id}/farmhand`);
+            
+            if (response.status === 200) {
+                return { 
+                    success: true, 
+                    message: response.data.message || 'Vínculo como trabalhador rural removido com sucesso'
+                };
+            }
+            
+            return response.data;
+        } catch (error) {
+            if (error.response?.data?.message) {
+                throw new Error(error.response.data.message);
+            }
+            throw new Error(error.message || 'Erro ao remover vínculo como trabalhador rural');
+        }
+    },
+
+    async removeVeterinarianRole(id) {
+        try {
+            if (!id) throw new Error("ID do usuário não fornecido");
+            
+            const response = await api.delete(`/users/${id}/veterinarian`);
+            
+            if (response.status === 200) {
+                return { 
+                    success: true, 
+                    message: response.data.message || 'Vínculo como veterinário removido com sucesso'
+                };
+            }
+            
+            return response.data;
+        } catch (error) {
+            if (error.response?.data?.message) {
+                throw new Error(error.response.data.message);
+            }
+            throw new Error(error.message || 'Erro ao remover vínculo como veterinário');
+        }
+    },
+
+    async transferVeterinarianApplications(sourceId, targetId) {
+        try {
+            if (!sourceId || !targetId) {
+                throw new Error("IDs de origem e destino são obrigatórios");
+            }
+            
+            const response = await api.post(`/users/transfer-applications`, {
+                sourceId,
+                targetId
+            });
+            
+            if (response.status === 200) {
+                return { 
+                    success: true, 
+                    transferredCount: response.data.transferredCount,
+                    message: response.data.message || 'Aplicações transferidas com sucesso'
+                };
+            }
+            
+            return response.data;
+        } catch (error) {
+            if (error.response?.data?.message) {
+                throw new Error(error.response.data.message);
+            }
+            throw new Error(error.message || 'Erro ao transferir aplicações');
+        }
+    },
+
     async getAllUsers() {
         try {
             const response = await api.get('/users');
