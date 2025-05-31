@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMap, Circle, Tooltip, LayerGroup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
@@ -84,16 +84,125 @@ const customTooltipStyle = {
   opacity: '0.9'
 };
 
+// Componente para animar o movimento dos animais
+function AnimalMarker({ animal, handleClick, icon }) {
+  const [position, setPosition] = useState([animal.latitude, animal.longitude]);
+  const targetPositionRef = useRef([animal.latitude, animal.longitude]);
+  const frameRef = useRef(null);
+  const startTimeRef = useRef(null);
+  const animationDurationRef = useRef(10000); // Duração da animação aumentada para 10 segundos
+  const previousPositionRef = useRef([animal.latitude, animal.longitude]);
+  
+  // Atualiza a posição alvo quando o animal muda
+  useEffect(() => {
+    // Se a distância for muito grande (teleporte), não animar e atualizar diretamente
+    const distancia = calcularDistancia(
+      previousPositionRef.current[0], 
+      previousPositionRef.current[1],
+      animal.latitude,
+      animal.longitude
+    );
+    
+    if (distancia > 0.1) { // Se a distância for maior que ~10km, é um teleporte
+      setPosition([animal.latitude, animal.longitude]);
+      targetPositionRef.current = [animal.latitude, animal.longitude];
+      previousPositionRef.current = [animal.latitude, animal.longitude];
+      return;
+    }
+    
+    targetPositionRef.current = [animal.latitude, animal.longitude];
+    previousPositionRef.current = [animal.latitude, animal.longitude];
+    
+    if (!startTimeRef.current) {
+      // Se não houver animação em andamento, começa imediatamente
+      startTimeRef.current = performance.now();
+      animateMovement();
+    }
+  }, [animal.latitude, animal.longitude]);
+  
+  // Função para calcular distância entre coordenadas (fórmula de Haversine simplificada)
+  const calcularDistancia = (lat1, lon1, lat2, lon2) => {
+    const R = 6371; // Raio da Terra em km
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLon = (lon2 - lon1) * Math.PI / 180;
+    const a = 
+      Math.sin(dLat/2) * Math.sin(dLat/2) +
+      Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * 
+      Math.sin(dLon/2) * Math.sin(dLon/2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    return R * c; // Distância em km
+  };
+  
+  // Função para interpolação linear entre posições
+  const lerp = (start, end, t) => {
+    return start + (end - start) * t;
+  };
+  
+  // Função de animação de movimento usando requestAnimationFrame
+  const animateMovement = () => {
+    const currentTime = performance.now();
+    const elapsedTime = currentTime - startTimeRef.current;
+    const progress = Math.min(elapsedTime / animationDurationRef.current, 1);
+    
+    if (progress < 1) {
+      // Interpolar entre a posição atual e a posição alvo
+      const newLat = lerp(position[0], targetPositionRef.current[0], progress);
+      const newLng = lerp(position[1], targetPositionRef.current[1], progress);
+      setPosition([newLat, newLng]);
+      
+      // Continuar a animação
+      frameRef.current = requestAnimationFrame(animateMovement);
+    } else {
+      // Animação completa, atualizar para a posição final
+      setPosition(targetPositionRef.current);
+      startTimeRef.current = null;
+    }
+  };
+  
+  // Limpar animação ao desmontar
+  useEffect(() => {
+    return () => {
+      if (frameRef.current) {
+        cancelAnimationFrame(frameRef.current);
+      }
+    };
+  }, []);
+  
+  return (
+    <Marker 
+      position={position}
+      icon={icon}
+      eventHandlers={{
+        click: () => handleClick(animal),
+      }}
+      zIndexOffset={1000}
+    >
+      <Popup className="custom-popup">
+        <div className="p-1">
+          <h3 className="font-bold">{animal.identificacao}</h3>
+          {animal.nome && <p><span className="font-semibold">Nome:</span> {animal.nome}</p>}
+          <p><span className="font-semibold">Espécie:</span> {animal.especie}</p>
+          <p><span className="font-semibold">Peso:</span> {animal.peso} kg</p>
+          <p><span className="font-semibold">Status:</span> {animal.status}</p>
+          <p className="text-xs text-gray-500 mt-1">
+            Última atualização: {animal.ultimaAtualizacao}
+          </p>
+        </div>
+      </Popup>
+    </Marker>
+  );
+}
+
 function AnimalMap({
   filtroEspecie = '',
   filtroStatus = '',
   busca = '',
   exibirFiltros = true,
   altura = '500px',
-  mapCenter = [-15.7801, -47.9292], 
+  mapCenter = [-15.7801, -47.9292], // Centro do Brasil
   mapZoom = 5,
   atualizacaoAutomatica = true,
-  intervaloAtualizacao = 30000,
+  intervaloAtualizacao = 120000,
   titulo = 'Localização dos Animais',
   exibirCercasVirtuais = true,
   exibirLegendaInterna = false
@@ -139,19 +248,41 @@ function AnimalMap({
     return base + (Math.random() - 0.5) * variacao;
   };
 
+  // Função para manter as coordenadas dentro de uma área (Brasil central)
+  const manterCoordenadaDentroDoLimite = (coordenada, tipo) => {
+    // Limites aproximados para região central do Brasil
+    const limites = {
+      latMin: -23.0, // Sul
+      latMax: -10.0, // Norte
+      lngMin: -52.0, // Oeste
+      lngMax: -40.0  // Leste
+    };
+    
+    if (tipo === 'latitude') {
+      return Math.max(limites.latMin, Math.min(limites.latMax, coordenada));
+    } else {
+      return Math.max(limites.lngMin, Math.min(limites.lngMax, coordenada));
+    }
+  };
+
   useEffect(() => {
     const carregarAnimais = async () => {
       try {
         const data = await animaisService.listarAnimais();
         
         // Adicionar coordenadas simuladas
-        const animaisComLocalizacao = data.map(animal => ({
-          ...animal,
-          // Coordenadas aleatórias baseadas no centro do mapa
-          latitude: gerarLocalizacaoAleatoria(center[0], 1),
-          longitude: gerarLocalizacaoAleatoria(center[1], 1),
-          ultimaAtualizacao: new Date().toLocaleString('pt-BR')
-        }));
+        const animaisComLocalizacao = data.map(animal => {
+          // Gerar coordenadas aleatórias dentro da área permitida
+          const latitudeAleatoria = gerarLocalizacaoAleatoria(mapCenter[0], 0.5);
+          const longitudeAleatoria = gerarLocalizacaoAleatoria(mapCenter[1], 0.5);
+          
+          return {
+            ...animal,
+            latitude: manterCoordenadaDentroDoLimite(latitudeAleatoria, 'latitude'),
+            longitude: manterCoordenadaDentroDoLimite(longitudeAleatoria, 'longitude'),
+            ultimaAtualizacao: new Date().toLocaleString('pt-BR')
+          };
+        });
         
         setAnimais(animaisComLocalizacao);
         
@@ -161,7 +292,7 @@ function AnimalMap({
             animaisComLocalizacao[0].latitude,
             animaisComLocalizacao[0].longitude
           ]);
-          setZoom(10);
+          setZoom(6);
         }
       } catch (error) {
         console.error('Erro ao carregar animais:', error);
@@ -176,12 +307,22 @@ function AnimalMap({
     let interval;
     if (atualizacaoAutomatica) {
       interval = setInterval(() => {
-        setAnimais(prev => prev.map(animal => ({
-          ...animal,
-          latitude: gerarLocalizacaoAleatoria(animal.latitude, 0.01),
-          longitude: gerarLocalizacaoAleatoria(animal.longitude, 0.01),
-          ultimaAtualizacao: new Date().toLocaleString('pt-BR')
-        })));
+        setAnimais(prev => prev.map(animal => {
+          // Gerar novas coordenadas com variação pequena
+          const novaLatitude = gerarLocalizacaoAleatoria(animal.latitude, 0.002);
+          const novaLongitude = gerarLocalizacaoAleatoria(animal.longitude, 0.002);
+          
+          // Garantir que as coordenadas fiquem dentro dos limites
+          const latitudeRestrita = manterCoordenadaDentroDoLimite(novaLatitude, 'latitude');
+          const longitudeRestrita = manterCoordenadaDentroDoLimite(novaLongitude, 'longitude');
+          
+          return {
+            ...animal,
+            latitude: latitudeRestrita,
+            longitude: longitudeRestrita,
+            ultimaAtualizacao: new Date().toLocaleString('pt-BR')
+          };
+        }));
       }, intervaloAtualizacao);
     }
 
@@ -350,28 +491,12 @@ function AnimalMap({
           {/* Grupo de camadas para animais */}
           <LayerGroup>
             {animaisFiltrados.map(animal => (
-              <Marker 
+              <AnimalMarker
                 key={animal.id}
-                position={[animal.latitude, animal.longitude]}
+                animal={animal}
+                handleClick={handleAnimalClick}
                 icon={getAnimalIcon(animal.especie)}
-                eventHandlers={{
-                  click: () => handleAnimalClick(animal),
-                }}
-                zIndexOffset={1000} // Garante que os marcadores fiquem acima das cercas
-              >
-                <Popup className="custom-popup">
-                  <div className="p-1">
-                    <h3 className="font-bold">{animal.identificacao}</h3>
-                    {animal.nome && <p><span className="font-semibold">Nome:</span> {animal.nome}</p>}
-                    <p><span className="font-semibold">Espécie:</span> {animal.especie}</p>
-                    <p><span className="font-semibold">Peso:</span> {animal.peso} kg</p>
-                    <p><span className="font-semibold">Status:</span> {animal.status}</p>
-                    <p className="text-xs text-gray-500 mt-1">
-                      Última atualização: {animal.ultimaAtualizacao}
-                    </p>
-                  </div>
-                </Popup>
-              </Marker>
+              />
             ))}
           </LayerGroup>
         </MapContainer>

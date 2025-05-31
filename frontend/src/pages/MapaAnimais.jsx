@@ -109,7 +109,7 @@ function MapaAnimais() {
                                 mapZoom={6}
                                 titulo="Mapa de Localização em Tempo Real"
                                 atualizacaoAutomatica={true}
-                                intervaloAtualizacao={20000}
+                                intervaloAtualizacao={120000}
                                 exibirCercasVirtuais={exibirCercas}
                                 exibirLegendaInterna={false}
                             />
