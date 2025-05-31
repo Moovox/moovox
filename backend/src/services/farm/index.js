@@ -119,6 +119,26 @@ const farmService = {
             console.error(`Erro ao atualizar fazenda com ID ${id}`, error);
             throw error;
         }
+    }, 
+    async deleteFarm(id) {
+        try {
+            const existingFarm = await prisma.farms.findUnique({
+                where: { id: Number(id) },
+            });
+
+            if (!existingFarm) {
+                throw new Error(`Fazenda com ID ${id} não encontrado.`);
+            }
+
+            await prisma.farms.delete({
+                where: { id: Number(id) },
+            });
+
+            return { message: `Fazenda com ID ${id} foi deletado com sucesso.` };
+        } catch (error) {
+            console.error(`Erro ao deletar fazenda com ID ${id}`, error);
+            throw error;
+        }
     }
 }
 

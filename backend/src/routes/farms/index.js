@@ -7,7 +7,7 @@ router.get('/', authMiddleware, farmController.getAllFarms);
 router.get('/:id', authMiddleware,farmController.getFarmByID);
  router.post('/', authMiddleware,farmController.createFarm);
 router.put('/:id', authMiddleware,farmController.updateFarm);
-/*router.delete('/:id', authMiddleware,farmController.deleteUser); */
+router.delete('/:id', authMiddleware,farmController.deleteFarm); 
 
 
 module.exports = router; 
