@@ -65,6 +65,30 @@ const farmService = {
             throw error;
 
         }
+    },
+    async createFarm(data) {
+        try {
+            const requiredFields = ['name'];
+            for (const field of requiredFields) {
+                if (data[field] === undefined || data[field] === null || data[field] === '') {
+                    throw new Error(`O campo '${field}' é obrigatório.`);
+                }
+            }
+
+            if (typeof data.name !== 'string' || data.name.trim().length === 0) {
+                throw new Error("O campo 'name' deve ser uma string não vazia.")
+            }
+            const newFarm = await prisma.farms.create({
+                data: {
+                    name: data.name.trim(),
+                }
+            });
+
+            return newFarm;
+        } catch (error) {
+            console.error("Erro ao criar fazenda", error);
+            throw error;
+        }
     }
 }
 
