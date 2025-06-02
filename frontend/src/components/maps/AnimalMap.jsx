@@ -276,142 +276,155 @@ function AnimalMap({
       // Longitude: -180 to 180
       return Math.max(-180, Math.min(180, coordinate));
     }
+  }; // Load animals function
+  const loadAnimals = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+
+      let response;
+      try {
+        // Use timeout to prevent hanging if API doesn't respond
+        const timeoutPromise = new Promise((_, reject) =>
+          setTimeout(() => reject(new Error("Request timeout")), 10000),
+        );
+
+        // Race the API call against the timeout
+        response = await Promise.race([
+          animalService.listAnimals(),
+          timeoutPromise,
+        ]);
+      } catch (error) {
+        console.error("Error fetching animals, using mock data:", error);
+        // Generate mock data if API fails
+        const mockAnimals = [
+          {
+            id: 1,
+            identification: "BOV001",
+            name: "Cattle 1",
+            species: "cattle",
+            weight: 450,
+            status: "Active",
+            latitude: generateRandomLocation(-15.7801, 0.3),
+            longitude: generateRandomLocation(-47.9292, 0.3),
+            lastUpdate: "2023-07-15 10:30",
+          },
+          {
+            id: 2,
+            identification: "PIG002",
+            name: "Pig 1",
+            species: "swine",
+            weight: 120,
+            status: "Active",
+            latitude: generateRandomLocation(-15.7801, 0.3),
+            longitude: generateRandomLocation(-47.9292, 0.3),
+            lastUpdate: "2023-07-15 11:45",
+          },
+          {
+            id: 3,
+            identification: "CHICK003",
+            name: "Chicken 1",
+            species: "poultry",
+            weight: 2.5,
+            status: "Active",
+            latitude: generateRandomLocation(-15.7801, 0.3),
+            longitude: generateRandomLocation(-47.9292, 0.3),
+            lastUpdate: "2023-07-15 09:15",
+          },
+          {
+            id: 4,
+            identification: "GOAT004",
+            name: "Goat 1",
+            species: "goat",
+            weight: 35,
+            status: "In treatment",
+            latitude: generateRandomLocation(-15.7801, 0.3),
+            longitude: generateRandomLocation(-47.9292, 0.3),
+            lastUpdate: "2023-07-15 14:20",
+          },
+          {
+            id: 5,
+            identification: "SHEEP005",
+            name: "Sheep 1",
+            species: "sheep",
+            weight: 40,
+            status: "Active",
+            latitude: generateRandomLocation(-15.7801, 0.3),
+            longitude: generateRandomLocation(-47.9292, 0.3),
+            lastUpdate: "2023-07-15 12:10",
+          },
+        ];
+
+        response = { data: mockAnimals };
+      }
+
+      // Apply filters
+      let filteredAnimals = response.data || [];
+      if (speciesFilter) {
+        filteredAnimals = filteredAnimals.filter(
+          (animal) =>
+            animal.species?.toLowerCase() === speciesFilter.toLowerCase(),
+        );
+      }
+
+      if (statusFilter) {
+        filteredAnimals = filteredAnimals.filter(
+          (animal) =>
+            animal.status?.toLowerCase() === statusFilter.toLowerCase(),
+        );
+      }
+
+      if (search) {
+        const searchTermLower = search.toLowerCase();
+        filteredAnimals = filteredAnimals.filter(
+          (animal) =>
+            animal.identification?.toLowerCase().includes(searchTermLower) ||
+            animal.name?.toLowerCase().includes(searchTermLower),
+        );
+      }
+
+      // Ensure valid coordinates
+      filteredAnimals = filteredAnimals.map((animal) => ({
+        ...animal,
+        latitude: keepCoordinateWithinLimits(animal.latitude, "lat"),
+        longitude: keepCoordinateWithinLimits(animal.longitude, "lng"),
+      }));
+
+      setAnimals(filteredAnimals);
+    } catch (error) {
+      console.error("Error loading animals:", error);
+      setError(error.message || "An error occurred while loading animals");
+    } finally {
+      setLoading(false);
+    }
   };
 
+  // Effect for initial load and filter changes
   useEffect(() => {
-    const loadAnimals = async () => {
-      try {
-        setLoading(true);
-        setError(null);
+    loadAnimals();
+  }, [speciesFilter, statusFilter, search]);
 
-        let response;
-        try {
-          // Use timeout to prevent hanging if API doesn't respond
-          const timeoutPromise = new Promise((_, reject) =>
-            setTimeout(() => reject(new Error("Request timeout")), 10000),
-          );
+  // Effect for auto-update interval
+  useEffect(() => {
+    // Clear any existing interval
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
 
-          // Race the API call against the timeout
-          response = await Promise.race([
-            animalService.listAnimals(),
-            timeoutPromise,
-          ]);
-        } catch (error) {
-          console.error("Error fetching animals, using mock data:", error); // Generate mock data if API fails
-          const mockAnimals = [
-            {
-              id: 1,
-              identification: "BOV001",
-              name: "Cattle 1",
-              species: "cattle",
-              weight: 450,
-              status: "Active",
-              latitude: generateRandomLocation(-15.7801, 0.3),
-              longitude: generateRandomLocation(-47.9292, 0.3),
-              lastUpdate: "2023-07-15 10:30",
-            },
-            {
-              id: 2,
-              identification: "PIG002",
-              name: "Pig 1",
-              species: "swine",
-              weight: 120,
-              status: "Active",
-              latitude: generateRandomLocation(-15.7801, 0.3),
-              longitude: generateRandomLocation(-47.9292, 0.3),
-              lastUpdate: "2023-07-15 11:45",
-            },
-            {
-              id: 3,
-              identification: "CHICK003",
-              name: "Chicken 1",
-              species: "poultry",
-              weight: 2.5,
-              status: "Active",
-              latitude: generateRandomLocation(-15.7801, 0.3),
-              longitude: generateRandomLocation(-47.9292, 0.3),
-              lastUpdate: "2023-07-15 09:15",
-            },
-            {
-              id: 4,
-              identification: "GOAT004",
-              name: "Goat 1",
-              species: "goat",
-              weight: 35,
-              status: "In treatment",
-              latitude: generateRandomLocation(-15.7801, 0.3),
-              longitude: generateRandomLocation(-47.9292, 0.3),
-              lastUpdate: "2023-07-15 14:20",
-            },
-            {
-              id: 5,
-              identification: "SHEEP005",
-              name: "Sheep 1",
-              species: "sheep",
-              weight: 40,
-              status: "Active",
-              latitude: generateRandomLocation(-15.7801, 0.3),
-              longitude: generateRandomLocation(-47.9292, 0.3),
-              lastUpdate: "2023-07-15 12:10",
-            },
-          ];
-
-          response = { data: mockAnimals };
-        }
-
-        // Apply filters
-        let filteredAnimals = response.data || [];
-        if (speciesFilter) {
-          filteredAnimals = filteredAnimals.filter(
-            (animal) =>
-              animal.species?.toLowerCase() === speciesFilter.toLowerCase(),
-          );
-        }
-
-        if (statusFilter) {
-          filteredAnimals = filteredAnimals.filter(
-            (animal) =>
-              animal.status?.toLowerCase() === statusFilter.toLowerCase(),
-          );
-        }
-
-        if (search) {
-          const searchTermLower = search.toLowerCase();
-          filteredAnimals = filteredAnimals.filter(
-            (animal) =>
-              animal.identification?.toLowerCase().includes(searchTermLower) ||
-              animal.name?.toLowerCase().includes(searchTermLower),
-          );
-        }
-
-        // Ensure valid coordinates
-        filteredAnimals = filteredAnimals.map((animal) => ({
-          ...animal,
-          latitude: keepCoordinateWithinLimits(animal.latitude, "lat"),
-          longitude: keepCoordinateWithinLimits(animal.longitude, "lng"),
-        }));
-
-        setAnimals(filteredAnimals);
-      } catch (error) {
-        console.error("Error loading animals:", error);
-        setError(error.message || "An error occurred while loading animals");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadAnimals(); // Set up auto-update interval if enabled
+    // Set up auto-update interval if enabled
     if (autoUpdate && updateInterval > 0) {
       intervalRef.current = setInterval(loadAnimals, updateInterval);
     }
 
-    // Cleanup interval on unmount
+    // Cleanup interval on unmount or when autoUpdate/updateInterval changes
     return () => {
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
+        intervalRef.current = null;
       }
     };
-  }, [speciesFilter, statusFilter, search, autoUpdate, updateInterval]);
+  }, [autoUpdate, updateInterval]);
 
   // Get appropriate icon for animal species
   const getAnimalIcon = (species) => {

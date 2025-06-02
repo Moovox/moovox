@@ -110,7 +110,7 @@ function AnimalMap() {
                 mapZoom={6}
                 title="Real-Time Location Map"
                 autoUpdate={true}
-                updateInterval={120000}
+                updateInterval={300000}
                 showVirtualFences={showFences}
                 showInternalLegend={false}
               />

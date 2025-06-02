@@ -19,8 +19,7 @@ export function FarmProvider({ children }) {
   const [currentFarmId, setCurrentFarmId] = useState(
     localStorage.getItem("farmId"),
   );
-  const [loading, setLoading] = useState(true);
-  /**
+  const [loading, setLoading] = useState(true); /**
    * Get current farm information
    */
   const getCurrentFarm = async () => {
@@ -71,15 +70,16 @@ export function FarmProvider({ children }) {
   useEffect(() => {
     getCurrentFarm();
   }, []);
-
   /**
    * Select a farm by ID
    */
   const selectFarm = async (farmId) => {
     try {
       const result = await farmService.selectFarm(farmId);
-      if (result) {
-        await getCurrentFarm();
+      if (result && result.success) {
+        // Update state directly instead of calling getCurrentFarm to avoid extra API call
+        setFarmInfo(result.farm);
+        setCurrentFarmId(farmId.toString());
         return true;
       }
       return false;
