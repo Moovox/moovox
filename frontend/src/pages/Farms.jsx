@@ -9,9 +9,10 @@ import {
 } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
+import SmartFarmDeleteModal from "../components/farms/SmartFarmDeleteModal";
 import MainLayout from "../components/layout/MainLayout";
 import { Button } from "../components/ui/button";
-import { Card } from "../components/ui/card";
+import Card from "../components/ui/card";
 import { useToast } from "../components/ui/use-toast";
 import { useFarm } from "../context/FarmContext";
 import { farmService } from "../services/farmService";
@@ -21,16 +22,17 @@ function Farms() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [deletingId, setDeletingId] = useState(null);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [farmToDelete, setFarmToDelete] = useState(null);
   const { toast } = useToast();
-  const { setCurrentFarm } = useFarm();
-
+  const { selectFarm } = useFarm();
   const loadFarms = async () => {
     try {
       setLoading(true);
       setError(null);
 
-      const response = await farmService.getAllFarms();
-      setFarms(response.data || []);
+      const response = await farmService.listFarms();
+      setFarms(response || []);
     } catch (error) {
       console.error("Error loading farms:", error);
       setError(error.message || "Failed to load farms");
@@ -48,48 +50,64 @@ function Farms() {
   useEffect(() => {
     loadFarms();
   }, []);
-
-  const handleSelectFarm = (farm) => {
+  const handleSelectFarm = async (farm) => {
     if (!farm.id) return;
 
-    setCurrentFarm(farm);
+    const success = await selectFarm(farm.id);
 
-    toast({
-      title: "Farm Selected",
-      description: `You are now working with "${farm.name}"`,
-      variant: "success",
-    });
+    if (success) {
+      toast({
+        title: "Farm Selected",
+        description: `You are now working with "${farm.name}"`,
+        variant: "success",
+      });
+    } else {
+      toast({
+        title: "Error",
+        description: "Failed to select farm. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
+  const handleDeleteFarm = async (farm) => {
+    setFarmToDelete(farm);
+    setDeleteModalOpen(true);
   };
 
-  const handleDeleteFarm = async (id, name) => {
-    if (
-      !window.confirm(
-        `Are you sure you want to delete the farm "${name}"? This action cannot be undone.`,
-      )
-    ) {
-      return;
-    }
+  const confirmDeleteFarm = async () => {
+    if (!farmToDelete) return;
 
-    setDeletingId(id);
+    setDeletingId(farmToDelete.id);
 
     try {
-      await farmService.deleteFarm(id);
-
+      await farmService.deleteFarm(farmToDelete.id);
       toast({
         title: "Success",
-        description: "Farm deleted successfully!",
+        description: `Farm "${farmToDelete.name}" deleted successfully!`,
         variant: "success",
       });
 
-      // Reload the farms list
+      // Recarrega a lista de fazendas
       loadFarms();
+
+      // Fecha o modal
+      setDeleteModalOpen(false);
+      setFarmToDelete(null);
     } catch (error) {
       console.error("Error deleting farm:", error);
 
+      // More specific error message
+      let errorMessage = "An error occurred while deleting the farm";
+
+      if (error.message) {
+        errorMessage = error.message;
+      } else if (error.response?.data?.message) {
+        errorMessage = error.response.data.message;
+      }
+
       toast({
         title: "Error",
-        description:
-          error.message || "An error occurred while deleting the farm",
+        description: errorMessage,
         variant: "destructive",
       });
     } finally {
@@ -211,13 +229,13 @@ function Farms() {
                         title="Edit Farm"
                       >
                         <Edit className="h-4 w-4 text-amber-700" />
-                      </Button>
+                      </Button>{" "}
                       <Button
                         size="icon"
                         variant="secondary"
                         className="h-8 w-8 bg-white/80 hover:bg-white"
                         title="Delete Farm"
-                        onClick={() => handleDeleteFarm(farm.id, farm.name)}
+                        onClick={() => handleDeleteFarm(farm)}
                         disabled={deletingId === farm.id}
                       >
                         {deletingId === farm.id ? (
@@ -268,6 +286,15 @@ function Farms() {
             </div>
           )}
         </div>
+
+        {/* Modal inteligente de exclusão de fazenda */}
+        <SmartFarmDeleteModal
+          open={deleteModalOpen}
+          onOpenChange={setDeleteModalOpen}
+          onConfirm={confirmDeleteFarm}
+          loading={deletingId !== null}
+          farm={farmToDelete}
+        />
       </MainLayout>
     </>
   );

@@ -2,7 +2,7 @@ import { cowHead } from "@lucide/lab";
 import { Icon } from "lucide-react";
 import PropTypes from "prop-types";
 import React from "react";
-import "../styles/PageLoader.css";
+import "../../styles/PageLoader.css";
 
 /**
  * Loader temático com radar e vaca

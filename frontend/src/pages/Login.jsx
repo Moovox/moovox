@@ -1,5 +1,5 @@
 import { Helmet } from "react-helmet-async";
-import LoginCard from "../components/LoginCard";
+import LoginCard from "../components/auth/LoginCard";
 
 function Login() {
   return (

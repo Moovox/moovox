@@ -31,7 +31,7 @@ try {
 
 // Custom colors for different animal types
 const animalIcons = {
-  bovino: new L.Icon({
+  cattle: new L.Icon({
     iconUrl:
       "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png",
     shadowUrl:
@@ -41,7 +41,7 @@ const animalIcons = {
     popupAnchor: [1, -34],
     shadowSize: [41, 41],
   }),
-  suíno: new L.Icon({
+  swine: new L.Icon({
     iconUrl:
       "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png",
     shadowUrl:
@@ -51,7 +51,7 @@ const animalIcons = {
     popupAnchor: [1, -34],
     shadowSize: [41, 41],
   }),
-  ave: new L.Icon({
+  poultry: new L.Icon({
     iconUrl:
       "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-yellow.png",
     shadowUrl:
@@ -61,7 +61,7 @@ const animalIcons = {
     popupAnchor: [1, -34],
     shadowSize: [41, 41],
   }),
-  caprino: new L.Icon({
+  goat: new L.Icon({
     iconUrl:
       "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png",
     shadowUrl:
@@ -71,7 +71,7 @@ const animalIcons = {
     popupAnchor: [1, -34],
     shadowSize: [41, 41],
   }),
-  ovino: new L.Icon({
+  sheep: new L.Icon({
     iconUrl:
       "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-violet.png",
     shadowUrl:
@@ -201,25 +201,35 @@ function AnimalMarker({ animal, handleClick, icon }) {
       }}
       zIndexOffset={1000}
     >
+      {" "}
       <Popup className="custom-popup">
         <div className="p-1">
-          <h3 className="font-bold">{animal.identification}</h3>
+          <h3 className="font-bold">
+            {typeof animal.identification === "string"
+              ? animal.identification
+              : String(animal.identification || "")}
+          </h3>
           {animal.name && (
             <p>
               <span className="font-semibold">Name:</span> {animal.name}
             </p>
           )}
           <p>
-            <span className="font-semibold">Species:</span> {animal.species}
+            <span className="font-semibold">Species:</span>{" "}
+            {typeof animal.species === "string"
+              ? animal.species
+              : String(animal.species || "Unknown")}
           </p>
           <p>
-            <span className="font-semibold">Weight:</span> {animal.weight} kg
+            <span className="font-semibold">Weight:</span> {animal.weight || 0}{" "}
+            kg
           </p>
           <p>
-            <span className="font-semibold">Status:</span> {animal.status}
+            <span className="font-semibold">Status:</span>{" "}
+            {animal.status || "Unknown"}
           </p>
           <p className="mt-1 text-xs text-gray-500">
-            Last update: {animal.lastUpdate}
+            Last update: {animal.lastUpdate || "Not available"}
           </p>
         </div>
       </Popup>
@@ -228,25 +238,25 @@ function AnimalMarker({ animal, handleClick, icon }) {
 }
 
 function AnimalMap({
-  filtroEspecie = "",
-  filtroStatus = "",
-  busca = "",
-  exibirFiltros = true,
-  altura = "400px",
-  alturaSm = "",
-  alturaMd = "",
-  alturaLg = "",
+  speciesFilter = "",
+  statusFilter = "",
+  search = "",
+  showFilters = true,
+  height = "400px",
+  heightSm = "",
+  heightMd = "",
+  heightLg = "",
   mapCenter = [-15.7801, -47.9292], // Center of Brazil
   mapZoom = 5,
-  atualizacaoAutomatica = true,
-  intervaloAtualizacao = 120000,
-  titulo = "Animal Location",
-  exibirCercasVirtuais = true,
-  exibirLegendaInterna = false,
+  autoUpdate = true,
+  updateInterval = 120000,
+  title = "Animal Location",
+  showVirtualFences = true,
+  showInternalLegend = false,
 }) {
-  const [animais, setAnimais] = useState([]);
+  const [animals, setAnimals] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [erro, setErro] = useState(null);
+  const [error, setError] = useState(null);
   const [center, setCenter] = useState(mapCenter);
   const [zoom, setZoom] = useState(mapZoom);
   const [selectedAnimal, setSelectedAnimal] = useState(null);
@@ -272,21 +282,28 @@ function AnimalMap({
     const loadAnimals = async () => {
       try {
         setLoading(true);
-        setErro(null);
+        setError(null);
 
         let response;
-
         try {
-          response = await animalService.getAllAnimals();
+          // Use timeout to prevent hanging if API doesn't respond
+          const timeoutPromise = new Promise((_, reject) =>
+            setTimeout(() => reject(new Error("Request timeout")), 10000),
+          );
+
+          // Race the API call against the timeout
+          response = await Promise.race([
+            animalService.listAnimals(),
+            timeoutPromise,
+          ]);
         } catch (error) {
-          console.error("Error fetching animals, using mock data:", error);
-          // Generate mock data if API fails
+          console.error("Error fetching animals, using mock data:", error); // Generate mock data if API fails
           const mockAnimals = [
             {
               id: 1,
               identification: "BOV001",
               name: "Cattle 1",
-              species: "bovino",
+              species: "cattle",
               weight: 450,
               status: "Active",
               latitude: generateRandomLocation(-15.7801, 0.3),
@@ -297,7 +314,7 @@ function AnimalMap({
               id: 2,
               identification: "PIG002",
               name: "Pig 1",
-              species: "suíno",
+              species: "swine",
               weight: 120,
               status: "Active",
               latitude: generateRandomLocation(-15.7801, 0.3),
@@ -308,7 +325,7 @@ function AnimalMap({
               id: 3,
               identification: "CHICK003",
               name: "Chicken 1",
-              species: "ave",
+              species: "poultry",
               weight: 2.5,
               status: "Active",
               latitude: generateRandomLocation(-15.7801, 0.3),
@@ -319,7 +336,7 @@ function AnimalMap({
               id: 4,
               identification: "GOAT004",
               name: "Goat 1",
-              species: "caprino",
+              species: "goat",
               weight: 35,
               status: "In treatment",
               latitude: generateRandomLocation(-15.7801, 0.3),
@@ -330,7 +347,7 @@ function AnimalMap({
               id: 5,
               identification: "SHEEP005",
               name: "Sheep 1",
-              species: "ovino",
+              species: "sheep",
               weight: 40,
               status: "Active",
               latitude: generateRandomLocation(-15.7801, 0.3),
@@ -344,23 +361,22 @@ function AnimalMap({
 
         // Apply filters
         let filteredAnimals = response.data || [];
-
-        if (filtroEspecie) {
+        if (speciesFilter) {
           filteredAnimals = filteredAnimals.filter(
             (animal) =>
-              animal.species?.toLowerCase() === filtroEspecie.toLowerCase(),
+              animal.species?.toLowerCase() === speciesFilter.toLowerCase(),
           );
         }
 
-        if (filtroStatus) {
+        if (statusFilter) {
           filteredAnimals = filteredAnimals.filter(
             (animal) =>
-              animal.status?.toLowerCase() === filtroStatus.toLowerCase(),
+              animal.status?.toLowerCase() === statusFilter.toLowerCase(),
           );
         }
 
-        if (busca) {
-          const searchTermLower = busca.toLowerCase();
+        if (search) {
+          const searchTermLower = search.toLowerCase();
           filteredAnimals = filteredAnimals.filter(
             (animal) =>
               animal.identification?.toLowerCase().includes(searchTermLower) ||
@@ -375,20 +391,18 @@ function AnimalMap({
           longitude: keepCoordinateWithinLimits(animal.longitude, "lng"),
         }));
 
-        setAnimais(filteredAnimals);
+        setAnimals(filteredAnimals);
       } catch (error) {
         console.error("Error loading animals:", error);
-        setErro(error.message || "An error occurred while loading animals");
+        setError(error.message || "An error occurred while loading animals");
       } finally {
         setLoading(false);
       }
     };
 
-    loadAnimals();
-
-    // Set up auto-update interval if enabled
-    if (atualizacaoAutomatica && intervaloAtualizacao > 0) {
-      intervalRef.current = setInterval(loadAnimals, intervaloAtualizacao);
+    loadAnimals(); // Set up auto-update interval if enabled
+    if (autoUpdate && updateInterval > 0) {
+      intervalRef.current = setInterval(loadAnimals, updateInterval);
     }
 
     // Cleanup interval on unmount
@@ -397,13 +411,7 @@ function AnimalMap({
         clearInterval(intervalRef.current);
       }
     };
-  }, [
-    filtroEspecie,
-    filtroStatus,
-    busca,
-    atualizacaoAutomatica,
-    intervaloAtualizacao,
-  ]);
+  }, [speciesFilter, statusFilter, search, autoUpdate, updateInterval]);
 
   // Get appropriate icon for animal species
   const getAnimalIcon = (species) => {
@@ -416,21 +424,20 @@ function AnimalMap({
     setCenter([animal.latitude, animal.longitude]);
     setZoom(14); // Zoom in when animal is selected
   };
-
   // Get height based on current viewport size
   const getResponsiveHeight = () => {
-    let currentHeight = altura;
+    let currentHeight = height;
 
-    if (alturaSm && window.innerWidth >= 640) {
-      currentHeight = alturaSm;
+    if (heightSm && window.innerWidth >= 640) {
+      currentHeight = heightSm;
     }
 
-    if (alturaMd && window.innerWidth >= 768) {
-      currentHeight = alturaMd;
+    if (heightMd && window.innerWidth >= 768) {
+      currentHeight = heightMd;
     }
 
-    if (alturaLg && window.innerWidth >= 1024) {
-      currentHeight = alturaLg;
+    if (heightLg && window.innerWidth >= 1024) {
+      currentHeight = heightLg;
     }
 
     return currentHeight;
@@ -463,18 +470,16 @@ function AnimalMap({
       fillColor: "#ff3333",
     },
   ];
-
   return (
     <div className="overflow-hidden rounded-xl bg-white p-2 shadow-sm sm:p-4">
-      {titulo && (
+      {title && (
         <div className="mb-3 sm:mb-4">
           <h2 className="text-lg font-semibold text-amber-900 sm:text-xl">
-            {titulo}
+            {title}
           </h2>
         </div>
       )}
-
-      {exibirLegendaInterna && (
+      {showInternalLegend && (
         <div className="mb-3 grid grid-cols-2 gap-2 md:grid-cols-5">
           <div className="flex items-center space-x-1">
             <div className="h-3 w-3 rounded-full bg-green-600"></div>
@@ -498,7 +503,6 @@ function AnimalMap({
           </div>
         </div>
       )}
-
       <div style={{ height: getResponsiveHeight() }}>
         <MapContainer
           center={center}
@@ -509,11 +513,9 @@ function AnimalMap({
           <TileLayer
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          />
-
+          />{" "}
           <ChangeView center={center} zoom={zoom} />
-
-          {exibirCercasVirtuais && (
+          {showVirtualFences && (
             <LayerGroup>
               {virtualFences.map((fence) => (
                 <Circle
@@ -538,8 +540,7 @@ function AnimalMap({
               ))}
             </LayerGroup>
           )}
-
-          {animais.map((animal) => (
+          {animals.map((animal) => (
             <AnimalMarker
               key={animal.id}
               animal={animal}
@@ -549,7 +550,6 @@ function AnimalMap({
           ))}
         </MapContainer>
       </div>
-
       {loading && (
         <div className="mt-2 flex justify-center">
           <div className="flex items-center text-sm text-amber-700">
@@ -557,11 +557,10 @@ function AnimalMap({
             Loading animals...
           </div>
         </div>
-      )}
-
-      {erro && (
+      )}{" "}
+      {error && (
         <div className="mt-2 rounded-md border border-red-200 bg-red-50 p-2 text-sm text-red-700">
-          {erro}
+          {error}
         </div>
       )}
     </div>

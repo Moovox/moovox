@@ -10,11 +10,11 @@ import {
 import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../components/AuthContext";
-import MainLayout from "../components/MainLayout";
-import SafeAnimalMap from "../components/SafeAnimalMap";
+import MainLayout from "../components/layout/MainLayout";
+import SafeAnimalMap from "../components/maps/SafeAnimalMap";
 import Card from "../components/ui/card";
 import { useToast } from "../components/ui/use-toast";
+import { useAuth } from "../context/AuthContext";
 import { dashboardService } from "../services/dashboardService";
 import "../styles/dashboard.css";
 
@@ -280,14 +280,15 @@ function Dashboard() {
                     }
                     className="h-[250px] transform-gpu overflow-hidden sm:h-[350px] md:h-[400px]"
                   >
+                    {" "}
                     <SafeAnimalMap
-                      exibirFiltros={false}
-                      altura="200px"
-                      alturaMd="250px"
-                      alturaLg="300px"
+                      showFilters={false}
+                      height="200px"
+                      heightMd="250px"
+                      heightLg="300px"
                       mapZoom={4}
-                      titulo={null}
-                      exibirLegendaInterna={false}
+                      title={null}
+                      showInternalLegend={false}
                     />
                   </Card>
                 </motion.div>

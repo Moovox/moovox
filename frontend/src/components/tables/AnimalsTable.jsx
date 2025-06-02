@@ -132,14 +132,17 @@ function AnimalsTable({ farmId }) {
     setAnimalToEdit(animal);
     setEditModalOpen(true);
   };
-
   const filteredAnimals = animals.filter(
     (animal) =>
-      (animal.identification.toLowerCase().includes(search.toLowerCase()) ||
+      ((typeof animal.identification === "string"
+        ? animal.identification.toLowerCase().includes(search.toLowerCase())
+        : animal.identification?.toString().includes(search)) ||
         animal.name?.toLowerCase().includes(search.toLowerCase()) ||
         animal.id.toString().includes(search)) &&
       (animalSpecies === "all" ||
-        animal.species.toLowerCase() === animalSpecies.toLowerCase()),
+        (animal.species &&
+          typeof animal.species === "string" &&
+          animal.species.toLowerCase() === animalSpecies.toLowerCase())),
   );
 
   // Calculate total pages
@@ -183,20 +186,32 @@ function AnimalsTable({ farmId }) {
     return paginatedAnimals.map((animal) => (
       <TableRow key={animal.id} className="hover:bg-amber-50/50">
         {!isMobile && <TableCell>{animal.id}</TableCell>}
-        <TableCell className="font-medium">{animal.identification}</TableCell>
+        <TableCell className="font-medium">
+          {typeof animal.identification === "string"
+            ? animal.identification
+            : String(animal.identification || "")}
+        </TableCell>
         {!isMobile && <TableCell>{animal.name || "-"}</TableCell>}
-        <TableCell className="capitalize">{animal.species}</TableCell>
+        <TableCell className="capitalize">
+          {typeof animal.species === "string"
+            ? animal.species
+            : String(animal.species || "")}
+        </TableCell>
         {!isMobile && (
           <TableCell>
-            {new Date(animal.birthDate).toLocaleDateString()}
+            {animal.birthDate
+              ? new Date(animal.birthDate).toLocaleDateString()
+              : "-"}
           </TableCell>
         )}
-        {!isMobile && <TableCell>{animal.weight}</TableCell>}
+        {!isMobile && <TableCell>{animal.weight || "-"}</TableCell>}{" "}
         <TableCell>
           <span
-            className={`font-medium ${statusMap[animal.status]?.className || "text-gray-600"}`}
+            className={`font-medium ${(animal.status && statusMap[animal.status]?.className) || "text-gray-600"}`}
           >
-            {statusMap[animal.status]?.label || animal.status}
+            {(animal.status && statusMap[animal.status]?.label) ||
+              animal.status ||
+              "Unknown"}
           </span>
         </TableCell>
         <TableCell className="flex justify-center gap-2">

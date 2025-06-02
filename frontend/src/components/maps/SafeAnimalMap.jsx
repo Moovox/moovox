@@ -5,34 +5,34 @@ import { useNavigate } from "react-router-dom";
 const AnimalMap = lazy(() => import("./AnimalMap"));
 
 function SafeAnimalMap({
-  altura = "400px",
-  alturaSm = "",
-  alturaMd = "",
-  alturaLg = "",
+  height = "400px",
+  heightSm = "",
+  heightMd = "",
+  heightLg = "",
   ...props
 }) {
   const [hasError, setHasError] = useState(false);
   const [leafletLoaded, setLeafletLoaded] = useState(false);
   const navigate = useNavigate();
 
-  // Determina a altura baseada no viewport atual
+  // Determines height based on current viewport
   const getResponsiveHeight = () => {
-    // Por padrão, usa a altura base
-    let currentHeight = altura;
+    // By default, use the base height
+    let currentHeight = height;
 
-    // Substitui com altura específica para tela pequena se fornecida
-    if (alturaSm && window.innerWidth >= 640) {
-      currentHeight = alturaSm;
+    // Replace with specific height for small screen if provided
+    if (heightSm && window.innerWidth >= 640) {
+      currentHeight = heightSm;
     }
 
-    // Substitui com altura específica para tela média se fornecida
-    if (alturaMd && window.innerWidth >= 768) {
-      currentHeight = alturaMd;
+    // Replace with specific height for medium screen if provided
+    if (heightMd && window.innerWidth >= 768) {
+      currentHeight = heightMd;
     }
 
-    // Substitui com altura específica para tela grande se fornecida
-    if (alturaLg && window.innerWidth >= 1024) {
-      currentHeight = alturaLg;
+    // Replace with specific height for large screen if provided
+    if (heightLg && window.innerWidth >= 1024) {
+      currentHeight = heightLg;
     }
 
     return currentHeight;
@@ -128,12 +128,13 @@ function SafeAnimalMap({
         </div>
       }
     >
+      {" "}
       <ErrorCatcher setHasError={setHasError}>
         <AnimalMap
-          altura={altura}
-          alturaSm={alturaSm}
-          alturaMd={alturaMd}
-          alturaLg={alturaLg}
+          height={height}
+          heightSm={heightSm}
+          heightMd={heightMd}
+          heightLg={heightLg}
           {...props}
         />
       </ErrorCatcher>

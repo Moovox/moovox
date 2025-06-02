@@ -20,7 +20,6 @@ export function FarmProvider({ children }) {
     localStorage.getItem("farmId"),
   );
   const [loading, setLoading] = useState(true);
-
   /**
    * Get current farm information
    */
@@ -30,30 +29,34 @@ export function FarmProvider({ children }) {
       const result = await farmService.checkSelectedFarm();
       if (result.valid) {
         setFarmInfo(result.farm);
-        // Check if farm changed
+        // Check if farm changed - only dispatch if actually different
         const newFarmId = result.farm.id.toString();
         if (newFarmId !== currentFarmId) {
           setCurrentFarmId(newFarmId);
           localStorage.setItem("farmId", newFarmId);
-          // Dispatch custom event to notify change
-          window.dispatchEvent(
-            new CustomEvent("farmChanged", {
-              detail: { farmId: newFarmId },
-            }),
-          );
+          // Dispatch custom event to notify change (debounced)
+          setTimeout(() => {
+            window.dispatchEvent(
+              new CustomEvent("farmChanged", {
+                detail: { farmId: newFarmId },
+              }),
+            );
+          }, 100);
         }
       } else {
         setFarmInfo(null);
-        // If no valid farm, clear farmId
+        // If no valid farm, clear farmId - only if actually different
         if (currentFarmId) {
           setCurrentFarmId(null);
           localStorage.removeItem("farmId");
-          // Dispatch change event to null
-          window.dispatchEvent(
-            new CustomEvent("farmChanged", {
-              detail: { farmId: null },
-            }),
-          );
+          // Dispatch change event to null (debounced)
+          setTimeout(() => {
+            window.dispatchEvent(
+              new CustomEvent("farmChanged", {
+                detail: { farmId: null },
+              }),
+            );
+          }, 100);
         }
       }
     } catch (error) {

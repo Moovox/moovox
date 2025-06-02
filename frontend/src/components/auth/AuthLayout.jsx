@@ -1,7 +1,7 @@
 import { memo, useEffect, useState } from "react";
 import { Outlet, useLocation } from "react-router-dom";
-import BackgroundVideo from "./BackgroundVideo";
-import PageLoader from "./PageLoader";
+import BackgroundVideo from "../common/BackgroundVideo";
+import PageLoader from "../common/PageLoader";
 
 function AuthLayout() {
   const [loading, setLoading] = useState(false);

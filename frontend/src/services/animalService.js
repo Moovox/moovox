@@ -8,22 +8,33 @@ export const animalService = {
         console.warn(
           "Warning: Farm ID not found in localStorage. Animals may not be filtered correctly.",
         );
-      }
-
-      // Use specific route /farms/:id/animals when farmId is available
+      } // Use specific route /farms/:id/animals when farmId is available
       const endpoint = farmId ? `/farms/${farmId}/animals` : "/animals";
       const response = await api.get(endpoint);
 
-      // Map data to new property names
-      const animals = response.data.data.map((animal) => ({
+      // Ensure we have an array of animals in the response
+      const animalData =
+        response.data && response.data.data ? response.data.data : [];
+
+      // Ensure we're working with an array
+      if (!Array.isArray(animalData)) {
+        console.warn("Animal data is not an array, using empty array instead");
+        return [];
+      }
+
+      // Map data to new property names with additional validation
+      const animals = animalData.map((animal) => ({
         id: animal.id,
         identification: animal.identification || animal.tag || animal.id,
         name: animal.name,
-        species: animal.species || animal.especie,
-        breed: animal.breed || animal.raca,
+        species: animal.species || animal.especie || "Unknown",
+        breed: animal.breed || animal.raca || "Unknown",
         birthDate: animal.birth_date || animal.dataNascimento,
-        weight: animal.weight || animal.peso,
-        status: animal.health_status || animal.status,
+        weight: animal.weight || animal.peso || 0,
+        status: animal.health_status || animal.status || "Unknown",
+        // Generate random latitude/longitude for map if not available
+        latitude: animal.latitude || Math.random() * 10 - 15.7801,
+        longitude: animal.longitude || Math.random() * 10 - 47.9292,
         // Keep original data for compatibility
         ...animal,
       }));

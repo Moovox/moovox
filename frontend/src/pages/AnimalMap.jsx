@@ -47,12 +47,13 @@ function AnimalMap() {
                   value={speciesFilter}
                   onChange={(e) => setSpeciesFilter(e.target.value)}
                 >
+                  {" "}
                   <option value="">All species</option>
-                  <option value="bovino">Cattle</option>
-                  <option value="suíno">Swine</option>
-                  <option value="ave">Poultry</option>
-                  <option value="caprino">Goats</option>
-                  <option value="ovino">Sheep</option>
+                  <option value="cattle">Cattle</option>
+                  <option value="swine">Swine</option>
+                  <option value="poultry">Poultry</option>
+                  <option value="goat">Goats</option>
+                  <option value="sheep">Sheep</option>
                 </select>
               </div>
 
@@ -66,11 +67,12 @@ function AnimalMap() {
                   value={statusFilter}
                   onChange={(e) => setStatusFilter(e.target.value)}
                 >
+                  {" "}
                   <option value="">All statuses</option>
-                  <option value="Ativo">Active</option>
-                  <option value="Inativo">Inactive</option>
-                  <option value="Em tratamento">In treatment</option>
-                  <option value="Em quarentena">In quarantine</option>
+                  <option value="Active">Active</option>
+                  <option value="Inactive">Inactive</option>
+                  <option value="In Treatment">In treatment</option>
+                  <option value="Quarantined">In quarantine</option>
                 </select>
               </div>
 
@@ -98,18 +100,19 @@ function AnimalMap() {
           {/* Full Screen Map */}
           <div className="overflow-hidden rounded-xl bg-white p-4 shadow-sm">
             <div className="h-[700px] w-full">
+              {" "}
               <SafeAnimalMap
-                filtroEspecie={speciesFilter}
-                filtroStatus={statusFilter}
-                busca={search}
-                exibirFiltros={false}
-                altura="680px"
+                speciesFilter={speciesFilter}
+                statusFilter={statusFilter}
+                search={search}
+                showFilters={false}
+                height="680px"
                 mapZoom={6}
-                titulo="Real-Time Location Map"
-                atualizacaoAutomatica={true}
-                intervaloAtualizacao={120000}
-                exibirCercasVirtuais={showFences}
-                exibirLegendaInterna={false}
+                title="Real-Time Location Map"
+                autoUpdate={true}
+                updateInterval={120000}
+                showVirtualFences={showFences}
+                showInternalLegend={false}
               />
             </div>
           </div>
