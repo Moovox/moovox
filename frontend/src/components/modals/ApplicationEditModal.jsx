@@ -1,306 +1,345 @@
-import React, { useState, useEffect } from 'react';
-import { Input } from '../ui/input';
-import { Textarea } from '../ui/textarea';
-import FormModal from '../ui/form-modal';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
-import { applicationService } from '../../services/applicationService';
-import { animalService } from '../../services/animalService';
-import { vaccineService } from '../../services/vaccineService';
-import { useToast } from '../ui/use-toast';
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
+import React, { useEffect, useState } from "react";
+import { animalService } from "../../services/animalService";
+import { applicationService } from "../../services/applicationService";
+import { vaccineService } from "../../services/vaccineService";
+import FormModal from "../ui/form-modal";
+import { Input } from "../ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
+import { Textarea } from "../ui/textarea";
+import { useToast } from "../ui/use-toast";
 
 function ApplicationEditModal({ application, open, onOpenChange, onSuccess }) {
-    const [loading, setLoading] = useState(false);
-    const [animals, setAnimals] = useState([]);
-    const [vaccines, setVaccines] = useState([]);
-    const [loadingResources, setLoadingResources] = useState(false);
-    const [resourceError, setResourceError] = useState(null);
-    
-    const [formData, setFormData] = useState({
-        animalId: '',
-        vaccineId: '',
-        date: '',
-        dosage: '',
-        appliedBy: '',
-        notes: ''
-    });
-    const [errors, setErrors] = useState({});
-    const { toast } = useToast();
+  const [loading, setLoading] = useState(false);
+  const [animals, setAnimals] = useState([]);
+  const [vaccines, setVaccines] = useState([]);
+  const [loadingResources, setLoadingResources] = useState(false);
+  const [resourceError, setResourceError] = useState(null);
 
-    // Load animals and vaccines when modal opens
-    useEffect(() => {
-        const loadResources = async () => {
-            if (!open) return;
-            
-            setLoadingResources(true);
-            setResourceError(null);
-            
-            try {
-                // Load animals and vaccines in parallel
-                const [animalsList, vaccinesList] = await Promise.all([
-                    animalService.listAnimals(),
-                    vaccineService.getAllVaccines()
-                ]);
-                
-                setAnimals(animalsList || []);
-                setVaccines(vaccinesList.data || []);
-            } catch (error) {
-                console.error('Error loading resources:', error);
-                setResourceError(error.message || 'Failed to load animals and vaccines');
-                toast({
-                    title: "Error",
-                    description: "Failed to load animals and vaccines. Please try again.",
-                    variant: "destructive"
-                });
-            } finally {
-                setLoadingResources(false);
-            }
-        };
-        
-        loadResources();
-    }, [open, toast]);
+  const [formData, setFormData] = useState({
+    animalId: "",
+    vaccineId: "",
+    date: "",
+    dosage: "",
+    appliedBy: "",
+    notes: "",
+  });
+  const [errors, setErrors] = useState({});
+  const { toast } = useToast();
 
-    // Set form data when application changes
-    useEffect(() => {
-        if (application && open) {
-            setFormData({
-                animalId: application.animalId?.toString() || '',
-                vaccineId: application.vaccineId?.toString() || '',
-                date: application.date ? new Date(application.date).toISOString().split('T')[0] : '',
-                dosage: application.dosage || '',
-                appliedBy: application.appliedBy || '',
-                notes: application.notes || ''
-            });
-        }
-    }, [application, open]);
+  // Load animals and vaccines when modal opens
+  useEffect(() => {
+    const loadResources = async () => {
+      if (!open) return;
 
-    const validateForm = () => {
-        const newErrors = {};
+      setLoadingResources(true);
+      setResourceError(null);
 
-        if (!formData.animalId) {
-            newErrors.animalId = 'Animal is required';
-        }
+      try {
+        // Load animals and vaccines in parallel
+        const [animalsList, vaccinesList] = await Promise.all([
+          animalService.listAnimals(),
+          vaccineService.getAllVaccines(),
+        ]);
 
-        if (!formData.vaccineId) {
-            newErrors.vaccineId = 'Vaccine is required';
-        }
-
-        if (!formData.date) {
-            newErrors.date = 'Application date is required';
-        }
-
-        if (!formData.dosage?.trim()) {
-            newErrors.dosage = 'Dosage is required';
-        }
-
-        if (!formData.appliedBy?.trim()) {
-            newErrors.appliedBy = 'Applied by is required';
-        }
-
-        setErrors(newErrors);
-        return Object.keys(newErrors).length === 0;
+        setAnimals(animalsList || []);
+        setVaccines(vaccinesList.data || []);
+      } catch (error) {
+        console.error("Error loading resources:", error);
+        setResourceError(
+          error.message || "Failed to load animals and vaccines",
+        );
+        toast({
+          title: "Error",
+          description: "Failed to load animals and vaccines. Please try again.",
+          variant: "destructive",
+        });
+      } finally {
+        setLoadingResources(false);
+      }
     };
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData(prev => ({
-            ...prev,
-            [name]: value
+    loadResources();
+  }, [open, toast]);
+
+  // Set form data when application changes
+  useEffect(() => {
+    if (application && open) {
+      setFormData({
+        animalId: application.animalId?.toString() || "",
+        vaccineId: application.vaccineId?.toString() || "",
+        date: application.date
+          ? new Date(application.date).toISOString().split("T")[0]
+          : "",
+        dosage: application.dosage || "",
+        appliedBy: application.appliedBy || "",
+        notes: application.notes || "",
+      });
+    }
+  }, [application, open]);
+
+  const validateForm = () => {
+    const newErrors = {};
+
+    if (!formData.animalId) {
+      newErrors.animalId = "Animal is required";
+    }
+
+    if (!formData.vaccineId) {
+      newErrors.vaccineId = "Vaccine is required";
+    }
+
+    if (!formData.date) {
+      newErrors.date = "Application date is required";
+    }
+
+    if (!formData.dosage?.trim()) {
+      newErrors.dosage = "Dosage is required";
+    }
+
+    if (!formData.appliedBy?.trim()) {
+      newErrors.appliedBy = "Applied by is required";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+    if (errors[name]) {
+      setErrors((prev) => ({
+        ...prev,
+        [name]: "",
+      }));
+    }
+  };
+
+  const handleSelectChange = (name, value) => {
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+    if (errors[name]) {
+      setErrors((prev) => ({
+        ...prev,
+        [name]: "",
+      }));
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!validateForm()) {
+      return;
+    }
+
+    setLoading(true);
+    try {
+      await applicationService.updateApplication(application.id, formData);
+
+      toast({
+        title: "Success",
+        description: "Application updated successfully!",
+        variant: "success",
+      });
+
+      if (onOpenChange) {
+        onOpenChange(false);
+      }
+
+      if (onSuccess) {
+        await onSuccess();
+      }
+    } catch (error) {
+      console.error("Error updating application:", error);
+
+      toast({
+        title: "Error updating application",
+        description:
+          error.message || "An error occurred while updating the application",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Update dosage if vaccine is changed
+  useEffect(() => {
+    if (
+      !application ||
+      formData.vaccineId === application.vaccineId?.toString()
+    )
+      return;
+
+    if (formData.vaccineId) {
+      const selectedVaccine = vaccines.find(
+        (v) => v.id.toString() === formData.vaccineId.toString(),
+      );
+      if (selectedVaccine && selectedVaccine.dosage) {
+        setFormData((prev) => ({
+          ...prev,
+          dosage: selectedVaccine.dosage,
         }));
-        if (errors[name]) {
-            setErrors(prev => ({
-                ...prev,
-                [name]: ''
-            }));
-        }
-    };
+      }
+    }
+  }, [formData.vaccineId, vaccines, application]);
 
-    const handleSelectChange = (name, value) => {
-        setFormData(prev => ({
-            ...prev,
-            [name]: value
-        }));
-        if (errors[name]) {
-            setErrors(prev => ({
-                ...prev,
-                [name]: ''
-            }));
-        }
-    };
+  return (
+    <FormModal
+      title="Edit Vaccine Application"
+      open={open}
+      onOpenChange={onOpenChange}
+      onSubmit={handleSubmit}
+      loading={loading}
+      submitText="Save"
+      cancelText="Cancel"
+    >
+      {resourceError && (
+        <div className="mb-4 rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-600">
+          {resourceError}
+        </div>
+      )}
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        
-        if (!validateForm()) {
-            return;
-        }
+      <div className="flex flex-col gap-4">
+        <div className="space-y-1.5">
+          <label className="text-sm font-medium text-amber-900">Animal</label>
+          <Select
+            name="animalId"
+            value={formData.animalId}
+            onValueChange={(value) => handleSelectChange("animalId", value)}
+            disabled={loadingResources || animals.length === 0}
+          >
+            <SelectTrigger
+              className={`${errors.animalId ? "border-red-500" : "border-amber-200"}`}
+            >
+              <SelectValue placeholder="Select an animal" />
+            </SelectTrigger>
+            <SelectContent>
+              {animals.map((animal) => (
+                <SelectItem key={animal.id} value={animal.id.toString()}>
+                  {animal.name ||
+                    animal.identification ||
+                    `Animal #${animal.id}`}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          {errors.animalId && (
+            <span className="text-xs text-red-500">{errors.animalId}</span>
+          )}
+        </div>
 
-        setLoading(true);
-        try {
-            await applicationService.updateApplication(application.id, formData);
-            
-            toast({
-                title: "Success",
-                description: "Application updated successfully!",
-                variant: "success"
-            });
-            
-            if (onOpenChange) {
-                onOpenChange(false);
-            }
-            
-            if (onSuccess) {
-                await onSuccess();
-            }
-        } catch (error) {
-            console.error('Error updating application:', error);
-            
-            toast({
-                title: "Error updating application",
-                description: error.message || 'An error occurred while updating the application',
-                variant: "destructive"
-            });
-        } finally {
-            setLoading(false);
-        }
-    };
+        <div className="space-y-1.5">
+          <label className="text-sm font-medium text-amber-900">Vaccine</label>
+          <Select
+            name="vaccineId"
+            value={formData.vaccineId}
+            onValueChange={(value) => handleSelectChange("vaccineId", value)}
+            disabled={loadingResources || vaccines.length === 0}
+          >
+            <SelectTrigger
+              className={`${errors.vaccineId ? "border-red-500" : "border-amber-200"}`}
+            >
+              <SelectValue placeholder="Select a vaccine" />
+            </SelectTrigger>
+            <SelectContent>
+              {vaccines.map((vaccine) => (
+                <SelectItem key={vaccine.id} value={vaccine.id.toString()}>
+                  {vaccine.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          {errors.vaccineId && (
+            <span className="text-xs text-red-500">{errors.vaccineId}</span>
+          )}
+        </div>
 
-    // Update dosage if vaccine is changed
-    useEffect(() => {
-        if (!application || formData.vaccineId === application.vaccineId?.toString()) return;
-        
-        if (formData.vaccineId) {
-            const selectedVaccine = vaccines.find(v => v.id.toString() === formData.vaccineId.toString());
-            if (selectedVaccine && selectedVaccine.dosage) {
-                setFormData(prev => ({
-                    ...prev,
-                    dosage: selectedVaccine.dosage
-                }));
-            }
-        }
-    }, [formData.vaccineId, vaccines, application]);
+        <div className="space-y-1.5">
+          <label className="text-sm font-medium text-amber-900">
+            Application Date
+          </label>
+          <Input
+            name="date"
+            type="date"
+            value={formData.date}
+            onChange={handleChange}
+            className={`${errors.date ? "border-red-500" : "border-amber-200"}`}
+            required
+          />
+          {errors.date && (
+            <span className="text-xs text-red-500">{errors.date}</span>
+          )}
+        </div>
 
-    return (
-        <FormModal
-            title="Edit Vaccine Application"
-            open={open}
-            onOpenChange={onOpenChange}
-            onSubmit={handleSubmit}
-            loading={loading}
-            submitText="Save"
-            cancelText="Cancel"
-        >
-            {resourceError && (
-                <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-md text-red-600 text-sm">
-                    {resourceError}
-                </div>
-            )}
-            
-            <div className="flex flex-col gap-4">
-                <div className="space-y-1.5">
-                    <label className="text-sm font-medium text-amber-900">Animal</label>
-                    <Select
-                        name="animalId"
-                        value={formData.animalId}
-                        onValueChange={(value) => handleSelectChange('animalId', value)}
-                        disabled={loadingResources || animals.length === 0}
-                    >
-                        <SelectTrigger className={`${errors.animalId ? 'border-red-500' : 'border-amber-200'}`}>
-                            <SelectValue placeholder="Select an animal" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            {animals.map((animal) => (
-                                <SelectItem key={animal.id} value={animal.id.toString()}>
-                                    {animal.name || animal.identification || `Animal #${animal.id}`}
-                                </SelectItem>
-                            ))}
-                        </SelectContent>
-                    </Select>
-                    {errors.animalId && <span className="text-xs text-red-500">{errors.animalId}</span>}
-                </div>
-                
-                <div className="space-y-1.5">
-                    <label className="text-sm font-medium text-amber-900">Vaccine</label>
-                    <Select
-                        name="vaccineId"
-                        value={formData.vaccineId}
-                        onValueChange={(value) => handleSelectChange('vaccineId', value)}
-                        disabled={loadingResources || vaccines.length === 0}
-                    >
-                        <SelectTrigger className={`${errors.vaccineId ? 'border-red-500' : 'border-amber-200'}`}>
-                            <SelectValue placeholder="Select a vaccine" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            {vaccines.map((vaccine) => (
-                                <SelectItem key={vaccine.id} value={vaccine.id.toString()}>
-                                    {vaccine.name}
-                                </SelectItem>
-                            ))}
-                        </SelectContent>
-                    </Select>
-                    {errors.vaccineId && <span className="text-xs text-red-500">{errors.vaccineId}</span>}
-                </div>
-                
-                <div className="space-y-1.5">
-                    <label className="text-sm font-medium text-amber-900">Application Date</label>
-                    <Input
-                        name="date"
-                        type="date"
-                        value={formData.date}
-                        onChange={handleChange}
-                        className={`${errors.date ? 'border-red-500' : 'border-amber-200'}`}
-                        required
-                    />
-                    {errors.date && <span className="text-xs text-red-500">{errors.date}</span>}
-                </div>
-                
-                <div className="space-y-1.5">
-                    <label className="text-sm font-medium text-amber-900">Dosage</label>
-                    <Input
-                        name="dosage"
-                        value={formData.dosage}
-                        onChange={handleChange}
-                        placeholder="e.g., '5 mL' or '10 mg'"
-                        className={`${errors.dosage ? 'border-red-500' : 'border-amber-200'}`}
-                        required
-                    />
-                    {errors.dosage && <span className="text-xs text-red-500">{errors.dosage}</span>}
-                </div>
-                
-                <div className="space-y-1.5">
-                    <label className="text-sm font-medium text-amber-900">Applied By</label>
-                    <Input
-                        name="appliedBy"
-                        value={formData.appliedBy}
-                        onChange={handleChange}
-                        placeholder="Name of the person who applied the vaccine"
-                        className={`${errors.appliedBy ? 'border-red-500' : 'border-amber-200'}`}
-                        required
-                    />
-                    {errors.appliedBy && <span className="text-xs text-red-500">{errors.appliedBy}</span>}
-                </div>
-                
-                <div className="space-y-1.5">
-                    <label className="text-sm font-medium text-amber-900">Notes (Optional)</label>
-                    <Textarea
-                        name="notes"
-                        value={formData.notes}
-                        onChange={handleChange}
-                        placeholder="Enter additional notes about the application"
-                        className="border-amber-200 resize-none"
-                        rows={3}
-                    />
-                </div>
-            </div>
-        </FormModal>
-    );
+        <div className="space-y-1.5">
+          <label className="text-sm font-medium text-amber-900">Dosage</label>
+          <Input
+            name="dosage"
+            value={formData.dosage}
+            onChange={handleChange}
+            placeholder="e.g., '5 mL' or '10 mg'"
+            className={`${errors.dosage ? "border-red-500" : "border-amber-200"}`}
+            required
+          />
+          {errors.dosage && (
+            <span className="text-xs text-red-500">{errors.dosage}</span>
+          )}
+        </div>
+
+        <div className="space-y-1.5">
+          <label className="text-sm font-medium text-amber-900">
+            Applied By
+          </label>
+          <Input
+            name="appliedBy"
+            value={formData.appliedBy}
+            onChange={handleChange}
+            placeholder="Name of the person who applied the vaccine"
+            className={`${errors.appliedBy ? "border-red-500" : "border-amber-200"}`}
+            required
+          />
+          {errors.appliedBy && (
+            <span className="text-xs text-red-500">{errors.appliedBy}</span>
+          )}
+        </div>
+
+        <div className="space-y-1.5">
+          <label className="text-sm font-medium text-amber-900">
+            Notes (Optional)
+          </label>
+          <Textarea
+            name="notes"
+            value={formData.notes}
+            onChange={handleChange}
+            placeholder="Enter additional notes about the application"
+            className="resize-none border-amber-200"
+            rows={3}
+          />
+        </div>
+      </div>
+    </FormModal>
+  );
 }
 
 ApplicationEditModal.propTypes = {
-    application: PropTypes.object.isRequired,
-    open: PropTypes.bool.isRequired,
-    onOpenChange: PropTypes.func.isRequired,
-    onSuccess: PropTypes.func
+  application: PropTypes.object.isRequired,
+  open: PropTypes.bool.isRequired,
+  onOpenChange: PropTypes.func.isRequired,
+  onSuccess: PropTypes.func,
 };
 
-export default ApplicationEditModal; 
+export default ApplicationEditModal;

@@ -2,7 +2,9 @@
     "compilerOptions": {
         "jsx": "react",
         "baseUrl": ".",
-        "lib": ["ES2015"],
+        "lib": [
+            "ES2015"
+        ],
         "paths": {
             "@/*": [
                 "src/*"

@@ -1,7 +1,7 @@
-import { memo } from 'react';
-import { Navigate, Outlet } from 'react-router-dom';
-import { useAuth } from './AuthContext';
-import PageLoader from './PageLoader';
+import { memo } from "react";
+import { Navigate, Outlet } from "react-router-dom";
+import { useAuth } from "./AuthContext";
+import PageLoader from "./PageLoader";
 
 function PrivateRoute() {
   const { user, loading } = useAuth();

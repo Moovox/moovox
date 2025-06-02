@@ -1,40 +1,47 @@
-import React from 'react';
-import { cowHead } from '@lucide/lab';
-import { Icon } from 'lucide-react';
-import PropTypes from 'prop-types';
-import '../styles/PageLoader.css';
+import { cowHead } from "@lucide/lab";
+import { Icon } from "lucide-react";
+import PropTypes from "prop-types";
+import React from "react";
+import "../styles/PageLoader.css";
 
 /**
  * Loader temático com radar e vaca
  * @param {{ icon?: React.ReactNode, color?: string, className?: string }} props
  */
 const COLOR_MAP = {
-  'green-700': 'text-green-700',
-  'green-600': 'text-green-600',
-  'green-500': 'text-green-500',
-  'green-400': 'text-green-400',
-  'green-300': 'text-green-300',
-  'green-200': 'text-green-200',
-  'green-100': 'text-green-100',
+  "green-700": "text-green-700",
+  "green-600": "text-green-600",
+  "green-500": "text-green-500",
+  "green-400": "text-green-400",
+  "green-300": "text-green-300",
+  "green-200": "text-green-200",
+  "green-100": "text-green-100",
   // Adicione mais cores conforme necessário
 };
 
-function PageLoader({ text, icon, color = 'amber-800', className = '' }) {
+function PageLoader({ text, icon, color = "amber-800", className = "" }) {
   const iconColorClass = color || "text-amber-800";
 
   return (
-    <div className={`flex flex-col items-center justify-center h-full min-h-screen bg-gradient-to-br from-[#fff8f0] via-[#f9e7c2] to-[#bfa77a] ${className}`}>
+    <div
+      className={`flex h-full min-h-screen flex-col items-center justify-center bg-gradient-to-br from-[#fff8f0] via-[#f9e7c2] to-[#bfa77a] ${className}`}
+    >
       <div className="flex flex-col items-center">
-        <div className="animate-bounce mb-6">
-          {icon || <Icon iconNode={cowHead} className={`w-12 h-12 ${iconColorClass}`} />}
+        <div className="mb-6 animate-bounce">
+          {icon || (
+            <Icon
+              iconNode={cowHead}
+              className={`h-12 w-12 ${iconColorClass}`}
+            />
+          )}
         </div>
         <div className="text-lg font-semibold text-amber-900">
           {text || "Carregando..."}
         </div>
         <div className="mt-4 flex space-x-2">
-          <div className="w-2 h-2 rounded-full bg-amber-700 animate-pulse"></div>
-          <div className="w-2 h-2 rounded-full bg-amber-700 animate-pulse delay-75"></div>
-          <div className="w-2 h-2 rounded-full bg-amber-700 animate-pulse delay-150"></div>
+          <div className="h-2 w-2 animate-pulse rounded-full bg-amber-700"></div>
+          <div className="h-2 w-2 animate-pulse rounded-full bg-amber-700 delay-75"></div>
+          <div className="h-2 w-2 animate-pulse rounded-full bg-amber-700 delay-150"></div>
         </div>
       </div>
     </div>

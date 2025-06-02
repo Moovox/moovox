@@ -3,55 +3,60 @@ import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
 
 function ForgotPassCard() {
-    return (
-        <div className="w-full px-4">
-            <div className="bg-white w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl flex flex-col justify-between shadow-[inset_0px_0px_4px_1px_#b3ffcf] bg-opacity-90 rounded-xl p-8 text-center items-center backdrop-blur-md mx-auto">
-                <img
-                    src="imgs/moovox.svg"
-                    alt="Moovox Logo"
-                    className="mx-auto w-32"
-                    draggable="false"
-                />
-                <span className="text-3xl text-amber-950 font-bold mb-4">Moovox</span>
-                <h2 className="font-poppins text-2xl text-green-700 mb-1">
-                    Esqueceu sua senha?
-                </h2>
-                <p className="text-sm text-gray-600 mb-6 font-poppins">
-                    Informe seu e-mail e enviaremos instruções para recuperação.
-                </p>
+  return (
+    <div className="w-full px-4">
+      <div className="mx-auto flex w-full max-w-sm flex-col items-center justify-between rounded-xl bg-white bg-opacity-90 p-8 text-center shadow-[inset_0px_0px_4px_1px_#b3ffcf] backdrop-blur-md sm:max-w-md md:max-w-lg lg:max-w-xl">
+        <img
+          src="imgs/moovox.svg"
+          alt="Moovox Logo"
+          className="mx-auto w-32"
+          draggable="false"
+        />
+        <span className="mb-4 text-3xl font-bold text-amber-950">Moovox</span>
+        <h2 className="mb-1 font-poppins text-2xl text-green-700">
+          Esqueceu sua senha?
+        </h2>
+        <p className="mb-6 font-poppins text-sm text-gray-600">
+          Informe seu e-mail e enviaremos instruções para recuperação.
+        </p>
 
-                <form className="space-y-4 text-left w-full">
-                    <div>
-                        <label htmlFor="email" className="block font-poppins text-base text-gray-700 mb-1">E-mail</label>
-                        <div className="flex bg-green-100 items-center border border-gray-300 rounded-xl pl-3">
-                            <Mail className="w-4 h-4 text-gray-700 mr-2" />
-                            <input
-                                id="email"
-                                type="email"
-                                autoComplete="email"
-                                placeholder="Digite seu e-mail"
-                                className="w-full font-poppins py-2 text-sm outline-none bg-transparent focus:ring-2 focus:ring-blue-400 focus:border-blue-400 rounded-e-xl"
-                            />
-                        </div>
-                    </div>
-
-                    <Button
-                        type="submit"
-                        className="w-full font-poppins font-bold bg-green-600 text-white p-[5px] rounded-xl hover:bg-green-700 transition"
-                    >
-                        Enviar instruções
-                    </Button>
-                </form>
-
-                <Link
-                    to="/"
-                    className="block text-sm text-green-600 mt-4 hover:underline font-poppins"
-                >
-                    Voltar para o login
-                </Link>
+        <form className="w-full space-y-4 text-left">
+          <div>
+            <label
+              htmlFor="email"
+              className="mb-1 block font-poppins text-base text-gray-700"
+            >
+              E-mail
+            </label>
+            <div className="flex items-center rounded-xl border border-gray-300 bg-green-100 pl-3">
+              <Mail className="mr-2 h-4 w-4 text-gray-700" />
+              <input
+                id="email"
+                type="email"
+                autoComplete="email"
+                placeholder="Digite seu e-mail"
+                className="w-full rounded-e-xl bg-transparent py-2 font-poppins text-sm outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-400"
+              />
             </div>
-        </div>
-    );
+          </div>
+
+          <Button
+            type="submit"
+            className="w-full rounded-xl bg-green-600 p-[5px] font-poppins font-bold text-white transition hover:bg-green-700"
+          >
+            Enviar instruções
+          </Button>
+        </form>
+
+        <Link
+          to="/"
+          className="mt-4 block font-poppins text-sm text-green-600 hover:underline"
+        >
+          Voltar para o login
+        </Link>
+      </div>
+    </div>
+  );
 }
 
 export default ForgotPassCard;

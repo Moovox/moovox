@@ -1,14 +1,14 @@
-import { HeartPulse } from 'lucide-react';
-import React from 'react';
+import { HeartPulse } from "lucide-react";
+import React from "react";
 
 /**
  * Ícone de batimento cardíaco animado
  * @param {{ className?: string }} props
  */
-function HeartBeatIcon({ className = '' }) {
+function HeartBeatIcon({ className = "" }) {
   return (
     <span className={`relative flex items-center justify-center ${className}`}>
-      <HeartPulse className="w-5 h-5 sm:w-6 sm:h-6 text-red-600 animate-pulse-heart" />
+      <HeartPulse className="animate-pulse-heart h-5 w-5 text-red-600 sm:h-6 sm:w-6" />
       <style>{`
         @keyframes pulse-heart {
           0%, 100% { transform: scale(1); }

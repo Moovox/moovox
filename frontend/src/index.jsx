@@ -1,12 +1,12 @@
-import './styles/globals.css';
-import ReactDOM from 'react-dom/client';
-import App from './App.jsx';
-import { HelmetProvider } from 'react-helmet-async';
-import React from 'react';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { HelmetProvider } from "react-helmet-async";
+import App from "./App.jsx";
+import "./styles/globals.css";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-    <HelmetProvider>
-        <App />
-    </HelmetProvider>
+  <HelmetProvider>
+    <App />
+  </HelmetProvider>,
 );

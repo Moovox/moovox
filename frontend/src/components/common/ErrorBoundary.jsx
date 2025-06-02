@@ -1,5 +1,5 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from "react";
+import { useNavigate } from "react-router-dom";
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -19,13 +19,15 @@ class ErrorBoundary extends React.Component {
   render() {
     if (this.state.hasError) {
       return (
-        <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-gradient-to-br from-[#fff8f0] via-[#f9e7c2] to-[#bfa77a]">
-          <div className="bg-white p-8 rounded-xl shadow-lg max-w-md w-full">
-            <h1 className="text-2xl font-bold text-amber-900 mb-4">Algo deu errado</h1>
-            <p className="text-gray-700 mb-6">
+        <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-br from-[#fff8f0] via-[#f9e7c2] to-[#bfa77a] p-4">
+          <div className="w-full max-w-md rounded-xl bg-white p-8 shadow-lg">
+            <h1 className="mb-4 text-2xl font-bold text-amber-900">
+              Algo deu errado
+            </h1>
+            <p className="mb-6 text-gray-700">
               Ocorreu um erro inesperado na aplicação.
             </p>
-            <div className="bg-red-50 p-4 rounded-lg mb-6 overflow-auto max-h-48 text-sm">
+            <div className="mb-6 max-h-48 overflow-auto rounded-lg bg-red-50 p-4 text-sm">
               <p className="font-mono text-red-700">
                 {this.state.error && this.state.error.toString()}
               </p>
@@ -43,30 +45,30 @@ class ErrorBoundary extends React.Component {
 // Botão separado para usar hooks em um componente de classe
 function ErrorBoundaryButton() {
   const navigate = useNavigate();
-  
+
   const handleDashboardClick = () => {
     console.log("Redirecionando para o dashboard...");
-    navigate('/dashboard');
+    navigate("/dashboard");
   };
-  
+
   const handleRetryClick = () => {
     console.log("Recarregando a página...");
     window.location.reload();
   };
-  
+
   return (
     <div className="flex flex-col space-y-3">
       <button
         onClick={handleDashboardClick}
         type="button"
-        className="bg-amber-600 hover:bg-amber-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-200"
+        className="rounded-lg bg-amber-600 px-4 py-2 font-semibold text-white transition duration-200 hover:bg-amber-700"
       >
         Voltar ao Dashboard
       </button>
       <button
         onClick={handleRetryClick}
         type="button"
-        className="border border-amber-600 text-amber-600 hover:bg-amber-50 font-semibold py-2 px-4 rounded-lg transition duration-200"
+        className="rounded-lg border border-amber-600 px-4 py-2 font-semibold text-amber-600 transition duration-200 hover:bg-amber-50"
       >
         Tentar novamente
       </button>
@@ -74,4 +76,4 @@ function ErrorBoundaryButton() {
   );
 }
 
-export default ErrorBoundary; 
+export default ErrorBoundary;
