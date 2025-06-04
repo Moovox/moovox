@@ -1,62 +1,102 @@
-import { Building2 } from "lucide-react";
-import Card, { CardContent } from "../ui/card";
+import { Building2, MapPin, Tractor, Users } from "lucide-react";
+import React from "react";
 
 /**
- * Farm statistics dashboard panel
+ * Painel de estatísticas das fazendas
  * @param {Object} props
- * @param {Object} props.statistics - Statistical data for farms
+ * @param {Object} props.statistics - Dados estatísticos das fazendas
  */
 function StatsPanel({ statistics }) {
   const { totalFarms, totalAnimals, totalUsers, totalArea } = statistics;
 
+  const stats = [
+    {
+      icon: Building2,
+      value: totalFarms,
+      label: "Fazendas Registradas",
+      color: "amber",
+    },
+    {
+      icon: MapPin,
+      value: `${totalArea?.toLocaleString() || 0}`,
+      label: "Hectares Totais",
+      color: "blue",
+    },
+    {
+      icon: Tractor,
+      value: totalAnimals,
+      label: "Animais Registrados",
+      color: "green",
+    },
+    {
+      icon: Users,
+      value: totalUsers,
+      label: "Usuários Vinculados",
+      color: "purple",
+    },
+  ];
+
+  const getColorClasses = (color) => {
+    const colors = {
+      amber: {
+        bg: "bg-amber-50",
+        border: "border-amber-200",
+        icon: "text-amber-600",
+        text: "text-amber-900",
+        label: "text-amber-700",
+      },
+      blue: {
+        bg: "bg-blue-50",
+        border: "border-blue-200",
+        icon: "text-blue-600",
+        text: "text-blue-900",
+        label: "text-blue-700",
+      },
+      green: {
+        bg: "bg-green-50",
+        border: "border-green-200",
+        icon: "text-green-600",
+        text: "text-green-900",
+        label: "text-green-700",
+      },
+      purple: {
+        bg: "bg-purple-50",
+        border: "border-purple-200",
+        icon: "text-purple-600",
+        text: "text-purple-900",
+        label: "text-purple-700",
+      },
+    };
+    return colors[color] || colors.amber;
+  };
+
   return (
-    <div className="mb-4 grid grid-cols-2 gap-2 sm:gap-4 md:mb-6 md:grid-cols-4">
-      <Card variant="rural" className="shadow-sm">
-        <CardContent className="p-2 sm:p-4">
-          <div className="flex flex-col items-center text-center">
-            <Building2 className="mb-1 h-6 w-6 text-amber-700 sm:mb-2 sm:h-8 sm:w-8" />
-            <h3 className="text-base font-semibold text-amber-900 sm:text-lg">
-              {totalFarms}
-            </h3>
-            <p className="text-xs text-amber-700 sm:text-sm">
-              Registered Farms
-            </p>
-          </div>
-        </CardContent>
-      </Card>
+    <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+      {stats.map((stat, index) => {
+        const Icon = stat.icon;
+        const colors = getColorClasses(stat.color);
 
-      <Card variant="palha" className="shadow-sm">
-        <CardContent className="p-2 sm:p-4">
-          <div className="flex flex-col items-center text-center">
-            <span className="mb-1 text-xl font-bold text-amber-800 sm:mb-2 sm:text-2xl">
-              {totalArea}
-            </span>
-            <p className="text-xs text-amber-700 sm:text-sm">Total Hectares</p>
+        return (
+          <div
+            key={index}
+            className={`rounded-lg border p-4 shadow-sm ${colors.bg} ${colors.border}`}
+          >
+            <div className="flex items-center">
+              <div className="flex-shrink-0">
+                <Icon className={`h-8 w-8 ${colors.icon}`} />
+              </div>
+              <div className="ml-3">
+                <p className={`text-sm font-medium ${colors.label}`}>
+                  {stat.label}
+                </p>
+                <p className={`text-2xl font-semibold ${colors.text}`}>
+                  {stat.value}
+                </p>
+              </div>
+            </div>
           </div>
-        </CardContent>
-      </Card>
-
-      <Card variant="verde" className="shadow-sm">
-        <CardContent className="p-2 sm:p-4">
-          <div className="flex flex-col items-center text-center">
-            <span className="mb-1 text-xl font-bold text-white sm:mb-2 sm:text-2xl">
-              {totalAnimals}
-            </span>
-            <p className="text-xs text-white sm:text-sm">Registered Animals</p>
-          </div>
-        </CardContent>
-      </Card>
-
-      <Card variant="terra" className="shadow-sm">
-        <CardContent className="p-2 sm:p-4">
-          <div className="flex flex-col items-center text-center">
-            <span className="mb-1 text-xl font-bold text-white sm:mb-2 sm:text-2xl">
-              {totalUsers}
-            </span>
-            <p className="text-xs text-white sm:text-sm">Linked Users</p>
-          </div>
-        </CardContent>
-      </Card>
+        );
+      })}
     </div>
   );
 }

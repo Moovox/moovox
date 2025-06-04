@@ -1,8 +1,8 @@
-import { AlertCircle, Loader2, Trash2 } from "lucide-react";
+import { AlertCircle, Edit, Loader2, Trash2 } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { userService } from "../../services/userService";
-import UserCreateModal from "../modals/UserCreateModal";
-import UserEditModal from "../modals/UserEditModal";
+import UserCreateModalStandardized from "../modals/UserCreateModalStandardized";
+import UserEditModalStandardized from "../modals/UserEditModalStandardized";
 import { Alert, AlertDescription } from "../ui/alert";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
@@ -38,6 +38,8 @@ function UsersTable({ users, loading, onUserCreated, error }) {
   const [loadingDelete, setLoadingDelete] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [isMobile, setIsMobile] = useState(false);
+  const [editingUser, setEditingUser] = useState(null);
+  const [editModalOpen, setEditModalOpen] = useState(false);
   const { toast } = useToast();
   const itemsPerPage = 10;
 
@@ -117,6 +119,16 @@ function UsersTable({ users, loading, onUserCreated, error }) {
     }
   };
 
+  const handleEditUser = (user) => {
+    setEditingUser(user);
+    setEditModalOpen(true);
+  };
+
+  const handleEditModalClose = () => {
+    setEditModalOpen(false);
+    setEditingUser(null);
+  };
+
   const renderTableContent = () => {
     if (loading) {
       return (
@@ -166,7 +178,15 @@ function UsersTable({ users, loading, onUserCreated, error }) {
         <TableCell>{user.type}</TableCell>
         <TableCell>
           <div className="flex justify-center gap-2">
-            <UserEditModal user={user} onSuccess={onUserCreated} />
+            <Button
+              size="icon"
+              variant="ghost"
+              className="text-blue-500 transition-colors hover:bg-blue-50 hover:text-blue-600"
+              title="Editar"
+              onClick={() => handleEditUser(user)}
+            >
+              <Edit className="h-4 w-4" />
+            </Button>
             <Button
               size="icon"
               variant="ghost"
@@ -210,7 +230,7 @@ function UsersTable({ users, loading, onUserCreated, error }) {
             </SelectContent>
           </Select>
         </div>
-        <UserCreateModal onSuccess={onUserCreated} />
+        <UserCreateModalStandardized onSuccess={onUserCreated} />
       </div>
 
       <div className="overflow-x-auto rounded-xl border bg-white shadow-sm">
@@ -245,6 +265,21 @@ function UsersTable({ users, loading, onUserCreated, error }) {
           </span>
         ) : null}
       </div>
+
+      {/* Edit Modal */}
+      {editingUser && (
+        <UserEditModalStandardized
+          user={editingUser}
+          open={editModalOpen}
+          onOpenChange={setEditModalOpen}
+          onSuccess={async () => {
+            handleEditModalClose();
+            if (onUserCreated) {
+              await onUserCreated();
+            }
+          }}
+        />
+      )}
     </div>
   );
 }

@@ -1,97 +1,122 @@
-import { Building2, Check, Pencil, Trash2 } from "lucide-react";
+import { Building2, Check, Loader2, Map, Pencil, Trash2 } from "lucide-react";
+import React from "react";
 import { Button } from "../ui/button";
 
 /**
- * Card to display a farm with its actions
+ * Card para exibir uma fazenda com suas ações
  * @param {Object} props
- * @param {Object} props.farm - Farm data to be displayed
- * @param {Function} props.onViewDetails - Function to view farm details
- * @param {Function} props.onEdit - Function to edit the farm
- * @param {Function} props.onSelect - Function to select the farm
- * @param {Function} props.onDelete - Function to delete the farm
+ * @param {Object} props.farm - Dados da fazenda a serem exibidos
+ * @param {Function} props.onViewDetails - Função para ver detalhes da fazenda
+ * @param {Function} props.onEdit - Função para editar a fazenda
+ * @param {Function} props.onSelect - Função para selecionar a fazenda
+ * @param {Function} props.onDelete - Função para deletar a fazenda
+ * @param {boolean} props.isDeleting - Se a fazenda está sendo deletada
  */
-function FarmCard({ farm, onViewDetails, onEdit, onSelect, onDelete }) {
+function FarmCard({
+  farm,
+  onViewDetails,
+  onEdit,
+  onSelect,
+  onDelete,
+  isDeleting = false,
+}) {
   return (
-    <div className="overflow-hidden rounded-xl border border-amber-200 bg-white shadow-sm transition-shadow hover:shadow-md">
-      <div className="border-b border-amber-100 bg-amber-50 p-2 sm:p-3">
-        <h3 className="truncate text-base font-semibold text-amber-900 sm:text-lg">
-          {farm.name}
-        </h3>
-        <p className="text-xs text-amber-700 sm:text-sm">{farm.location}</p>
-      </div>
-      <div className="p-3 sm:p-4">
-        <div className="mb-3 space-y-1.5 sm:mb-4 sm:space-y-2">
-          <div className="flex items-center justify-between">
-            <span className="text-xs text-amber-800 sm:text-sm">Size:</span>
-            <span className="rounded-full bg-amber-100 px-2 py-0.5 text-xs font-medium sm:text-sm">
-              {farm.size} hectares
-            </span>
+    <div className="overflow-hidden rounded-xl border border-amber-100 bg-white shadow-sm transition-all hover:border-amber-200 hover:shadow-md">
+      {/* Imagem da fazenda */}
+      <div className="relative h-48 overflow-hidden bg-amber-50">
+        {farm.imageUrl ? (
+          <img
+            src={farm.imageUrl}
+            alt={farm.name}
+            className="h-full w-full object-cover"
+          />
+        ) : (
+          <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-amber-100 to-amber-50">
+            <Building2 className="h-16 w-16 text-amber-300" />
           </div>
-          {farm.animalCount !== undefined && (
-            <div className="flex items-center justify-between">
-              <span className="text-xs text-amber-800 sm:text-sm">
-                Animals:
-              </span>
-              <span className="text-xs font-medium sm:text-sm">
-                {farm.animalCount || 0}
-              </span>
-            </div>
-          )}
+        )}
+
+        {/* Botões de ação no canto superior direito */}
+        <div className="absolute right-2 top-2 flex gap-1">
+          <Button
+            size="icon"
+            variant="secondary"
+            className="h-8 w-8 bg-white/90 backdrop-blur-sm hover:bg-white"
+            title="Editar Fazenda"
+            onClick={() => onEdit(farm)}
+          >
+            <Pencil className="h-4 w-4 text-amber-700" />
+          </Button>
+
+          <Button
+            size="icon"
+            variant="secondary"
+            className="h-8 w-8 bg-white/90 backdrop-blur-sm hover:bg-white"
+            title="Deletar Fazenda"
+            onClick={() => onDelete(farm)}
+            disabled={isDeleting}
+          >
+            {isDeleting ? (
+              <Loader2 className="h-4 w-4 animate-spin text-red-600" />
+            ) : (
+              <Trash2 className="h-4 w-4 text-red-600" />
+            )}
+          </Button>
+        </div>
+      </div>
+
+      {/* Conteúdo do card */}
+      <div className="p-4">
+        <div className="mb-3">
+          <h3 className="truncate text-lg font-semibold text-amber-900">
+            {farm.name}
+          </h3>
+          <p className="truncate text-sm text-amber-700">
+            {farm.location || "Localização não informada"}
+          </p>
+        </div>
+
+        {/* Estatísticas da fazenda */}
+        <div className="mb-4 flex flex-wrap gap-2">
+          <span className="inline-flex items-center rounded-full bg-amber-100 px-2 py-1 text-xs font-medium text-amber-800">
+            {farm.size} hectares
+          </span>
+          <span className="inline-flex items-center rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-800">
+            {farm.animalCount || 0} animais
+          </span>
           {farm.userCount !== undefined && (
-            <div className="flex items-center justify-between">
-              <span className="text-xs text-amber-800 sm:text-sm">Users:</span>
-              <span className="text-xs font-medium sm:text-sm">
-                {farm.userCount || 0}
-              </span>
-            </div>
+            <span className="inline-flex items-center rounded-full bg-blue-100 px-2 py-1 text-xs font-medium text-blue-800">
+              {farm.userCount} usuários
+            </span>
           )}
         </div>
 
+        {/* Descrição da fazenda */}
         {farm.description && (
-          <p className="mb-3 line-clamp-2 text-xs text-amber-600 sm:mb-4 sm:text-sm">
+          <p className="mb-4 line-clamp-2 text-sm text-gray-600">
             {farm.description}
           </p>
         )}
 
-        <div className="mt-2 grid grid-cols-2 gap-1.5 sm:mt-3 sm:gap-2">
+        {/* Botões de ação */}
+        <div className="flex gap-2">
           <Button
-            variant="outline"
-            size="sm"
-            className="flex h-auto items-center justify-center space-x-1 py-1 text-xs"
-            onClick={() => onViewDetails(farm)}
-          >
-            <Building2 className="h-3 w-3" />
-            <span>Details</span>
-          </Button>
-
-          <Button
-            variant="outline"
-            size="sm"
-            className="flex h-auto items-center justify-center space-x-1 py-1 text-xs"
-            onClick={() => onEdit(farm)}
-          >
-            <Pencil className="h-3 w-3" />
-            <span>Edit</span>
-          </Button>
-
-          <Button
-            variant="outline"
-            size="sm"
-            className="flex h-auto items-center justify-center space-x-1 border-green-300 bg-green-50 py-1 text-xs text-green-700 hover:bg-green-100"
+            className="flex-1 bg-amber-600 text-white hover:bg-amber-700"
             onClick={() => onSelect(farm)}
+            size="sm"
           >
-            <Check className="h-3 w-3" />
-            <span>Select</span>
+            <Check className="mr-1 h-4 w-4" />
+            Selecionar
           </Button>
 
           <Button
-            variant="destructive"
+            variant="outline"
             size="sm"
-            className="flex h-auto items-center justify-center space-x-1 py-1 text-xs"
-            onClick={() => onDelete(farm)}
+            className="border-amber-200 text-amber-700 hover:bg-amber-50"
+            onClick={() => onViewDetails(farm)}
+            title="Ver no Mapa"
           >
-            <Trash2 className="h-3 w-3" />
-            <span>Delete</span>
+            <Map className="h-4 w-4" />
           </Button>
         </div>
       </div>

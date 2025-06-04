@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { animalService } from "../../services/animalService";
-import AnimalCreateModal from "../modals/AnimalCreateModal";
+import AnimalCreateModalStandardized from "../modals/AnimalCreateModalStandardized";
 import AnimalEditModal from "../modals/AnimalEditModal";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
@@ -276,7 +276,7 @@ function AnimalsTable({ farmId }) {
             <Map className="mr-2 h-4 w-4" />
             View Map
           </Button>
-          <AnimalCreateModal onSuccess={loadAnimals} />
+          <AnimalCreateModalStandardized onSuccess={loadAnimals} />
         </div>
       </div>
 

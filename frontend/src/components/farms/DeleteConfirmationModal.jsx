@@ -4,15 +4,16 @@ import React from "react";
 import FormModal from "../ui/form-modal";
 
 /**
- * Modal for confirming deletion operations
+ * Modal para confirmar operações de exclusão
  * @param {Object} props
- * @param {boolean} props.open - Whether the modal is open
- * @param {Function} props.onOpenChange - Function to call when modal open state changes
- * @param {Function} props.onConfirm - Function to call when deletion is confirmed
- * @param {boolean} props.loading - Whether a deletion operation is in progress
- * @param {string} props.title - Title of the modal
- * @param {string} props.message - Message to display
- * @param {string} props.itemName - Name of the item being deleted
+ * @param {boolean} props.open - Se o modal está aberto
+ * @param {Function} props.onOpenChange - Função para controlar abertura/fechamento
+ * @param {Function} props.onConfirm - Função para confirmar a exclusão
+ * @param {boolean} props.loading - Se uma operação de exclusão está em andamento
+ * @param {string} props.title - Título do modal
+ * @param {string} props.message - Mensagem a ser exibida
+ * @param {string} props.itemName - Nome do item sendo deletado
+ * @param {string} props.itemType - Tipo do item (fazenda, animal, etc.)
  */
 function DeleteConfirmationModal({
   open,
@@ -22,27 +23,32 @@ function DeleteConfirmationModal({
   title,
   message,
   itemName,
+  itemType = "item",
 }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     onConfirm();
   };
 
+  const defaultTitle = title || "Confirmar Exclusão";
+  const defaultMessage =
+    message || `Tem certeza que deseja excluir este ${itemType}?`;
+
   return (
     <FormModal
-      title={title || "Confirm Deletion"}
+      title={defaultTitle}
       open={open}
       onOpenChange={onOpenChange}
       onSubmit={handleSubmit}
       loading={loading}
-      submitText="Delete"
-      cancelText="Cancel"
+      submitText={loading ? "Excluindo..." : "Confirmar Exclusão"}
+      cancelText="Cancelar"
     >
       <div className="flex flex-col items-center p-2 text-center">
         <AlertCircle className="mb-4 h-16 w-16 text-red-500" />
 
         <h3 className="mb-2 text-lg font-semibold text-gray-900">
-          {message || "Are you sure you want to delete this item?"}
+          {defaultMessage}
         </h3>
 
         {itemName && (
@@ -50,14 +56,14 @@ function DeleteConfirmationModal({
         )}
 
         <p className="mb-4 text-sm text-gray-600">
-          This action cannot be undone. All associated data will be permanently
-          deleted.
+          Esta ação não pode ser desfeita. Todos os dados associados serão
+          permanentemente removidos.
         </p>
 
         <div className="w-full rounded-md border border-amber-200 bg-amber-50 p-3 text-left">
           <p className="text-sm text-amber-800">
-            <strong>Warning:</strong> Deleting this item may affect related
-            records and data integrity.
+            <strong>Atenção:</strong> Excluir este {itemType} pode afetar
+            registros relacionados e a integridade dos dados.
           </p>
         </div>
       </div>
@@ -73,6 +79,7 @@ DeleteConfirmationModal.propTypes = {
   title: PropTypes.string,
   message: PropTypes.string,
   itemName: PropTypes.string,
+  itemType: PropTypes.string,
 };
 
 export default DeleteConfirmationModal;

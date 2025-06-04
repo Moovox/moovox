@@ -2,8 +2,8 @@ import { AlertCircle, Loader2, Pencil, Trash2 } from "lucide-react";
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 import { vaccineService } from "../../services/vaccineService";
-import VaccineCreateModal from "../modals/VaccineCreateModal";
-import VaccineEditModal from "../modals/VaccineEditModal";
+import VaccineCreateModalNew from "../modals/VaccineCreateModalNew";
+import VaccineEditModalNew from "../modals/VaccineEditModalNew";
 import { Alert, AlertDescription } from "../ui/alert";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
@@ -207,7 +207,7 @@ function VaccinesTable({ vaccines, loading, error, onVaccineCreated }) {
           onChange={(e) => setSearch(e.target.value)}
           className="bg-white md:w-64"
         />
-        <VaccineCreateModal onSuccess={onVaccineCreated} />
+        <VaccineCreateModalNew onSuccess={onVaccineCreated} />
       </div>
 
       <div className="overflow-x-auto rounded-xl border bg-white shadow-sm">
@@ -246,7 +246,7 @@ function VaccinesTable({ vaccines, loading, error, onVaccineCreated }) {
 
       {/* Edit Modal */}
       {vaccineToEdit && (
-        <VaccineEditModal
+        <VaccineEditModalNew
           vaccine={vaccineToEdit}
           open={editModalOpen}
           onOpenChange={setEditModalOpen}
