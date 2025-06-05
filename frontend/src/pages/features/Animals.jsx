@@ -1,8 +1,8 @@
 import React from "react";
 import { Helmet } from "react-helmet-async";
-import AnimalsTable from "../components/features/animals/tables/AnimalsTable";
-import MainLayout from "../components/layout/MainLayout";
-import { useFarm } from "../context/FarmContext";
+import AnimalsTable from "../../components/features/animals/tables/AnimalsTable";
+import MainLayout from "../../components/layout/MainLayout";
+import { useFarm } from "../../context/FarmContext";
 
 function Animals() {
   const { currentFarmId } = useFarm();

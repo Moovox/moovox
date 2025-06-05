@@ -1,10 +1,10 @@
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
-import { farmService } from "../../services/farmService";
-import FormModal from "../ui/form-modal";
-import { Input } from "../ui/input";
-import { Textarea } from "../ui/textarea";
-import { useToast } from "../ui/use-toast";
+import { farmService } from "../../../services/farmService";
+import FormModal from "../../ui/form-modal";
+import { Input } from "../../ui/input";
+import { Textarea } from "../../ui/textarea";
+import { useToast } from "../../ui/use-toast";
 
 function FarmEditModal({ farm, open, onOpenChange, onSuccess }) {
   const [loading, setLoading] = useState(false);

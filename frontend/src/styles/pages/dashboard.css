@@ -1,20 +1,52 @@
 /* Estilo para scrollbar personalizada */
+.custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 0, 0, 0.4) rgba(0, 0, 0, 0.1);
+}
+
 .custom-scrollbar::-webkit-scrollbar {
     width: 8px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.05);
+    background: rgba(0, 0, 0, 0.08);
     border-radius: 4px;
+    margin: 2px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-    background: rgba(0, 0, 0, 0.2);
+    background: rgba(0, 0, 0, 0.3);
     border-radius: 4px;
+    transition: background 0.2s ease;
+    min-height: 20px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:active {
+    background: rgba(0, 0, 0, 0.6);
+}
+
+/* Melhorar visibilidade do scroll em dispositivos móveis */
+@media (max-width: 768px) {
+    .custom-scrollbar::-webkit-scrollbar {
+        width: 6px;
+    }
+    
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: rgba(0, 0, 0, 0.4);
+    }
+    
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: rgba(0, 0, 0, 0.6);
+    }
+}
+
+/* Forçar sempre mostrar scrollbar quando há overflow */
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    visibility: visible !important;
 }
 
 /* Animações suaves */

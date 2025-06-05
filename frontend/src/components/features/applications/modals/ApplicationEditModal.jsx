@@ -1,19 +1,19 @@
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
-import { animalService } from "../../services/animalService";
-import { applicationService } from "../../services/applicationService";
-import { vaccineService } from "../../services/vaccineService";
-import FormModal from "../ui/form-modal";
-import { Input } from "../ui/input";
+import { animalService } from "../../../../services/animalService";
+import { applicationService } from "../../../../services/applicationService";
+import { vaccineService } from "../../../../services/vaccineService";
+import FormModal from "../../../ui/form-modal";
+import { Input } from "../../../ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../ui/select";
-import { Textarea } from "../ui/textarea";
-import { useToast } from "../ui/use-toast";
+} from "../../../ui/select";
+import { Textarea } from "../../../ui/textarea";
+import { useToast } from "../../../ui/use-toast";
 
 function ApplicationEditModal({ application, open, onOpenChange, onSuccess }) {
   const [loading, setLoading] = useState(false);

@@ -1,7 +1,9 @@
-const bcrypt = require('bcrypt');
-const config = require('../config/env');
+const bcrypt = require("bcrypt");
+const config = require("../../config/env");
 
-const SALT_ROUNDS = process.env.BCRYPT_SALT_ROUNDS ? parseInt(process.env.BCRYPT_SALT_ROUNDS, 10) : 10;
+const SALT_ROUNDS = process.env.BCRYPT_SALT_ROUNDS
+  ? parseInt(process.env.BCRYPT_SALT_ROUNDS, 10)
+  : 10;
 
 /**
  * Cria um hash da senha usando bcrypt
@@ -10,12 +12,12 @@ const SALT_ROUNDS = process.env.BCRYPT_SALT_ROUNDS ? parseInt(process.env.BCRYPT
  * @throws {Error} Se ocorrer um erro ao processar a senha
  */
 async function hashPassword(password) {
-    try {
-        const salt = await bcrypt.genSalt(SALT_ROUNDS);
-        return await bcrypt.hash(password, salt);
-    } catch (error) {
-        throw new Error('Erro ao processar a senha');
-    }
+  try {
+    const salt = await bcrypt.genSalt(SALT_ROUNDS);
+    return await bcrypt.hash(password, salt);
+  } catch (error) {
+    throw new Error("Erro ao processar a senha");
+  }
 }
 
 /**
@@ -26,14 +28,14 @@ async function hashPassword(password) {
  * @throws {Error} Se ocorrer um erro ao validar a senha
  */
 async function comparePassword(password, hash) {
-    try {
-        return await bcrypt.compare(password, hash);
-    } catch (error) {
-        throw new Error('Erro ao validar a senha');
-    }
+  try {
+    return await bcrypt.compare(password, hash);
+  } catch (error) {
+    throw new Error("Erro ao validar a senha");
+  }
 }
 
 module.exports = {
-    hashPassword,
-    comparePassword
-}; 
+  hashPassword,
+  comparePassword,
+};

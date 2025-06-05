@@ -1,8 +1,8 @@
 import { Filter, MapPin, Search, ToggleLeft } from "lucide-react";
 import React, { useState } from "react";
 import { Helmet } from "react-helmet-async";
-import SafeAnimalMap from "../components/features/animals/SafeAnimalMap";
-import MainLayout from "../components/layout/MainLayout";
+import SafeAnimalMap from "../../components/features/animals/SafeAnimalMap";
+import MainLayout from "../../components/layout/MainLayout";
 
 function AnimalMap() {
   const [speciesFilter, setSpeciesFilter] = useState("");

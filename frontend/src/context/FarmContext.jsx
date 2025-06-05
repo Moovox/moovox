@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { farmService } from "../services/farmService";
 
 // Create Farm context
@@ -19,43 +25,27 @@ export function FarmProvider({ children }) {
   const [currentFarmId, setCurrentFarmId] = useState(
     localStorage.getItem("farmId"),
   );
-  const [loading, setLoading] = useState(true); /**
+  const [loading, setLoading] = useState(true);
+
+  /**
    * Get current farm information
    */
-  const getCurrentFarm = async () => {
+  const getCurrentFarm = useCallback(async () => {
     try {
       setLoading(true);
       const result = await farmService.checkSelectedFarm();
       if (result.valid) {
         setFarmInfo(result.farm);
-        // Check if farm changed - only dispatch if actually different
         const newFarmId = result.farm.id.toString();
         if (newFarmId !== currentFarmId) {
           setCurrentFarmId(newFarmId);
           localStorage.setItem("farmId", newFarmId);
-          // Dispatch custom event to notify change (debounced)
-          setTimeout(() => {
-            window.dispatchEvent(
-              new CustomEvent("farmChanged", {
-                detail: { farmId: newFarmId },
-              }),
-            );
-          }, 100);
         }
       } else {
         setFarmInfo(null);
-        // If no valid farm, clear farmId - only if actually different
         if (currentFarmId) {
           setCurrentFarmId(null);
           localStorage.removeItem("farmId");
-          // Dispatch change event to null (debounced)
-          setTimeout(() => {
-            window.dispatchEvent(
-              new CustomEvent("farmChanged", {
-                detail: { farmId: null },
-              }),
-            );
-          }, 100);
         }
       }
     } catch (error) {
@@ -64,12 +54,13 @@ export function FarmProvider({ children }) {
     } finally {
       setLoading(false);
     }
-  };
+  }, [currentFarmId]);
 
-  // Load farm information on component mount
+  // Load farm information on component mount only
   useEffect(() => {
     getCurrentFarm();
   }, []);
+
   /**
    * Select a farm by ID
    */
@@ -77,7 +68,6 @@ export function FarmProvider({ children }) {
     try {
       const result = await farmService.selectFarm(farmId);
       if (result && result.success) {
-        // Update state directly instead of calling getCurrentFarm to avoid extra API call
         setFarmInfo(result.farm);
         setCurrentFarmId(farmId.toString());
         return true;

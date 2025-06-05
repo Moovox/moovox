@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
-import UsersTable from "../components/features/users/tables/UsersTable";
-import MainLayout from "../components/layout/MainLayout";
-import { useToast } from "../components/ui/use-toast";
-import { useFarm } from "../context/FarmContext";
-import { userService } from "../services/userService";
+import UsersTable from "../../components/features/users/tables/UsersTable";
+import MainLayout from "../../components/layout/MainLayout";
+import { useToast } from "../../components/ui/use-toast";
+import { useFarm } from "../../context/FarmContext";
+import { userService } from "../../services/userService";
 
 function Users() {
   const [users, setUsers] = useState([]);

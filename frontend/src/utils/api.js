@@ -1,4 +1,5 @@
 import axios from "axios";
+import { requestMonitor } from "./requestMonitor";
 
 // Define a baseURL baseada no ambiente
 const getBaseUrl = () => {
@@ -30,6 +31,9 @@ api.interceptors.request.use(
     if (farmId && !config.url.includes("/auth/")) {
       config.headers["X-Farm-ID"] = farmId;
     }
+
+    // Log request for monitoring
+    requestMonitor.log(config.url, config.method?.toUpperCase());
 
     return config;
   },

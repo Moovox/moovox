@@ -1,12 +1,12 @@
 import { X } from "lucide-react";
 import React from "react";
-import { Button } from "../ui/button";
+import { Button } from "../../ui/button";
 import {
   Dialog,
   DialogContent,
   DialogTitle,
   DialogTrigger,
-} from "../ui/dialog";
+} from "../../ui/dialog";
 import FarmDetails from "./FarmDetails";
 
 /**

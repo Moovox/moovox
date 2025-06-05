@@ -1,9 +1,10 @@
-import { AlertCircle, Users } from "lucide-react";
+import { cowHead } from "@lucide/lab";
+import { AlertCircle, Icon, Users } from "lucide-react";
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
-import { farmService } from "../../services/farmService";
-import { Button } from "../ui/button";
-import FormModal from "../ui/form-modal";
+import { farmService } from "../../../services/farmService";
+import { Button } from "../../ui/button";
+import FormModal from "../../ui/form-modal";
 
 /**
  * Modal inteligente para exclusão de fazenda com verificação de dependências
@@ -91,11 +92,10 @@ function FarmDeleteModal({ open, onOpenChange, onConfirm, loading, farm }) {
                   Status da Fazenda:
                 </h4>
                 <div className="grid grid-cols-2 gap-3 text-sm">
-                  {" "}
                   <div
                     className={`flex items-center ${hasAnimals ? "text-red-600" : "text-green-600"}`}
                   >
-                    <cowHead className="mr-1 h-4 w-4" />
+                    <Icon iconNode={cowHead} className="mr-1 h-4 w-4" />
                     <span>{farmStats.animalCount || 0} animais</span>
                   </div>
                   <div
@@ -159,8 +159,7 @@ function FarmDeleteModal({ open, onOpenChange, onConfirm, loading, farm }) {
                     window.open(`/animals?farm=${farm.id}`, "_blank");
                   }}
                 >
-                  {" "}
-                  <cowHead className="mr-2 h-4 w-4" />
+                  <Icon iconNode={cowHead} className="mr-2 h-4 w-4" />
                   Gerenciar Animais desta Fazenda
                 </Button>
               )}

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "../components/ui/use-toast";
 import { useAuth } from "../context/AuthContext";
@@ -19,14 +19,14 @@ export function useDashboard() {
   const [dosesMensagem, setDosesMensagem] = useState("");
   const [telemetria, setTelemetria] = useState({
     animal: "",
-    temperature: "",
-    heartRate: "",
+    location: "",
+    fazenda: "",
     lastUpdate: "",
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const fetchDashboardData = async () => {
+  const fetchDashboardData = useCallback(async () => {
     if (!user) return;
 
     try {
@@ -50,27 +50,38 @@ export function useDashboard() {
 
       setUltimosUsuarios(usersData.users || []);
 
+      const pendingCount = vaccinesData.pendingVaccines?.length || 0;
       setDosesMensagem(
-        vaccinesData.pendingCount > 0
-          ? `${vaccinesData.pendingCount} doses pendentes para aplicação.`
+        pendingCount > 0
+          ? `${pendingCount} dose${pendingCount > 1 ? "s" : ""} pendente${pendingCount > 1 ? "s" : ""} para aplicação.`
           : "Nenhuma dose pendente.",
       );
 
       if (telemetryData.latest) {
+        const location =
+          telemetryData.latest.latitude && telemetryData.latest.longitude
+            ? `${telemetryData.latest.latitude.toFixed(6)}, ${telemetryData.latest.longitude.toFixed(6)}`
+            : "Não disponível";
+
         setTelemetria({
-          animal: telemetryData.latest.animalName || "",
-          temperature: telemetryData.latest.temperature
-            ? `${telemetryData.latest.temperature}ºC`
-            : "",
-          heartRate: telemetryData.latest.heartRate
-            ? `${telemetryData.latest.heartRate} bpm`
-            : "",
+          animal: telemetryData.latest.animalNome || "",
+          location: location,
+          fazenda: telemetryData.latest.fazenda || "",
           lastUpdate: telemetryData.latest.timestamp
             ? new Date(telemetryData.latest.timestamp).toLocaleString("pt-BR")
             : "",
         });
+      } else {
+        setTelemetria({
+          animal: "",
+          location: "",
+          fazenda: "",
+          lastUpdate: "",
+        });
       }
     } catch (err) {
+      console.error("Erro ao carregar dados do dashboard:", err);
+
       if (err.response?.status === 401) {
         logout();
         navigate("/login");
@@ -86,7 +97,7 @@ export function useDashboard() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [user, logout, navigate, toast]);
 
   useEffect(() => {
     if (!user) {
@@ -101,7 +112,7 @@ export function useDashboard() {
       const interval = setInterval(fetchDashboardData, 5 * 60 * 1000);
       return () => clearInterval(interval);
     }
-  }, [user]);
+  }, [user, fetchDashboardData]);
 
   return {
     stats,
@@ -111,5 +122,6 @@ export function useDashboard() {
     loading,
     error,
     fetchDashboardData,
+    refetch: fetchDashboardData,
   };
 }

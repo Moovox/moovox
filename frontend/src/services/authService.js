@@ -1,4 +1,4 @@
-import api from "../lib/api";
+import api from "../utils/api";
 
 export const authService = {
   login: async (credentials) => {

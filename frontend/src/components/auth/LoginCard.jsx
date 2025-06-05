@@ -1,8 +1,8 @@
 import { Lock, Mail } from "lucide-react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { authService } from "../../services/authService";
 import { useAuth } from "../../context/AuthContext";
+import { authService } from "../../services/authService";
 import { Button } from "../ui/button";
 import { useToast } from "../ui/use-toast";
 

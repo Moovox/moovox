@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
-import VaccinesTable from "../components/features/vaccines/tables/VaccinesTable";
-import MainLayout from "../components/layout/MainLayout";
-import { useToast } from "../components/ui/use-toast";
-import { useFarm } from "../context/FarmContext";
-import { vaccineService } from "../services/vaccineService";
+import VaccinesTable from "../../components/features/vaccines/tables/VaccinesTable";
+import MainLayout from "../../components/layout/MainLayout";
+import { useToast } from "../../components/ui/use-toast";
+import { useFarm } from "../../context/FarmContext";
+import { vaccineService } from "../../services/vaccineService";
 
 function Vaccines() {
   const [vaccines, setVaccines] = useState([]);

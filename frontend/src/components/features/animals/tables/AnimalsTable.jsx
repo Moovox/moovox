@@ -1,6 +1,6 @@
 import { Loader2, Map, Pencil, Trash2 } from "lucide-react";
 import PropTypes from "prop-types";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { animalService } from "../../../../services/animalService";
 import { Button } from "../../../ui/button";
@@ -55,40 +55,7 @@ function AnimalsTable({ farmId }) {
   const { toast } = useToast();
   const itemsPerPage = 10;
 
-  useEffect(() => {
-    loadAnimals();
-
-    const checkIfMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-
-    checkIfMobile();
-    window.addEventListener("resize", checkIfMobile);
-
-    return () => window.removeEventListener("resize", checkIfMobile);
-  }, []);
-
-  // Load animals when the farm changes
-  useEffect(() => {
-    loadAnimals();
-  }, [farmId]);
-
-  // Listen for farm change event
-  useEffect(() => {
-    const handleFarmChange = () => {
-      loadAnimals();
-    };
-
-    window.addEventListener("farmChanged", handleFarmChange);
-    return () => window.removeEventListener("farmChanged", handleFarmChange);
-  }, []);
-
-  // Reset to first page when filters change
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [search, animalSpecies]);
-
-  const loadAnimals = async () => {
+  const loadAnimals = useCallback(async () => {
     try {
       const data = await animalService.listAnimals();
       setAnimals(data);
@@ -102,7 +69,58 @@ function AnimalsTable({ farmId }) {
     } finally {
       setLoading(false);
     }
-  };
+  }, [toast]);
+
+  useEffect(() => {
+    loadAnimals();
+
+    const checkIfMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkIfMobile();
+    window.addEventListener("resize", checkIfMobile);
+
+    return () => window.removeEventListener("resize", checkIfMobile);
+  }, [loadAnimals]);
+
+  // Load animals when the farm changes
+  useEffect(() => {
+    loadAnimals();
+  }, [farmId, loadAnimals]);
+
+  // Listen for farm change event (debounced)
+  useEffect(() => {
+    let eventTimeout = null;
+
+    const handleFarmChange = (event) => {
+      // Clear existing timeout
+      if (eventTimeout) {
+        clearTimeout(eventTimeout);
+      }
+
+      // Only reload if farm actually changed
+      const newFarmId = event.detail?.farmId;
+      if (newFarmId !== farmId) {
+        eventTimeout = setTimeout(() => {
+          loadAnimals();
+        }, 150); // Slight delay to avoid rapid successive calls
+      }
+    };
+
+    window.addEventListener("farmChanged", handleFarmChange);
+    return () => {
+      window.removeEventListener("farmChanged", handleFarmChange);
+      if (eventTimeout) {
+        clearTimeout(eventTimeout);
+      }
+    };
+  }, [loadAnimals, farmId]);
+
+  // Reset to first page when filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [search, animalSpecies]);
 
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this animal?")) {

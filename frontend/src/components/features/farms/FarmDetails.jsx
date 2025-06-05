@@ -12,10 +12,10 @@ import {
 } from "lucide-react";
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
-import { farmService } from "../../services/farmService";
-import { Button } from "../ui/button";
-import Card, { CardContent } from "../ui/card";
-import { useToast } from "../ui/use-toast";
+import { farmService } from "../../../services/farmService";
+import { Button } from "../../ui/button";
+import Card, { CardContent } from "../../ui/card";
+import { useToast } from "../../ui/use-toast";
 
 /**
  * Componente para exibir detalhes da fazenda

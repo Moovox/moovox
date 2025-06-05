@@ -1,13 +1,11 @@
 import { AlertCircle, Loader2, Pencil, Trash2 } from "lucide-react";
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
-import { applicationService } from "../../services/applicationService";
-import ApplicationCreateModal from "../modals/ApplicationCreateModal";
-import ApplicationEditModal from "../modals/ApplicationEditModal";
-import { Alert, AlertDescription } from "../ui/alert";
-import { Button } from "../ui/button";
-import { Input } from "../ui/input";
-import { Pagination } from "../ui/pagination";
+import { applicationService } from "../../../../services/applicationService";
+import { Alert, AlertDescription } from "../../../ui/alert";
+import { Button } from "../../../ui/button";
+import { Input } from "../../../ui/input";
+import { Pagination } from "../../../ui/pagination";
 import {
   Table,
   TableBody,
@@ -15,8 +13,10 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "../ui/table";
-import { useToast } from "../ui/use-toast";
+} from "../../../ui/table";
+import { useToast } from "../../../ui/use-toast";
+import ApplicationCreateModal from "../modals/ApplicationCreateModal";
+import ApplicationEditModal from "../modals/ApplicationEditModal";
 
 function ApplicationsTable({
   applications,

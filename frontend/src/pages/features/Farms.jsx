@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import FarmDeleteModal from "../components/features/farms/FarmDeleteModal";
-import FarmDetailsModal from "../components/features/farms/FarmDetailsModal";
-import FarmEditModal from "../components/features/farms/FarmEditModal";
-import FarmsHeader from "../components/features/farms/FarmsHeader";
-import FarmsList from "../components/features/farms/FarmsList";
-import PageContainer from "../components/layout/PageContainer";
-import { useFarms } from "../hooks/useFarms";
+import FarmDeleteModal from "../../components/features/farms/FarmDeleteModal";
+import FarmDetailsModal from "../../components/features/farms/FarmDetailsModal";
+import FarmEditModal from "../../components/features/farms/FarmEditModal";
+import FarmsHeader from "../../components/features/farms/FarmsHeader";
+import FarmsList from "../../components/features/farms/FarmsList";
+import PageContainer from "../../components/layout/PageContainer";
+import { useFarms } from "../../hooks/useFarms";
 
 function Farms() {
   const {

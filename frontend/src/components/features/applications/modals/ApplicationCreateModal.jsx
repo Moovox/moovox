@@ -1,21 +1,21 @@
 import { Plus } from "lucide-react";
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
-import { animalService } from "../../services/animalService";
-import { applicationService } from "../../services/applicationService";
-import { vaccineService } from "../../services/vaccineService";
-import { Button } from "../ui/button";
-import FormModal from "../ui/form-modal";
-import { Input } from "../ui/input";
+import { animalService } from "../../../../services/animalService";
+import { applicationService } from "../../../../services/applicationService";
+import { vaccineService } from "../../../../services/vaccineService";
+import { Button } from "../../../ui/button";
+import FormModal from "../../../ui/form-modal";
+import { Input } from "../../../ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../ui/select";
-import { Textarea } from "../ui/textarea";
-import { useToast } from "../ui/use-toast";
+} from "../../../ui/select";
+import { Textarea } from "../../../ui/textarea";
+import { useToast } from "../../../ui/use-toast";
 
 function ApplicationCreateModal({ onSuccess }) {
   const [open, setOpen] = useState(false);

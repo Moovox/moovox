@@ -46,10 +46,12 @@ const MainLayout = ({ title = "", children, className }) => {
     return () => clearTimeout(timeout);
   }, [location]);
 
-  // Fetch farm information when component mounts and when route changes
+  // Fetch farm information only once when component mounts
   useEffect(() => {
-    refreshFarm();
-  }, [location.pathname, refreshFarm]);
+    if (user) {
+      refreshFarm();
+    }
+  }, [user]);
 
   // Function to toggle the sidebar
   const handleSidebarToggle = () => setIsSidebarExpanded((prev) => !prev);

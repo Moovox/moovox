@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
-import ApplicationsTable from "../components/features/applications/tables/ApplicationsTable";
-import MainLayout from "../components/layout/MainLayout";
-import { useToast } from "../components/ui/use-toast";
-import { useFarm } from "../context/FarmContext";
-import { applicationService } from "../services/applicationService";
+import ApplicationsTable from "../../components/features/applications/tables/ApplicationsTable";
+import MainLayout from "../../components/layout/MainLayout";
+import { useToast } from "../../components/ui/use-toast";
+import { useFarm } from "../../context/FarmContext";
+import { applicationService } from "../../services/applicationService";
 
 function Applications() {
   const [applications, setApplications] = useState([]);

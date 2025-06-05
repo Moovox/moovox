@@ -1,4 +1,23 @@
-import api from "../lib/api";
+import api from "../utils/api";
+
+// Debounce timer for farm change events
+let farmChangeTimeout = null;
+
+const dispatchFarmChangeEvent = (farmId) => {
+  // Clear existing timeout
+  if (farmChangeTimeout) {
+    clearTimeout(farmChangeTimeout);
+  }
+
+  // Set new timeout to debounce the event
+  farmChangeTimeout = setTimeout(() => {
+    window.dispatchEvent(
+      new CustomEvent("farmChanged", {
+        detail: { farmId },
+      }),
+    );
+  }, 100);
+};
 
 export const farmService = {
   listFarms: async () => {
@@ -109,12 +128,8 @@ export const farmService = {
       if (response.data && response.data.data) {
         localStorage.setItem("farmId", farmId);
 
-        // Dispatch farm change event to update tables
-        window.dispatchEvent(
-          new CustomEvent("farmChanged", {
-            detail: { farmId: farmId },
-          }),
-        );
+        // Dispatch farm change event to update tables (debounced)
+        dispatchFarmChangeEvent(farmId);
 
         return {
           success: true,
@@ -148,12 +163,8 @@ export const farmService = {
   clearSelectedFarm: () => {
     localStorage.removeItem("farmId");
 
-    // Dispatch farm clearing event
-    window.dispatchEvent(
-      new CustomEvent("farmChanged", {
-        detail: { farmId: null },
-      }),
-    );
+    // Dispatch farm clearing event (debounced)
+    dispatchFarmChangeEvent(null);
 
     return true;
   },
@@ -172,14 +183,6 @@ export const farmService = {
       } else {
         // If no valid data was found, clear localStorage
         localStorage.removeItem("farmId");
-
-        // Dispatch farm clearing event
-        window.dispatchEvent(
-          new CustomEvent("farmChanged", {
-            detail: { farmId: null },
-          }),
-        );
-
         return {
           valid: false,
           message: "The selected farm does not exist or has been removed",
@@ -191,14 +194,6 @@ export const farmService = {
       // If the error is 404, the farm doesn't exist
       if (error.response?.status === 404) {
         localStorage.removeItem("farmId");
-
-        // Dispatch farm clearing event
-        window.dispatchEvent(
-          new CustomEvent("farmChanged", {
-            detail: { farmId: null },
-          }),
-        );
-
         return {
           valid: false,
           message: "The selected farm does not exist in the system",
@@ -208,14 +203,6 @@ export const farmService = {
       // If the error is 403, the user doesn't have permission
       if (error.response?.status === 403) {
         localStorage.removeItem("farmId");
-
-        // Dispatch farm clearing event
-        window.dispatchEvent(
-          new CustomEvent("farmChanged", {
-            detail: { farmId: null },
-          }),
-        );
-
         return {
           valid: false,
           message: "You do not have permission to access this farm",

@@ -13,7 +13,7 @@ import {
 import PropTypes from "prop-types";
 import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import "../../styles/sidebar.css";
+import "../../styles/components/sidebar.css";
 import LogoutButton from "../common/LogoutButton";
 
 // Custom hook to detect if viewport is desktop size

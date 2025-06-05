@@ -1,6 +1,6 @@
 import { Building2, Check, Loader2, Map, Pencil, Trash2 } from "lucide-react";
 import React from "react";
-import { Button } from "../ui/button";
+import { Button } from "../../ui/button";
 
 /**
  * Card para exibir uma fazenda com suas ações

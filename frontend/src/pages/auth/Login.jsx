@@ -1,10 +1,10 @@
 import { Helmet } from "react-helmet-async";
-import LoginCard from "../components/auth/LoginCard";
+import LoginCard from "../../components/auth/LoginCard";
 
 function Login() {
   return (
     <main
-      className="min-h-screen w-full flex items-center justify-center"
+      className="flex min-h-screen w-full items-center justify-center"
       role="main"
     >
       <Helmet>
