@@ -1,6 +1,8 @@
 // Core map components
 export { AnimalMarker } from "./AnimalMarker";
-export { ChangeView, MapLegend } from "./MapControls";
+export { CompactMapLegend } from "./CompactMapLegend";
+export { ChangeView } from "./MapControls";
+export { MapLegend } from "./MapLegend";
 export { VirtualFences } from "./VirtualFences";
 
 // Refactored components
@@ -11,3 +13,4 @@ export { AnimalMapInfo } from "./AnimalMapInfo";
 export { AnimalMapStates } from "./AnimalMapStates";
 export { MapStyles } from "./MapStyles";
 export { SelectedAnimalCard } from "./SelectedAnimalCard";
+

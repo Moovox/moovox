@@ -2,12 +2,12 @@ import { motion } from "framer-motion";
 import React from "react";
 import { Helmet } from "react-helmet-async";
 import {
-  AnimalTelemetry,
-  DashboardMap,
-  DashboardStats,
-  LoadingState,
-  RecentUsers,
-  VaccineStatus,
+    AnimalTelemetry,
+    DashboardStats,
+    LoadingState,
+    MapCard,
+    RecentUsers,
+    VaccineStatus
 } from "../components/features/dashboard";
 import MainLayout from "../components/layout/MainLayout";
 import { useDashboard } from "../hooks/useDashboard";
@@ -50,7 +50,7 @@ function Dashboard() {
 
               {/* Mapa e Telemetria dos Animais */}
               <div className="grid grid-cols-1 gap-4 overflow-visible sm:gap-6 md:grid-cols-2">
-                <DashboardMap />
+                <MapCard />
                 <AnimalTelemetry telemetria={telemetria} />
               </div>
             </motion.div>

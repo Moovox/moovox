@@ -34,11 +34,11 @@
     .custom-scrollbar::-webkit-scrollbar {
         width: 6px;
     }
-    
+
     .custom-scrollbar::-webkit-scrollbar-thumb {
         background: rgba(0, 0, 0, 0.4);
     }
-    
+
     .custom-scrollbar::-webkit-scrollbar-thumb:hover {
         background: rgba(0, 0, 0, 0.6);
     }
@@ -75,15 +75,16 @@
 
 /* Melhorias de responsividade */
 @media (max-width: 640px) {
+
     /* Ajustes para telas muito pequenas */
     .dashboard-card {
         padding: 0.75rem !important;
     }
-    
+
     .dashboard-card h3 {
         font-size: 0.875rem !important;
     }
-    
+
     .dashboard-card span.text-3xl {
         font-size: 1.5rem !important;
     }
@@ -94,7 +95,7 @@
     .dashboard-layout {
         grid-template-columns: repeat(2, 1fr) !important;
     }
-    
+
     .dashboard-map-section {
         grid-column: span 2 !important;
     }
@@ -105,12 +106,12 @@
     .card-content {
         padding: 0.5rem !important;
     }
-    
+
     .card-title {
         font-size: 0.875rem !important;
         margin-bottom: 0.5rem !important;
     }
-    
+
     .card-value {
         font-size: 1.25rem !important;
     }
@@ -127,4 +128,4 @@
 
 .dashboard-value-adjust {
     font-size: clamp(1.25rem, 4vw, 1.875rem);
-} 
+}

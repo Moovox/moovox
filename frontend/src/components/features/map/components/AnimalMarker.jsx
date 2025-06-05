@@ -1,75 +1,10 @@
-import { useEffect, useRef, useState } from "react";
 import { Marker, Popup } from "react-leaflet";
-import { calculateDistance, lerp } from "../utils/mapUtils";
 
 /**
- * Animated marker component for animals
+ * Simple marker component for animals (without complex animations)
  */
 export const AnimalMarker = ({ animal, handleClick, icon }) => {
-  const [position, setPosition] = useState([animal.latitude, animal.longitude]);
-  const targetPositionRef = useRef([animal.latitude, animal.longitude]);
-  const frameRef = useRef(null);
-  const startTimeRef = useRef(null);
-  const animationDurationRef = useRef(10000); // 10 seconds animation
-  const previousPositionRef = useRef([animal.latitude, animal.longitude]);
-
-  // Update target position when animal changes
-  useEffect(() => {
-    // If distance is too large (teleport), don't animate and update directly
-    const distance = calculateDistance(
-      previousPositionRef.current[0],
-      previousPositionRef.current[1],
-      animal.latitude,
-      animal.longitude,
-    );
-
-    if (distance > 0.1) {
-      // If distance is greater than ~10km, it's a teleport
-      setPosition([animal.latitude, animal.longitude]);
-      targetPositionRef.current = [animal.latitude, animal.longitude];
-      previousPositionRef.current = [animal.latitude, animal.longitude];
-      return;
-    }
-
-    targetPositionRef.current = [animal.latitude, animal.longitude];
-    previousPositionRef.current = [animal.latitude, animal.longitude];
-
-    if (!startTimeRef.current) {
-      // If no animation is in progress, start immediately
-      startTimeRef.current = performance.now();
-      animateMovement();
-    }
-  }, [animal.latitude, animal.longitude]);
-
-  // Movement animation function using requestAnimationFrame
-  const animateMovement = () => {
-    const currentTime = performance.now();
-    const elapsedTime = currentTime - startTimeRef.current;
-    const progress = Math.min(elapsedTime / animationDurationRef.current, 1);
-
-    if (progress < 1) {
-      // Interpolate between current position and target position
-      const newLat = lerp(position[0], targetPositionRef.current[0], progress);
-      const newLng = lerp(position[1], targetPositionRef.current[1], progress);
-      setPosition([newLat, newLng]);
-
-      // Continue animation
-      frameRef.current = requestAnimationFrame(animateMovement);
-    } else {
-      // Animation complete, update to final position
-      setPosition(targetPositionRef.current);
-      startTimeRef.current = null;
-    }
-  };
-
-  // Clean up animation when unmounting
-  useEffect(() => {
-    return () => {
-      if (frameRef.current) {
-        cancelAnimationFrame(frameRef.current);
-      }
-    };
-  }, []);
+  const position = [animal.latitude, animal.longitude];
 
   return (
     <Marker

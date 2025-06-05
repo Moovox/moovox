@@ -2,3 +2,5 @@
 export { useAnimalData } from "./useAnimalData";
 export { useAnimalMapHandlers } from "./useAnimalMapHandlers";
 export { useAnimalMapState } from "./useAnimalMapState";
+export { useSimpleAnimalData } from "./useSimpleAnimalData";
+
