@@ -2,16 +2,16 @@ import { motion } from "framer-motion";
 import {
   Activity,
   AlertTriangle,
-  CircleDot,
+  BarChart3,
   MapPin,
-  Syringe,
-  User2 as Users,
+  Stethoscope,
+  Users,
 } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { useNavigate } from "react-router-dom";
+import SafeAnimalMap from "../components/features/animals/SafeAnimalMap";
 import MainLayout from "../components/layout/MainLayout";
-import SafeAnimalMap from "../components/maps/SafeAnimalMap";
 import Card from "../components/ui/card";
 import { useToast } from "../components/ui/use-toast";
 import { useAuth } from "../context/AuthContext";
@@ -130,13 +130,13 @@ function Dashboard() {
     },
     {
       variant: "verde",
-      icon: <CircleDot className="h-8 w-8 text-black" />,
+      icon: <BarChart3 className="h-8 w-8 text-black" />,
       title: "Animais Registrados",
       value: stats.animais.toString(),
     },
     {
       variant: "palha",
-      icon: <Syringe className="h-8 w-8 text-black" />,
+      icon: <Stethoscope className="h-8 w-8 text-black" />,
       title: "Doses Pendentes",
       value: stats.dosesPendentes.toString(),
     },

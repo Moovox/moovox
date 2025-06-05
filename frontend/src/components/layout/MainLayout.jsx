@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { useFarm } from "../../context/FarmContext";
-import { cn } from "../../lib/utils";
+import { cn } from "../../utils/cn";
 import Sidebar from "./Sidebar";
 
 /**

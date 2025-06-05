@@ -1,5 +1,5 @@
 const prisma = require("../../config/database");
-const { hashPassword } = require("../../utils/auth");
+const { hashPassword } = require("../../utils/helpers/auth");
 
 // Function to get user role in English
 const getUserRole = (role) => {
