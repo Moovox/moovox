@@ -4,7 +4,7 @@ import { useCalendarFilters } from "../../../../hooks/useCalendarFilters";
 import { useVaccineApplications } from "../../../../hooks/useVaccineApplications";
 import { cn } from "../../../../utils/cn";
 import { Badge } from "../../../ui/badge";
-import Card from "../../../ui/card";
+import Card from "../../../ui/card.jsx";
 import CalendarGrid from "./CalendarGrid";
 import CalendarHeader from "./CalendarHeader";
 import CalendarLegend from "./CalendarLegend";
