@@ -13,7 +13,7 @@ import {
 import React from "react";
 import { cn } from "../../../../utils/cn";
 import { Badge } from "../../../ui/badge";
-import Card from "../../../ui/card.jsx";
+import Card from "../../../ui/Card";  
 
 const CalendarSidebar = ({ selectedDate, applications = [], onDateSelect }) => {
   const formatDate = (date) => {

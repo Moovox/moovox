@@ -7,7 +7,7 @@ import {
 } from "lucide-react";
 import React from "react";
 import { Badge } from "../../../ui/badge";
-import Card from "../../../ui/card.jsx";
+import Card from "../../../ui/Card";
 
 const CalendarLegend = () => {
   return (

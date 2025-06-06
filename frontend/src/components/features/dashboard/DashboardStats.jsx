@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { AlertTriangle, BarChart3, Stethoscope, Users } from "lucide-react";
-import Card from "../../ui/card";
+import Card from "../../ui/Card";
 
 const DashboardStats = ({ stats }) => {
   const cardAnimation = {
