@@ -1,11 +1,11 @@
 import React from "react";
 
 /**
- * Componente de legenda dinâmica para o mapa
- * Mostra estatísticas em tempo real dos animais
+ * Dynamic legend component for the map
+ * Shows real-time animal statistics
  */
 export const MapLegend = ({ animals = [], loading = false }) => {
-  // Calcular estatísticas dos animais
+  // Calculate animal statistics
   const getAnimalStats = () => {
     if (!animals || animals.length === 0) {
       return {
@@ -22,13 +22,13 @@ export const MapLegend = ({ animals = [], loading = false }) => {
     const stats = animals.reduce((acc, animal) => {
       acc.total++;
       
-      // Contar por espécie
+      // Count by species
       if (animal.species === 'cattle') acc.cattle++;
       else if (animal.species === 'swine') acc.swine++;
       else if (animal.species === 'poultry') acc.poultry++;
       else if (animal.species === 'goats') acc.goats++;
       
-      // Contar por status
+      // Count by status
       if (animal.status?.includes('Tratamento')) {
         acc.inTreatment++;
       } else {
@@ -54,7 +54,7 @@ export const MapLegend = ({ animals = [], loading = false }) => {
   const animalTypes = [
     {
       key: 'cattle',
-      label: 'Gado',
+      label: 'Cattle',
       icon: '🐄',
       color: 'bg-green-500',
       count: stats.cattle,
@@ -62,7 +62,7 @@ export const MapLegend = ({ animals = [], loading = false }) => {
     },
     {
       key: 'swine',
-      label: 'Suínos',
+      label: 'Swine',
       icon: '🐷',
       color: 'bg-red-500',
       count: stats.swine,
@@ -70,7 +70,7 @@ export const MapLegend = ({ animals = [], loading = false }) => {
     },
     {
       key: 'poultry',
-      label: 'Aves',
+      label: 'Poultry',
       icon: '🐔',
       color: 'bg-yellow-500',
       count: stats.poultry,
@@ -78,7 +78,7 @@ export const MapLegend = ({ animals = [], loading = false }) => {
     },
     {
       key: 'goats',
-      label: 'Caprinos',
+      label: 'Goats',
       icon: '🐐',
       color: 'bg-purple-500',
       count: stats.goats,
@@ -88,14 +88,14 @@ export const MapLegend = ({ animals = [], loading = false }) => {
 
   const healthStats = [
     {
-      label: 'Saudáveis',
+      label: 'Healthy',
       count: stats.healthy,
       color: 'text-green-600',
       bgColor: 'bg-green-50',
       icon: '✅'
     },
     {
-      label: 'Em Tratamento',
+      label: 'In Treatment',
       count: stats.inTreatment,
       color: 'text-red-600',
       bgColor: 'bg-red-50',
@@ -123,20 +123,20 @@ export const MapLegend = ({ animals = [], loading = false }) => {
       {/* Header */}
       <div className="flex items-center gap-2 mb-4">
         <div className="w-3 h-3 rounded-full bg-amber-500"></div>
-        <h3 className="font-semibold text-gray-800">Legenda do Mapa</h3>
+        <h3 className="font-semibold text-gray-800">Map Legend</h3>
       </div>
 
       {/* Resumo Total */}
       <div className="mb-4 p-3 bg-amber-50 rounded-lg border border-amber-200">
         <div className="flex items-center justify-between">
-          <span className="text-sm font-medium text-gray-700">Total de Animais</span>
+          <span className="text-sm font-medium text-gray-700">Total Animals</span>
           <span className="text-xl font-bold text-amber-600">{stats.total}</span>
         </div>
       </div>
 
       {/* Tipos de Animais */}
       <div className="mb-4">
-        <h4 className="text-sm font-medium text-gray-700 mb-2">Por Espécie</h4>
+        <h4 className="text-sm font-medium text-gray-700 mb-2">By Species</h4>
         <div className="space-y-2">
           {animalTypes.map((type) => (
             <div key={type.key} className="flex items-center justify-between">
@@ -154,9 +154,9 @@ export const MapLegend = ({ animals = [], loading = false }) => {
         </div>
       </div>
 
-      {/* Status de Saúde */}
+      {/* Health Status */}
       <div>
-        <h4 className="text-sm font-medium text-gray-700 mb-2">Status de Saúde</h4>
+        <h4 className="text-sm font-medium text-gray-700 mb-2">Health Status</h4>
         <div className="space-y-2">
           {healthStats.map((stat, index) => (
             <div key={index} className={`flex items-center justify-between p-2 rounded-lg ${stat.bgColor}`}>
@@ -173,7 +173,7 @@ export const MapLegend = ({ animals = [], loading = false }) => {
       {/* Timestamp */}
       <div className="mt-4 pt-3 border-t border-gray-200">
         <div className="flex items-center justify-between text-xs text-gray-500">
-          <span>Atualizado em:</span>
+          <span>Updated at:</span>
           <span>{new Date().toLocaleTimeString('pt-BR')}</span>
         </div>
       </div>

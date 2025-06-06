@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Stethoscope } from "lucide-react";
-import Card from "../../ui/Card";
+import Card from "../../ui/card";
 
 const VaccineStatus = ({ dosesMensagem }) => {
   const cardAnimation = {
@@ -8,13 +8,15 @@ const VaccineStatus = ({ dosesMensagem }) => {
     tap: { scale: 0.98 },
   };
 
-  const isEmergency = dosesMensagem.includes("pendente");
+  // Melhor lógica: verifica se contém "pending for application" (indica doses pendentes)
+  // ou se NÃO contém "No pending" (para ser mais seguro)
+  const isEmergency = dosesMensagem.includes("pending for application");
 
   return (
     <motion.div whileHover={cardAnimation.hover} whileTap={cardAnimation.tap}>
       <Card
         variant="rural"
-        title="Status das Vacinas"
+        title="Vaccine Status"
         icon={<Stethoscope className="h-5 w-5 text-black sm:h-6 sm:w-6" />}
         className="h-[240px] transform-gpu sm:h-[280px]"
       >
@@ -40,7 +42,7 @@ const VaccineStatus = ({ dosesMensagem }) => {
           {isEmergency && (
             <div className="text-center">
               <span className="text-xs text-orange-600">
-                Verifique a seção de aplicações para mais detalhes
+                Check the applications section for more details
               </span>
             </div>
           )}

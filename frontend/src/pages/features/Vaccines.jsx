@@ -1,7 +1,10 @@
+import { Calendar, List } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
+import VaccineCalendar from "../../components/features/vaccines/calendar/VaccineCalendar";
 import VaccinesTable from "../../components/features/vaccines/tables/VaccinesTable";
 import MainLayout from "../../components/layout/MainLayout";
+import { Button } from "../../components/ui/button";
 import { useToast } from "../../components/ui/use-toast";
 import { useFarm } from "../../context/FarmContext";
 import { vaccineService } from "../../services/vaccineService";
@@ -10,6 +13,7 @@ function Vaccines() {
   const [vaccines, setVaccines] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [activeTab, setActiveTab] = useState("list"); // "list" or "calendar"
   const { toast } = useToast();
   const { currentFarmId } = useFarm();
 
@@ -74,6 +78,17 @@ function Vaccines() {
     loadVaccines();
   };
 
+  const TabButton = ({ id, label, icon, isActive, onClick }) => (
+    <Button
+      variant={isActive ? "default" : "outline"}
+      onClick={() => onClick(id)}
+      className="flex items-center gap-2"
+    >
+      {icon}
+      {label}
+    </Button>
+  );
+
   return (
     <>
       <Helmet>
@@ -85,12 +100,38 @@ function Vaccines() {
         className="min-h-screen bg-gradient-to-br from-[#fff8f0] via-[#f9e7c2] to-[#bfa77a]"
       >
         <div className="mt-6 md:mt-8 lg:mt-10" />
-        <VaccinesTable
-          vaccines={vaccines}
-          loading={loading}
-          error={error}
-          onVaccineCreated={handleVaccineCreated}
-        />
+
+        {/* Tab Navigation */}
+        <div className="mb-6 flex gap-2 p-4">
+          <TabButton
+            id="list"
+            label="Vaccine List"
+            icon={<List className="h-4 w-4" />}
+            isActive={activeTab === "list"}
+            onClick={setActiveTab}
+          />
+          <TabButton
+            id="calendar"
+            label="Application Calendar"
+            icon={<Calendar className="h-4 w-4" />}
+            isActive={activeTab === "calendar"}
+            onClick={setActiveTab}
+          />
+        </div>
+
+        {/* Tab Content */}
+        {activeTab === "list" ? (
+          <VaccinesTable
+            vaccines={vaccines}
+            loading={loading}
+            error={error}
+            onVaccineCreated={handleVaccineCreated}
+          />
+        ) : (
+          <div className="px-4">
+            <VaccineCalendar />
+          </div>
+        )}
       </MainLayout>
     </>
   );

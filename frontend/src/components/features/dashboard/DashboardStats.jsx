@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { AlertTriangle, BarChart3, Stethoscope, Users } from "lucide-react";
-import Card from "../../ui/Card";
+import Card from "../../ui/card";
 
 const DashboardStats = ({ stats }) => {
   const cardAnimation = {
@@ -12,25 +12,25 @@ const DashboardStats = ({ stats }) => {
     {
       variant: "terra",
       icon: <Users className="h-8 w-8 text-black" />,
-      title: "Usuários",
+      title: "Users",
       value: stats.usuarios.toString(),
     },
     {
       variant: "verde",
       icon: <BarChart3 className="h-8 w-8 text-black" />,
-      title: "Animais Registrados",
+      title: "Registered Animals",
       value: stats.animais.toString(),
     },
     {
       variant: "palha",
       icon: <Stethoscope className="h-8 w-8 text-black" />,
-      title: "Doses Pendentes",
+      title: "Pending Doses",
       value: stats.dosesPendentes.toString(),
     },
     {
       variant: "alerta",
       icon: <AlertTriangle className="h-8 w-8 text-black" />,
-      title: "Alertas de Saúde",
+      title: "Health Alerts",
       value: stats.alertas.toString(),
     },
   ];

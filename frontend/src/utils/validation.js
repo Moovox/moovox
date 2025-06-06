@@ -70,11 +70,23 @@ export const validationSchemas = {
     const nameError = validators.required(data.name, "Nome é obrigatório");
     if (nameError) errors.name = nameError;
 
+    const targetDiseaseError = validators.required(
+      data.targetDisease,
+      "Doença alvo é obrigatória",
+    );
+    if (targetDiseaseError) errors.targetDisease = targetDiseaseError;
+
     const manufacturerError = validators.required(
-      data.manufacturer,
+      data.manufacturerId,
       "Fabricante é obrigatório",
     );
-    if (manufacturerError) errors.manufacturer = manufacturerError;
+    if (manufacturerError) errors.manufacturerId = manufacturerError;
+
+    const typeError = validators.required(
+      data.typeId,
+      "Tipo de vacina é obrigatório",
+    );
+    if (typeError) errors.typeId = typeError;
 
     const batchError = validators.required(
       data.batchNumber,
@@ -93,11 +105,31 @@ export const validationSchemas = {
       );
     if (expirationError) errors.expirationDate = expirationError;
 
+    const requiredDosesError =
+      validators.required(
+        data.requiredDoses,
+        "Doses necessárias é obrigatório",
+      ) ||
+      validators.positiveNumber(
+        data.requiredDoses,
+        "Doses necessárias deve ser um número positivo",
+      );
+    if (requiredDosesError) errors.requiredDoses = requiredDosesError;
+
     const dosageError = validators.required(
       data.dosage,
       "Dosagem é obrigatória",
     );
     if (dosageError) errors.dosage = dosageError;
+
+    // Opcional: Validar intervalo entre doses se fornecido
+    if (data.dosingInterval && data.dosingInterval !== "") {
+      const intervalError = validators.positiveNumber(
+        data.dosingInterval,
+        "Intervalo entre doses deve ser um número positivo",
+      );
+      if (intervalError) errors.dosingInterval = intervalError;
+    }
 
     return errors;
   },
@@ -208,6 +240,36 @@ export const validationSchemas = {
         "Dosagem deve ser um número positivo",
       );
     if (dosageError) errors.dosage = dosageError;
+
+    return errors;
+  },
+
+  // Validação para lote de vacina
+  vaccineBatch: (data) => {
+    const errors = {};
+
+    const vaccineIdError = validators.required(
+      data.baseVaccineId,
+      "Vacina base é obrigatória",
+    );
+    if (vaccineIdError) errors.baseVaccineId = vaccineIdError;
+
+    const batchError = validators.required(
+      data.batchNumber,
+      "Número do lote é obrigatório",
+    );
+    if (batchError) errors.batchNumber = batchError;
+
+    const expirationError =
+      validators.required(
+        data.expirationDate,
+        "Data de expiração é obrigatória",
+      ) ||
+      validators.futureDate(
+        data.expirationDate,
+        "Data de expiração não pode ser no passado",
+      );
+    if (expirationError) errors.expirationDate = expirationError;
 
     return errors;
   },

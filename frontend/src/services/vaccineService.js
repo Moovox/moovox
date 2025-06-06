@@ -3,16 +3,8 @@ import api from "../utils/api";
 export const vaccineService = {
   async getAllVaccines() {
     try {
-      const farmId = localStorage.getItem("farmId");
-
-      if (!farmId) {
-        console.warn(
-          "Warning: Farm ID not found in localStorage. Vaccines may not be filtered correctly.",
-        );
-      }
-
-      const endpoint = farmId ? `/farms/${farmId}/vaccines` : "/vaccines";
-      const response = await api.get(endpoint);
+      // Use only the /vaccines endpoint as that's what's available in the backend
+      const response = await api.get("/vaccines");
 
       if (!response.data) {
         return { data: [] };
@@ -25,11 +17,23 @@ export const vaccineService = {
       const vaccines = vaccinesData.map((vaccine) => ({
         id: vaccine.id,
         name: vaccine.name,
+        target_disease: vaccine.target_disease,
+        manufacturer_id: vaccine.manufacturer_id,
         manufacturer: vaccine.manufacturer,
-        batchNumber: vaccine.batch_number || vaccine.batchNumber,
-        expirationDate: vaccine.expiration_date || vaccine.expirationDate,
+        type_of_vaccine_id: vaccine.type_of_vaccine_id,
+        type_of_vaccine: vaccine.type_of_vaccine,
+        batch: vaccine.batch,
+        expiration_date: vaccine.expiration_date,
+        required_doses: vaccine.required_doses,
+        dosing_interval: vaccine.dosing_interval,
+        notes: vaccine.notes,
+        created_at: vaccine.created_at,
+        updated_at: vaccine.updated_at,
+        // Manter campos antigos para compatibilidade
+        batchNumber: vaccine.batch,
+        expirationDate: vaccine.expiration_date,
         dosage: vaccine.dosage,
-        description: vaccine.description,
+        description: vaccine.notes,
       }));
 
       return { data: vaccines };
@@ -41,16 +45,7 @@ export const vaccineService = {
 
   async createVaccine(vaccineData) {
     try {
-      const formattedData = {
-        name: vaccineData.name,
-        manufacturer: vaccineData.manufacturer,
-        batch_number: vaccineData.batchNumber,
-        expiration_date: vaccineData.expirationDate,
-        dosage: vaccineData.dosage,
-        description: vaccineData.description,
-      };
-
-      const response = await api.post("/vaccines", formattedData);
+      const response = await api.post("/vaccines", vaccineData);
       return response.data;
     } catch (error) {
       throw error.response?.data || error;
@@ -116,6 +111,26 @@ export const vaccineService = {
         throw new Error("Vaccine not found");
       }
       throw error.response?.data || error;
+    }
+  },
+
+  async getAllManufacturers() {
+    try {
+      const response = await api.get("/vaccines/manufacturers");
+      return response.data.data || [];
+    } catch (error) {
+      console.error("Error fetching manufacturers:", error);
+      return [];
+    }
+  },
+
+  async getAllVaccineTypes() {
+    try {
+      const response = await api.get("/vaccines/types");
+      return response.data.data || [];
+    } catch (error) {
+      console.error("Error fetching vaccine types:", error);
+      return [];
     }
   },
 };

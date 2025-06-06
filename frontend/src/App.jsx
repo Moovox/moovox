@@ -63,6 +63,7 @@ export default function App() {
             <Routes>
               <Route path="/" element={<AuthLayout />}>
                 <Route index element={<Login />} />
+                <Route path="login" element={<Login />} />
                 <Route path="forgot-password" element={<ForgotPassword />} />
                 {/* Legacy route for backward compatibility */}
                 <Route path="forgot-pass" element={<ForgotPassword />} />

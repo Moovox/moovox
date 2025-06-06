@@ -3,18 +3,7 @@ import api from "../utils/api";
 export const applicationService = {
   async getAllApplications() {
     try {
-      const farmId = localStorage.getItem("farmId");
-
-      if (!farmId) {
-        console.warn(
-          "Warning: Farm ID not found in localStorage. Applications may not be filtered correctly.",
-        );
-      }
-
-      const endpoint = farmId
-        ? `/farms/${farmId}/applications`
-        : "/applications";
-      const response = await api.get(endpoint);
+      const response = await api.get("/vaccine-applications");
 
       if (!response.data) {
         return { data: [] };
@@ -58,7 +47,7 @@ export const applicationService = {
         notes: applicationData.notes,
       };
 
-      const response = await api.post("/applications", formattedData);
+      const response = await api.post("/vaccine-applications", formattedData);
       return response.data;
     } catch (error) {
       throw error.response?.data || error;
@@ -78,7 +67,10 @@ export const applicationService = {
         notes: applicationData.notes,
       };
 
-      const response = await api.put(`/applications/${id}`, formattedData);
+      const response = await api.put(
+        `/vaccine-applications/${id}`,
+        formattedData,
+      );
       return response.data;
     } catch (error) {
       throw error.response?.data || error;
@@ -89,7 +81,7 @@ export const applicationService = {
     try {
       if (!id) throw new Error("Application ID not provided");
 
-      const response = await api.delete(`/applications/${id}`);
+      const response = await api.delete(`/vaccine-applications/${id}`);
 
       if (response.status === 204 || response.status === 200) {
         return { success: true, message: "Application deleted successfully" };
@@ -119,7 +111,7 @@ export const applicationService = {
     try {
       if (!id) throw new Error("Application ID not provided");
 
-      const response = await api.get(`/applications/${id}`);
+      const response = await api.get(`/vaccine-applications/${id}`);
       return response.data.data;
     } catch (error) {
       if (error.response?.status === 404) {

@@ -61,8 +61,8 @@ function Farms() {
 
   return (
     <PageContainer
-      title="Fazendas"
-      description="Gerenciamento de Fazendas"
+      title="Farms"
+      description="Farms Management"
       loading={loading}
       error={error}
       onRetry={loadFarms}

@@ -1,6 +1,6 @@
 import { MapPin } from "lucide-react";
-import React, { useState } from "react";
-import Card from "../../ui/Card";
+import React, { useCallback, useState } from "react";
+import Card from "../../ui/card";
 import { SimpleMap } from "../map/SimpleMap";
 import { CompactMapLegend } from "../map/components/CompactMapLegend";
 
@@ -11,9 +11,9 @@ import { CompactMapLegend } from "../map/components/CompactMapLegend";
 const MapCard = () => {
   const [mapData, setMapData] = useState({ animals: [], loading: true });
 
-  const handleMapDataUpdate = (data) => {
+  const handleMapDataUpdate = useCallback((data) => {
     setMapData(data);
-  };
+  }, []);
 
   return (
     <Card
@@ -30,7 +30,7 @@ const MapCard = () => {
 
         {/* Mapa */}
         <div className="min-h-0 flex-1 overflow-hidden rounded-lg">
-          <SimpleMap 
+          <SimpleMap
             height="100%"
             showControls={false}
             showLegend={false}
@@ -43,4 +43,4 @@ const MapCard = () => {
   );
 };
 
-export default MapCard; 
+export default MapCard;

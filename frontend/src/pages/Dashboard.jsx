@@ -25,7 +25,7 @@ function Dashboard() {
       </Helmet>
       <div>
         <MainLayout
-          title="Painel do Administrador"
+          title="Admin Panel"
           className="min-h-screen bg-gradient-to-br from-[#fff8f0] via-[#f9e7c2] to-[#bfa77a]"
         >
           <div className="mt-4 sm:mt-6 md:mt-8" />
@@ -39,16 +39,16 @@ function Dashboard() {
               transition={{ duration: 0.5 }}
               className="mb-4 space-y-4 overflow-hidden pb-6 sm:mb-6 sm:space-y-6 sm:pb-10 md:space-y-8"
             >
-              {/* Cards principais de estatísticas */}
+              {/* Main statistics cards */}
               <DashboardStats stats={stats} />
 
-              {/* Cards secundários */}
+              {/* Secondary cards */}
               <div className="grid grid-cols-1 gap-4 overflow-visible sm:gap-6 md:grid-cols-2">
                 <RecentUsers ultimosUsuarios={ultimosUsuarios} />
                 <VaccineStatus dosesMensagem={dosesMensagem} />
               </div>
 
-              {/* Mapa e Telemetria dos Animais */}
+              {/* Animal map and telemetry */}
               <div className="grid grid-cols-1 gap-4 overflow-visible sm:gap-6 md:grid-cols-2">
                 <MapCard />
                 <AnimalTelemetry telemetria={telemetria} />

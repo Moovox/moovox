@@ -6,8 +6,7 @@ import { MapLegend } from "../../components/features/map/components/MapLegend";
 import MainLayout from "../../components/layout/MainLayout";
 
 /**
- * Página completa do mapa de animais
- * Versão limpa e organizada
+ * Clean and organized version of the animal map page
  */
 const AnimalMap = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -29,50 +28,50 @@ const AnimalMap = () => {
   return (
     <>
       <Helmet>
-        <title>Moovox | Mapa dos Animais</title>
-        <meta name="description" content="Visualize a localização dos animais em tempo real" />
+        <title>Moovox | Animal Map</title>
+        <meta name="description" content="Real-time animal location visualization" />
       </Helmet>
 
       <MainLayout
-        title="Mapa dos Animais"
+        title="Animal Map"
         className="min-h-screen bg-gradient-to-br from-[#fff8f0] via-[#f9e7c2] to-[#bfa77a]"
       >
         <div className="space-y-4">
-          {/* Barra de controles */}
+          {/* Controls bar */}
           <div className="bg-white/90 backdrop-blur-sm rounded-xl border border-amber-200/50 p-4 shadow-lg">
             <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
               <div className="flex items-center gap-2">
                 <MapPin className="h-5 w-5 text-amber-600" />
                 <span className="font-medium text-gray-700">
-                  Visualização em tempo real
+                  Real-time visualization
                 </span>
               </div>
 
               <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
-                {/* Busca */}
+                {/* Search */}
                 <div className="relative">
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
                   <input
                     type="text"
-                    placeholder="Buscar animal..."
+                    placeholder="Search animal..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                     className="pl-9 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none"
                   />
                 </div>
 
-                {/* Botão de filtros */}
+                {/* Filters button */}
                 <button className="flex items-center gap-2 px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-lg transition-colors">
                   <Filter className="h-4 w-4" />
-                  <span>Filtros</span>
+                  <span>Filters</span>
                 </button>
               </div>
             </div>
           </div>
 
-          {/* Container do mapa com legenda lateral */}
+          {/* Container with side legend */}
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
-            {/* Mapa principal */}
+            {/* Main map */}
             <div className="lg:col-span-3">
               <div className="bg-white/90 backdrop-blur-sm rounded-xl border border-amber-200/50 overflow-hidden shadow-lg">
                 <SimpleMap
@@ -87,7 +86,7 @@ const AnimalMap = () => {
               </div>
             </div>
 
-            {/* Legenda lateral */}
+            {/* Side legend */}
             <div className="lg:col-span-1">
               <div className="sticky top-4">
                 <MapLegend 
@@ -99,7 +98,7 @@ const AnimalMap = () => {
           </div>
         </div>
 
-        {/* Modal de detalhes do animal */}
+        {/* Animal details modal */}
         {selectedAnimal && (
           <div className="fixed inset-0 z-[2000] flex items-center justify-center bg-black/50 backdrop-blur-sm">
             <div className="bg-white rounded-xl shadow-xl max-w-md w-full mx-4 overflow-hidden">
@@ -124,7 +123,7 @@ const AnimalMap = () => {
                 </div>
 
                 <div>
-                  <span className="text-sm font-medium text-gray-500">Espécie:</span>
+                  <span className="text-sm font-medium text-gray-500">Species:</span>
                   <p className="text-gray-800">
                     {selectedAnimal.species === "cattle" ? "Bovino" :
                      selectedAnimal.species === "swine" ? "Suíno" :
@@ -133,7 +132,7 @@ const AnimalMap = () => {
                 </div>
 
                 <div>
-                  <span className="text-sm font-medium text-gray-500">Peso:</span>
+                  <span className="text-sm font-medium text-gray-500">Weight:</span>
                   <p className="text-gray-800">{selectedAnimal.weight} kg</p>
                 </div>
 
@@ -147,7 +146,7 @@ const AnimalMap = () => {
                 </div>
 
                 <div>
-                  <span className="text-sm font-medium text-gray-500">Localização:</span>
+                  <span className="text-sm font-medium text-gray-500">Location:</span>
                   <p className="text-xs text-gray-600">
                     {selectedAnimal.latitude.toFixed(6)}, {selectedAnimal.longitude.toFixed(6)}
                   </p>
@@ -159,7 +158,7 @@ const AnimalMap = () => {
                   onClick={handleCloseAnimalDetails}
                   className="w-full py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-lg transition-colors"
                 >
-                  Fechar
+                  Close
                 </button>
               </div>
             </div>

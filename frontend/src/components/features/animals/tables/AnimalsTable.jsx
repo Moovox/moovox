@@ -1,44 +1,55 @@
-import { Loader2, Map, Pencil, Trash2 } from "lucide-react";
+import { Filter, Heart, Map, Search } from "lucide-react";
 import PropTypes from "prop-types";
 import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { animalService } from "../../../../services/animalService";
+import FilterSection from "../../../shared/FilterSection";
+import PageHeader from "../../../shared/PageHeader";
+import PageLayout from "../../../shared/PageLayout";
+import PaginationInfo from "../../../shared/PaginationInfo";
+import { StatsCard, StatsGrid } from "../../../shared/StatsCard";
+import TableContainer from "../../../shared/TableContainer";
+import {
+  TableEmptyState,
+  TableLoadingState,
+} from "../../../shared/TableStates";
 import { Button } from "../../../ui/button";
-import { Input } from "../../../ui/input";
-import { Pagination } from "../../../ui/pagination";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../../../ui/select";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "../../../ui/table";
+import { TableHead, TableRow } from "../../../ui/table";
 import { useToast } from "../../../ui/use-toast";
 import AnimalCreateModalStandardized from "../modals/AnimalCreateModalStandardized";
 import AnimalEditModal from "../modals/AnimalEditModal";
+import AnimalTableRow from "./AnimalTableRow";
 
 const species = [
-  { value: "all", label: "All species" },
-  { value: "bovine", label: "Bovine" },
-  { value: "swine", label: "Swine" },
-  { value: "poultry", label: "Poultry" },
-  { value: "goat", label: "Goat" },
-  { value: "sheep", label: "Sheep" },
+  { value: "all", label: "Todas as espécies" },
+  { value: "bovine", label: "Bovinos" },
+  { value: "swine", label: "Suínos" },
+  { value: "poultry", label: "Aves" },
+  { value: "goat", label: "Caprinos" },
+  { value: "sheep", label: "Ovinos" },
 ];
 
 const statusMap = {
-  healthy: { label: "Healthy", className: "text-green-600" },
-  in_treatment: { label: "In Treatment", className: "text-yellow-600" },
-  recovering: { label: "Recovering", className: "text-blue-600" },
-  sick: { label: "Sick", className: "text-red-600" },
+  healthy: {
+    label: "Saudável",
+    className: "bg-green-100 text-green-800 border-green-200",
+    dot: "bg-green-500",
+  },
+  in_treatment: {
+    label: "Em Tratamento",
+    className: "bg-yellow-100 text-yellow-800 border-yellow-200",
+    dot: "bg-yellow-500",
+  },
+  recovering: {
+    label: "Recuperando",
+    className: "bg-blue-100 text-blue-800 border-blue-200",
+    dot: "bg-blue-500",
+  },
+  sick: {
+    label: "Doente",
+    className: "bg-red-100 text-red-800 border-red-200",
+    dot: "bg-red-500",
+  },
 };
 
 function AnimalsTable({ farmId }) {
@@ -60,11 +71,12 @@ function AnimalsTable({ farmId }) {
       const data = await animalService.listAnimals();
       setAnimals(data);
     } catch (error) {
-      console.error("Error loading animals:", error);
+      console.error("Erro ao carregar animais:", error);
       toast({
         variant: "destructive",
-        title: "Error loading animals",
-        description: "Could not load the animal list. Please try again later.",
+        title: "Erro ao carregar animais",
+        description:
+          "Não foi possível carregar a lista de animais. Tente novamente.",
       });
     } finally {
       setLoading(false);
@@ -84,27 +96,23 @@ function AnimalsTable({ farmId }) {
     return () => window.removeEventListener("resize", checkIfMobile);
   }, [loadAnimals]);
 
-  // Load animals when the farm changes
   useEffect(() => {
     loadAnimals();
   }, [farmId, loadAnimals]);
 
-  // Listen for farm change event (debounced)
   useEffect(() => {
     let eventTimeout = null;
 
     const handleFarmChange = (event) => {
-      // Clear existing timeout
       if (eventTimeout) {
         clearTimeout(eventTimeout);
       }
 
-      // Only reload if farm actually changed
       const newFarmId = event.detail?.farmId;
       if (newFarmId !== farmId) {
         eventTimeout = setTimeout(() => {
           loadAnimals();
-        }, 150); // Slight delay to avoid rapid successive calls
+        }, 150);
       }
     };
 
@@ -117,28 +125,27 @@ function AnimalsTable({ farmId }) {
     };
   }, [loadAnimals, farmId]);
 
-  // Reset to first page when filters change
   useEffect(() => {
     setCurrentPage(1);
   }, [search, animalSpecies]);
 
   const handleDelete = async (id) => {
-    if (window.confirm("Are you sure you want to delete this animal?")) {
+    if (window.confirm("Tem certeza que deseja excluir este animal?")) {
       setDeletingAnimalId(id);
       try {
         await animalService.deleteAnimal(id);
         toast({
-          title: "Success",
-          description: "Animal deleted successfully!",
+          title: "Sucesso",
+          description: "Animal excluído com sucesso!",
           variant: "success",
         });
         loadAnimals();
       } catch (error) {
-        console.error("Error deleting animal:", error);
+        console.error("Erro ao excluir animal:", error);
         toast({
           variant: "destructive",
-          title: "Error deleting",
-          description: "Could not delete the animal. Please try again later.",
+          title: "Erro ao excluir",
+          description: "Não foi possível excluir o animal. Tente novamente.",
         });
       } finally {
         setDeletingAnimalId(null);
@@ -150,6 +157,7 @@ function AnimalsTable({ farmId }) {
     setAnimalToEdit(animal);
     setEditModalOpen(true);
   };
+
   const filteredAnimals = animals.filter(
     (animal) =>
       ((typeof animal.identification === "string"
@@ -163,178 +171,143 @@ function AnimalsTable({ farmId }) {
           animal.species.toLowerCase() === animalSpecies.toLowerCase())),
   );
 
-  // Calculate total pages
   const totalPages = Math.max(
     1,
     Math.ceil(filteredAnimals.length / itemsPerPage),
   );
-
-  // Get only animals for current page
   const paginatedAnimals = filteredAnimals.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage,
   );
 
-  const renderTableRows = () => {
+  const renderTableContent = () => {
     if (loading) {
       return (
-        <TableRow>
-          <TableCell colSpan={isMobile ? 4 : 8} className="h-24 text-center">
-            <div className="flex items-center justify-center">
-              <Loader2 className="h-6 w-6 animate-spin text-amber-700" />
-            </div>
-          </TableCell>
-        </TableRow>
+        <TableLoadingState
+          colSpan={isMobile ? 4 : 8}
+          message="Carregando animais..."
+        />
       );
     }
 
     if (filteredAnimals.length === 0) {
       return (
-        <TableRow>
-          <TableCell
-            colSpan={isMobile ? 4 : 8}
-            className="text-muted-foreground py-8 text-center"
-          >
-            No animals found.
-          </TableCell>
-        </TableRow>
+        <TableEmptyState
+          colSpan={isMobile ? 4 : 8}
+          title="Nenhum animal encontrado"
+          description="Tente ajustar os filtros ou adicionar um novo animal"
+        />
       );
     }
 
-    return paginatedAnimals.map((animal) => (
-      <TableRow key={animal.id} className="hover:bg-amber-50/50">
-        {!isMobile && <TableCell>{animal.id}</TableCell>}
-        <TableCell className="font-medium">
-          {typeof animal.identification === "string"
-            ? animal.identification
-            : String(animal.identification || "")}
-        </TableCell>
-        {!isMobile && <TableCell>{animal.name || "-"}</TableCell>}
-        <TableCell className="capitalize">
-          {typeof animal.species === "string"
-            ? animal.species
-            : String(animal.species || "")}
-        </TableCell>
-        {!isMobile && (
-          <TableCell>
-            {animal.birthDate
-              ? new Date(animal.birthDate).toLocaleDateString()
-              : "-"}
-          </TableCell>
-        )}
-        {!isMobile && <TableCell>{animal.weight || "-"}</TableCell>}{" "}
-        <TableCell>
-          <span
-            className={`font-medium ${(animal.status && statusMap[animal.status]?.className) || "text-gray-600"}`}
-          >
-            {(animal.status && statusMap[animal.status]?.label) ||
-              animal.status ||
-              "Unknown"}
-          </span>
-        </TableCell>
-        <TableCell className="flex justify-center gap-2">
-          <Button
-            size="icon"
-            variant="ghost"
-            className="text-amber-700 transition-colors hover:bg-amber-100 hover:text-amber-800"
-            onClick={() => handleEdit(animal)}
-            title="Edit"
-          >
-            <Pencil className="h-4 w-4" />
-          </Button>
-          <Button
-            size="icon"
-            variant="ghost"
-            className="text-red-500 transition-colors hover:bg-red-50 hover:text-red-600"
-            onClick={() => handleDelete(animal.id)}
-            title="Delete"
-            disabled={deletingAnimalId === animal.id}
-          >
-            {deletingAnimalId === animal.id ? (
-              <Loader2 className="h-4 w-4 animate-spin" />
-            ) : (
-              <Trash2 className="h-4 w-4" />
-            )}
-          </Button>
-        </TableCell>
-      </TableRow>
+    return paginatedAnimals.map((animal, index) => (
+      <AnimalTableRow
+        key={animal.id}
+        animal={animal}
+        index={index}
+        isMobile={isMobile}
+        onEdit={handleEdit}
+        onDelete={handleDelete}
+        deletingAnimalId={deletingAnimalId}
+      />
     ));
   };
 
+  const tableHeaders = (
+    <TableRow className="hover:to-gray-150 border-b border-gray-200 bg-gradient-to-r from-gray-50 to-gray-100 hover:from-gray-100">
+      {!isMobile && (
+        <TableHead className="font-semibold text-gray-700">ID</TableHead>
+      )}
+      <TableHead className="font-semibold text-gray-700">
+        Identificação
+      </TableHead>
+      {!isMobile && (
+        <TableHead className="font-semibold text-gray-700">Nome</TableHead>
+      )}
+      <TableHead className="font-semibold text-gray-700">Espécie</TableHead>
+      {!isMobile && (
+        <TableHead className="font-semibold text-gray-700">
+          Data Nascimento
+        </TableHead>
+      )}
+      {!isMobile && (
+        <TableHead className="font-semibold text-gray-700">Peso</TableHead>
+      )}
+      <TableHead className="font-semibold text-gray-700">Status</TableHead>
+      <TableHead className="text-center font-semibold text-gray-700">
+        Ações
+      </TableHead>
+    </TableRow>
+  );
+
+  const filterActions = (
+    <>
+      <Button
+        variant="outline"
+        className="border-amber-300 bg-white text-amber-700 shadow-sm transition-all duration-200 hover:bg-amber-50"
+        onClick={() => navigate("/animal-map")}
+      >
+        <Map className="mr-2 h-4 w-4" />
+        Ver no Mapa
+      </Button>
+      <AnimalCreateModalStandardized onSuccess={loadAnimals} />
+    </>
+  );
+
   return (
-    <div className="flex flex-col gap-6 p-4">
-      <div className="mb-2 flex flex-col justify-between gap-3 lg:flex-row">
-        <div className="flex flex-col gap-3 md:flex-row">
-          <Input
-            placeholder="Search by ID, name or tag..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="bg-white md:w-64"
-          />
-          <Select value={animalSpecies} onValueChange={setAnimalSpecies}>
-            <SelectTrigger className="bg-white md:w-48">
-              <SelectValue placeholder="Filter by species" />
-            </SelectTrigger>
-            <SelectContent>
-              {species.map((s) => (
-                <SelectItem key={s.value} value={s.value}>
-                  {s.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
+    <PageLayout>
+      <PageHeader
+        icon={<Map className="h-5 w-5 text-white" />}
+        title="Gestão de Animais"
+        description="Gerencie todos os animais da sua fazenda"
+      />
 
-        <div className="flex gap-2">
-          <Button
-            variant="outline"
-            className="border-amber-300 bg-white text-amber-800 hover:bg-amber-50"
-            onClick={() => navigate("/animal-map")}
-          >
-            <Map className="mr-2 h-4 w-4" />
-            View Map
-          </Button>
-          <AnimalCreateModalStandardized onSuccess={loadAnimals} />
-        </div>
-      </div>
+      <FilterSection
+        search={search}
+        onSearchChange={setSearch}
+        searchPlaceholder="Buscar por ID, nome ou identificação..."
+        filterValue={animalSpecies}
+        onFilterChange={setAnimalSpecies}
+        filterOptions={species}
+        filterPlaceholder="Filtrar por espécie"
+        actions={filterActions}
+      />
 
-      <div className="overflow-x-auto rounded-xl border bg-white shadow-sm">
-        <Table>
-          <TableHeader>
-            <TableRow className="hover:bg-amber-50">
-              {!isMobile && <TableHead className="w-12">ID</TableHead>}
-              <TableHead>Identification</TableHead>
-              {!isMobile && <TableHead>Name</TableHead>}
-              <TableHead>Species</TableHead>
-              {!isMobile && <TableHead>Birth Date</TableHead>}
-              {!isMobile && <TableHead>Weight (kg)</TableHead>}
-              <TableHead>Status</TableHead>
-              <TableHead className="w-24 text-center">Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>{renderTableRows()}</TableBody>
-        </Table>
-      </div>
+      <StatsGrid columns={3}>
+        <StatsCard
+          title="Total de Animais"
+          value={animals.length}
+          icon={<Filter />}
+          bgColor="bg-blue-100"
+          iconColor="text-blue-600"
+        />
+        <StatsCard
+          title="Filtrados"
+          value={filteredAnimals.length}
+          icon={<Search />}
+          bgColor="bg-green-100"
+          iconColor="text-green-600"
+        />
+        <StatsCard
+          title="Saudáveis"
+          value={animals.filter((a) => a.status === "healthy").length}
+          icon={<Heart />}
+          bgColor="bg-green-100"
+          iconColor="text-green-600"
+        />
+      </StatsGrid>
 
-      {/* Pagination */}
-      <Pagination
+      <TableContainer headers={tableHeaders} body={renderTableContent()} />
+
+      <PaginationInfo
         currentPage={currentPage}
         totalPages={totalPages}
         onPageChange={setCurrentPage}
+        itemsPerPage={itemsPerPage}
+        totalItems={filteredAnimals.length}
+        itemName="animais"
       />
 
-      {/* Pagination info */}
-      <div className="text-center text-sm text-gray-500">
-        {filteredAnimals.length > 0 ? (
-          <span>
-            Showing {(currentPage - 1) * itemsPerPage + 1} to{" "}
-            {Math.min(currentPage * itemsPerPage, filteredAnimals.length)} of{" "}
-            {filteredAnimals.length} animals
-          </span>
-        ) : null}
-      </div>
-
-      {/* Edit Modal */}
       {animalToEdit && (
         <AnimalEditModal
           animal={animalToEdit}
@@ -343,7 +316,7 @@ function AnimalsTable({ farmId }) {
           onSuccess={loadAnimals}
         />
       )}
-    </div>
+    </PageLayout>
   );
 }
 

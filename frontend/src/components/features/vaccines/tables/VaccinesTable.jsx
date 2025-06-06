@@ -1,29 +1,30 @@
-import { AlertCircle, Loader2, Pencil, Trash2 } from "lucide-react";
+import { Factory, Search, Shield, Syringe } from "lucide-react";
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 import { vaccineService } from "../../../../services/vaccineService";
-import { Alert, AlertDescription } from "../../../ui/alert";
-import { Button } from "../../../ui/button";
-import { Input } from "../../../ui/input";
-import { Pagination } from "../../../ui/pagination";
+import PageHeader from "../../../shared/PageHeader";
+import PageLayout from "../../../shared/PageLayout";
+import PaginationInfo from "../../../shared/PaginationInfo";
+import { StatsCard, StatsGrid } from "../../../shared/StatsCard";
+import TableContainer from "../../../shared/TableContainer";
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "../../../ui/table";
+  TableEmptyState,
+  TableErrorState,
+  TableLoadingState,
+} from "../../../shared/TableStates";
+import { Input } from "../../../ui/input";
+import { TableHead, TableRow } from "../../../ui/table";
 import { useToast } from "../../../ui/use-toast";
 import VaccineCreateModal from "../modals/VaccineCreateModal";
 import VaccineEditModal from "../modals/VaccineEditModal";
+import VaccineTableRow from "./VaccineTableRow";
 
-function VaccinesTable({ vaccines, loading, error, onVaccineCreated }) {
+function VaccinesTable({ vaccines, loading, onVaccineCreated, error }) {
   const [search, setSearch] = useState("");
   const [loadingDelete, setLoadingDelete] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [isMobile, setIsMobile] = useState(false);
-  const [vaccineToEdit, setVaccineToEdit] = useState(null);
+  const [editingVaccine, setEditingVaccine] = useState(null);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const { toast } = useToast();
   const itemsPerPage = 10;
@@ -39,30 +40,49 @@ function VaccinesTable({ vaccines, loading, error, onVaccineCreated }) {
     return () => window.removeEventListener("resize", checkIfMobile);
   }, []);
 
-  // Reset to first page when filters change
   useEffect(() => {
     setCurrentPage(1);
   }, [search]);
 
   const filteredVaccines =
-    vaccines?.filter(
-      (vaccine) =>
-        vaccine?.name?.toLowerCase().includes(search.toLowerCase()) ||
-        vaccine?.manufacturer?.toLowerCase().includes(search.toLowerCase()) ||
-        vaccine?.id?.toString().includes(search),
-    ) || [];
+    vaccines?.filter((vaccine) => {
+      const searchTerm = search.toLowerCase();
+      return (
+        vaccine?.name?.toLowerCase().includes(searchTerm) ||
+        vaccine?.manufacturer?.name?.toLowerCase().includes(searchTerm) ||
+        vaccine?.manufacturer?.toLowerCase().includes(searchTerm) ||
+        vaccine?.batch?.toLowerCase().includes(searchTerm) ||
+        vaccine?.batchNumber?.toLowerCase().includes(searchTerm) ||
+        vaccine?.target_disease?.toLowerCase().includes(searchTerm)
+      );
+    }) || [];
 
-  // Calculate total pages
   const totalPages = Math.max(
     1,
     Math.ceil(filteredVaccines.length / itemsPerPage),
   );
-
-  // Get only vaccines for current page
   const paginatedVaccines = filteredVaccines.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage,
   );
+
+  // Calculate expiration statistics
+  const today = new Date();
+  const expiredVaccines =
+    vaccines?.filter((vaccine) => {
+      if (!vaccine.expirationDate) return false;
+      return new Date(vaccine.expirationDate) < today;
+    }).length || 0;
+
+  const expiringIn30Days =
+    vaccines?.filter((vaccine) => {
+      if (!vaccine.expirationDate) return false;
+      const expirationDate = new Date(vaccine.expirationDate);
+      const thirtyDaysFromNow = new Date(
+        today.getTime() + 30 * 24 * 60 * 60 * 1000,
+      );
+      return expirationDate >= today && expirationDate <= thirtyDaysFromNow;
+    }).length || 0;
 
   const handleDelete = async (id, name) => {
     if (!id) {
@@ -103,157 +123,158 @@ function VaccinesTable({ vaccines, loading, error, onVaccineCreated }) {
     }
   };
 
-  const handleEdit = (vaccine) => {
-    setVaccineToEdit(vaccine);
+  const handleEditVaccine = (vaccine) => {
+    setEditingVaccine(vaccine);
     setEditModalOpen(true);
+  };
+
+  const handleEditModalClose = () => {
+    setEditModalOpen(false);
+    setEditingVaccine(null);
   };
 
   const renderTableContent = () => {
     if (loading) {
       return (
-        <TableRow>
-          <TableCell colSpan={isMobile ? 3 : 6} className="h-24 text-center">
-            <div className="flex items-center justify-center">
-              <Loader2 className="h-6 w-6 animate-spin text-amber-700" />
-            </div>
-          </TableCell>
-        </TableRow>
+        <TableLoadingState
+          colSpan={isMobile ? 3 : 5}
+          message="Loading vaccines..."
+        />
       );
     }
 
     if (error) {
-      return (
-        <TableRow>
-          <TableCell colSpan={isMobile ? 3 : 6} className="h-24">
-            <Alert variant="destructive" className="flex items-center gap-2">
-              <AlertCircle className="h-4 w-4" />
-              <AlertDescription>
-                {error.message || "Error loading vaccines. Please try again."}
-              </AlertDescription>
-            </Alert>
-          </TableCell>
-        </TableRow>
-      );
+      return <TableErrorState colSpan={isMobile ? 3 : 5} error={error} />;
     }
 
     if (filteredVaccines.length === 0) {
       return (
-        <TableRow>
-          <TableCell
-            colSpan={isMobile ? 3 : 6}
-            className="text-muted-foreground py-8 text-center"
-          >
-            No vaccines found.
-          </TableCell>
-        </TableRow>
+        <TableEmptyState
+          colSpan={isMobile ? 3 : 5}
+          title="No vaccines found"
+          description="Try adjusting the filters or add a new vaccine"
+        />
       );
     }
 
-    return paginatedVaccines.map((vaccine) => {
-      const expirationDate = vaccine.expirationDate
-        ? new Date(vaccine.expirationDate)
-        : null;
-      const isExpired = expirationDate && expirationDate < new Date();
-
-      return (
-        <TableRow key={vaccine.id} className={isExpired ? "bg-red-50" : ""}>
-          {!isMobile && <TableCell>{vaccine.id}</TableCell>}
-          <TableCell className="font-medium">{vaccine.name}</TableCell>
-          <TableCell>{vaccine.manufacturer}</TableCell>
-          {!isMobile && <TableCell>{vaccine.batchNumber}</TableCell>}
-          {!isMobile && (
-            <TableCell className={isExpired ? "font-medium text-red-600" : ""}>
-              {expirationDate ? expirationDate.toLocaleDateString() : "-"}
-            </TableCell>
-          )}
-          <TableCell>
-            <div className="flex justify-center gap-2">
-              <Button
-                size="icon"
-                variant="ghost"
-                className="text-amber-700 transition-colors hover:bg-amber-100 hover:text-amber-800"
-                title="Edit"
-                onClick={() => handleEdit(vaccine)}
-              >
-                <Pencil className="h-4 w-4" />
-              </Button>
-              <Button
-                size="icon"
-                variant="ghost"
-                className="text-red-500 transition-colors hover:bg-red-50 hover:text-red-600"
-                title="Delete"
-                onClick={() => handleDelete(vaccine.id, vaccine.name)}
-                disabled={loadingDelete === vaccine.id}
-              >
-                {loadingDelete === vaccine.id ? (
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                ) : (
-                  <Trash2 className="h-4 w-4" />
-                )}
-              </Button>
-            </div>
-          </TableCell>
-        </TableRow>
-      );
-    });
+    return paginatedVaccines.map((vaccine, index) => (
+      <VaccineTableRow
+        key={vaccine.id}
+        vaccine={vaccine}
+        index={index}
+        isMobile={isMobile}
+        onEdit={handleEditVaccine}
+        onDelete={handleDelete}
+        loadingDelete={loadingDelete}
+      />
+    ));
   };
 
+  const tableHeaders = (
+    <TableRow className="hover:to-gray-150 border-b border-gray-200 bg-gradient-to-r from-gray-50 to-gray-100 hover:from-gray-100">
+      <TableHead className="font-semibold text-gray-700">Name</TableHead>
+      <TableHead className="font-semibold text-gray-700">
+        Manufacturer
+      </TableHead>
+      {!isMobile && (
+        <TableHead className="font-semibold text-gray-700">
+          Batch Number
+        </TableHead>
+      )}
+      {!isMobile && (
+        <TableHead className="font-semibold text-gray-700">
+          Expiration Date
+        </TableHead>
+      )}
+      <TableHead className="text-center font-semibold text-gray-700">
+        Actions
+      </TableHead>
+    </TableRow>
+  );
+
   return (
-    <div className="flex flex-col gap-6 p-4">
-      <div className="mb-2 flex flex-col justify-between gap-3 md:flex-row">
-        <Input
-          placeholder="Search by name, manufacturer or ID..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="bg-white md:w-64"
+    <PageLayout>
+      <PageHeader
+        icon={<Syringe />}
+        title="Vaccine Management"
+        description="Manage all vaccines in the system"
+      />
+
+      <div className="mb-6 rounded-xl border border-gray-100 bg-white p-6 shadow-sm">
+        <div className="flex flex-col justify-between gap-4 lg:flex-row">
+          <div className="flex flex-1 flex-col gap-4 md:flex-row">
+            <div className="relative max-w-md flex-1">
+              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-gray-400" />
+              <Input
+                placeholder="Search by name, manufacturer, batch or disease..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="border-gray-200 bg-gray-50 pl-10 transition-colors focus:bg-white"
+              />
+            </div>
+          </div>
+          <div className="flex gap-3">
+            <VaccineCreateModal onSuccess={onVaccineCreated} />
+          </div>
+        </div>
+      </div>
+
+      <StatsGrid columns={4}>
+        <StatsCard
+          title="Total Vaccines"
+          value={vaccines?.length || 0}
+          icon={<Syringe />}
+          bgColor="bg-blue-100"
+          iconColor="text-blue-600"
         />
-        <VaccineCreateModal onSuccess={onVaccineCreated} />
-      </div>
+        <StatsCard
+          title="Filtered"
+          value={filteredVaccines.length}
+          icon={<Search />}
+          bgColor="bg-green-100"
+          iconColor="text-green-600"
+        />
+        <StatsCard
+          title="Expired"
+          value={expiredVaccines}
+          icon={<Shield />}
+          bgColor="bg-red-100"
+          iconColor="text-red-600"
+        />
+        <StatsCard
+          title="Expiring Soon"
+          value={expiringIn30Days}
+          icon={<Factory />}
+          bgColor="bg-orange-100"
+          iconColor="text-orange-600"
+        />
+      </StatsGrid>
 
-      <div className="overflow-x-auto rounded-xl border bg-white shadow-sm">
-        <Table>
-          <TableHeader>
-            <TableRow className="hover:bg-amber-50">
-              {!isMobile && <TableHead className="w-12">ID</TableHead>}
-              <TableHead>Name</TableHead>
-              <TableHead>Manufacturer</TableHead>
-              {!isMobile && <TableHead>Batch Number</TableHead>}
-              {!isMobile && <TableHead>Expiration Date</TableHead>}
-              <TableHead className="w-24 text-center">Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>{renderTableContent()}</TableBody>
-        </Table>
-      </div>
+      <TableContainer headers={tableHeaders} body={renderTableContent()} />
 
-      {/* Pagination */}
-      <Pagination
+      <PaginationInfo
         currentPage={currentPage}
         totalPages={totalPages}
         onPageChange={setCurrentPage}
+        itemsPerPage={itemsPerPage}
+        totalItems={filteredVaccines.length}
+        itemName="vaccines"
       />
 
-      {/* Show pagination information */}
-      <div className="text-center text-sm text-gray-500">
-        {filteredVaccines.length > 0 ? (
-          <span>
-            Showing {(currentPage - 1) * itemsPerPage + 1} to{" "}
-            {Math.min(currentPage * itemsPerPage, filteredVaccines.length)} of{" "}
-            {filteredVaccines.length} vaccines
-          </span>
-        ) : null}
-      </div>
-
-      {/* Edit Modal */}
-      {vaccineToEdit && (
+      {editingVaccine && (
         <VaccineEditModal
-          vaccine={vaccineToEdit}
+          vaccine={editingVaccine}
           open={editModalOpen}
           onOpenChange={setEditModalOpen}
-          onSuccess={onVaccineCreated}
+          onSuccess={async () => {
+            handleEditModalClose();
+            if (onVaccineCreated) {
+              await onVaccineCreated();
+            }
+          }}
         />
       )}
-    </div>
+    </PageLayout>
   );
 }
 

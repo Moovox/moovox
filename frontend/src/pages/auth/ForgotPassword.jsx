@@ -5,8 +5,8 @@ function ForgotPass() {
   return (
     <main role="main">
       <Helmet>
-        <title>Moovox | Esqueci minha senha</title>
-        <meta name="description" content="Esqueci minha senha" />
+        <title>Moovox | Forgot Password</title>
+        <meta name="description" content="Forgot Password" />
       </Helmet>
       <ForgotPasswordCard />
     </main>

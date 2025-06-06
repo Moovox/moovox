@@ -1,24 +1,24 @@
 import { motion } from "framer-motion";
 import { Users } from "lucide-react";
-import Card from "../../ui/Card";
+import Card from "../../ui/card";
 
 const RecentUsers = ({ ultimosUsuarios }) => {
-  // Mostra todos os usuários para permitir scroll
+  // Show all users to allow scrolling
   const recentUsers = ultimosUsuarios || [];
-  const shouldScroll = recentUsers.length > 3; // Scroll ativa com mais de 3 usuários
+  const shouldScroll = recentUsers.length > 3; // Scroll activates with more than 3 users
 
   return (
     <div>
       <Card
         variant="rural"
-        title="Últimos Usuários Cadastrados"
+        title="Last Registered Users"
         icon={<Users className="h-5 w-5 text-black sm:h-6 sm:w-6" />}
         className="h-[240px] transform-gpu sm:h-[280px]"
       >
         <div className="flex h-full flex-col gap-3">
           {recentUsers.length > 0 ? (
             <>
-              {/* Container de scroll com altura fixa */}
+              {/* Scroll container with fixed height */}
               <div
                 className="custom-scrollbar flex-1 overflow-y-auto pr-1"
                 style={{
@@ -56,13 +56,13 @@ const RecentUsers = ({ ultimosUsuarios }) => {
                 </div>
               </div>
 
-              {/* Rodapé fixo na parte inferior */}
+              {/* Fixed footer at the bottom */}
               <div className="flex-shrink-0 border-t border-gray-200 pt-2">
                 <span className="block text-center text-xs text-gray-500">
-                  {recentUsers.length} usuário
-                  {recentUsers.length !== 1 ? "s" : ""} recente
+                  {recentUsers.length} user
+                  {recentUsers.length !== 1 ? "s" : ""} recent
                   {recentUsers.length !== 1 ? "s" : ""}
-                  {shouldScroll && " • Role para ver mais"}
+                  {shouldScroll && " • Scroll to see more"}
                 </span>
               </div>
             </>
@@ -71,7 +71,7 @@ const RecentUsers = ({ ultimosUsuarios }) => {
               <div className="text-center">
                 <Users className="mx-auto mb-2 h-8 w-8 text-gray-400" />
                 <span className="text-sm text-gray-600">
-                  Nenhum usuário cadastrado recentemente
+                  No users registered recently
                 </span>
               </div>
             </div>

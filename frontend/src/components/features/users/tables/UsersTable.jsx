@@ -1,35 +1,29 @@
-import { AlertCircle, Edit, Loader2, Trash2 } from "lucide-react";
+import { Search, Shield, Tractor, Users } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { userService } from "../../../../services/userService";
-import { Alert, AlertDescription } from "../../../ui/alert";
-import { Button } from "../../../ui/button";
-import { Input } from "../../../ui/input";
-import { Pagination } from "../../../ui/pagination";
+import FilterSection from "../../../shared/FilterSection";
+import PageHeader from "../../../shared/PageHeader";
+import PageLayout from "../../../shared/PageLayout";
+import PaginationInfo from "../../../shared/PaginationInfo";
+import { StatsCard, StatsGrid } from "../../../shared/StatsCard";
+import TableContainer from "../../../shared/TableContainer";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../../../ui/select";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "../../../ui/table";
+  TableEmptyState,
+  TableErrorState,
+  TableLoadingState,
+} from "../../../shared/TableStates";
+import { TableHead, TableRow } from "../../../ui/table";
 import { useToast } from "../../../ui/use-toast";
 import UserCreateModalStandardized from "../modals/UserCreateModalStandardized";
 import UserEditModalStandardized from "../modals/UserEditModalStandardized";
+import UserTableRow from "./UserTableRow";
 
 const userTypes = [
-  { value: "all", label: "All types" },
-  { value: "Administrator", label: "Administrator" },
-  { value: "Farmer", label: "Farmer" },
-  { value: "Farmhand", label: "Farmhand" },
-  { value: "Veterinarian", label: "Veterinarian" },
+  { value: "all", label: "Todos os tipos" },
+  { value: "Administrator", label: "Administrador" },
+  { value: "Farmer", label: "Fazendeiro" },
+  { value: "Farmhand", label: "Funcionário" },
+  { value: "Veterinarian", label: "Veterinário" },
 ];
 
 function UsersTable({ users, loading, onUserCreated, error }) {
@@ -54,7 +48,6 @@ function UsersTable({ users, loading, onUserCreated, error }) {
     return () => window.removeEventListener("resize", checkIfMobile);
   }, []);
 
-  // Reset to first page when filters change
   useEffect(() => {
     setCurrentPage(1);
   }, [search, userType]);
@@ -68,13 +61,10 @@ function UsersTable({ users, loading, onUserCreated, error }) {
         (userType === "all" || user?.type === userType),
     ) || [];
 
-  // Calculate total pages
   const totalPages = Math.max(
     1,
     Math.ceil(filteredUsers.length / itemsPerPage),
   );
-
-  // Get only users for current page
   const paginatedUsers = filteredUsers.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage,
@@ -83,14 +73,16 @@ function UsersTable({ users, loading, onUserCreated, error }) {
   const handleDelete = async (id, name) => {
     if (!id) {
       toast({
-        title: "Error",
-        description: "Invalid user ID.",
+        title: "Erro",
+        description: "ID de usuário inválido.",
         variant: "destructive",
       });
       return;
     }
 
-    if (!window.confirm(`Are you sure you want to delete user "${name}"?`)) {
+    if (
+      !window.confirm(`Tem certeza que deseja excluir o usuário "${name}"?`)
+    ) {
       return;
     }
 
@@ -98,8 +90,8 @@ function UsersTable({ users, loading, onUserCreated, error }) {
     try {
       await userService.deleteUser(id);
       toast({
-        title: "Success",
-        description: "User deleted successfully!",
+        title: "Sucesso",
+        description: "Usuário excluído com sucesso!",
         variant: "success",
       });
 
@@ -107,11 +99,10 @@ function UsersTable({ users, loading, onUserCreated, error }) {
         await onUserCreated();
       }
     } catch (error) {
-      console.error("Error deleting user:", error);
+      console.error("Erro ao excluir usuário:", error);
       toast({
-        title: "Error deleting user",
-        description:
-          error.message || "An error occurred while deleting the user",
+        title: "Erro ao excluir usuário",
+        description: error.message || "Ocorreu um erro ao excluir o usuário",
         variant: "destructive",
       });
     } finally {
@@ -132,141 +123,117 @@ function UsersTable({ users, loading, onUserCreated, error }) {
   const renderTableContent = () => {
     if (loading) {
       return (
-        <TableRow>
-          <TableCell colSpan={isMobile ? 3 : 5} className="h-24 text-center">
-            <div className="flex items-center justify-center">
-              <Loader2 className="h-6 w-6 animate-spin text-amber-700" />
-            </div>
-          </TableCell>
-        </TableRow>
+        <TableLoadingState
+          colSpan={isMobile ? 3 : 5}
+          message="Carregando usuários..."
+        />
       );
     }
 
     if (error) {
-      return (
-        <TableRow>
-          <TableCell colSpan={isMobile ? 3 : 5} className="h-24">
-            <Alert variant="destructive" className="flex items-center gap-2">
-              <AlertCircle className="h-4 w-4" />
-              <AlertDescription>
-                {error.message || "Error loading users. Please try again."}
-              </AlertDescription>
-            </Alert>
-          </TableCell>
-        </TableRow>
-      );
+      return <TableErrorState colSpan={isMobile ? 3 : 5} error={error} />;
     }
 
     if (filteredUsers.length === 0) {
       return (
-        <TableRow>
-          <TableCell
-            colSpan={isMobile ? 3 : 5}
-            className="text-muted-foreground py-8 text-center"
-          >
-            No users found.
-          </TableCell>
-        </TableRow>
+        <TableEmptyState
+          colSpan={isMobile ? 3 : 5}
+          title="Nenhum usuário encontrado"
+          description="Tente ajustar os filtros ou adicionar um novo usuário"
+        />
       );
     }
 
-    return paginatedUsers.map((user) => (
-      <TableRow key={user.id}>
-        {!isMobile && <TableCell>{user.id}</TableCell>}
-        <TableCell>{user.name}</TableCell>
-        {!isMobile && <TableCell>{user.email}</TableCell>}
-        <TableCell>{user.type}</TableCell>
-        <TableCell>
-          <div className="flex justify-center gap-2">
-            <Button
-              size="icon"
-              variant="ghost"
-              className="text-blue-500 transition-colors hover:bg-blue-50 hover:text-blue-600"
-              title="Editar"
-              onClick={() => handleEditUser(user)}
-            >
-              <Edit className="h-4 w-4" />
-            </Button>
-            <Button
-              size="icon"
-              variant="ghost"
-              className="text-red-500 transition-colors hover:bg-red-50 hover:text-red-600"
-              title="Delete"
-              onClick={() => handleDelete(user.id, user.name)}
-              disabled={loadingDelete === user.id}
-            >
-              {loadingDelete === user.id ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
-              ) : (
-                <Trash2 className="h-4 w-4" />
-              )}
-            </Button>
-          </div>
-        </TableCell>
-      </TableRow>
+    return paginatedUsers.map((user, index) => (
+      <UserTableRow
+        key={user.id}
+        user={user}
+        index={index}
+        isMobile={isMobile}
+        onEdit={handleEditUser}
+        onDelete={handleDelete}
+        loadingDelete={loadingDelete}
+      />
     ));
   };
 
+  const tableHeaders = (
+    <TableRow className="hover:to-gray-150 border-b border-gray-200 bg-gradient-to-r from-gray-50 to-gray-100 hover:from-gray-100">
+      {!isMobile && (
+        <TableHead className="font-semibold text-gray-700">ID</TableHead>
+      )}
+      <TableHead className="font-semibold text-gray-700">Nome</TableHead>
+      {!isMobile && (
+        <TableHead className="font-semibold text-gray-700">Email</TableHead>
+      )}
+      <TableHead className="font-semibold text-gray-700">Tipo</TableHead>
+      <TableHead className="text-center font-semibold text-gray-700">
+        Ações
+      </TableHead>
+    </TableRow>
+  );
+
   return (
-    <div className="flex flex-col gap-6 p-4">
-      <div className="mb-2 flex flex-col justify-between gap-3 md:flex-row">
-        <div className="flex flex-col gap-3 md:flex-row">
-          <Input
-            placeholder="Search by name, email or ID..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="bg-white md:w-64"
-          />
-          <Select value={userType} onValueChange={setUserType}>
-            <SelectTrigger className="bg-white md:w-48">
-              <SelectValue placeholder="Filter by type" />
-            </SelectTrigger>
-            <SelectContent>
-              {userTypes.map((type) => (
-                <SelectItem key={type.value} value={type.value}>
-                  {type.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-        <UserCreateModalStandardized onSuccess={onUserCreated} />
-      </div>
+    <PageLayout>
+      <PageHeader
+        icon={<Users />}
+        title="Gestão de Usuários"
+        description="Gerencie todos os usuários do sistema"
+      />
 
-      <div className="overflow-x-auto rounded-xl border bg-white shadow-sm">
-        <Table>
-          <TableHeader>
-            <TableRow className="hover:bg-amber-50">
-              {!isMobile && <TableHead className="w-12">ID</TableHead>}
-              <TableHead>Name</TableHead>
-              {!isMobile && <TableHead>Email</TableHead>}
-              <TableHead>Type</TableHead>
-              <TableHead className="w-28 text-center">Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>{renderTableContent()}</TableBody>
-        </Table>
-      </div>
+      <FilterSection
+        search={search}
+        onSearchChange={setSearch}
+        searchPlaceholder="Buscar por nome, email ou ID..."
+        filterValue={userType}
+        onFilterChange={setUserType}
+        filterOptions={userTypes}
+        filterPlaceholder="Filtrar por tipo"
+        actions={<UserCreateModalStandardized onSuccess={onUserCreated} />}
+      />
 
-      {/* Pagination */}
-      <Pagination
+      <StatsGrid columns={4}>
+        <StatsCard
+          title="Total de Usuários"
+          value={users?.length || 0}
+          icon={<Users />}
+          bgColor="bg-blue-100"
+          iconColor="text-blue-600"
+        />
+        <StatsCard
+          title="Filtrados"
+          value={filteredUsers.length}
+          icon={<Search />}
+          bgColor="bg-green-100"
+          iconColor="text-green-600"
+        />
+        <StatsCard
+          title="Administradores"
+          value={users?.filter((u) => u.type === "Administrator").length || 0}
+          icon={<Shield />}
+          bgColor="bg-purple-100"
+          iconColor="text-purple-600"
+        />
+        <StatsCard
+          title="Fazendeiros"
+          value={users?.filter((u) => u.type === "Farmer").length || 0}
+          icon={<Tractor />}
+          bgColor="bg-green-100"
+          iconColor="text-green-600"
+        />
+      </StatsGrid>
+
+      <TableContainer headers={tableHeaders} body={renderTableContent()} />
+
+      <PaginationInfo
         currentPage={currentPage}
         totalPages={totalPages}
         onPageChange={setCurrentPage}
+        itemsPerPage={itemsPerPage}
+        totalItems={filteredUsers.length}
+        itemName="usuários"
       />
 
-      {/* Show pagination information */}
-      <div className="text-center text-sm text-gray-500">
-        {filteredUsers.length > 0 ? (
-          <span>
-            Showing {(currentPage - 1) * itemsPerPage + 1} to{" "}
-            {Math.min(currentPage * itemsPerPage, filteredUsers.length)} of{" "}
-            {filteredUsers.length} users
-          </span>
-        ) : null}
-      </div>
-
-      {/* Edit Modal */}
       {editingUser && (
         <UserEditModalStandardized
           user={editingUser}
@@ -280,7 +247,7 @@ function UsersTable({ users, loading, onUserCreated, error }) {
           }}
         />
       )}
-    </div>
+    </PageLayout>
   );
 }
 

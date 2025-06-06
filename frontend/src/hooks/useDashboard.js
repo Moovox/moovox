@@ -51,10 +51,11 @@ export function useDashboard() {
       setUltimosUsuarios(usersData.users || []);
 
       const pendingCount = vaccinesData.pendingVaccines?.length || 0;
+
       setDosesMensagem(
         pendingCount > 0
-          ? `${pendingCount} dose${pendingCount > 1 ? "s" : ""} pendente${pendingCount > 1 ? "s" : ""} para aplicação.`
-          : "Nenhuma dose pendente.",
+          ? `${pendingCount} dose${pendingCount > 1 ? "s" : ""} pending for application.`
+          : "No pending doses.",
       );
 
       if (telemetryData.latest) {
