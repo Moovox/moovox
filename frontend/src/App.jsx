@@ -23,6 +23,7 @@ const Applications = lazy(() => import("./pages/features/Applications"));
 const Profile = lazy(() => import("./pages/auth/Profile"));
 const AnimalMap = lazy(() => import("./pages/features/AnimalMap"));
 const Farms = lazy(() => import("./pages/features/Farms"));
+const FarmDetailsPage = lazy(() => import("./pages/features/FarmDetailsPage"));
 
 // Wrap AnimalMap with ErrorBoundary
 const SafeAnimalMap = () => (
@@ -40,6 +41,7 @@ const privateRoutes = [
   { path: "/profile", element: <Profile /> },
   { path: "/animal-map", element: <SafeAnimalMap /> },
   { path: "/farms", element: <Farms /> },
+  { path: "/farms/:farmId", element: <FarmDetailsPage /> },
 
   // Legacy routes for backward compatibility
   { path: "/usuarios", element: <Users /> },
@@ -61,13 +63,15 @@ export default function App() {
           <Toaster />
           <Suspense fallback={<PageLoader />}>
             <Routes>
+              {/* Rotas públicas de autenticação */}
               <Route path="/" element={<AuthLayout />}>
                 <Route index element={<Login />} />
-                <Route path="login" element={<Login />} />
                 <Route path="forgot-password" element={<ForgotPassword />} />
                 {/* Legacy route for backward compatibility */}
                 <Route path="forgot-pass" element={<ForgotPassword />} />
               </Route>
+
+              {/* Rotas privadas (requerem autenticação) */}
               <Route element={<PrivateRoute />}>
                 {privateRoutes.map(({ path, element }) => (
                   <Route key={path} path={path} element={element} />

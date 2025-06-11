@@ -19,11 +19,11 @@ import UserEditModalStandardized from "../modals/UserEditModalStandardized";
 import UserTableRow from "./UserTableRow";
 
 const userTypes = [
-  { value: "all", label: "Todos os tipos" },
-  { value: "Administrator", label: "Administrador" },
-  { value: "Farmer", label: "Fazendeiro" },
-  { value: "Farmhand", label: "Funcionário" },
-  { value: "Veterinarian", label: "Veterinário" },
+  { value: "all", label: "All types" },
+  { value: "Administrator", label: "Administrator" },
+  { value: "Farmer", label: "Farmer" },
+  { value: "Farmhand", label: "Employee" },
+  { value: "Veterinarian", label: "Veterinarian" },
 ];
 
 function UsersTable({ users, loading, onUserCreated, error }) {
@@ -73,15 +73,15 @@ function UsersTable({ users, loading, onUserCreated, error }) {
   const handleDelete = async (id, name) => {
     if (!id) {
       toast({
-        title: "Erro",
-        description: "ID de usuário inválido.",
+        title: "Error",
+        description: "Invalid user ID.",
         variant: "destructive",
       });
       return;
     }
 
     if (
-      !window.confirm(`Tem certeza que deseja excluir o usuário "${name}"?`)
+      !window.confirm(`Are you sure you want to delete the user "${name}"?`)
     ) {
       return;
     }
@@ -90,8 +90,8 @@ function UsersTable({ users, loading, onUserCreated, error }) {
     try {
       await userService.deleteUser(id);
       toast({
-        title: "Sucesso",
-        description: "Usuário excluído com sucesso!",
+        title: "Success",
+        description: "User deleted successfully!",
         variant: "success",
       });
 
@@ -99,10 +99,11 @@ function UsersTable({ users, loading, onUserCreated, error }) {
         await onUserCreated();
       }
     } catch (error) {
-      console.error("Erro ao excluir usuário:", error);
+      console.error("Error deleting user:", error);
       toast({
-        title: "Erro ao excluir usuário",
-        description: error.message || "Ocorreu um erro ao excluir o usuário",
+        title: "Error deleting user",
+        description:
+          error.message || "An error occurred while deleting the user",
         variant: "destructive",
       });
     } finally {
@@ -125,7 +126,7 @@ function UsersTable({ users, loading, onUserCreated, error }) {
       return (
         <TableLoadingState
           colSpan={isMobile ? 3 : 5}
-          message="Carregando usuários..."
+          message="Loading users..."
         />
       );
     }
@@ -138,8 +139,8 @@ function UsersTable({ users, loading, onUserCreated, error }) {
       return (
         <TableEmptyState
           colSpan={isMobile ? 3 : 5}
-          title="Nenhum usuário encontrado"
-          description="Tente ajustar os filtros ou adicionar um novo usuário"
+          title="No users found"
+          description="Try adjusting the filters or adding a new user"
         />
       );
     }
@@ -162,13 +163,13 @@ function UsersTable({ users, loading, onUserCreated, error }) {
       {!isMobile && (
         <TableHead className="font-semibold text-gray-700">ID</TableHead>
       )}
-      <TableHead className="font-semibold text-gray-700">Nome</TableHead>
+      <TableHead className="font-semibold text-gray-700">Name</TableHead>
       {!isMobile && (
         <TableHead className="font-semibold text-gray-700">Email</TableHead>
       )}
-      <TableHead className="font-semibold text-gray-700">Tipo</TableHead>
+      <TableHead className="font-semibold text-gray-700">Type</TableHead>
       <TableHead className="text-center font-semibold text-gray-700">
-        Ações
+        Actions
       </TableHead>
     </TableRow>
   );
@@ -177,45 +178,45 @@ function UsersTable({ users, loading, onUserCreated, error }) {
     <PageLayout>
       <PageHeader
         icon={<Users />}
-        title="Gestão de Usuários"
-        description="Gerencie todos os usuários do sistema"
+        title="User Management"
+        description="Manage all system users"
       />
 
       <FilterSection
         search={search}
         onSearchChange={setSearch}
-        searchPlaceholder="Buscar por nome, email ou ID..."
+        searchPlaceholder="Search by name, email or ID..."
         filterValue={userType}
         onFilterChange={setUserType}
         filterOptions={userTypes}
-        filterPlaceholder="Filtrar por tipo"
+        filterPlaceholder="Filter by type"
         actions={<UserCreateModalStandardized onSuccess={onUserCreated} />}
       />
 
       <StatsGrid columns={4}>
         <StatsCard
-          title="Total de Usuários"
+          title="Total Users"
           value={users?.length || 0}
           icon={<Users />}
           bgColor="bg-blue-100"
           iconColor="text-blue-600"
         />
         <StatsCard
-          title="Filtrados"
+          title="Filtered"
           value={filteredUsers.length}
           icon={<Search />}
           bgColor="bg-green-100"
           iconColor="text-green-600"
         />
         <StatsCard
-          title="Administradores"
+          title="Administrators"
           value={users?.filter((u) => u.type === "Administrator").length || 0}
           icon={<Shield />}
           bgColor="bg-purple-100"
           iconColor="text-purple-600"
         />
         <StatsCard
-          title="Fazendeiros"
+          title="Farmers"
           value={users?.filter((u) => u.type === "Farmer").length || 0}
           icon={<Tractor />}
           bgColor="bg-green-100"
@@ -231,7 +232,7 @@ function UsersTable({ users, loading, onUserCreated, error }) {
         onPageChange={setCurrentPage}
         itemsPerPage={itemsPerPage}
         totalItems={filteredUsers.length}
-        itemName="usuários"
+        itemName="users"
       />
 
       {editingUser && (

@@ -61,9 +61,9 @@ function VaccineCreateModal({ onSuccess }) {
       return vaccineService.createVaccine(formattedData);
     },
     {
-      successTitle: "Sucesso",
-      successMessage: "Novo lote adicionado com sucesso!",
-      errorTitle: "Erro ao adicionar lote",
+      successTitle: "Success",
+      successMessage: "New batch added successfully!",
+      errorTitle: "Error adding batch",
     },
   );
 
@@ -85,7 +85,6 @@ function VaccineCreateModal({ onSuccess }) {
 
   const handleVaccineSelect = (vaccineId) => {
     const vaccine = vaccines.find((v) => v.id.toString() === vaccineId);
-    console.log("Vacina selecionada:", vaccine); // Debug temporário
     setSelectedVaccine(vaccine);
     handleChange({ target: { name: "baseVaccineId", value: vaccineId } });
   };
@@ -97,44 +96,44 @@ function VaccineCreateModal({ onSuccess }) {
         await onSuccess();
       }
     } catch (error) {
-      // Erro já tratado no hook
+      // Error already handled in hook
     }
   };
 
   const formatManufacturer = (manufacturer) => {
     if (typeof manufacturer === "string") return manufacturer;
-    return manufacturer?.name || "Fabricante não informado";
+    return manufacturer?.name || "Manufacturer not informed";
   };
 
   const formatVaccineType = (type) => {
     if (typeof type === "string") return type;
-    return type?.name || "Tipo não informado";
+    return type?.name || "Type not informed";
   };
 
   const formatExpirationDate = (date) => {
     if (!date) return "N/A";
     try {
       const dateObj = new Date(date);
-      if (isNaN(dateObj.getTime())) return "Data inválida";
-      return dateObj.toLocaleDateString("pt-BR");
+      if (isNaN(dateObj.getTime())) return "Invalid date";
+      return dateObj.toLocaleDateString("en-US");
     } catch (error) {
-      return "Data inválida";
+      return "Invalid date";
     }
   };
 
   return (
     <FormModal
-      title="Adicionar Novo Lote"
+      title="Add New Batch"
       open={open}
       onOpenChange={handleModalOpen}
       onSubmit={onSubmitSuccess}
       loading={loading || vaccinesLoading}
-      submitText="Adicionar Lote"
-      cancelText="Cancelar"
+      submitText="Add Batch"
+      cancelText="Cancel"
       triggerElement={
         <Button className="bg-amber-600 text-white hover:bg-amber-700">
           <Plus className="mr-1 h-4 w-4" />
-          Novo Lote
+          New Batch
         </Button>
       }
     >
@@ -142,14 +141,14 @@ function VaccineCreateModal({ onSuccess }) {
         {/* Vaccine Selection */}
         <div>
           <label className="mb-1 block text-sm font-medium text-gray-700">
-            Selecionar Vacina Base <span className="text-red-500">*</span>
+            Select Base Vaccine <span className="text-red-500">*</span>
           </label>
           <Select
             value={formData.baseVaccineId}
             onValueChange={handleVaccineSelect}
           >
             <SelectTrigger>
-              <SelectValue placeholder="Selecione a vacina para criar novo lote" />
+              <SelectValue placeholder="Select the vaccine to create new batch" />
             </SelectTrigger>
             <SelectContent>
               {vaccines.map((vaccine) => (
@@ -157,11 +156,11 @@ function VaccineCreateModal({ onSuccess }) {
                   <div className="flex flex-col">
                     <span className="font-medium">{vaccine.name}</span>
                     <span className="text-sm text-gray-500">
-                      {vaccine.target_disease || "Doença não informada"} •{" "}
+                      {vaccine.target_disease || "Disease not informed"} •{" "}
                       {formatManufacturer(vaccine.manufacturer)}
                     </span>
                     <span className="text-xs text-gray-400">
-                      Lote: {vaccine.batch || "N/A"} • Vence:{" "}
+                      Batch: {vaccine.batch || "N/A"} • Expires:{" "}
                       {formatExpirationDate(vaccine.expiration_date)} •{" "}
                       {vaccine.required_doses || "?"} dose(s)
                     </span>
@@ -179,61 +178,63 @@ function VaccineCreateModal({ onSuccess }) {
         {selectedVaccine && (
           <div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
             <h4 className="mb-3 font-medium text-gray-900">
-              Informações da Vacina Base
+              Base Vaccine Information
             </h4>
             <div className="grid grid-cols-2 gap-3 text-sm">
               <div>
-                <span className="font-medium text-gray-700">Nome:</span>
+                <span className="font-medium text-gray-700">Name:</span>
                 <p className="text-gray-600">{selectedVaccine.name}</p>
               </div>
               <div>
-                <span className="font-medium text-gray-700">Doença Alvo:</span>
+                <span className="font-medium text-gray-700">
+                  Target Disease:
+                </span>
                 <p className="text-gray-600">
-                  {selectedVaccine.target_disease || "Não informado"}
+                  {selectedVaccine.target_disease || "Not informed"}
                 </p>
               </div>
               <div>
-                <span className="font-medium text-gray-700">Fabricante:</span>
+                <span className="font-medium text-gray-700">Manufacturer:</span>
                 <p className="text-gray-600">
                   {formatManufacturer(selectedVaccine.manufacturer)}
                 </p>
               </div>
               <div>
-                <span className="font-medium text-gray-700">Tipo:</span>
+                <span className="font-medium text-gray-700">Type:</span>
                 <p className="text-gray-600">
                   {formatVaccineType(selectedVaccine.type_of_vaccine)}
                 </p>
               </div>
               <div>
                 <span className="font-medium text-gray-700">
-                  Doses Necessárias:
+                  Required Doses:
                 </span>
                 <p className="text-gray-600">
-                  {selectedVaccine.required_doses || "Não informado"}
+                  {selectedVaccine.required_doses || "Not informed"}
                 </p>
               </div>
               {selectedVaccine.dosing_interval > 0 && (
                 <div>
                   <span className="font-medium text-gray-700">
-                    Intervalo entre Doses:
+                    Interval Between Doses:
                   </span>
                   <p className="text-gray-600">
-                    {selectedVaccine.dosing_interval} dias
+                    {selectedVaccine.dosing_interval} days
                   </p>
                 </div>
               )}
               <div className="col-span-2">
-                <span className="font-medium text-gray-700">Lote Atual:</span>
+                <span className="font-medium text-gray-700">
+                  Current Batch:
+                </span>
                 <p className="text-gray-600">
-                  {selectedVaccine.batch || "Não informado"} (vence em{" "}
+                  {selectedVaccine.batch || "Not informed"} (expires on{" "}
                   {formatExpirationDate(selectedVaccine.expiration_date)})
                 </p>
               </div>
               {selectedVaccine.notes && (
                 <div className="col-span-2">
-                  <span className="font-medium text-gray-700">
-                    Observações:
-                  </span>
+                  <span className="font-medium text-gray-700">Notes:</span>
                   <p className="text-xs italic text-gray-600">
                     {selectedVaccine.notes}
                   </p>
@@ -244,17 +245,17 @@ function VaccineCreateModal({ onSuccess }) {
         )}
 
         <FormField
-          label="Número do Novo Lote"
+          label="New Batch Number"
           name="batchNumber"
           value={formData.batchNumber}
           onChange={handleChange}
           error={errors.batchNumber}
-          placeholder="Digite o número do novo lote"
+          placeholder="Enter the new batch number"
           required
         />
 
         <FormField
-          label="Data de Expiração do Novo Lote"
+          label="New Batch Expiration Date"
           name="expirationDate"
           type="date"
           value={formData.expirationDate}
@@ -267,13 +268,13 @@ function VaccineCreateModal({ onSuccess }) {
         />
 
         <FormField
-          label="Observações do Lote"
+          label="Batch Notes"
           name="notes"
           type="textarea"
           value={formData.notes}
           onChange={handleChange}
           error={errors.notes}
-          placeholder="Observações específicas deste lote (opcional)"
+          placeholder="Specific notes for this batch (optional)"
           inputProps={{
             rows: 3,
           }}

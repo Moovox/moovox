@@ -5,7 +5,7 @@ import LoadingState from "../common/LoadingState";
 import MainLayout from "./MainLayout";
 
 /**
- * Container padrão para páginas da aplicação
+ * Standard container for application pages
  */
 function PageContainer({
   title,
@@ -25,7 +25,7 @@ function PageContainer({
           <meta name="description" content={description} />
         </Helmet>
         <MainLayout title={title} className={className}>
-          <LoadingState message={`Carregando ${title.toLowerCase()}...`} />
+          <LoadingState message={`Loading ${title.toLowerCase()}...`} />
         </MainLayout>
       </>
     );
@@ -40,7 +40,7 @@ function PageContainer({
         </Helmet>
         <MainLayout title={title} className={className}>
           <ErrorState
-            title={`Erro ao carregar ${title.toLowerCase()}`}
+            title={`Error loading ${title.toLowerCase()}`}
             message={error}
             onRetry={onRetry}
           />

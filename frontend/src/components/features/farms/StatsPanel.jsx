@@ -2,9 +2,9 @@ import { Building2, MapPin, Tractor, Users } from "lucide-react";
 import React from "react";
 
 /**
- * Painel de estatísticas das fazendas
+ * Farm statistics panel
  * @param {Object} props
- * @param {Object} props.statistics - Dados estatísticos das fazendas
+ * @param {Object} props.statistics - Farm statistical data
  */
 function StatsPanel({ statistics }) {
   const { totalFarms, totalAnimals, totalUsers, totalArea } = statistics;
@@ -13,25 +13,25 @@ function StatsPanel({ statistics }) {
     {
       icon: Building2,
       value: totalFarms,
-      label: "Fazendas Registradas",
+      label: "Registered Farms",
       color: "amber",
     },
     {
       icon: MapPin,
       value: `${totalArea?.toLocaleString() || 0}`,
-      label: "Hectares Totais",
+      label: "Total Hectares",
       color: "blue",
     },
     {
       icon: Tractor,
       value: totalAnimals,
-      label: "Animais Registrados",
+      label: "Registered Animals",
       color: "green",
     },
     {
       icon: Users,
       value: totalUsers,
-      label: "Usuários Vinculados",
+      label: "Linked Users",
       color: "purple",
     },
   ];

@@ -12,7 +12,7 @@ function FormModal({
   triggerText,
   triggerElement,
   submitText = "Cadastrar",
-  cancelText = "Cancelar",
+  cancelText = "Cancel",
   loading = false,
 }) {
   const handleSubmit = (e) => {

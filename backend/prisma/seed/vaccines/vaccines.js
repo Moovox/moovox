@@ -1,5 +1,10 @@
-const prisma = require('../../../src/config/database');
-const { faker, findTypeOfVaccineByName, findManufacturerByName, logError } = require('../utils');
+const prisma = require("../../../src/config/database");
+const {
+  faker,
+  findTypeOfVaccineByName,
+  findManufacturerByName,
+  logError,
+} = require("../utils");
 
 async function createVaccines() {
   try {
@@ -41,9 +46,10 @@ async function createVaccines() {
       data: vaccines,
     });
 
-    console.log("✅ Vacinas criadas:", vaccines.map(v => v.name));
+    console.log(`     ✅ ${vaccines.length} vacinas criadas`);
   } catch (error) {
     logError("createVaccines", error);
+    throw error;
   }
 }
 

@@ -1,5 +1,5 @@
-const prisma = require('../../../src/config/database')
-const { logError } = require('../utils');
+const prisma = require("../../../src/config/database");
+const { logError } = require("../utils");
 
 async function createSpecies() {
   try {
@@ -49,10 +49,11 @@ async function createSpecies() {
     ];
 
     await prisma.species.createMany({ data: speciesData });
+    console.log(`   ✅ ${speciesData.length} espécies criadas`);
   } catch (error) {
-    logError("createSpecies", error)
+    logError("createSpecies", error);
+    throw error;
   }
 }
 
-
-module.exports = createSpecies
+module.exports = createSpecies;

@@ -8,10 +8,8 @@
     "prod": "cross-env NODE_ENV=production node src/server.js",
     "use:local": "node scripts/use-local-db.js && npm run dev",
     "use:azure": "node scripts/use-azure-db.js && npm run prod",
-    "use:local:check": "node scripts/use-local-db.js && node scripts/check-connection.js",
-    "use:azure:check": "node scripts/use-azure-db.js && node scripts/check-connection.js",
-    "env:example": "node scripts/create-env-example.js",
-    "env:organize": "node scripts/organize-env-files.js"
+    "seed": "node prisma/seed/seed.js",
+    "seed:dev": "NODE_ENV=development node prisma/seed/seed.js"
   },
   "prisma": {
     "seed": "node prisma/seed/seed.js"

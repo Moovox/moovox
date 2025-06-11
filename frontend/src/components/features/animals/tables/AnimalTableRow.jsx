@@ -5,22 +5,42 @@ import { TableCell, TableRow } from "../../../ui/table";
 
 const statusMap = {
   healthy: {
-    label: "Saudável",
+    label: "Healthy",
     className: "bg-green-100 text-green-800 border-green-200",
     dot: "bg-green-500",
   },
   in_treatment: {
-    label: "Em Tratamento",
+    label: "In Treatment",
     className: "bg-yellow-100 text-yellow-800 border-yellow-200",
     dot: "bg-yellow-500",
   },
   recovering: {
-    label: "Recuperando",
+    label: "Recovering",
     className: "bg-blue-100 text-blue-800 border-blue-200",
     dot: "bg-blue-500",
   },
   sick: {
-    label: "Doente",
+    label: "Sick",
+    className: "bg-red-100 text-red-800 border-red-200",
+    dot: "bg-red-500",
+  },
+  HEALTHY: {
+    label: "Healthy",
+    className: "bg-green-100 text-green-800 border-green-200",
+    dot: "bg-green-500",
+  },
+  GOOD: {
+    label: "Good",
+    className: "bg-green-100 text-green-800 border-green-200",
+    dot: "bg-green-500",
+  },
+  FAIR: {
+    label: "Fair",
+    className: "bg-yellow-100 text-yellow-800 border-yellow-200",
+    dot: "bg-yellow-500",
+  },
+  POOR: {
+    label: "Poor",
     className: "bg-red-100 text-red-800 border-red-200",
     dot: "bg-red-500",
   },
@@ -53,13 +73,11 @@ const AnimalTableRow = ({
       </TableCell>
       {!isMobile && (
         <TableCell className="font-medium text-gray-700">
-          {animal.name || (
-            <span className="italic text-gray-400">Sem nome</span>
-          )}
+          {animal.name || <span className="italic text-gray-400">No name</span>}
         </TableCell>
       )}
       <TableCell>
-        <span className="inline-flex items-center gap-1.5 rounded-full border border-blue-200 bg-blue-50 px-2.5 py-1 text-xs font-medium capitalize text-blue-700">
+        <span className="inline-flex items-center gap-1.5 rounded-full border border-blue-200 bg-blue-50 px-2.5 py-1 text-xs font-medium text-blue-700">
           {typeof animal.species === "string"
             ? animal.species
             : String(animal.species || "")}
@@ -68,7 +86,7 @@ const AnimalTableRow = ({
       {!isMobile && (
         <TableCell className="text-gray-600">
           {animal.birthDate ? (
-            new Date(animal.birthDate).toLocaleDateString("pt-BR")
+            new Date(animal.birthDate).toLocaleDateString("en-US")
           ) : (
             <span className="text-gray-400">-</span>
           )}
@@ -92,7 +110,7 @@ const AnimalTableRow = ({
           ></div>
           {(animal.status && statusMap[animal.status]?.label) ||
             animal.status ||
-            "Desconhecido"}
+            "Unknown"}
         </span>
       </TableCell>
       <TableCell>
@@ -102,7 +120,7 @@ const AnimalTableRow = ({
             variant="ghost"
             className="h-8 w-8 p-0 text-blue-600 transition-all duration-200 hover:bg-blue-100 hover:text-blue-700"
             onClick={() => onEdit(animal)}
-            title="Editar animal"
+            title="Edit animal"
           >
             <Edit className="h-4 w-4" />
           </Button>
@@ -111,7 +129,7 @@ const AnimalTableRow = ({
             variant="ghost"
             className="h-8 w-8 p-0 text-red-500 transition-all duration-200 hover:bg-red-100 hover:text-red-600"
             onClick={() => onDelete(animal.id)}
-            title="Excluir animal"
+            title="Delete animal"
             disabled={deletingAnimalId === animal.id}
           >
             {deletingAnimalId === animal.id ? (

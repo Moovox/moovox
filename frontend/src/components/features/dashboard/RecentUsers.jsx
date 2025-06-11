@@ -47,7 +47,7 @@ const RecentUsers = ({ ultimosUsuarios }) => {
                         <span className="text-xs text-gray-400">
                           📅{" "}
                           {new Date(user.dataCadastro).toLocaleDateString(
-                            "pt-BR",
+                            "en-US",
                           )}
                         </span>
                       </div>

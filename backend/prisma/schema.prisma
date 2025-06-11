@@ -11,106 +11,157 @@ datasource db {
 
 model Farms {
   id          Int       @id @default(autoincrement())
-  name        String
+  name        String    @db.NVarChar(255)
   created_at  DateTime  @default(now())
   updated_at  DateTime  @updatedAt
-  description String?   @default("")
-  location    String?   @default("")
+  description String?   @default("") @db.NText
+  location    String?   @default("") @db.NVarChar(500)
   size        Float?    @default(0)
+  latitude    Float?
+  longitude   Float?
+  active      Boolean   @default(true)
   animal      Animals[]
   user        Users[]
+
+  @@map("farms")
 }
 
 model Users {
   id            Int            @id @default(autoincrement())
-  name          String
-  email         String         @unique
-  password      String
-  profile_photo String?
-  role          String
+  name          String         @db.NVarChar(255)
+  email         String         @unique @db.NVarChar(320)
+  password      String         @db.NVarChar(255)
+  profile_photo String?        @db.NVarChar(500)
+  role          String         @db.NVarChar(50)
   farm_id       Int
+  active        Boolean        @default(true)
+  phone         String?        @db.NVarChar(20)
+  address       String?        @db.NText
   created_at    DateTime       @default(now())
   updated_at    DateTime       @updatedAt
   farmhand      Farmhands?
-  farm          Farms          @relation(fields: [farm_id], references: [id])
+  farm          Farms          @relation(fields: [farm_id], references: [id], onDelete: Cascade)
   veterinary    Veterinarians?
 
   @@index([farm_id])
+  @@index([email])
+  @@map("users")
 }
 
 model Farmhands {
-  id      Int   @id @default(autoincrement())
-  user_id Int   @unique
-  user    Users @relation(fields: [user_id], references: [id])
+  id         Int      @id @default(autoincrement())
+  user_id    Int      @unique
+  hire_date  DateTime @default(now())
+  salary     Float?
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  user       Users    @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@map("farmhands")
 }
 
 model Veterinarians {
-  id          Int            @id @default(autoincrement())
-  user_id     Int            @unique
-  application Applications[]
-  user        Users          @relation(fields: [user_id], references: [id])
+  id               Int            @id @default(autoincrement())
+  user_id          Int            @unique
+  license_number   String?        @db.NVarChar(50)
+  specialization   String?        @db.NVarChar(255)
+  years_experience Int?           @default(0)
+  created_at       DateTime       @default(now())
+  updated_at       DateTime       @updatedAt
+  application      Applications[]
+  user             Users          @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@map("veterinarians")
 }
 
 model Animals {
-  id            Int            @id @default(autoincrement())
-  name          String
-  species_id    Int
-  breed_id      Int
-  birth_date    DateTime
-  weight        Float
-  health_status String
-  farm_id       Int
-  created_at    DateTime       @default(now())
-  updated_at    DateTime       @updatedAt
-  breed         Breeds         @relation(fields: [breed_id], references: [id])
-  farm          Farms          @relation(fields: [farm_id], references: [id])
-  species       Species        @relation(fields: [species_id], references: [id], onUpdate: NoAction)
-  application   Applications[]
-  location      Locations[]
+  id              Int            @id @default(autoincrement())
+  name            String         @db.NVarChar(255)
+  species_id      Int
+  breed_id        Int
+  birth_date      DateTime
+  weight          Float          @default(0)
+  health_status   String         @default("HEALTHY") @db.NVarChar(50)
+  gender          String?        @db.NVarChar(10)
+  color           String?        @db.NVarChar(100)
+  tag_number      String?        @unique @db.NVarChar(50)
+  microchip_id    String?        @unique @db.NVarChar(50)
+  mother_id       Int?
+  father_id       Int?
+  farm_id         Int
+  active          Boolean        @default(true)
+  notes           String?        @db.NText
+  created_at      DateTime       @default(now())
+  updated_at      DateTime       @updatedAt
+  breed           Breeds         @relation(fields: [breed_id], references: [id])
+  farm            Farms          @relation(fields: [farm_id], references: [id], onDelete: Cascade)
+  species         Species        @relation(fields: [species_id], references: [id], onUpdate: NoAction)
+  mother          Animals?       @relation("MotherChildren", fields: [mother_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  father          Animals?       @relation("FatherChildren", fields: [father_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  mother_children Animals[]      @relation("MotherChildren")
+  father_children Animals[]      @relation("FatherChildren")
+  application     Applications[]
+  location        Locations[]
 
   @@index([species_id])
   @@index([breed_id])
   @@index([farm_id])
+  @@index([tag_number])
+  @@index([health_status])
+  @@map("animals")
 }
 
 model Species {
   id               Int       @id @default(autoincrement())
-  name             String
-  description      String
-  average_lifespan Int?
-  gestation_period Int?
+  name             String    @unique @db.NVarChar(100)
+  description      String    @db.NText
+  average_lifespan Int?      @default(0)
+  gestation_period Int?      @default(0)
+  min_weight       Float?    @default(0)
+  max_weight       Float?    @default(0)
+  active           Boolean   @default(true)
   created_at       DateTime  @default(now())
   updated_at       DateTime  @updatedAt
   animal           Animals[]
   breed            Breeds[]
+
+  @@map("species")
 }
 
 model Breeds {
   id             Int       @id @default(autoincrement())
-  name           String
-  description    String
+  name           String    @db.NVarChar(255)
+  description    String    @db.NText
   species_id     Int
-  average_weight Float?
-  productivity   String?
+  average_weight Float?    @default(0)
+  productivity   String?   @db.NVarChar(100)
+  origin_country String?   @db.NVarChar(100)
+  active         Boolean   @default(true)
   created_at     DateTime  @default(now())
   updated_at     DateTime  @updatedAt
   animal         Animals[]
-  species        Species   @relation(fields: [species_id], references: [id])
+  species        Species   @relation(fields: [species_id], references: [id], onDelete: Cascade)
 
   @@index([species_id])
+  @@index([name])
+  @@map("breeds")
 }
 
 model Vaccines {
   id                 Int               @id @default(autoincrement())
-  name               String
-  target_disease     String
+  name               String            @db.NVarChar(255)
+  target_disease     String            @db.NVarChar(255)
   manufacturer_id    Int
-  batch              String
+  batch              String            @db.NVarChar(100)
   expiration_date    DateTime
-  required_doses     Int
+  required_doses     Int               @default(1)
   dosing_interval    Int?              @default(0)
   type_of_vaccine_id Int
-  notes              String
+  notes              String            @db.NText
+  cost_per_dose      Float?            @default(0)
+  storage_temp_min   Float?
+  storage_temp_max   Float?
+  active             Boolean           @default(true)
   created_at         DateTime          @default(now())
   updated_at         DateTime          @updatedAt
   applications       Applications[]
@@ -119,27 +170,39 @@ model Vaccines {
 
   @@index([manufacturer_id])
   @@index([type_of_vaccine_id])
+  @@index([expiration_date])
+  @@map("vaccines")
 }
 
 model Manufacturers {
   id             Int        @id @default(autoincrement())
-  name           String
-  cnpj           String     @unique
-  email          String     @unique
-  phone          String
-  address        String
-  country        String
-  license_number String
+  name           String     @db.NVarChar(255)
+  cnpj           String     @unique @db.NVarChar(18)
+  email          String     @unique @db.NVarChar(320)
+  phone          String     @db.NVarChar(20)
+  address        String     @db.NText
+  country        String     @db.NVarChar(100)
+  license_number String     @db.NVarChar(100)
+  website        String?    @db.NVarChar(500)
+  active         Boolean    @default(true)
   created_at     DateTime   @default(now())
   updated_at     DateTime   @updatedAt
   vaccines       Vaccines[]
+
+  @@map("manufacturers")
 }
 
 model Types_of_Vaccines {
   id          Int        @id @default(autoincrement())
-  name        String
-  description String?
+  name        String     @unique @db.NVarChar(100)
+  description String?    @db.NText
+  category    String?    @db.NVarChar(100)
+  active      Boolean    @default(true)
+  created_at  DateTime   @default(now())
+  updated_at  DateTime   @updatedAt
   vaccines    Vaccines[]
+
+  @@map("types_of_vaccines")
 }
 
 model Applications {
@@ -147,12 +210,18 @@ model Applications {
   animal_id                  Int
   vaccine_id                 Int
   veterinary_id              Int
-  application_date           DateTime
+  application_date           DateTime      @default(now())
   next_application_date      DateTime?
-  status_vaccine_application String
+  status_vaccine_application String        @default("COMPLETED") @db.NVarChar(50)
+  dose_number                Int           @default(1)
+  application_site           String?       @db.NVarChar(100)
+  batch_used                 String?       @db.NVarChar(100)
+  adverse_reaction           String?       @db.NText
+  cost                       Float?        @default(0)
+  notes                      String?       @db.NText
   created_at                 DateTime      @default(now())
   updated_at                 DateTime      @updatedAt
-  animal                     Animals       @relation(fields: [animal_id], references: [id])
+  animal                     Animals       @relation(fields: [animal_id], references: [id], onDelete: Cascade)
   vaccine                    Vaccines      @relation(fields: [vaccine_id], references: [id])
   veterinary                 Veterinarians @relation(fields: [veterinary_id], references: [id], onUpdate: NoAction)
 
@@ -160,6 +229,8 @@ model Applications {
   @@index([vaccine_id])
   @@index([veterinary_id])
   @@index([application_date])
+  @@index([status_vaccine_application])
+  @@map("applications")
 }
 
 model Locations {
@@ -167,11 +238,20 @@ model Locations {
   animal_id   Int
   latitude    Float
   longitude   Float
-  captured_at DateTime
+  altitude    Float?   @default(0)
+  accuracy    Float?   @default(0)
+  speed       Float?   @default(0)
+  captured_at DateTime @default(now())
+  device_id   String?  @db.NVarChar(100)
+  battery     Int?     @default(100)
+  temperature Float?
+  humidity    Float?
   created_at  DateTime @default(now())
   updated_at  DateTime @updatedAt
-  animal      Animals  @relation(fields: [animal_id], references: [id])
+  animal      Animals  @relation(fields: [animal_id], references: [id], onDelete: Cascade)
 
   @@index([animal_id])
   @@index([captured_at])
+  @@index([latitude, longitude])
+  @@map("locations")
 }

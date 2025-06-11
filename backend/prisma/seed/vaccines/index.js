@@ -1,9 +1,9 @@
-const createTypesOfVaccines = require('./types');
-const createManufacturer = require('./manufacturers');
-const createVaccines = require('./vaccines');
+const createTypesOfVaccines = require("./types");
+const createManufacturers = require("./manufacturers");
+const createVaccines = require("./vaccines");
 
 module.exports = {
-    createTypesOfVaccines,
-    createManufacturer,
-    createVaccines
-}
+  createTypesOfVaccines,
+  createManufacturers,
+  createVaccines,
+};

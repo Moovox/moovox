@@ -1,39 +1,32 @@
-import {
-  AlertCircle,
-  BarChart3,
-  Building2,
-  Calendar,
-  Leaf,
-  MapPin,
-  Ruler,
-  Tractor,
-  Users2,
-  X,
-} from "lucide-react";
+import { AlertCircle, ArrowLeft, Building2, MapPin, X } from "lucide-react";
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 import { farmService } from "../../../services/farmService";
 import { Button } from "../../ui/button";
 import Card, { CardContent } from "../../ui/Card";
 import { useToast } from "../../ui/use-toast";
+import { FarmActivity, FarmLivestock, FarmOverview } from "./details";
 
 /**
- * Componente para exibir detalhes da fazenda
+ * Component to display comprehensive farm details
  * @param {Object} props
- * @param {number|string} props.farmId - ID da fazenda a ser exibida
- * @param {Function} props.onClose - Função para fechar os detalhes
- * @param {boolean} props.isModal - Se deve ser exibido como modal
+ * @param {number|string} props.farmId - ID of the farm to be displayed
+ * @param {Function} props.onClose - Function to close the details
+ * @param {boolean} props.isModal - Whether it should be displayed as a modal
  */
 function FarmDetails({ farmId, onClose, isModal = false }) {
   const [farm, setFarm] = useState(null);
+  const [livestockData, setLivestockData] = useState(null);
+  const [usersData, setUsersData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [activeTab, setActiveTab] = useState("overview");
   const { toast } = useToast();
 
   useEffect(() => {
-    const loadFarm = async () => {
+    const loadFarmData = async () => {
       if (!farmId) {
-        setError("ID da fazenda não fornecido");
+        setError("Farm ID not provided");
         setLoading(false);
         return;
       }
@@ -42,45 +35,80 @@ function FarmDetails({ farmId, onClose, isModal = false }) {
         setLoading(true);
         setError(null);
 
-        const response = await farmService.getFarmById(farmId);
+        // Convert farmId to number if it's a string
+        const numericFarmId =
+          typeof farmId === "string" ? parseInt(farmId, 10) : farmId;
 
-        if (response && response.data) {
-          setFarm(response.data);
+        console.log("Loading farm with ID:", numericFarmId);
+
+        // Load farm basic data
+        const farmData = await farmService.getFarmById(numericFarmId);
+
+        if (farmData) {
+          setFarm(farmData);
+
+          // Load livestock and users data in parallel
+          try {
+            const [livestock, users] = await Promise.all([
+              farmService.getFarmLivestockData(numericFarmId),
+              farmService.getFarmUsersData(numericFarmId),
+            ]);
+
+            setLivestockData(livestock);
+            setUsersData(users);
+
+            // Update farm data with real counts
+            setFarm((prevFarm) => ({
+              ...prevFarm,
+              animalCount: livestock.total,
+              userCount: users.total,
+            }));
+          } catch (dataError) {
+            console.warn("Could not load additional farm data:", dataError);
+            // Use fallback values if detailed data fails
+            setLivestockData({
+              total: farmData.animalCount || 0,
+              categories: [],
+              recentAnimals: [],
+              healthStats: { excellent: 0, good: 0, needsAttention: 0 },
+            });
+            setUsersData({ total: farmData.userCount || 0, users: [] });
+          }
         } else {
-          throw new Error("Falha ao carregar detalhes da fazenda");
+          throw new Error("Failed to load farm details");
         }
       } catch (error) {
         console.error("Error loading farm details:", error);
         setError(
-          error.message || "Ocorreu um erro ao carregar os detalhes da fazenda",
+          error.message || "An error occurred while loading farm details",
         );
 
         toast({
           variant: "destructive",
-          title: "Erro",
-          description: error.message || "Falha ao carregar detalhes da fazenda",
+          title: "Error",
+          description: error.message || "Failed to load farm details",
         });
       } finally {
         setLoading(false);
       }
     };
 
-    loadFarm();
+    loadFarmData();
   }, [farmId, toast]);
 
-  // Função para formatar data em português
+  // Function to format date in English
   const formatDate = (dateString) => {
-    if (!dateString) return "Não disponível";
+    if (!dateString) return "Not available";
 
     try {
       const date = new Date(dateString);
-      return date.toLocaleDateString("pt-BR", {
+      return date.toLocaleDateString("en-US", {
         day: "numeric",
         month: "long",
         year: "numeric",
       });
     } catch {
-      return "Data inválida";
+      return "Invalid date";
     }
   };
 
@@ -89,7 +117,7 @@ function FarmDetails({ farmId, onClose, isModal = false }) {
       <div className="flex h-64 items-center justify-center p-4">
         <div className="flex flex-col items-center">
           <div className="mb-4 h-12 w-12 animate-spin rounded-full border-4 border-amber-200 border-t-amber-600"></div>
-          <p className="text-amber-800">Carregando detalhes da fazenda...</p>
+          <p className="text-amber-800">Loading farm details...</p>
         </div>
       </div>
     );
@@ -103,17 +131,16 @@ function FarmDetails({ farmId, onClose, isModal = false }) {
             <div className="flex flex-col items-center text-center">
               <AlertCircle className="mb-4 h-12 w-12 text-red-500" />
               <h3 className="mb-2 text-lg font-semibold text-red-700">
-                Erro ao Carregar Fazenda
+                Error Loading Farm
               </h3>
-              <p className="mb-4 text-red-600">
-                {error || "Fazenda não encontrada"}
-              </p>
+              <p className="mb-4 text-red-600">{error || "Farm not found"}</p>
               <Button
                 variant="outline"
                 className="border-red-300 text-red-700 hover:bg-red-100"
                 onClick={onClose}
               >
-                Voltar
+                <ArrowLeft className="mr-2 h-4 w-4" />
+                Back
               </Button>
             </div>
           </CardContent>
@@ -122,29 +149,35 @@ function FarmDetails({ farmId, onClose, isModal = false }) {
     );
   }
 
-  // Dados de sustentabilidade (simulados para demonstração)
+  // Sustainability data (simulated for demonstration)
   const sustainabilityData = {
     preservationArea: "45.5",
-    renewableSources: ["Energia Solar", "Biomassa", "Energia Eólica"],
+    renewableSources: ["Solar Energy", "Biomass", "Wind Energy"],
   };
 
   const farmingPractices = [
     {
-      name: "Rotação de Culturas",
-      description: "Alternância de cultivos para manter a fertilidade do solo",
+      name: "Crop Rotation",
+      description: "Alternating crops to maintain soil fertility",
     },
     {
-      name: "Plantio Direto",
-      description: "Minimizando o distúrbio do solo para prevenir erosão",
+      name: "No-Till Farming",
+      description: "Minimizing soil disturbance to prevent erosion",
     },
     {
-      name: "Agricultura de Precisão",
-      description: "Usando tecnologia para otimizar o uso de recursos",
+      name: "Precision Agriculture",
+      description: "Using technology to optimize resource usage",
     },
   ];
 
-  // Formatar datas para exibição
+  // Format dates for display
   const formattedCreationDate = formatDate(farm.createdAt);
+
+  const tabs = [
+    { id: "overview", label: "Overview", icon: Building2 },
+    { id: "livestock", label: "Livestock", icon: Building2 },
+    { id: "activity", label: "Activity", icon: Building2 },
+  ];
 
   const containerClass = isModal
     ? "max-h-[80vh] overflow-y-auto"
@@ -152,171 +185,97 @@ function FarmDetails({ farmId, onClose, isModal = false }) {
 
   return (
     <div className={containerClass}>
-      {/* Cabeçalho */}
-      <div className="mb-6 flex items-center justify-between">
-        <div>
-          <h2 className="text-2xl font-bold text-amber-900">{farm.name}</h2>
-          <div className="flex items-center text-amber-700">
-            <MapPin className="mr-1 h-4 w-4" />
-            <span className="text-sm">{farm.location}</span>
+      {/* Enhanced Header */}
+      <div className="relative overflow-hidden rounded-xl bg-gradient-to-r from-amber-600 via-orange-500 to-amber-700 p-6 text-white shadow-lg">
+        <div className="absolute inset-0 bg-black/10"></div>
+        <div className="relative z-10">
+          <div className="mb-4 flex items-start justify-between">
+            <div className="flex-1">
+              <div className="mb-2 flex items-center">
+                <Building2 className="mr-3 h-8 w-8" />
+                <h1 className="text-3xl font-bold">{farm.name}</h1>
+              </div>
+              <div className="flex items-center text-orange-100">
+                <MapPin className="mr-2 h-5 w-5" />
+                <span className="text-lg">{farm.location}</span>
+              </div>
+              {farm.description && (
+                <p className="mt-3 max-w-2xl text-sm leading-relaxed text-orange-100">
+                  {farm.description}
+                </p>
+              )}
+            </div>
+            <Button
+              variant="ghost"
+              size={isModal ? "sm" : "default"}
+              className="border-white/30 text-white hover:bg-white/20"
+              onClick={onClose}
+            >
+              {isModal ? (
+                <X className="h-5 w-5" />
+              ) : (
+                <>
+                  <ArrowLeft className="mr-2 h-4 w-4" />
+                  Back to Farms
+                </>
+              )}
+            </Button>
+          </div>
+
+          {/* Quick Stats - Updated with real data */}
+          <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
+            <div className="rounded-lg bg-white/20 p-4 backdrop-blur-sm">
+              <p className="text-sm text-orange-100">Total Animals</p>
+              <p className="text-2xl font-bold">
+                {livestockData?.total ?? farm.animalCount ?? 0}
+              </p>
+            </div>
+            <div className="rounded-lg bg-white/20 p-4 backdrop-blur-sm">
+              <p className="text-sm text-orange-100">Farm Size</p>
+              <p className="text-2xl font-bold">{farm.size} ha</p>
+            </div>
+            <div className="rounded-lg bg-white/20 p-4 backdrop-blur-sm">
+              <p className="text-sm text-orange-100">Active Users</p>
+              <p className="text-2xl font-bold">
+                {usersData?.total ?? farm.userCount ?? 0}
+              </p>
+            </div>
           </div>
         </div>
-        <Button
-          variant="outline"
-          size={isModal ? "sm" : "default"}
-          className="border-amber-300 text-amber-800 hover:bg-amber-50"
-          onClick={onClose}
-        >
-          {isModal ? <X className="h-4 w-4" /> : "Voltar à Lista"}
-        </Button>
       </div>
 
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-        {/* Card de Informações Básicas */}
-        <Card className="border-amber-200">
-          <CardContent className="p-4">
-            <div className="mb-4 flex items-center">
-              <Building2 className="mr-2 h-5 w-5 text-amber-700" />
-              <h3 className="text-lg font-semibold text-amber-900">
-                Informações da Fazenda
-              </h3>
-            </div>
+      {/* Enhanced Tab Navigation */}
+      <div className="rounded-lg border-b border-gray-200 bg-white shadow-sm">
+        <nav className="flex space-x-8 px-6">
+          {tabs.map((tab) => {
+            const Icon = tab.icon;
+            return (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`flex items-center border-b-2 px-1 py-4 text-sm font-medium transition-colors ${
+                  activeTab === tab.id
+                    ? "border-amber-500 text-amber-600"
+                    : "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700"
+                }`}
+              >
+                <Icon className="mr-2 h-5 w-5" />
+                {tab.label}
+              </button>
+            );
+          })}
+        </nav>
+      </div>
 
-            <div className="space-y-3">
-              <div className="flex justify-between">
-                <span className="text-amber-800">ID:</span>
-                <span className="font-medium">{farm.id}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-amber-800">Tamanho:</span>
-                <div className="flex items-center">
-                  <Ruler className="mr-1 h-4 w-4 text-amber-600" />
-                  <span className="font-medium">{farm.size} hectares</span>
-                </div>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-amber-800">Criado em:</span>
-                <div className="flex items-center">
-                  <Calendar className="mr-1 h-4 w-4 text-amber-600" />
-                  <span className="font-medium">{formattedCreationDate}</span>
-                </div>
-              </div>
-            </div>
-
-            {farm.description && (
-              <div className="mt-4 border-t border-amber-100 pt-4">
-                <h4 className="mb-2 text-sm font-medium text-amber-800">
-                  Descrição
-                </h4>
-                <p className="text-sm text-gray-700">{farm.description}</p>
-              </div>
-            )}
-          </CardContent>
-        </Card>
-
-        {/* Card de Estatísticas de Animais */}
-        <Card className="border-green-200 bg-green-50">
-          <CardContent className="p-4">
-            <div className="mb-4 flex items-center">
-              <Tractor className="mr-2 h-5 w-5 text-green-700" />
-              <h3 className="text-lg font-semibold text-green-900">
-                Estatísticas de Animais
-              </h3>
-            </div>
-
-            <div className="space-y-3">
-              <div className="flex justify-between">
-                <span className="text-green-800">Total de Animais:</span>
-                <span className="font-medium text-green-900">
-                  {farm.animalCount || 0}
-                </span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-green-800">Usuários Vinculados:</span>
-                <span className="font-medium text-green-900">
-                  {farm.userCount || 0}
-                </span>
-              </div>
-            </div>
-
-            <div className="mt-4 rounded-md bg-green-100 p-3">
-              <div className="flex items-center">
-                <BarChart3 className="mr-2 h-4 w-4 text-green-600" />
-                <span className="text-sm font-medium text-green-800">
-                  Densidade:{" "}
-                  {farm.animalCount && farm.size
-                    ? (farm.animalCount / farm.size).toFixed(2)
-                    : "0"}{" "}
-                  animais/hectare
-                </span>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Card de Sustentabilidade */}
-        <Card className="border-blue-200 bg-blue-50">
-          <CardContent className="p-4">
-            <div className="mb-4 flex items-center">
-              <Leaf className="mr-2 h-5 w-5 text-blue-700" />
-              <h3 className="text-lg font-semibold text-blue-900">
-                Sustentabilidade
-              </h3>
-            </div>
-
-            <div className="space-y-3">
-              <div>
-                <span className="text-sm font-medium text-blue-800">
-                  Área de Preservação:
-                </span>
-                <p className="text-sm text-blue-700">
-                  {sustainabilityData.preservationArea}% da propriedade
-                </p>
-              </div>
-
-              <div>
-                <span className="text-sm font-medium text-blue-800">
-                  Fontes Renováveis:
-                </span>
-                <ul className="mt-1 text-sm text-blue-700">
-                  {sustainabilityData.renewableSources.map((source, index) => (
-                    <li key={index} className="flex items-center">
-                      <span className="mr-1">•</span> {source}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Card de Práticas Agrícolas */}
-        <Card className="border-purple-200 bg-purple-50">
-          <CardContent className="p-4">
-            <div className="mb-4 flex items-center">
-              <Users2 className="mr-2 h-5 w-5 text-purple-700" />
-              <h3 className="text-lg font-semibold text-purple-900">
-                Práticas Agrícolas
-              </h3>
-            </div>
-
-            <div className="space-y-3">
-              {farmingPractices.map((practice, index) => (
-                <div
-                  key={index}
-                  className="border-b border-purple-100 pb-2 last:border-b-0"
-                >
-                  <h4 className="text-sm font-medium text-purple-800">
-                    {practice.name}
-                  </h4>
-                  <p className="text-xs text-purple-600">
-                    {practice.description}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+      {/* Tab Content - Pass data to child components */}
+      <div className="mt-6">
+        {activeTab === "overview" && (
+          <FarmOverview farm={farm} usersData={usersData} />
+        )}
+        {activeTab === "livestock" && (
+          <FarmLivestock farm={farm} livestockData={livestockData} />
+        )}
+        {activeTab === "activity" && <FarmActivity farm={farm} />}
       </div>
     </div>
   );

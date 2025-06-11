@@ -2,7 +2,12 @@ import { ChevronDown } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
 import { cn } from "../../utils/cn";
 
-export const Select = ({ value, onValueChange, children }) => {
+export const Select = ({
+  value,
+  onValueChange,
+  children,
+  disabled = false,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const selectRef = useRef(null);
 
@@ -18,7 +23,9 @@ export const Select = ({ value, onValueChange, children }) => {
   }, []);
 
   const handleValueChange = (newValue) => {
-    onValueChange(newValue);
+    if (onValueChange) {
+      onValueChange(newValue);
+    }
     setIsOpen(false);
   };
 
@@ -26,10 +33,11 @@ export const Select = ({ value, onValueChange, children }) => {
     <div ref={selectRef} className="relative">
       {React.Children.map(children, (child) =>
         React.cloneElement(child, {
-          isOpen,
+          isOpen: !disabled && isOpen,
           setIsOpen,
           value,
           onValueChange: handleValueChange,
+          disabled,
         }),
       )}
     </div>
@@ -42,16 +50,19 @@ export const SelectTrigger = ({
   isOpen,
   setIsOpen,
   value,
+  disabled,
   ...props
 }) => {
   return (
     <button
       type="button"
-      onClick={() => setIsOpen(!isOpen)}
+      onClick={() => !disabled && setIsOpen(!isOpen)}
       className={cn(
         "flex h-10 w-full items-center justify-between rounded-md border border-gray-300 bg-white px-3 py-2 text-sm ring-offset-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
+        disabled && "cursor-not-allowed bg-gray-50",
         className,
       )}
+      disabled={disabled}
       {...props}
     >
       {children}
@@ -63,9 +74,36 @@ export const SelectTrigger = ({
 };
 
 export const SelectValue = ({ placeholder, value, children }) => {
-  if (value) {
-    // Find the selected item's display text
-    return <span>{value}</span>;
+  // Store the children to find the selected text
+  const [selectedText, setSelectedText] = useState("");
+
+  // Find the text content from children based on value
+  useEffect(() => {
+    if (value && children) {
+      // Flatten all children to handle nested structures
+      const items = React.Children.toArray(children).flat();
+
+      // Find the selected item by value
+      const selectedItem = items.find((child) => {
+        if (!child || !child.props) return false;
+        return (
+          child.props.value === value || child.props.value === value.toString()
+        );
+      });
+
+      if (selectedItem && selectedItem.props && selectedItem.props.children) {
+        setSelectedText(selectedItem.props.children);
+      } else {
+        // Fallback: try to find in parent component or use value directly
+        setSelectedText(value);
+      }
+    } else {
+      setSelectedText("");
+    }
+  }, [value, children]);
+
+  if (value && selectedText) {
+    return <span className="text-gray-900">{selectedText}</span>;
   }
   return <span className="text-gray-500">{placeholder}</span>;
 };
@@ -75,6 +113,7 @@ export const SelectContent = ({
   isOpen,
   onValueChange,
   className,
+  value,
   ...props
 }) => {
   if (!isOpen) return null;
@@ -88,7 +127,7 @@ export const SelectContent = ({
       {...props}
     >
       {React.Children.map(children, (child) =>
-        React.cloneElement(child, { onValueChange }),
+        React.cloneElement(child, { onValueChange, selectedValue: value }),
       )}
     </div>
   );
@@ -98,14 +137,18 @@ export const SelectItem = ({
   value,
   children,
   onValueChange,
+  selectedValue,
   className,
   ...props
 }) => {
+  const isSelected = selectedValue === value;
+
   return (
     <div
-      onClick={() => onValueChange(value)}
+      onClick={() => onValueChange && onValueChange(value)}
       className={cn(
         "relative flex cursor-pointer items-center px-3 py-2 text-sm hover:bg-gray-100 focus:bg-gray-100",
+        isSelected && "bg-blue-50 font-medium text-blue-700",
         className,
       )}
       {...props}

@@ -18,7 +18,7 @@ const MapCard = () => {
   return (
     <Card
       variant="rural"
-      title="Mapa dos Animais"
+      title="Animal Map"
       icon={<MapPin className="h-5 w-5 text-black sm:h-6 sm:w-6" />}
       className="h-[360px] sm:h-[390px] md:h-[490px]"
     >

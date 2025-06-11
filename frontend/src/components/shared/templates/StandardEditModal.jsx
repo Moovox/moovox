@@ -5,19 +5,19 @@ import FormField from "../../common/FormField";
 import FormModal from "../../ui/form-modal";
 
 /**
- * Template padrão para modais de edição
+ * Standard template for edit modals
  * @param {Object} props
- * @param {Array} props.fields - Configuração dos campos do formulário
- * @param {Object} props.initialData - Dados iniciais do formulário
- * @param {Function} props.validationSchema - Esquema de validação
- * @param {Function} props.submitHandler - Função de submit
- * @param {Function} props.onSuccess - Callback de sucesso
- * @param {Object} props.item - Item sendo editado
- * @param {boolean} props.open - Se o modal está aberto
- * @param {Function} props.onOpenChange - Função para controlar abertura/fechamento
- * @param {string} props.title - Título do modal
- * @param {Function} props.mapItemToFormData - Função para mapear item para dados do formulário
- * @param {Object} props.options - Opções adicionais
+ * @param {Array} props.fields - Form field configuration
+ * @param {Object} props.initialData - Initial form data
+ * @param {Function} props.validationSchema - Validation schema
+ * @param {Function} props.submitHandler - Submit function
+ * @param {Function} props.onSuccess - Success callback
+ * @param {Object} props.item - Item being edited
+ * @param {boolean} props.open - Whether the modal is open
+ * @param {Function} props.onOpenChange - Function to control opening/closing
+ * @param {string} props.title - Modal title
+ * @param {Function} props.mapItemToFormData - Function to map item to form data
+ * @param {Object} props.options - Additional options
  */
 function StandardEditModal({
   fields = [],
@@ -28,14 +28,14 @@ function StandardEditModal({
   item,
   open,
   onOpenChange,
-  title = "Editar Item",
+  title = "Edit Item",
   mapItemToFormData,
   options = {},
 }) {
   const {
-    successTitle = "Sucesso",
-    successMessage = "Item atualizado com sucesso!",
-    errorTitle = "Erro ao atualizar item",
+    successTitle = "Success",
+    successMessage = "Item updated successfully!",
+    errorTitle = "Error updating item",
   } = options;
 
   const {
@@ -54,11 +54,11 @@ function StandardEditModal({
       successTitle,
       successMessage,
       errorTitle,
-      resetOnClose: false, // Não resetar automaticamente em modais de edição
+      resetOnClose: false, // Don't reset automatically in edit modals
     },
   );
 
-  // Atualizar dados do formulário quando o item mudar
+  // Update form data when item changes
   useEffect(() => {
     if (item && open) {
       const mappedData = mapItemToFormData ? mapItemToFormData(item) : item;
@@ -76,7 +76,7 @@ function StandardEditModal({
         await onSuccess();
       }
     } catch (error) {
-      // Erro já tratado no hook
+      // Error already handled in hook
     }
   };
 
@@ -87,8 +87,8 @@ function StandardEditModal({
       onOpenChange={onOpenChange}
       onSubmit={onSubmitSuccess}
       loading={loading}
-      submitText="Salvar"
-      cancelText="Cancelar"
+      submitText="Save"
+      cancelText="Cancel"
     >
       <div className="flex flex-col gap-4">
         {fields.map((field) => (

@@ -8,7 +8,7 @@ const AnimalTelemetry = ({ telemetria }) => {
     animal: telemetria?.animal || "Boi da Silva",
     temperature: "38.5°C",
     heartRate: "72 bpm",
-    lastUpdate: new Date().toLocaleString("pt-BR"),
+    lastUpdate: new Date().toLocaleString("en-US"),
     status: "normal", // normal, alert, critical
   };
 
@@ -38,7 +38,7 @@ const AnimalTelemetry = ({ telemetria }) => {
     <div>
       <Card
         variant="rural"
-        title="Monitor de Sinais Vitais"
+        title="Animal Telemetry"
         icon={<Activity className="h-5 w-5 text-black sm:h-6 sm:w-6" />}
         className="h-[240px] transform-gpu sm:h-[280px] md:h-[400px]"
       >

@@ -26,8 +26,8 @@ const PaginationInfo = ({
       {totalItems > 0 && (
         <div className="mt-4 text-center">
           <p className="inline-block rounded-lg border border-gray-100 bg-white px-4 py-2 text-sm text-gray-500 shadow-sm">
-            Exibindo {(currentPage - 1) * itemsPerPage + 1} a{" "}
-            {Math.min(currentPage * itemsPerPage, totalItems)} de{" "}
+            Showing {(currentPage - 1) * itemsPerPage + 1} to{" "}
+            {Math.min(currentPage * itemsPerPage, totalItems)} of{" "}
             <span className="font-semibold text-amber-600">{totalItems}</span>{" "}
             {itemName}
           </p>

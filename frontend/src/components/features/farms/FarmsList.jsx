@@ -17,10 +17,10 @@ function FarmsList({
       <div className="rounded-xl bg-white p-8 text-center shadow-sm">
         <BuildingIcon className="mx-auto mb-4 h-12 w-12 text-amber-200" />
         <h3 className="mb-2 text-lg font-semibold text-amber-900">
-          Nenhuma Fazenda Encontrada
+          No Farms Found
         </h3>
         <p className="mb-6 text-gray-600">
-          Você ainda não tem fazendas registradas.
+          You don't have any registered farms yet.
         </p>
         <FarmCreateModal onSuccess={onRefresh} />
       </div>

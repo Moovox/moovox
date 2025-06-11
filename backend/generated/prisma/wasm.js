@@ -128,7 +128,10 @@ exports.Prisma.FarmsScalarFieldEnum = {
   updated_at: 'updated_at',
   description: 'description',
   location: 'location',
-  size: 'size'
+  size: 'size',
+  latitude: 'latitude',
+  longitude: 'longitude',
+  active: 'active'
 };
 
 exports.Prisma.UsersScalarFieldEnum = {
@@ -139,18 +142,30 @@ exports.Prisma.UsersScalarFieldEnum = {
   profile_photo: 'profile_photo',
   role: 'role',
   farm_id: 'farm_id',
+  active: 'active',
+  phone: 'phone',
+  address: 'address',
   created_at: 'created_at',
   updated_at: 'updated_at'
 };
 
 exports.Prisma.FarmhandsScalarFieldEnum = {
   id: 'id',
-  user_id: 'user_id'
+  user_id: 'user_id',
+  hire_date: 'hire_date',
+  salary: 'salary',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
 };
 
 exports.Prisma.VeterinariansScalarFieldEnum = {
   id: 'id',
-  user_id: 'user_id'
+  user_id: 'user_id',
+  license_number: 'license_number',
+  specialization: 'specialization',
+  years_experience: 'years_experience',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
 };
 
 exports.Prisma.AnimalsScalarFieldEnum = {
@@ -161,7 +176,15 @@ exports.Prisma.AnimalsScalarFieldEnum = {
   birth_date: 'birth_date',
   weight: 'weight',
   health_status: 'health_status',
+  gender: 'gender',
+  color: 'color',
+  tag_number: 'tag_number',
+  microchip_id: 'microchip_id',
+  mother_id: 'mother_id',
+  father_id: 'father_id',
   farm_id: 'farm_id',
+  active: 'active',
+  notes: 'notes',
   created_at: 'created_at',
   updated_at: 'updated_at'
 };
@@ -172,6 +195,9 @@ exports.Prisma.SpeciesScalarFieldEnum = {
   description: 'description',
   average_lifespan: 'average_lifespan',
   gestation_period: 'gestation_period',
+  min_weight: 'min_weight',
+  max_weight: 'max_weight',
+  active: 'active',
   created_at: 'created_at',
   updated_at: 'updated_at'
 };
@@ -183,6 +209,8 @@ exports.Prisma.BreedsScalarFieldEnum = {
   species_id: 'species_id',
   average_weight: 'average_weight',
   productivity: 'productivity',
+  origin_country: 'origin_country',
+  active: 'active',
   created_at: 'created_at',
   updated_at: 'updated_at'
 };
@@ -198,6 +226,10 @@ exports.Prisma.VaccinesScalarFieldEnum = {
   dosing_interval: 'dosing_interval',
   type_of_vaccine_id: 'type_of_vaccine_id',
   notes: 'notes',
+  cost_per_dose: 'cost_per_dose',
+  storage_temp_min: 'storage_temp_min',
+  storage_temp_max: 'storage_temp_max',
+  active: 'active',
   created_at: 'created_at',
   updated_at: 'updated_at'
 };
@@ -211,6 +243,8 @@ exports.Prisma.ManufacturersScalarFieldEnum = {
   address: 'address',
   country: 'country',
   license_number: 'license_number',
+  website: 'website',
+  active: 'active',
   created_at: 'created_at',
   updated_at: 'updated_at'
 };
@@ -218,7 +252,11 @@ exports.Prisma.ManufacturersScalarFieldEnum = {
 exports.Prisma.Types_of_VaccinesScalarFieldEnum = {
   id: 'id',
   name: 'name',
-  description: 'description'
+  description: 'description',
+  category: 'category',
+  active: 'active',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
 };
 
 exports.Prisma.ApplicationsScalarFieldEnum = {
@@ -229,6 +267,12 @@ exports.Prisma.ApplicationsScalarFieldEnum = {
   application_date: 'application_date',
   next_application_date: 'next_application_date',
   status_vaccine_application: 'status_vaccine_application',
+  dose_number: 'dose_number',
+  application_site: 'application_site',
+  batch_used: 'batch_used',
+  adverse_reaction: 'adverse_reaction',
+  cost: 'cost',
+  notes: 'notes',
   created_at: 'created_at',
   updated_at: 'updated_at'
 };
@@ -238,7 +282,14 @@ exports.Prisma.LocationsScalarFieldEnum = {
   animal_id: 'animal_id',
   latitude: 'latitude',
   longitude: 'longitude',
+  altitude: 'altitude',
+  accuracy: 'accuracy',
+  speed: 'speed',
   captured_at: 'captured_at',
+  device_id: 'device_id',
+  battery: 'battery',
+  temperature: 'temperature',
+  humidity: 'humidity',
   created_at: 'created_at',
   updated_at: 'updated_at'
 };

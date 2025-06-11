@@ -1,6 +1,6 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import FarmDeleteModal from "../../components/features/farms/FarmDeleteModal";
-import FarmDetailsModal from "../../components/features/farms/FarmDetailsModal";
 import FarmEditModal from "../../components/features/farms/FarmEditModal";
 import FarmsHeader from "../../components/features/farms/FarmsHeader";
 import FarmsList from "../../components/features/farms/FarmsList";
@@ -8,6 +8,7 @@ import PageContainer from "../../components/layout/PageContainer";
 import { useFarms } from "../../hooks/useFarms";
 
 function Farms() {
+  const navigate = useNavigate();
   const {
     farms,
     loading,
@@ -20,10 +21,8 @@ function Farms() {
 
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
-  const [detailsModalOpen, setDetailsModalOpen] = useState(false);
   const [farmToDelete, setFarmToDelete] = useState(null);
   const [farmToEdit, setFarmToEdit] = useState(null);
-  const [farmToView, setFarmToView] = useState(null);
 
   const handleDeleteClick = (farm) => {
     setFarmToDelete(farm);
@@ -36,8 +35,7 @@ function Farms() {
   };
 
   const handleViewDetails = (farm) => {
-    setFarmToView(farm);
-    setDetailsModalOpen(true);
+    navigate(`/farms/${farm.id}`);
   };
 
   const confirmDeleteFarm = async () => {
@@ -52,11 +50,6 @@ function Farms() {
     setEditModalOpen(false);
     setFarmToEdit(null);
     loadFarms();
-  };
-
-  const handleDetailsClose = () => {
-    setDetailsModalOpen(false);
-    setFarmToView(null);
   };
 
   return (
@@ -79,7 +72,7 @@ function Farms() {
         deletingId={deletingId}
       />
 
-      {/* Modal de exclusão */}
+      {/* Delete modal */}
       <FarmDeleteModal
         open={deleteModalOpen}
         onOpenChange={setDeleteModalOpen}
@@ -88,7 +81,7 @@ function Farms() {
         farm={farmToDelete}
       />
 
-      {/* Modal de edição */}
+      {/* Edit modal */}
       {farmToEdit && (
         <FarmEditModal
           open={editModalOpen}
@@ -97,13 +90,6 @@ function Farms() {
           onSuccess={handleEditSuccess}
         />
       )}
-
-      {/* Modal de detalhes */}
-      <FarmDetailsModal
-        farm={farmToView}
-        open={detailsModalOpen}
-        onOpenChange={setDetailsModalOpen}
-      />
     </PageContainer>
   );
 }
