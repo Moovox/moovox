@@ -43,12 +43,25 @@ function AnimalEditModal({ animal, open, onOpenChange, onSuccess }) {
   useEffect(() => {
     if (animal && open) {
       // Map backend data to form fields
-      // Find species ID by name
-      const speciesItem = animalService
-        .getSpecies()
-        .find((s) => s.label.toLowerCase() === animal.species.toLowerCase());
+      // Find species ID by name - try multiple approaches
+      let speciesId = "";
+      const allSpecies = animalService.getSpecies();
 
-      const speciesId = speciesItem ? speciesItem.id.toString() : "";
+      // Try to match by exact name first
+      let speciesItem = allSpecies.find(
+        (s) => s.name === animal.species || s.label === animal.species,
+      );
+
+      // If not found, try case-insensitive matching
+      if (!speciesItem) {
+        speciesItem = allSpecies.find(
+          (s) =>
+            s.name.toLowerCase() === animal.species.toLowerCase() ||
+            s.label.toLowerCase() === animal.species.toLowerCase(),
+        );
+      }
+
+      speciesId = speciesItem ? speciesItem.id.toString() : "";
 
       // Set form data with values from animal
       setFormData({
@@ -67,10 +80,15 @@ function AnimalEditModal({ animal, open, onOpenChange, onSuccess }) {
         const breedList = animalService.getBreedsBySpecies(parseInt(speciesId));
         setBreeds(breedList);
 
-        // Find breed ID by name
-        const breedItem = breedList.find(
-          (b) => b.name.toLowerCase() === animal.breed.toLowerCase(),
-        );
+        // Find breed ID by name - try multiple approaches
+        let breedItem = breedList.find((b) => b.name === animal.breed);
+
+        // If not found, try case-insensitive matching
+        if (!breedItem) {
+          breedItem = breedList.find(
+            (b) => b.name.toLowerCase() === animal.breed.toLowerCase(),
+          );
+        }
 
         if (breedItem) {
           setFormData((prev) => ({
@@ -240,7 +258,13 @@ function AnimalEditModal({ animal, open, onOpenChange, onSuccess }) {
             <SelectTrigger
               className={`${errors.speciesId ? "border-red-500" : "border-amber-200"}`}
             >
-              <SelectValue placeholder="Select species" />
+              <SelectValue placeholder="Select species">
+                {species.map((item) => (
+                  <SelectItem key={item.id} value={item.id.toString()}>
+                    {item.label}
+                  </SelectItem>
+                ))}
+              </SelectValue>
             </SelectTrigger>
             <SelectContent>
               {species.map((item) => (
@@ -269,7 +293,13 @@ function AnimalEditModal({ animal, open, onOpenChange, onSuccess }) {
                 placeholder={
                   formData.speciesId ? "Select breed" : "Select species first"
                 }
-              />
+              >
+                {breeds.map((item) => (
+                  <SelectItem key={item.id} value={item.id.toString()}>
+                    {item.name}
+                  </SelectItem>
+                ))}
+              </SelectValue>
             </SelectTrigger>
             <SelectContent>
               {breeds.map((item) => (
@@ -331,7 +361,13 @@ function AnimalEditModal({ animal, open, onOpenChange, onSuccess }) {
             <SelectTrigger
               className={`${errors.status ? "border-red-500" : "border-amber-200"}`}
             >
-              <SelectValue placeholder="Select status" />
+              <SelectValue placeholder="Select status">
+                {statusOptions.map((option) => (
+                  <SelectItem key={option.value} value={option.value}>
+                    {option.label}
+                  </SelectItem>
+                ))}
+              </SelectValue>
             </SelectTrigger>
             <SelectContent>
               {statusOptions.map((option) => (

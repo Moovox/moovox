@@ -1845,11 +1845,15 @@ export namespace Prisma {
    */
 
   export type AnimalsCountOutputType = {
+    mother_children: number
+    father_children: number
     application: number
     location: number
   }
 
   export type AnimalsCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    mother_children?: boolean | AnimalsCountOutputTypeCountMother_childrenArgs
+    father_children?: boolean | AnimalsCountOutputTypeCountFather_childrenArgs
     application?: boolean | AnimalsCountOutputTypeCountApplicationArgs
     location?: boolean | AnimalsCountOutputTypeCountLocationArgs
   }
@@ -1863,6 +1867,20 @@ export namespace Prisma {
      * Select specific fields to fetch from the AnimalsCountOutputType
      */
     select?: AnimalsCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * AnimalsCountOutputType without action
+   */
+  export type AnimalsCountOutputTypeCountMother_childrenArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AnimalsWhereInput
+  }
+
+  /**
+   * AnimalsCountOutputType without action
+   */
+  export type AnimalsCountOutputTypeCountFather_childrenArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AnimalsWhereInput
   }
 
   /**
@@ -2063,11 +2081,15 @@ export namespace Prisma {
   export type FarmsAvgAggregateOutputType = {
     id: number | null
     size: number | null
+    latitude: number | null
+    longitude: number | null
   }
 
   export type FarmsSumAggregateOutputType = {
     id: number | null
     size: number | null
+    latitude: number | null
+    longitude: number | null
   }
 
   export type FarmsMinAggregateOutputType = {
@@ -2078,6 +2100,9 @@ export namespace Prisma {
     description: string | null
     location: string | null
     size: number | null
+    latitude: number | null
+    longitude: number | null
+    active: boolean | null
   }
 
   export type FarmsMaxAggregateOutputType = {
@@ -2088,6 +2113,9 @@ export namespace Prisma {
     description: string | null
     location: string | null
     size: number | null
+    latitude: number | null
+    longitude: number | null
+    active: boolean | null
   }
 
   export type FarmsCountAggregateOutputType = {
@@ -2098,6 +2126,9 @@ export namespace Prisma {
     description: number
     location: number
     size: number
+    latitude: number
+    longitude: number
+    active: number
     _all: number
   }
 
@@ -2105,11 +2136,15 @@ export namespace Prisma {
   export type FarmsAvgAggregateInputType = {
     id?: true
     size?: true
+    latitude?: true
+    longitude?: true
   }
 
   export type FarmsSumAggregateInputType = {
     id?: true
     size?: true
+    latitude?: true
+    longitude?: true
   }
 
   export type FarmsMinAggregateInputType = {
@@ -2120,6 +2155,9 @@ export namespace Prisma {
     description?: true
     location?: true
     size?: true
+    latitude?: true
+    longitude?: true
+    active?: true
   }
 
   export type FarmsMaxAggregateInputType = {
@@ -2130,6 +2168,9 @@ export namespace Prisma {
     description?: true
     location?: true
     size?: true
+    latitude?: true
+    longitude?: true
+    active?: true
   }
 
   export type FarmsCountAggregateInputType = {
@@ -2140,6 +2181,9 @@ export namespace Prisma {
     description?: true
     location?: true
     size?: true
+    latitude?: true
+    longitude?: true
+    active?: true
     _all?: true
   }
 
@@ -2237,6 +2281,9 @@ export namespace Prisma {
     description: string | null
     location: string | null
     size: number | null
+    latitude: number | null
+    longitude: number | null
+    active: boolean
     _count: FarmsCountAggregateOutputType | null
     _avg: FarmsAvgAggregateOutputType | null
     _sum: FarmsSumAggregateOutputType | null
@@ -2266,6 +2313,9 @@ export namespace Prisma {
     description?: boolean
     location?: boolean
     size?: boolean
+    latitude?: boolean
+    longitude?: boolean
+    active?: boolean
     animal?: boolean | Farms$animalArgs<ExtArgs>
     user?: boolean | Farms$userArgs<ExtArgs>
     _count?: boolean | FarmsCountOutputTypeDefaultArgs<ExtArgs>
@@ -2281,9 +2331,12 @@ export namespace Prisma {
     description?: boolean
     location?: boolean
     size?: boolean
+    latitude?: boolean
+    longitude?: boolean
+    active?: boolean
   }
 
-  export type FarmsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "created_at" | "updated_at" | "description" | "location" | "size", ExtArgs["result"]["farms"]>
+  export type FarmsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "created_at" | "updated_at" | "description" | "location" | "size" | "latitude" | "longitude" | "active", ExtArgs["result"]["farms"]>
   export type FarmsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     animal?: boolean | Farms$animalArgs<ExtArgs>
     user?: boolean | Farms$userArgs<ExtArgs>
@@ -2304,6 +2357,9 @@ export namespace Prisma {
       description: string | null
       location: string | null
       size: number | null
+      latitude: number | null
+      longitude: number | null
+      active: boolean
     }, ExtArgs["result"]["farms"]>
     composites: {}
   }
@@ -2682,6 +2738,9 @@ export namespace Prisma {
     readonly description: FieldRef<"Farms", 'String'>
     readonly location: FieldRef<"Farms", 'String'>
     readonly size: FieldRef<"Farms", 'Float'>
+    readonly latitude: FieldRef<"Farms", 'Float'>
+    readonly longitude: FieldRef<"Farms", 'Float'>
+    readonly active: FieldRef<"Farms", 'Boolean'>
   }
     
 
@@ -3120,6 +3179,9 @@ export namespace Prisma {
     profile_photo: string | null
     role: string | null
     farm_id: number | null
+    active: boolean | null
+    phone: string | null
+    address: string | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -3132,6 +3194,9 @@ export namespace Prisma {
     profile_photo: string | null
     role: string | null
     farm_id: number | null
+    active: boolean | null
+    phone: string | null
+    address: string | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -3144,6 +3209,9 @@ export namespace Prisma {
     profile_photo: number
     role: number
     farm_id: number
+    active: number
+    phone: number
+    address: number
     created_at: number
     updated_at: number
     _all: number
@@ -3168,6 +3236,9 @@ export namespace Prisma {
     profile_photo?: true
     role?: true
     farm_id?: true
+    active?: true
+    phone?: true
+    address?: true
     created_at?: true
     updated_at?: true
   }
@@ -3180,6 +3251,9 @@ export namespace Prisma {
     profile_photo?: true
     role?: true
     farm_id?: true
+    active?: true
+    phone?: true
+    address?: true
     created_at?: true
     updated_at?: true
   }
@@ -3192,6 +3266,9 @@ export namespace Prisma {
     profile_photo?: true
     role?: true
     farm_id?: true
+    active?: true
+    phone?: true
+    address?: true
     created_at?: true
     updated_at?: true
     _all?: true
@@ -3291,6 +3368,9 @@ export namespace Prisma {
     profile_photo: string | null
     role: string
     farm_id: number
+    active: boolean
+    phone: string | null
+    address: string | null
     created_at: Date
     updated_at: Date
     _count: UsersCountAggregateOutputType | null
@@ -3322,6 +3402,9 @@ export namespace Prisma {
     profile_photo?: boolean
     role?: boolean
     farm_id?: boolean
+    active?: boolean
+    phone?: boolean
+    address?: boolean
     created_at?: boolean
     updated_at?: boolean
     farmhand?: boolean | Users$farmhandArgs<ExtArgs>
@@ -3339,11 +3422,14 @@ export namespace Prisma {
     profile_photo?: boolean
     role?: boolean
     farm_id?: boolean
+    active?: boolean
+    phone?: boolean
+    address?: boolean
     created_at?: boolean
     updated_at?: boolean
   }
 
-  export type UsersOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "password" | "profile_photo" | "role" | "farm_id" | "created_at" | "updated_at", ExtArgs["result"]["users"]>
+  export type UsersOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "password" | "profile_photo" | "role" | "farm_id" | "active" | "phone" | "address" | "created_at" | "updated_at", ExtArgs["result"]["users"]>
   export type UsersInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     farmhand?: boolean | Users$farmhandArgs<ExtArgs>
     farm?: boolean | FarmsDefaultArgs<ExtArgs>
@@ -3365,6 +3451,9 @@ export namespace Prisma {
       profile_photo: string | null
       role: string
       farm_id: number
+      active: boolean
+      phone: string | null
+      address: string | null
       created_at: Date
       updated_at: Date
     }, ExtArgs["result"]["users"]>
@@ -3746,6 +3835,9 @@ export namespace Prisma {
     readonly profile_photo: FieldRef<"Users", 'String'>
     readonly role: FieldRef<"Users", 'String'>
     readonly farm_id: FieldRef<"Users", 'Int'>
+    readonly active: FieldRef<"Users", 'Boolean'>
+    readonly phone: FieldRef<"Users", 'String'>
+    readonly address: FieldRef<"Users", 'String'>
     readonly created_at: FieldRef<"Users", 'DateTime'>
     readonly updated_at: FieldRef<"Users", 'DateTime'>
   }
@@ -4161,26 +4253,40 @@ export namespace Prisma {
   export type FarmhandsAvgAggregateOutputType = {
     id: number | null
     user_id: number | null
+    salary: number | null
   }
 
   export type FarmhandsSumAggregateOutputType = {
     id: number | null
     user_id: number | null
+    salary: number | null
   }
 
   export type FarmhandsMinAggregateOutputType = {
     id: number | null
     user_id: number | null
+    hire_date: Date | null
+    salary: number | null
+    created_at: Date | null
+    updated_at: Date | null
   }
 
   export type FarmhandsMaxAggregateOutputType = {
     id: number | null
     user_id: number | null
+    hire_date: Date | null
+    salary: number | null
+    created_at: Date | null
+    updated_at: Date | null
   }
 
   export type FarmhandsCountAggregateOutputType = {
     id: number
     user_id: number
+    hire_date: number
+    salary: number
+    created_at: number
+    updated_at: number
     _all: number
   }
 
@@ -4188,26 +4294,40 @@ export namespace Prisma {
   export type FarmhandsAvgAggregateInputType = {
     id?: true
     user_id?: true
+    salary?: true
   }
 
   export type FarmhandsSumAggregateInputType = {
     id?: true
     user_id?: true
+    salary?: true
   }
 
   export type FarmhandsMinAggregateInputType = {
     id?: true
     user_id?: true
+    hire_date?: true
+    salary?: true
+    created_at?: true
+    updated_at?: true
   }
 
   export type FarmhandsMaxAggregateInputType = {
     id?: true
     user_id?: true
+    hire_date?: true
+    salary?: true
+    created_at?: true
+    updated_at?: true
   }
 
   export type FarmhandsCountAggregateInputType = {
     id?: true
     user_id?: true
+    hire_date?: true
+    salary?: true
+    created_at?: true
+    updated_at?: true
     _all?: true
   }
 
@@ -4300,6 +4420,10 @@ export namespace Prisma {
   export type FarmhandsGroupByOutputType = {
     id: number
     user_id: number
+    hire_date: Date
+    salary: number | null
+    created_at: Date
+    updated_at: Date
     _count: FarmhandsCountAggregateOutputType | null
     _avg: FarmhandsAvgAggregateOutputType | null
     _sum: FarmhandsSumAggregateOutputType | null
@@ -4324,6 +4448,10 @@ export namespace Prisma {
   export type FarmhandsSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     user_id?: boolean
+    hire_date?: boolean
+    salary?: boolean
+    created_at?: boolean
+    updated_at?: boolean
     user?: boolean | UsersDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["farmhands"]>
 
@@ -4332,9 +4460,13 @@ export namespace Prisma {
   export type FarmhandsSelectScalar = {
     id?: boolean
     user_id?: boolean
+    hire_date?: boolean
+    salary?: boolean
+    created_at?: boolean
+    updated_at?: boolean
   }
 
-  export type FarmhandsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "user_id", ExtArgs["result"]["farmhands"]>
+  export type FarmhandsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "user_id" | "hire_date" | "salary" | "created_at" | "updated_at", ExtArgs["result"]["farmhands"]>
   export type FarmhandsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UsersDefaultArgs<ExtArgs>
   }
@@ -4347,6 +4479,10 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: number
       user_id: number
+      hire_date: Date
+      salary: number | null
+      created_at: Date
+      updated_at: Date
     }, ExtArgs["result"]["farmhands"]>
     composites: {}
   }
@@ -4719,6 +4855,10 @@ export namespace Prisma {
   interface FarmhandsFieldRefs {
     readonly id: FieldRef<"Farmhands", 'Int'>
     readonly user_id: FieldRef<"Farmhands", 'Int'>
+    readonly hire_date: FieldRef<"Farmhands", 'DateTime'>
+    readonly salary: FieldRef<"Farmhands", 'Float'>
+    readonly created_at: FieldRef<"Farmhands", 'DateTime'>
+    readonly updated_at: FieldRef<"Farmhands", 'DateTime'>
   }
     
 
@@ -5094,26 +5234,43 @@ export namespace Prisma {
   export type VeterinariansAvgAggregateOutputType = {
     id: number | null
     user_id: number | null
+    years_experience: number | null
   }
 
   export type VeterinariansSumAggregateOutputType = {
     id: number | null
     user_id: number | null
+    years_experience: number | null
   }
 
   export type VeterinariansMinAggregateOutputType = {
     id: number | null
     user_id: number | null
+    license_number: string | null
+    specialization: string | null
+    years_experience: number | null
+    created_at: Date | null
+    updated_at: Date | null
   }
 
   export type VeterinariansMaxAggregateOutputType = {
     id: number | null
     user_id: number | null
+    license_number: string | null
+    specialization: string | null
+    years_experience: number | null
+    created_at: Date | null
+    updated_at: Date | null
   }
 
   export type VeterinariansCountAggregateOutputType = {
     id: number
     user_id: number
+    license_number: number
+    specialization: number
+    years_experience: number
+    created_at: number
+    updated_at: number
     _all: number
   }
 
@@ -5121,26 +5278,43 @@ export namespace Prisma {
   export type VeterinariansAvgAggregateInputType = {
     id?: true
     user_id?: true
+    years_experience?: true
   }
 
   export type VeterinariansSumAggregateInputType = {
     id?: true
     user_id?: true
+    years_experience?: true
   }
 
   export type VeterinariansMinAggregateInputType = {
     id?: true
     user_id?: true
+    license_number?: true
+    specialization?: true
+    years_experience?: true
+    created_at?: true
+    updated_at?: true
   }
 
   export type VeterinariansMaxAggregateInputType = {
     id?: true
     user_id?: true
+    license_number?: true
+    specialization?: true
+    years_experience?: true
+    created_at?: true
+    updated_at?: true
   }
 
   export type VeterinariansCountAggregateInputType = {
     id?: true
     user_id?: true
+    license_number?: true
+    specialization?: true
+    years_experience?: true
+    created_at?: true
+    updated_at?: true
     _all?: true
   }
 
@@ -5233,6 +5407,11 @@ export namespace Prisma {
   export type VeterinariansGroupByOutputType = {
     id: number
     user_id: number
+    license_number: string | null
+    specialization: string | null
+    years_experience: number | null
+    created_at: Date
+    updated_at: Date
     _count: VeterinariansCountAggregateOutputType | null
     _avg: VeterinariansAvgAggregateOutputType | null
     _sum: VeterinariansSumAggregateOutputType | null
@@ -5257,6 +5436,11 @@ export namespace Prisma {
   export type VeterinariansSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     user_id?: boolean
+    license_number?: boolean
+    specialization?: boolean
+    years_experience?: boolean
+    created_at?: boolean
+    updated_at?: boolean
     application?: boolean | Veterinarians$applicationArgs<ExtArgs>
     user?: boolean | UsersDefaultArgs<ExtArgs>
     _count?: boolean | VeterinariansCountOutputTypeDefaultArgs<ExtArgs>
@@ -5267,9 +5451,14 @@ export namespace Prisma {
   export type VeterinariansSelectScalar = {
     id?: boolean
     user_id?: boolean
+    license_number?: boolean
+    specialization?: boolean
+    years_experience?: boolean
+    created_at?: boolean
+    updated_at?: boolean
   }
 
-  export type VeterinariansOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "user_id", ExtArgs["result"]["veterinarians"]>
+  export type VeterinariansOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "user_id" | "license_number" | "specialization" | "years_experience" | "created_at" | "updated_at", ExtArgs["result"]["veterinarians"]>
   export type VeterinariansInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     application?: boolean | Veterinarians$applicationArgs<ExtArgs>
     user?: boolean | UsersDefaultArgs<ExtArgs>
@@ -5285,6 +5474,11 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: number
       user_id: number
+      license_number: string | null
+      specialization: string | null
+      years_experience: number | null
+      created_at: Date
+      updated_at: Date
     }, ExtArgs["result"]["veterinarians"]>
     composites: {}
   }
@@ -5658,6 +5852,11 @@ export namespace Prisma {
   interface VeterinariansFieldRefs {
     readonly id: FieldRef<"Veterinarians", 'Int'>
     readonly user_id: FieldRef<"Veterinarians", 'Int'>
+    readonly license_number: FieldRef<"Veterinarians", 'String'>
+    readonly specialization: FieldRef<"Veterinarians", 'String'>
+    readonly years_experience: FieldRef<"Veterinarians", 'Int'>
+    readonly created_at: FieldRef<"Veterinarians", 'DateTime'>
+    readonly updated_at: FieldRef<"Veterinarians", 'DateTime'>
   }
     
 
@@ -6059,6 +6258,8 @@ export namespace Prisma {
     species_id: number | null
     breed_id: number | null
     weight: number | null
+    mother_id: number | null
+    father_id: number | null
     farm_id: number | null
   }
 
@@ -6067,6 +6268,8 @@ export namespace Prisma {
     species_id: number | null
     breed_id: number | null
     weight: number | null
+    mother_id: number | null
+    father_id: number | null
     farm_id: number | null
   }
 
@@ -6078,7 +6281,15 @@ export namespace Prisma {
     birth_date: Date | null
     weight: number | null
     health_status: string | null
+    gender: string | null
+    color: string | null
+    tag_number: string | null
+    microchip_id: string | null
+    mother_id: number | null
+    father_id: number | null
     farm_id: number | null
+    active: boolean | null
+    notes: string | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -6091,7 +6302,15 @@ export namespace Prisma {
     birth_date: Date | null
     weight: number | null
     health_status: string | null
+    gender: string | null
+    color: string | null
+    tag_number: string | null
+    microchip_id: string | null
+    mother_id: number | null
+    father_id: number | null
     farm_id: number | null
+    active: boolean | null
+    notes: string | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -6104,7 +6323,15 @@ export namespace Prisma {
     birth_date: number
     weight: number
     health_status: number
+    gender: number
+    color: number
+    tag_number: number
+    microchip_id: number
+    mother_id: number
+    father_id: number
     farm_id: number
+    active: number
+    notes: number
     created_at: number
     updated_at: number
     _all: number
@@ -6116,6 +6343,8 @@ export namespace Prisma {
     species_id?: true
     breed_id?: true
     weight?: true
+    mother_id?: true
+    father_id?: true
     farm_id?: true
   }
 
@@ -6124,6 +6353,8 @@ export namespace Prisma {
     species_id?: true
     breed_id?: true
     weight?: true
+    mother_id?: true
+    father_id?: true
     farm_id?: true
   }
 
@@ -6135,7 +6366,15 @@ export namespace Prisma {
     birth_date?: true
     weight?: true
     health_status?: true
+    gender?: true
+    color?: true
+    tag_number?: true
+    microchip_id?: true
+    mother_id?: true
+    father_id?: true
     farm_id?: true
+    active?: true
+    notes?: true
     created_at?: true
     updated_at?: true
   }
@@ -6148,7 +6387,15 @@ export namespace Prisma {
     birth_date?: true
     weight?: true
     health_status?: true
+    gender?: true
+    color?: true
+    tag_number?: true
+    microchip_id?: true
+    mother_id?: true
+    father_id?: true
     farm_id?: true
+    active?: true
+    notes?: true
     created_at?: true
     updated_at?: true
   }
@@ -6161,7 +6408,15 @@ export namespace Prisma {
     birth_date?: true
     weight?: true
     health_status?: true
+    gender?: true
+    color?: true
+    tag_number?: true
+    microchip_id?: true
+    mother_id?: true
+    father_id?: true
     farm_id?: true
+    active?: true
+    notes?: true
     created_at?: true
     updated_at?: true
     _all?: true
@@ -6261,7 +6516,15 @@ export namespace Prisma {
     birth_date: Date
     weight: number
     health_status: string
+    gender: string | null
+    color: string | null
+    tag_number: string | null
+    microchip_id: string | null
+    mother_id: number | null
+    father_id: number | null
     farm_id: number
+    active: boolean
+    notes: string | null
     created_at: Date
     updated_at: Date
     _count: AnimalsCountAggregateOutputType | null
@@ -6293,12 +6556,24 @@ export namespace Prisma {
     birth_date?: boolean
     weight?: boolean
     health_status?: boolean
+    gender?: boolean
+    color?: boolean
+    tag_number?: boolean
+    microchip_id?: boolean
+    mother_id?: boolean
+    father_id?: boolean
     farm_id?: boolean
+    active?: boolean
+    notes?: boolean
     created_at?: boolean
     updated_at?: boolean
     breed?: boolean | BreedsDefaultArgs<ExtArgs>
     farm?: boolean | FarmsDefaultArgs<ExtArgs>
     species?: boolean | SpeciesDefaultArgs<ExtArgs>
+    mother?: boolean | Animals$motherArgs<ExtArgs>
+    father?: boolean | Animals$fatherArgs<ExtArgs>
+    mother_children?: boolean | Animals$mother_childrenArgs<ExtArgs>
+    father_children?: boolean | Animals$father_childrenArgs<ExtArgs>
     application?: boolean | Animals$applicationArgs<ExtArgs>
     location?: boolean | Animals$locationArgs<ExtArgs>
     _count?: boolean | AnimalsCountOutputTypeDefaultArgs<ExtArgs>
@@ -6314,16 +6589,28 @@ export namespace Prisma {
     birth_date?: boolean
     weight?: boolean
     health_status?: boolean
+    gender?: boolean
+    color?: boolean
+    tag_number?: boolean
+    microchip_id?: boolean
+    mother_id?: boolean
+    father_id?: boolean
     farm_id?: boolean
+    active?: boolean
+    notes?: boolean
     created_at?: boolean
     updated_at?: boolean
   }
 
-  export type AnimalsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "species_id" | "breed_id" | "birth_date" | "weight" | "health_status" | "farm_id" | "created_at" | "updated_at", ExtArgs["result"]["animals"]>
+  export type AnimalsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "species_id" | "breed_id" | "birth_date" | "weight" | "health_status" | "gender" | "color" | "tag_number" | "microchip_id" | "mother_id" | "father_id" | "farm_id" | "active" | "notes" | "created_at" | "updated_at", ExtArgs["result"]["animals"]>
   export type AnimalsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     breed?: boolean | BreedsDefaultArgs<ExtArgs>
     farm?: boolean | FarmsDefaultArgs<ExtArgs>
     species?: boolean | SpeciesDefaultArgs<ExtArgs>
+    mother?: boolean | Animals$motherArgs<ExtArgs>
+    father?: boolean | Animals$fatherArgs<ExtArgs>
+    mother_children?: boolean | Animals$mother_childrenArgs<ExtArgs>
+    father_children?: boolean | Animals$father_childrenArgs<ExtArgs>
     application?: boolean | Animals$applicationArgs<ExtArgs>
     location?: boolean | Animals$locationArgs<ExtArgs>
     _count?: boolean | AnimalsCountOutputTypeDefaultArgs<ExtArgs>
@@ -6335,6 +6622,10 @@ export namespace Prisma {
       breed: Prisma.$BreedsPayload<ExtArgs>
       farm: Prisma.$FarmsPayload<ExtArgs>
       species: Prisma.$SpeciesPayload<ExtArgs>
+      mother: Prisma.$AnimalsPayload<ExtArgs> | null
+      father: Prisma.$AnimalsPayload<ExtArgs> | null
+      mother_children: Prisma.$AnimalsPayload<ExtArgs>[]
+      father_children: Prisma.$AnimalsPayload<ExtArgs>[]
       application: Prisma.$ApplicationsPayload<ExtArgs>[]
       location: Prisma.$LocationsPayload<ExtArgs>[]
     }
@@ -6346,7 +6637,15 @@ export namespace Prisma {
       birth_date: Date
       weight: number
       health_status: string
+      gender: string | null
+      color: string | null
+      tag_number: string | null
+      microchip_id: string | null
+      mother_id: number | null
+      father_id: number | null
       farm_id: number
+      active: boolean
+      notes: string | null
       created_at: Date
       updated_at: Date
     }, ExtArgs["result"]["animals"]>
@@ -6692,6 +6991,10 @@ export namespace Prisma {
     breed<T extends BreedsDefaultArgs<ExtArgs> = {}>(args?: Subset<T, BreedsDefaultArgs<ExtArgs>>): Prisma__BreedsClient<$Result.GetResult<Prisma.$BreedsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     farm<T extends FarmsDefaultArgs<ExtArgs> = {}>(args?: Subset<T, FarmsDefaultArgs<ExtArgs>>): Prisma__FarmsClient<$Result.GetResult<Prisma.$FarmsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     species<T extends SpeciesDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SpeciesDefaultArgs<ExtArgs>>): Prisma__SpeciesClient<$Result.GetResult<Prisma.$SpeciesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    mother<T extends Animals$motherArgs<ExtArgs> = {}>(args?: Subset<T, Animals$motherArgs<ExtArgs>>): Prisma__AnimalsClient<$Result.GetResult<Prisma.$AnimalsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    father<T extends Animals$fatherArgs<ExtArgs> = {}>(args?: Subset<T, Animals$fatherArgs<ExtArgs>>): Prisma__AnimalsClient<$Result.GetResult<Prisma.$AnimalsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    mother_children<T extends Animals$mother_childrenArgs<ExtArgs> = {}>(args?: Subset<T, Animals$mother_childrenArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AnimalsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    father_children<T extends Animals$father_childrenArgs<ExtArgs> = {}>(args?: Subset<T, Animals$father_childrenArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AnimalsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     application<T extends Animals$applicationArgs<ExtArgs> = {}>(args?: Subset<T, Animals$applicationArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ApplicationsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     location<T extends Animals$locationArgs<ExtArgs> = {}>(args?: Subset<T, Animals$locationArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LocationsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
@@ -6730,7 +7033,15 @@ export namespace Prisma {
     readonly birth_date: FieldRef<"Animals", 'DateTime'>
     readonly weight: FieldRef<"Animals", 'Float'>
     readonly health_status: FieldRef<"Animals", 'String'>
+    readonly gender: FieldRef<"Animals", 'String'>
+    readonly color: FieldRef<"Animals", 'String'>
+    readonly tag_number: FieldRef<"Animals", 'String'>
+    readonly microchip_id: FieldRef<"Animals", 'String'>
+    readonly mother_id: FieldRef<"Animals", 'Int'>
+    readonly father_id: FieldRef<"Animals", 'Int'>
     readonly farm_id: FieldRef<"Animals", 'Int'>
+    readonly active: FieldRef<"Animals", 'Boolean'>
+    readonly notes: FieldRef<"Animals", 'String'>
     readonly created_at: FieldRef<"Animals", 'DateTime'>
     readonly updated_at: FieldRef<"Animals", 'DateTime'>
   }
@@ -7075,6 +7386,92 @@ export namespace Prisma {
   }
 
   /**
+   * Animals.mother
+   */
+  export type Animals$motherArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Animals
+     */
+    select?: AnimalsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Animals
+     */
+    omit?: AnimalsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnimalsInclude<ExtArgs> | null
+    where?: AnimalsWhereInput
+  }
+
+  /**
+   * Animals.father
+   */
+  export type Animals$fatherArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Animals
+     */
+    select?: AnimalsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Animals
+     */
+    omit?: AnimalsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnimalsInclude<ExtArgs> | null
+    where?: AnimalsWhereInput
+  }
+
+  /**
+   * Animals.mother_children
+   */
+  export type Animals$mother_childrenArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Animals
+     */
+    select?: AnimalsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Animals
+     */
+    omit?: AnimalsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnimalsInclude<ExtArgs> | null
+    where?: AnimalsWhereInput
+    orderBy?: AnimalsOrderByWithRelationInput | AnimalsOrderByWithRelationInput[]
+    cursor?: AnimalsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AnimalsScalarFieldEnum | AnimalsScalarFieldEnum[]
+  }
+
+  /**
+   * Animals.father_children
+   */
+  export type Animals$father_childrenArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Animals
+     */
+    select?: AnimalsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Animals
+     */
+    omit?: AnimalsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnimalsInclude<ExtArgs> | null
+    where?: AnimalsWhereInput
+    orderBy?: AnimalsOrderByWithRelationInput | AnimalsOrderByWithRelationInput[]
+    cursor?: AnimalsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AnimalsScalarFieldEnum | AnimalsScalarFieldEnum[]
+  }
+
+  /**
    * Animals.application
    */
   export type Animals$applicationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -7157,12 +7554,16 @@ export namespace Prisma {
     id: number | null
     average_lifespan: number | null
     gestation_period: number | null
+    min_weight: number | null
+    max_weight: number | null
   }
 
   export type SpeciesSumAggregateOutputType = {
     id: number | null
     average_lifespan: number | null
     gestation_period: number | null
+    min_weight: number | null
+    max_weight: number | null
   }
 
   export type SpeciesMinAggregateOutputType = {
@@ -7171,6 +7572,9 @@ export namespace Prisma {
     description: string | null
     average_lifespan: number | null
     gestation_period: number | null
+    min_weight: number | null
+    max_weight: number | null
+    active: boolean | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -7181,6 +7585,9 @@ export namespace Prisma {
     description: string | null
     average_lifespan: number | null
     gestation_period: number | null
+    min_weight: number | null
+    max_weight: number | null
+    active: boolean | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -7191,6 +7598,9 @@ export namespace Prisma {
     description: number
     average_lifespan: number
     gestation_period: number
+    min_weight: number
+    max_weight: number
+    active: number
     created_at: number
     updated_at: number
     _all: number
@@ -7201,12 +7611,16 @@ export namespace Prisma {
     id?: true
     average_lifespan?: true
     gestation_period?: true
+    min_weight?: true
+    max_weight?: true
   }
 
   export type SpeciesSumAggregateInputType = {
     id?: true
     average_lifespan?: true
     gestation_period?: true
+    min_weight?: true
+    max_weight?: true
   }
 
   export type SpeciesMinAggregateInputType = {
@@ -7215,6 +7629,9 @@ export namespace Prisma {
     description?: true
     average_lifespan?: true
     gestation_period?: true
+    min_weight?: true
+    max_weight?: true
+    active?: true
     created_at?: true
     updated_at?: true
   }
@@ -7225,6 +7642,9 @@ export namespace Prisma {
     description?: true
     average_lifespan?: true
     gestation_period?: true
+    min_weight?: true
+    max_weight?: true
+    active?: true
     created_at?: true
     updated_at?: true
   }
@@ -7235,6 +7655,9 @@ export namespace Prisma {
     description?: true
     average_lifespan?: true
     gestation_period?: true
+    min_weight?: true
+    max_weight?: true
+    active?: true
     created_at?: true
     updated_at?: true
     _all?: true
@@ -7332,6 +7755,9 @@ export namespace Prisma {
     description: string
     average_lifespan: number | null
     gestation_period: number | null
+    min_weight: number | null
+    max_weight: number | null
+    active: boolean
     created_at: Date
     updated_at: Date
     _count: SpeciesCountAggregateOutputType | null
@@ -7361,6 +7787,9 @@ export namespace Prisma {
     description?: boolean
     average_lifespan?: boolean
     gestation_period?: boolean
+    min_weight?: boolean
+    max_weight?: boolean
+    active?: boolean
     created_at?: boolean
     updated_at?: boolean
     animal?: boolean | Species$animalArgs<ExtArgs>
@@ -7376,11 +7805,14 @@ export namespace Prisma {
     description?: boolean
     average_lifespan?: boolean
     gestation_period?: boolean
+    min_weight?: boolean
+    max_weight?: boolean
+    active?: boolean
     created_at?: boolean
     updated_at?: boolean
   }
 
-  export type SpeciesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "average_lifespan" | "gestation_period" | "created_at" | "updated_at", ExtArgs["result"]["species"]>
+  export type SpeciesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "average_lifespan" | "gestation_period" | "min_weight" | "max_weight" | "active" | "created_at" | "updated_at", ExtArgs["result"]["species"]>
   export type SpeciesInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     animal?: boolean | Species$animalArgs<ExtArgs>
     breed?: boolean | Species$breedArgs<ExtArgs>
@@ -7399,6 +7831,9 @@ export namespace Prisma {
       description: string
       average_lifespan: number | null
       gestation_period: number | null
+      min_weight: number | null
+      max_weight: number | null
+      active: boolean
       created_at: Date
       updated_at: Date
     }, ExtArgs["result"]["species"]>
@@ -7777,6 +8212,9 @@ export namespace Prisma {
     readonly description: FieldRef<"Species", 'String'>
     readonly average_lifespan: FieldRef<"Species", 'Int'>
     readonly gestation_period: FieldRef<"Species", 'Int'>
+    readonly min_weight: FieldRef<"Species", 'Float'>
+    readonly max_weight: FieldRef<"Species", 'Float'>
+    readonly active: FieldRef<"Species", 'Boolean'>
     readonly created_at: FieldRef<"Species", 'DateTime'>
     readonly updated_at: FieldRef<"Species", 'DateTime'>
   }
@@ -8218,6 +8656,8 @@ export namespace Prisma {
     species_id: number | null
     average_weight: number | null
     productivity: string | null
+    origin_country: string | null
+    active: boolean | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -8229,6 +8669,8 @@ export namespace Prisma {
     species_id: number | null
     average_weight: number | null
     productivity: string | null
+    origin_country: string | null
+    active: boolean | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -8240,6 +8682,8 @@ export namespace Prisma {
     species_id: number
     average_weight: number
     productivity: number
+    origin_country: number
+    active: number
     created_at: number
     updated_at: number
     _all: number
@@ -8265,6 +8709,8 @@ export namespace Prisma {
     species_id?: true
     average_weight?: true
     productivity?: true
+    origin_country?: true
+    active?: true
     created_at?: true
     updated_at?: true
   }
@@ -8276,6 +8722,8 @@ export namespace Prisma {
     species_id?: true
     average_weight?: true
     productivity?: true
+    origin_country?: true
+    active?: true
     created_at?: true
     updated_at?: true
   }
@@ -8287,6 +8735,8 @@ export namespace Prisma {
     species_id?: true
     average_weight?: true
     productivity?: true
+    origin_country?: true
+    active?: true
     created_at?: true
     updated_at?: true
     _all?: true
@@ -8385,6 +8835,8 @@ export namespace Prisma {
     species_id: number
     average_weight: number | null
     productivity: string | null
+    origin_country: string | null
+    active: boolean
     created_at: Date
     updated_at: Date
     _count: BreedsCountAggregateOutputType | null
@@ -8415,6 +8867,8 @@ export namespace Prisma {
     species_id?: boolean
     average_weight?: boolean
     productivity?: boolean
+    origin_country?: boolean
+    active?: boolean
     created_at?: boolean
     updated_at?: boolean
     animal?: boolean | Breeds$animalArgs<ExtArgs>
@@ -8431,11 +8885,13 @@ export namespace Prisma {
     species_id?: boolean
     average_weight?: boolean
     productivity?: boolean
+    origin_country?: boolean
+    active?: boolean
     created_at?: boolean
     updated_at?: boolean
   }
 
-  export type BreedsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "species_id" | "average_weight" | "productivity" | "created_at" | "updated_at", ExtArgs["result"]["breeds"]>
+  export type BreedsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "species_id" | "average_weight" | "productivity" | "origin_country" | "active" | "created_at" | "updated_at", ExtArgs["result"]["breeds"]>
   export type BreedsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     animal?: boolean | Breeds$animalArgs<ExtArgs>
     species?: boolean | SpeciesDefaultArgs<ExtArgs>
@@ -8455,6 +8911,8 @@ export namespace Prisma {
       species_id: number
       average_weight: number | null
       productivity: string | null
+      origin_country: string | null
+      active: boolean
       created_at: Date
       updated_at: Date
     }, ExtArgs["result"]["breeds"]>
@@ -8834,6 +9292,8 @@ export namespace Prisma {
     readonly species_id: FieldRef<"Breeds", 'Int'>
     readonly average_weight: FieldRef<"Breeds", 'Float'>
     readonly productivity: FieldRef<"Breeds", 'String'>
+    readonly origin_country: FieldRef<"Breeds", 'String'>
+    readonly active: FieldRef<"Breeds", 'Boolean'>
     readonly created_at: FieldRef<"Breeds", 'DateTime'>
     readonly updated_at: FieldRef<"Breeds", 'DateTime'>
   }
@@ -9238,6 +9698,9 @@ export namespace Prisma {
     required_doses: number | null
     dosing_interval: number | null
     type_of_vaccine_id: number | null
+    cost_per_dose: number | null
+    storage_temp_min: number | null
+    storage_temp_max: number | null
   }
 
   export type VaccinesSumAggregateOutputType = {
@@ -9246,6 +9709,9 @@ export namespace Prisma {
     required_doses: number | null
     dosing_interval: number | null
     type_of_vaccine_id: number | null
+    cost_per_dose: number | null
+    storage_temp_min: number | null
+    storage_temp_max: number | null
   }
 
   export type VaccinesMinAggregateOutputType = {
@@ -9259,6 +9725,10 @@ export namespace Prisma {
     dosing_interval: number | null
     type_of_vaccine_id: number | null
     notes: string | null
+    cost_per_dose: number | null
+    storage_temp_min: number | null
+    storage_temp_max: number | null
+    active: boolean | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -9274,6 +9744,10 @@ export namespace Prisma {
     dosing_interval: number | null
     type_of_vaccine_id: number | null
     notes: string | null
+    cost_per_dose: number | null
+    storage_temp_min: number | null
+    storage_temp_max: number | null
+    active: boolean | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -9289,6 +9763,10 @@ export namespace Prisma {
     dosing_interval: number
     type_of_vaccine_id: number
     notes: number
+    cost_per_dose: number
+    storage_temp_min: number
+    storage_temp_max: number
+    active: number
     created_at: number
     updated_at: number
     _all: number
@@ -9301,6 +9779,9 @@ export namespace Prisma {
     required_doses?: true
     dosing_interval?: true
     type_of_vaccine_id?: true
+    cost_per_dose?: true
+    storage_temp_min?: true
+    storage_temp_max?: true
   }
 
   export type VaccinesSumAggregateInputType = {
@@ -9309,6 +9790,9 @@ export namespace Prisma {
     required_doses?: true
     dosing_interval?: true
     type_of_vaccine_id?: true
+    cost_per_dose?: true
+    storage_temp_min?: true
+    storage_temp_max?: true
   }
 
   export type VaccinesMinAggregateInputType = {
@@ -9322,6 +9806,10 @@ export namespace Prisma {
     dosing_interval?: true
     type_of_vaccine_id?: true
     notes?: true
+    cost_per_dose?: true
+    storage_temp_min?: true
+    storage_temp_max?: true
+    active?: true
     created_at?: true
     updated_at?: true
   }
@@ -9337,6 +9825,10 @@ export namespace Prisma {
     dosing_interval?: true
     type_of_vaccine_id?: true
     notes?: true
+    cost_per_dose?: true
+    storage_temp_min?: true
+    storage_temp_max?: true
+    active?: true
     created_at?: true
     updated_at?: true
   }
@@ -9352,6 +9844,10 @@ export namespace Prisma {
     dosing_interval?: true
     type_of_vaccine_id?: true
     notes?: true
+    cost_per_dose?: true
+    storage_temp_min?: true
+    storage_temp_max?: true
+    active?: true
     created_at?: true
     updated_at?: true
     _all?: true
@@ -9454,6 +9950,10 @@ export namespace Prisma {
     dosing_interval: number | null
     type_of_vaccine_id: number
     notes: string
+    cost_per_dose: number | null
+    storage_temp_min: number | null
+    storage_temp_max: number | null
+    active: boolean
     created_at: Date
     updated_at: Date
     _count: VaccinesCountAggregateOutputType | null
@@ -9488,6 +9988,10 @@ export namespace Prisma {
     dosing_interval?: boolean
     type_of_vaccine_id?: boolean
     notes?: boolean
+    cost_per_dose?: boolean
+    storage_temp_min?: boolean
+    storage_temp_max?: boolean
+    active?: boolean
     created_at?: boolean
     updated_at?: boolean
     applications?: boolean | Vaccines$applicationsArgs<ExtArgs>
@@ -9509,11 +10013,15 @@ export namespace Prisma {
     dosing_interval?: boolean
     type_of_vaccine_id?: boolean
     notes?: boolean
+    cost_per_dose?: boolean
+    storage_temp_min?: boolean
+    storage_temp_max?: boolean
+    active?: boolean
     created_at?: boolean
     updated_at?: boolean
   }
 
-  export type VaccinesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "target_disease" | "manufacturer_id" | "batch" | "expiration_date" | "required_doses" | "dosing_interval" | "type_of_vaccine_id" | "notes" | "created_at" | "updated_at", ExtArgs["result"]["vaccines"]>
+  export type VaccinesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "target_disease" | "manufacturer_id" | "batch" | "expiration_date" | "required_doses" | "dosing_interval" | "type_of_vaccine_id" | "notes" | "cost_per_dose" | "storage_temp_min" | "storage_temp_max" | "active" | "created_at" | "updated_at", ExtArgs["result"]["vaccines"]>
   export type VaccinesInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     applications?: boolean | Vaccines$applicationsArgs<ExtArgs>
     manufacturer?: boolean | ManufacturersDefaultArgs<ExtArgs>
@@ -9539,6 +10047,10 @@ export namespace Prisma {
       dosing_interval: number | null
       type_of_vaccine_id: number
       notes: string
+      cost_per_dose: number | null
+      storage_temp_min: number | null
+      storage_temp_max: number | null
+      active: boolean
       created_at: Date
       updated_at: Date
     }, ExtArgs["result"]["vaccines"]>
@@ -9923,6 +10435,10 @@ export namespace Prisma {
     readonly dosing_interval: FieldRef<"Vaccines", 'Int'>
     readonly type_of_vaccine_id: FieldRef<"Vaccines", 'Int'>
     readonly notes: FieldRef<"Vaccines", 'String'>
+    readonly cost_per_dose: FieldRef<"Vaccines", 'Float'>
+    readonly storage_temp_min: FieldRef<"Vaccines", 'Float'>
+    readonly storage_temp_max: FieldRef<"Vaccines", 'Float'>
+    readonly active: FieldRef<"Vaccines", 'Boolean'>
     readonly created_at: FieldRef<"Vaccines", 'DateTime'>
     readonly updated_at: FieldRef<"Vaccines", 'DateTime'>
   }
@@ -10338,6 +10854,8 @@ export namespace Prisma {
     address: string | null
     country: string | null
     license_number: string | null
+    website: string | null
+    active: boolean | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -10351,6 +10869,8 @@ export namespace Prisma {
     address: string | null
     country: string | null
     license_number: string | null
+    website: string | null
+    active: boolean | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -10364,6 +10884,8 @@ export namespace Prisma {
     address: number
     country: number
     license_number: number
+    website: number
+    active: number
     created_at: number
     updated_at: number
     _all: number
@@ -10387,6 +10909,8 @@ export namespace Prisma {
     address?: true
     country?: true
     license_number?: true
+    website?: true
+    active?: true
     created_at?: true
     updated_at?: true
   }
@@ -10400,6 +10924,8 @@ export namespace Prisma {
     address?: true
     country?: true
     license_number?: true
+    website?: true
+    active?: true
     created_at?: true
     updated_at?: true
   }
@@ -10413,6 +10939,8 @@ export namespace Prisma {
     address?: true
     country?: true
     license_number?: true
+    website?: true
+    active?: true
     created_at?: true
     updated_at?: true
     _all?: true
@@ -10513,6 +11041,8 @@ export namespace Prisma {
     address: string
     country: string
     license_number: string
+    website: string | null
+    active: boolean
     created_at: Date
     updated_at: Date
     _count: ManufacturersCountAggregateOutputType | null
@@ -10545,6 +11075,8 @@ export namespace Prisma {
     address?: boolean
     country?: boolean
     license_number?: boolean
+    website?: boolean
+    active?: boolean
     created_at?: boolean
     updated_at?: boolean
     vaccines?: boolean | Manufacturers$vaccinesArgs<ExtArgs>
@@ -10562,11 +11094,13 @@ export namespace Prisma {
     address?: boolean
     country?: boolean
     license_number?: boolean
+    website?: boolean
+    active?: boolean
     created_at?: boolean
     updated_at?: boolean
   }
 
-  export type ManufacturersOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "cnpj" | "email" | "phone" | "address" | "country" | "license_number" | "created_at" | "updated_at", ExtArgs["result"]["manufacturers"]>
+  export type ManufacturersOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "cnpj" | "email" | "phone" | "address" | "country" | "license_number" | "website" | "active" | "created_at" | "updated_at", ExtArgs["result"]["manufacturers"]>
   export type ManufacturersInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     vaccines?: boolean | Manufacturers$vaccinesArgs<ExtArgs>
     _count?: boolean | ManufacturersCountOutputTypeDefaultArgs<ExtArgs>
@@ -10586,6 +11120,8 @@ export namespace Prisma {
       address: string
       country: string
       license_number: string
+      website: string | null
+      active: boolean
       created_at: Date
       updated_at: Date
     }, ExtArgs["result"]["manufacturers"]>
@@ -10966,6 +11502,8 @@ export namespace Prisma {
     readonly address: FieldRef<"Manufacturers", 'String'>
     readonly country: FieldRef<"Manufacturers", 'String'>
     readonly license_number: FieldRef<"Manufacturers", 'String'>
+    readonly website: FieldRef<"Manufacturers", 'String'>
+    readonly active: FieldRef<"Manufacturers", 'Boolean'>
     readonly created_at: FieldRef<"Manufacturers", 'DateTime'>
     readonly updated_at: FieldRef<"Manufacturers", 'DateTime'>
   }
@@ -11376,18 +11914,30 @@ export namespace Prisma {
     id: number | null
     name: string | null
     description: string | null
+    category: string | null
+    active: boolean | null
+    created_at: Date | null
+    updated_at: Date | null
   }
 
   export type Types_of_VaccinesMaxAggregateOutputType = {
     id: number | null
     name: string | null
     description: string | null
+    category: string | null
+    active: boolean | null
+    created_at: Date | null
+    updated_at: Date | null
   }
 
   export type Types_of_VaccinesCountAggregateOutputType = {
     id: number
     name: number
     description: number
+    category: number
+    active: number
+    created_at: number
+    updated_at: number
     _all: number
   }
 
@@ -11404,18 +11954,30 @@ export namespace Prisma {
     id?: true
     name?: true
     description?: true
+    category?: true
+    active?: true
+    created_at?: true
+    updated_at?: true
   }
 
   export type Types_of_VaccinesMaxAggregateInputType = {
     id?: true
     name?: true
     description?: true
+    category?: true
+    active?: true
+    created_at?: true
+    updated_at?: true
   }
 
   export type Types_of_VaccinesCountAggregateInputType = {
     id?: true
     name?: true
     description?: true
+    category?: true
+    active?: true
+    created_at?: true
+    updated_at?: true
     _all?: true
   }
 
@@ -11509,6 +12071,10 @@ export namespace Prisma {
     id: number
     name: string
     description: string | null
+    category: string | null
+    active: boolean
+    created_at: Date
+    updated_at: Date
     _count: Types_of_VaccinesCountAggregateOutputType | null
     _avg: Types_of_VaccinesAvgAggregateOutputType | null
     _sum: Types_of_VaccinesSumAggregateOutputType | null
@@ -11534,6 +12100,10 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     description?: boolean
+    category?: boolean
+    active?: boolean
+    created_at?: boolean
+    updated_at?: boolean
     vaccines?: boolean | Types_of_Vaccines$vaccinesArgs<ExtArgs>
     _count?: boolean | Types_of_VaccinesCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["types_of_Vaccines"]>
@@ -11544,9 +12114,13 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     description?: boolean
+    category?: boolean
+    active?: boolean
+    created_at?: boolean
+    updated_at?: boolean
   }
 
-  export type Types_of_VaccinesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description", ExtArgs["result"]["types_of_Vaccines"]>
+  export type Types_of_VaccinesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "category" | "active" | "created_at" | "updated_at", ExtArgs["result"]["types_of_Vaccines"]>
   export type Types_of_VaccinesInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     vaccines?: boolean | Types_of_Vaccines$vaccinesArgs<ExtArgs>
     _count?: boolean | Types_of_VaccinesCountOutputTypeDefaultArgs<ExtArgs>
@@ -11561,6 +12135,10 @@ export namespace Prisma {
       id: number
       name: string
       description: string | null
+      category: string | null
+      active: boolean
+      created_at: Date
+      updated_at: Date
     }, ExtArgs["result"]["types_of_Vaccines"]>
     composites: {}
   }
@@ -11934,6 +12512,10 @@ export namespace Prisma {
     readonly id: FieldRef<"Types_of_Vaccines", 'Int'>
     readonly name: FieldRef<"Types_of_Vaccines", 'String'>
     readonly description: FieldRef<"Types_of_Vaccines", 'String'>
+    readonly category: FieldRef<"Types_of_Vaccines", 'String'>
+    readonly active: FieldRef<"Types_of_Vaccines", 'Boolean'>
+    readonly created_at: FieldRef<"Types_of_Vaccines", 'DateTime'>
+    readonly updated_at: FieldRef<"Types_of_Vaccines", 'DateTime'>
   }
     
 
@@ -12335,6 +12917,8 @@ export namespace Prisma {
     animal_id: number | null
     vaccine_id: number | null
     veterinary_id: number | null
+    dose_number: number | null
+    cost: number | null
   }
 
   export type ApplicationsSumAggregateOutputType = {
@@ -12342,6 +12926,8 @@ export namespace Prisma {
     animal_id: number | null
     vaccine_id: number | null
     veterinary_id: number | null
+    dose_number: number | null
+    cost: number | null
   }
 
   export type ApplicationsMinAggregateOutputType = {
@@ -12352,6 +12938,12 @@ export namespace Prisma {
     application_date: Date | null
     next_application_date: Date | null
     status_vaccine_application: string | null
+    dose_number: number | null
+    application_site: string | null
+    batch_used: string | null
+    adverse_reaction: string | null
+    cost: number | null
+    notes: string | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -12364,6 +12956,12 @@ export namespace Prisma {
     application_date: Date | null
     next_application_date: Date | null
     status_vaccine_application: string | null
+    dose_number: number | null
+    application_site: string | null
+    batch_used: string | null
+    adverse_reaction: string | null
+    cost: number | null
+    notes: string | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -12376,6 +12974,12 @@ export namespace Prisma {
     application_date: number
     next_application_date: number
     status_vaccine_application: number
+    dose_number: number
+    application_site: number
+    batch_used: number
+    adverse_reaction: number
+    cost: number
+    notes: number
     created_at: number
     updated_at: number
     _all: number
@@ -12387,6 +12991,8 @@ export namespace Prisma {
     animal_id?: true
     vaccine_id?: true
     veterinary_id?: true
+    dose_number?: true
+    cost?: true
   }
 
   export type ApplicationsSumAggregateInputType = {
@@ -12394,6 +13000,8 @@ export namespace Prisma {
     animal_id?: true
     vaccine_id?: true
     veterinary_id?: true
+    dose_number?: true
+    cost?: true
   }
 
   export type ApplicationsMinAggregateInputType = {
@@ -12404,6 +13012,12 @@ export namespace Prisma {
     application_date?: true
     next_application_date?: true
     status_vaccine_application?: true
+    dose_number?: true
+    application_site?: true
+    batch_used?: true
+    adverse_reaction?: true
+    cost?: true
+    notes?: true
     created_at?: true
     updated_at?: true
   }
@@ -12416,6 +13030,12 @@ export namespace Prisma {
     application_date?: true
     next_application_date?: true
     status_vaccine_application?: true
+    dose_number?: true
+    application_site?: true
+    batch_used?: true
+    adverse_reaction?: true
+    cost?: true
+    notes?: true
     created_at?: true
     updated_at?: true
   }
@@ -12428,6 +13048,12 @@ export namespace Prisma {
     application_date?: true
     next_application_date?: true
     status_vaccine_application?: true
+    dose_number?: true
+    application_site?: true
+    batch_used?: true
+    adverse_reaction?: true
+    cost?: true
+    notes?: true
     created_at?: true
     updated_at?: true
     _all?: true
@@ -12527,6 +13153,12 @@ export namespace Prisma {
     application_date: Date
     next_application_date: Date | null
     status_vaccine_application: string
+    dose_number: number
+    application_site: string | null
+    batch_used: string | null
+    adverse_reaction: string | null
+    cost: number | null
+    notes: string | null
     created_at: Date
     updated_at: Date
     _count: ApplicationsCountAggregateOutputType | null
@@ -12558,6 +13190,12 @@ export namespace Prisma {
     application_date?: boolean
     next_application_date?: boolean
     status_vaccine_application?: boolean
+    dose_number?: boolean
+    application_site?: boolean
+    batch_used?: boolean
+    adverse_reaction?: boolean
+    cost?: boolean
+    notes?: boolean
     created_at?: boolean
     updated_at?: boolean
     animal?: boolean | AnimalsDefaultArgs<ExtArgs>
@@ -12575,11 +13213,17 @@ export namespace Prisma {
     application_date?: boolean
     next_application_date?: boolean
     status_vaccine_application?: boolean
+    dose_number?: boolean
+    application_site?: boolean
+    batch_used?: boolean
+    adverse_reaction?: boolean
+    cost?: boolean
+    notes?: boolean
     created_at?: boolean
     updated_at?: boolean
   }
 
-  export type ApplicationsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "animal_id" | "vaccine_id" | "veterinary_id" | "application_date" | "next_application_date" | "status_vaccine_application" | "created_at" | "updated_at", ExtArgs["result"]["applications"]>
+  export type ApplicationsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "animal_id" | "vaccine_id" | "veterinary_id" | "application_date" | "next_application_date" | "status_vaccine_application" | "dose_number" | "application_site" | "batch_used" | "adverse_reaction" | "cost" | "notes" | "created_at" | "updated_at", ExtArgs["result"]["applications"]>
   export type ApplicationsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     animal?: boolean | AnimalsDefaultArgs<ExtArgs>
     vaccine?: boolean | VaccinesDefaultArgs<ExtArgs>
@@ -12601,6 +13245,12 @@ export namespace Prisma {
       application_date: Date
       next_application_date: Date | null
       status_vaccine_application: string
+      dose_number: number
+      application_site: string | null
+      batch_used: string | null
+      adverse_reaction: string | null
+      cost: number | null
+      notes: string | null
       created_at: Date
       updated_at: Date
     }, ExtArgs["result"]["applications"]>
@@ -12982,6 +13632,12 @@ export namespace Prisma {
     readonly application_date: FieldRef<"Applications", 'DateTime'>
     readonly next_application_date: FieldRef<"Applications", 'DateTime'>
     readonly status_vaccine_application: FieldRef<"Applications", 'String'>
+    readonly dose_number: FieldRef<"Applications", 'Int'>
+    readonly application_site: FieldRef<"Applications", 'String'>
+    readonly batch_used: FieldRef<"Applications", 'String'>
+    readonly adverse_reaction: FieldRef<"Applications", 'String'>
+    readonly cost: FieldRef<"Applications", 'Float'>
+    readonly notes: FieldRef<"Applications", 'String'>
     readonly created_at: FieldRef<"Applications", 'DateTime'>
     readonly updated_at: FieldRef<"Applications", 'DateTime'>
   }
@@ -13361,6 +14017,12 @@ export namespace Prisma {
     animal_id: number | null
     latitude: number | null
     longitude: number | null
+    altitude: number | null
+    accuracy: number | null
+    speed: number | null
+    battery: number | null
+    temperature: number | null
+    humidity: number | null
   }
 
   export type LocationsSumAggregateOutputType = {
@@ -13368,6 +14030,12 @@ export namespace Prisma {
     animal_id: number | null
     latitude: number | null
     longitude: number | null
+    altitude: number | null
+    accuracy: number | null
+    speed: number | null
+    battery: number | null
+    temperature: number | null
+    humidity: number | null
   }
 
   export type LocationsMinAggregateOutputType = {
@@ -13375,7 +14043,14 @@ export namespace Prisma {
     animal_id: number | null
     latitude: number | null
     longitude: number | null
+    altitude: number | null
+    accuracy: number | null
+    speed: number | null
     captured_at: Date | null
+    device_id: string | null
+    battery: number | null
+    temperature: number | null
+    humidity: number | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -13385,7 +14060,14 @@ export namespace Prisma {
     animal_id: number | null
     latitude: number | null
     longitude: number | null
+    altitude: number | null
+    accuracy: number | null
+    speed: number | null
     captured_at: Date | null
+    device_id: string | null
+    battery: number | null
+    temperature: number | null
+    humidity: number | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -13395,7 +14077,14 @@ export namespace Prisma {
     animal_id: number
     latitude: number
     longitude: number
+    altitude: number
+    accuracy: number
+    speed: number
     captured_at: number
+    device_id: number
+    battery: number
+    temperature: number
+    humidity: number
     created_at: number
     updated_at: number
     _all: number
@@ -13407,6 +14096,12 @@ export namespace Prisma {
     animal_id?: true
     latitude?: true
     longitude?: true
+    altitude?: true
+    accuracy?: true
+    speed?: true
+    battery?: true
+    temperature?: true
+    humidity?: true
   }
 
   export type LocationsSumAggregateInputType = {
@@ -13414,6 +14109,12 @@ export namespace Prisma {
     animal_id?: true
     latitude?: true
     longitude?: true
+    altitude?: true
+    accuracy?: true
+    speed?: true
+    battery?: true
+    temperature?: true
+    humidity?: true
   }
 
   export type LocationsMinAggregateInputType = {
@@ -13421,7 +14122,14 @@ export namespace Prisma {
     animal_id?: true
     latitude?: true
     longitude?: true
+    altitude?: true
+    accuracy?: true
+    speed?: true
     captured_at?: true
+    device_id?: true
+    battery?: true
+    temperature?: true
+    humidity?: true
     created_at?: true
     updated_at?: true
   }
@@ -13431,7 +14139,14 @@ export namespace Prisma {
     animal_id?: true
     latitude?: true
     longitude?: true
+    altitude?: true
+    accuracy?: true
+    speed?: true
     captured_at?: true
+    device_id?: true
+    battery?: true
+    temperature?: true
+    humidity?: true
     created_at?: true
     updated_at?: true
   }
@@ -13441,7 +14156,14 @@ export namespace Prisma {
     animal_id?: true
     latitude?: true
     longitude?: true
+    altitude?: true
+    accuracy?: true
+    speed?: true
     captured_at?: true
+    device_id?: true
+    battery?: true
+    temperature?: true
+    humidity?: true
     created_at?: true
     updated_at?: true
     _all?: true
@@ -13538,7 +14260,14 @@ export namespace Prisma {
     animal_id: number
     latitude: number
     longitude: number
+    altitude: number | null
+    accuracy: number | null
+    speed: number | null
     captured_at: Date
+    device_id: string | null
+    battery: number | null
+    temperature: number | null
+    humidity: number | null
     created_at: Date
     updated_at: Date
     _count: LocationsCountAggregateOutputType | null
@@ -13567,7 +14296,14 @@ export namespace Prisma {
     animal_id?: boolean
     latitude?: boolean
     longitude?: boolean
+    altitude?: boolean
+    accuracy?: boolean
+    speed?: boolean
     captured_at?: boolean
+    device_id?: boolean
+    battery?: boolean
+    temperature?: boolean
+    humidity?: boolean
     created_at?: boolean
     updated_at?: boolean
     animal?: boolean | AnimalsDefaultArgs<ExtArgs>
@@ -13580,12 +14316,19 @@ export namespace Prisma {
     animal_id?: boolean
     latitude?: boolean
     longitude?: boolean
+    altitude?: boolean
+    accuracy?: boolean
+    speed?: boolean
     captured_at?: boolean
+    device_id?: boolean
+    battery?: boolean
+    temperature?: boolean
+    humidity?: boolean
     created_at?: boolean
     updated_at?: boolean
   }
 
-  export type LocationsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "animal_id" | "latitude" | "longitude" | "captured_at" | "created_at" | "updated_at", ExtArgs["result"]["locations"]>
+  export type LocationsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "animal_id" | "latitude" | "longitude" | "altitude" | "accuracy" | "speed" | "captured_at" | "device_id" | "battery" | "temperature" | "humidity" | "created_at" | "updated_at", ExtArgs["result"]["locations"]>
   export type LocationsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     animal?: boolean | AnimalsDefaultArgs<ExtArgs>
   }
@@ -13600,7 +14343,14 @@ export namespace Prisma {
       animal_id: number
       latitude: number
       longitude: number
+      altitude: number | null
+      accuracy: number | null
+      speed: number | null
       captured_at: Date
+      device_id: string | null
+      battery: number | null
+      temperature: number | null
+      humidity: number | null
       created_at: Date
       updated_at: Date
     }, ExtArgs["result"]["locations"]>
@@ -13977,7 +14727,14 @@ export namespace Prisma {
     readonly animal_id: FieldRef<"Locations", 'Int'>
     readonly latitude: FieldRef<"Locations", 'Float'>
     readonly longitude: FieldRef<"Locations", 'Float'>
+    readonly altitude: FieldRef<"Locations", 'Float'>
+    readonly accuracy: FieldRef<"Locations", 'Float'>
+    readonly speed: FieldRef<"Locations", 'Float'>
     readonly captured_at: FieldRef<"Locations", 'DateTime'>
+    readonly device_id: FieldRef<"Locations", 'String'>
+    readonly battery: FieldRef<"Locations", 'Int'>
+    readonly temperature: FieldRef<"Locations", 'Float'>
+    readonly humidity: FieldRef<"Locations", 'Float'>
     readonly created_at: FieldRef<"Locations", 'DateTime'>
     readonly updated_at: FieldRef<"Locations", 'DateTime'>
   }
@@ -14362,7 +15119,10 @@ export namespace Prisma {
     updated_at: 'updated_at',
     description: 'description',
     location: 'location',
-    size: 'size'
+    size: 'size',
+    latitude: 'latitude',
+    longitude: 'longitude',
+    active: 'active'
   };
 
   export type FarmsScalarFieldEnum = (typeof FarmsScalarFieldEnum)[keyof typeof FarmsScalarFieldEnum]
@@ -14376,6 +15136,9 @@ export namespace Prisma {
     profile_photo: 'profile_photo',
     role: 'role',
     farm_id: 'farm_id',
+    active: 'active',
+    phone: 'phone',
+    address: 'address',
     created_at: 'created_at',
     updated_at: 'updated_at'
   };
@@ -14385,7 +15148,11 @@ export namespace Prisma {
 
   export const FarmhandsScalarFieldEnum: {
     id: 'id',
-    user_id: 'user_id'
+    user_id: 'user_id',
+    hire_date: 'hire_date',
+    salary: 'salary',
+    created_at: 'created_at',
+    updated_at: 'updated_at'
   };
 
   export type FarmhandsScalarFieldEnum = (typeof FarmhandsScalarFieldEnum)[keyof typeof FarmhandsScalarFieldEnum]
@@ -14393,7 +15160,12 @@ export namespace Prisma {
 
   export const VeterinariansScalarFieldEnum: {
     id: 'id',
-    user_id: 'user_id'
+    user_id: 'user_id',
+    license_number: 'license_number',
+    specialization: 'specialization',
+    years_experience: 'years_experience',
+    created_at: 'created_at',
+    updated_at: 'updated_at'
   };
 
   export type VeterinariansScalarFieldEnum = (typeof VeterinariansScalarFieldEnum)[keyof typeof VeterinariansScalarFieldEnum]
@@ -14407,7 +15179,15 @@ export namespace Prisma {
     birth_date: 'birth_date',
     weight: 'weight',
     health_status: 'health_status',
+    gender: 'gender',
+    color: 'color',
+    tag_number: 'tag_number',
+    microchip_id: 'microchip_id',
+    mother_id: 'mother_id',
+    father_id: 'father_id',
     farm_id: 'farm_id',
+    active: 'active',
+    notes: 'notes',
     created_at: 'created_at',
     updated_at: 'updated_at'
   };
@@ -14421,6 +15201,9 @@ export namespace Prisma {
     description: 'description',
     average_lifespan: 'average_lifespan',
     gestation_period: 'gestation_period',
+    min_weight: 'min_weight',
+    max_weight: 'max_weight',
+    active: 'active',
     created_at: 'created_at',
     updated_at: 'updated_at'
   };
@@ -14435,6 +15218,8 @@ export namespace Prisma {
     species_id: 'species_id',
     average_weight: 'average_weight',
     productivity: 'productivity',
+    origin_country: 'origin_country',
+    active: 'active',
     created_at: 'created_at',
     updated_at: 'updated_at'
   };
@@ -14453,6 +15238,10 @@ export namespace Prisma {
     dosing_interval: 'dosing_interval',
     type_of_vaccine_id: 'type_of_vaccine_id',
     notes: 'notes',
+    cost_per_dose: 'cost_per_dose',
+    storage_temp_min: 'storage_temp_min',
+    storage_temp_max: 'storage_temp_max',
+    active: 'active',
     created_at: 'created_at',
     updated_at: 'updated_at'
   };
@@ -14469,6 +15258,8 @@ export namespace Prisma {
     address: 'address',
     country: 'country',
     license_number: 'license_number',
+    website: 'website',
+    active: 'active',
     created_at: 'created_at',
     updated_at: 'updated_at'
   };
@@ -14479,7 +15270,11 @@ export namespace Prisma {
   export const Types_of_VaccinesScalarFieldEnum: {
     id: 'id',
     name: 'name',
-    description: 'description'
+    description: 'description',
+    category: 'category',
+    active: 'active',
+    created_at: 'created_at',
+    updated_at: 'updated_at'
   };
 
   export type Types_of_VaccinesScalarFieldEnum = (typeof Types_of_VaccinesScalarFieldEnum)[keyof typeof Types_of_VaccinesScalarFieldEnum]
@@ -14493,6 +15288,12 @@ export namespace Prisma {
     application_date: 'application_date',
     next_application_date: 'next_application_date',
     status_vaccine_application: 'status_vaccine_application',
+    dose_number: 'dose_number',
+    application_site: 'application_site',
+    batch_used: 'batch_used',
+    adverse_reaction: 'adverse_reaction',
+    cost: 'cost',
+    notes: 'notes',
     created_at: 'created_at',
     updated_at: 'updated_at'
   };
@@ -14505,7 +15306,14 @@ export namespace Prisma {
     animal_id: 'animal_id',
     latitude: 'latitude',
     longitude: 'longitude',
+    altitude: 'altitude',
+    accuracy: 'accuracy',
+    speed: 'speed',
     captured_at: 'captured_at',
+    device_id: 'device_id',
+    battery: 'battery',
+    temperature: 'temperature',
+    humidity: 'humidity',
     created_at: 'created_at',
     updated_at: 'updated_at'
   };
@@ -14560,6 +15368,13 @@ export namespace Prisma {
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
     
+
+
+  /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
   /**
    * Deep Input Types
    */
@@ -14576,6 +15391,9 @@ export namespace Prisma {
     description?: StringNullableFilter<"Farms"> | string | null
     location?: StringNullableFilter<"Farms"> | string | null
     size?: FloatNullableFilter<"Farms"> | number | null
+    latitude?: FloatNullableFilter<"Farms"> | number | null
+    longitude?: FloatNullableFilter<"Farms"> | number | null
+    active?: BoolFilter<"Farms"> | boolean
     animal?: AnimalsListRelationFilter
     user?: UsersListRelationFilter
   }
@@ -14588,6 +15406,9 @@ export namespace Prisma {
     description?: SortOrderInput | SortOrder
     location?: SortOrderInput | SortOrder
     size?: SortOrderInput | SortOrder
+    latitude?: SortOrderInput | SortOrder
+    longitude?: SortOrderInput | SortOrder
+    active?: SortOrder
     animal?: AnimalsOrderByRelationAggregateInput
     user?: UsersOrderByRelationAggregateInput
   }
@@ -14603,6 +15424,9 @@ export namespace Prisma {
     description?: StringNullableFilter<"Farms"> | string | null
     location?: StringNullableFilter<"Farms"> | string | null
     size?: FloatNullableFilter<"Farms"> | number | null
+    latitude?: FloatNullableFilter<"Farms"> | number | null
+    longitude?: FloatNullableFilter<"Farms"> | number | null
+    active?: BoolFilter<"Farms"> | boolean
     animal?: AnimalsListRelationFilter
     user?: UsersListRelationFilter
   }, "id">
@@ -14615,6 +15439,9 @@ export namespace Prisma {
     description?: SortOrderInput | SortOrder
     location?: SortOrderInput | SortOrder
     size?: SortOrderInput | SortOrder
+    latitude?: SortOrderInput | SortOrder
+    longitude?: SortOrderInput | SortOrder
+    active?: SortOrder
     _count?: FarmsCountOrderByAggregateInput
     _avg?: FarmsAvgOrderByAggregateInput
     _max?: FarmsMaxOrderByAggregateInput
@@ -14633,6 +15460,9 @@ export namespace Prisma {
     description?: StringNullableWithAggregatesFilter<"Farms"> | string | null
     location?: StringNullableWithAggregatesFilter<"Farms"> | string | null
     size?: FloatNullableWithAggregatesFilter<"Farms"> | number | null
+    latitude?: FloatNullableWithAggregatesFilter<"Farms"> | number | null
+    longitude?: FloatNullableWithAggregatesFilter<"Farms"> | number | null
+    active?: BoolWithAggregatesFilter<"Farms"> | boolean
   }
 
   export type UsersWhereInput = {
@@ -14646,6 +15476,9 @@ export namespace Prisma {
     profile_photo?: StringNullableFilter<"Users"> | string | null
     role?: StringFilter<"Users"> | string
     farm_id?: IntFilter<"Users"> | number
+    active?: BoolFilter<"Users"> | boolean
+    phone?: StringNullableFilter<"Users"> | string | null
+    address?: StringNullableFilter<"Users"> | string | null
     created_at?: DateTimeFilter<"Users"> | Date | string
     updated_at?: DateTimeFilter<"Users"> | Date | string
     farmhand?: XOR<FarmhandsNullableScalarRelationFilter, FarmhandsWhereInput> | null
@@ -14661,6 +15494,9 @@ export namespace Prisma {
     profile_photo?: SortOrderInput | SortOrder
     role?: SortOrder
     farm_id?: SortOrder
+    active?: SortOrder
+    phone?: SortOrderInput | SortOrder
+    address?: SortOrderInput | SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     farmhand?: FarmhandsOrderByWithRelationInput
@@ -14679,6 +15515,9 @@ export namespace Prisma {
     profile_photo?: StringNullableFilter<"Users"> | string | null
     role?: StringFilter<"Users"> | string
     farm_id?: IntFilter<"Users"> | number
+    active?: BoolFilter<"Users"> | boolean
+    phone?: StringNullableFilter<"Users"> | string | null
+    address?: StringNullableFilter<"Users"> | string | null
     created_at?: DateTimeFilter<"Users"> | Date | string
     updated_at?: DateTimeFilter<"Users"> | Date | string
     farmhand?: XOR<FarmhandsNullableScalarRelationFilter, FarmhandsWhereInput> | null
@@ -14694,6 +15533,9 @@ export namespace Prisma {
     profile_photo?: SortOrderInput | SortOrder
     role?: SortOrder
     farm_id?: SortOrder
+    active?: SortOrder
+    phone?: SortOrderInput | SortOrder
+    address?: SortOrderInput | SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     _count?: UsersCountOrderByAggregateInput
@@ -14714,6 +15556,9 @@ export namespace Prisma {
     profile_photo?: StringNullableWithAggregatesFilter<"Users"> | string | null
     role?: StringWithAggregatesFilter<"Users"> | string
     farm_id?: IntWithAggregatesFilter<"Users"> | number
+    active?: BoolWithAggregatesFilter<"Users"> | boolean
+    phone?: StringNullableWithAggregatesFilter<"Users"> | string | null
+    address?: StringNullableWithAggregatesFilter<"Users"> | string | null
     created_at?: DateTimeWithAggregatesFilter<"Users"> | Date | string
     updated_at?: DateTimeWithAggregatesFilter<"Users"> | Date | string
   }
@@ -14724,12 +15569,20 @@ export namespace Prisma {
     NOT?: FarmhandsWhereInput | FarmhandsWhereInput[]
     id?: IntFilter<"Farmhands"> | number
     user_id?: IntFilter<"Farmhands"> | number
+    hire_date?: DateTimeFilter<"Farmhands"> | Date | string
+    salary?: FloatNullableFilter<"Farmhands"> | number | null
+    created_at?: DateTimeFilter<"Farmhands"> | Date | string
+    updated_at?: DateTimeFilter<"Farmhands"> | Date | string
     user?: XOR<UsersScalarRelationFilter, UsersWhereInput>
   }
 
   export type FarmhandsOrderByWithRelationInput = {
     id?: SortOrder
     user_id?: SortOrder
+    hire_date?: SortOrder
+    salary?: SortOrderInput | SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
     user?: UsersOrderByWithRelationInput
   }
 
@@ -14739,12 +15592,20 @@ export namespace Prisma {
     AND?: FarmhandsWhereInput | FarmhandsWhereInput[]
     OR?: FarmhandsWhereInput[]
     NOT?: FarmhandsWhereInput | FarmhandsWhereInput[]
+    hire_date?: DateTimeFilter<"Farmhands"> | Date | string
+    salary?: FloatNullableFilter<"Farmhands"> | number | null
+    created_at?: DateTimeFilter<"Farmhands"> | Date | string
+    updated_at?: DateTimeFilter<"Farmhands"> | Date | string
     user?: XOR<UsersScalarRelationFilter, UsersWhereInput>
   }, "id" | "user_id">
 
   export type FarmhandsOrderByWithAggregationInput = {
     id?: SortOrder
     user_id?: SortOrder
+    hire_date?: SortOrder
+    salary?: SortOrderInput | SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
     _count?: FarmhandsCountOrderByAggregateInput
     _avg?: FarmhandsAvgOrderByAggregateInput
     _max?: FarmhandsMaxOrderByAggregateInput
@@ -14758,6 +15619,10 @@ export namespace Prisma {
     NOT?: FarmhandsScalarWhereWithAggregatesInput | FarmhandsScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"Farmhands"> | number
     user_id?: IntWithAggregatesFilter<"Farmhands"> | number
+    hire_date?: DateTimeWithAggregatesFilter<"Farmhands"> | Date | string
+    salary?: FloatNullableWithAggregatesFilter<"Farmhands"> | number | null
+    created_at?: DateTimeWithAggregatesFilter<"Farmhands"> | Date | string
+    updated_at?: DateTimeWithAggregatesFilter<"Farmhands"> | Date | string
   }
 
   export type VeterinariansWhereInput = {
@@ -14766,6 +15631,11 @@ export namespace Prisma {
     NOT?: VeterinariansWhereInput | VeterinariansWhereInput[]
     id?: IntFilter<"Veterinarians"> | number
     user_id?: IntFilter<"Veterinarians"> | number
+    license_number?: StringNullableFilter<"Veterinarians"> | string | null
+    specialization?: StringNullableFilter<"Veterinarians"> | string | null
+    years_experience?: IntNullableFilter<"Veterinarians"> | number | null
+    created_at?: DateTimeFilter<"Veterinarians"> | Date | string
+    updated_at?: DateTimeFilter<"Veterinarians"> | Date | string
     application?: ApplicationsListRelationFilter
     user?: XOR<UsersScalarRelationFilter, UsersWhereInput>
   }
@@ -14773,6 +15643,11 @@ export namespace Prisma {
   export type VeterinariansOrderByWithRelationInput = {
     id?: SortOrder
     user_id?: SortOrder
+    license_number?: SortOrderInput | SortOrder
+    specialization?: SortOrderInput | SortOrder
+    years_experience?: SortOrderInput | SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
     application?: ApplicationsOrderByRelationAggregateInput
     user?: UsersOrderByWithRelationInput
   }
@@ -14783,6 +15658,11 @@ export namespace Prisma {
     AND?: VeterinariansWhereInput | VeterinariansWhereInput[]
     OR?: VeterinariansWhereInput[]
     NOT?: VeterinariansWhereInput | VeterinariansWhereInput[]
+    license_number?: StringNullableFilter<"Veterinarians"> | string | null
+    specialization?: StringNullableFilter<"Veterinarians"> | string | null
+    years_experience?: IntNullableFilter<"Veterinarians"> | number | null
+    created_at?: DateTimeFilter<"Veterinarians"> | Date | string
+    updated_at?: DateTimeFilter<"Veterinarians"> | Date | string
     application?: ApplicationsListRelationFilter
     user?: XOR<UsersScalarRelationFilter, UsersWhereInput>
   }, "id" | "user_id">
@@ -14790,6 +15670,11 @@ export namespace Prisma {
   export type VeterinariansOrderByWithAggregationInput = {
     id?: SortOrder
     user_id?: SortOrder
+    license_number?: SortOrderInput | SortOrder
+    specialization?: SortOrderInput | SortOrder
+    years_experience?: SortOrderInput | SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
     _count?: VeterinariansCountOrderByAggregateInput
     _avg?: VeterinariansAvgOrderByAggregateInput
     _max?: VeterinariansMaxOrderByAggregateInput
@@ -14803,6 +15688,11 @@ export namespace Prisma {
     NOT?: VeterinariansScalarWhereWithAggregatesInput | VeterinariansScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"Veterinarians"> | number
     user_id?: IntWithAggregatesFilter<"Veterinarians"> | number
+    license_number?: StringNullableWithAggregatesFilter<"Veterinarians"> | string | null
+    specialization?: StringNullableWithAggregatesFilter<"Veterinarians"> | string | null
+    years_experience?: IntNullableWithAggregatesFilter<"Veterinarians"> | number | null
+    created_at?: DateTimeWithAggregatesFilter<"Veterinarians"> | Date | string
+    updated_at?: DateTimeWithAggregatesFilter<"Veterinarians"> | Date | string
   }
 
   export type AnimalsWhereInput = {
@@ -14816,12 +15706,24 @@ export namespace Prisma {
     birth_date?: DateTimeFilter<"Animals"> | Date | string
     weight?: FloatFilter<"Animals"> | number
     health_status?: StringFilter<"Animals"> | string
+    gender?: StringNullableFilter<"Animals"> | string | null
+    color?: StringNullableFilter<"Animals"> | string | null
+    tag_number?: StringNullableFilter<"Animals"> | string | null
+    microchip_id?: StringNullableFilter<"Animals"> | string | null
+    mother_id?: IntNullableFilter<"Animals"> | number | null
+    father_id?: IntNullableFilter<"Animals"> | number | null
     farm_id?: IntFilter<"Animals"> | number
+    active?: BoolFilter<"Animals"> | boolean
+    notes?: StringNullableFilter<"Animals"> | string | null
     created_at?: DateTimeFilter<"Animals"> | Date | string
     updated_at?: DateTimeFilter<"Animals"> | Date | string
     breed?: XOR<BreedsScalarRelationFilter, BreedsWhereInput>
     farm?: XOR<FarmsScalarRelationFilter, FarmsWhereInput>
     species?: XOR<SpeciesScalarRelationFilter, SpeciesWhereInput>
+    mother?: XOR<AnimalsNullableScalarRelationFilter, AnimalsWhereInput> | null
+    father?: XOR<AnimalsNullableScalarRelationFilter, AnimalsWhereInput> | null
+    mother_children?: AnimalsListRelationFilter
+    father_children?: AnimalsListRelationFilter
     application?: ApplicationsListRelationFilter
     location?: LocationsListRelationFilter
   }
@@ -14834,18 +15736,32 @@ export namespace Prisma {
     birth_date?: SortOrder
     weight?: SortOrder
     health_status?: SortOrder
+    gender?: SortOrderInput | SortOrder
+    color?: SortOrderInput | SortOrder
+    tag_number?: SortOrderInput | SortOrder
+    microchip_id?: SortOrderInput | SortOrder
+    mother_id?: SortOrderInput | SortOrder
+    father_id?: SortOrderInput | SortOrder
     farm_id?: SortOrder
+    active?: SortOrder
+    notes?: SortOrderInput | SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     breed?: BreedsOrderByWithRelationInput
     farm?: FarmsOrderByWithRelationInput
     species?: SpeciesOrderByWithRelationInput
+    mother?: AnimalsOrderByWithRelationInput
+    father?: AnimalsOrderByWithRelationInput
+    mother_children?: AnimalsOrderByRelationAggregateInput
+    father_children?: AnimalsOrderByRelationAggregateInput
     application?: ApplicationsOrderByRelationAggregateInput
     location?: LocationsOrderByRelationAggregateInput
   }
 
   export type AnimalsWhereUniqueInput = Prisma.AtLeast<{
     id?: number
+    tag_number?: string
+    microchip_id?: string
     AND?: AnimalsWhereInput | AnimalsWhereInput[]
     OR?: AnimalsWhereInput[]
     NOT?: AnimalsWhereInput | AnimalsWhereInput[]
@@ -14855,15 +15771,25 @@ export namespace Prisma {
     birth_date?: DateTimeFilter<"Animals"> | Date | string
     weight?: FloatFilter<"Animals"> | number
     health_status?: StringFilter<"Animals"> | string
+    gender?: StringNullableFilter<"Animals"> | string | null
+    color?: StringNullableFilter<"Animals"> | string | null
+    mother_id?: IntNullableFilter<"Animals"> | number | null
+    father_id?: IntNullableFilter<"Animals"> | number | null
     farm_id?: IntFilter<"Animals"> | number
+    active?: BoolFilter<"Animals"> | boolean
+    notes?: StringNullableFilter<"Animals"> | string | null
     created_at?: DateTimeFilter<"Animals"> | Date | string
     updated_at?: DateTimeFilter<"Animals"> | Date | string
     breed?: XOR<BreedsScalarRelationFilter, BreedsWhereInput>
     farm?: XOR<FarmsScalarRelationFilter, FarmsWhereInput>
     species?: XOR<SpeciesScalarRelationFilter, SpeciesWhereInput>
+    mother?: XOR<AnimalsNullableScalarRelationFilter, AnimalsWhereInput> | null
+    father?: XOR<AnimalsNullableScalarRelationFilter, AnimalsWhereInput> | null
+    mother_children?: AnimalsListRelationFilter
+    father_children?: AnimalsListRelationFilter
     application?: ApplicationsListRelationFilter
     location?: LocationsListRelationFilter
-  }, "id">
+  }, "id" | "tag_number" | "microchip_id">
 
   export type AnimalsOrderByWithAggregationInput = {
     id?: SortOrder
@@ -14873,7 +15799,15 @@ export namespace Prisma {
     birth_date?: SortOrder
     weight?: SortOrder
     health_status?: SortOrder
+    gender?: SortOrderInput | SortOrder
+    color?: SortOrderInput | SortOrder
+    tag_number?: SortOrderInput | SortOrder
+    microchip_id?: SortOrderInput | SortOrder
+    mother_id?: SortOrderInput | SortOrder
+    father_id?: SortOrderInput | SortOrder
     farm_id?: SortOrder
+    active?: SortOrder
+    notes?: SortOrderInput | SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     _count?: AnimalsCountOrderByAggregateInput
@@ -14894,7 +15828,15 @@ export namespace Prisma {
     birth_date?: DateTimeWithAggregatesFilter<"Animals"> | Date | string
     weight?: FloatWithAggregatesFilter<"Animals"> | number
     health_status?: StringWithAggregatesFilter<"Animals"> | string
+    gender?: StringNullableWithAggregatesFilter<"Animals"> | string | null
+    color?: StringNullableWithAggregatesFilter<"Animals"> | string | null
+    tag_number?: StringNullableWithAggregatesFilter<"Animals"> | string | null
+    microchip_id?: StringNullableWithAggregatesFilter<"Animals"> | string | null
+    mother_id?: IntNullableWithAggregatesFilter<"Animals"> | number | null
+    father_id?: IntNullableWithAggregatesFilter<"Animals"> | number | null
     farm_id?: IntWithAggregatesFilter<"Animals"> | number
+    active?: BoolWithAggregatesFilter<"Animals"> | boolean
+    notes?: StringNullableWithAggregatesFilter<"Animals"> | string | null
     created_at?: DateTimeWithAggregatesFilter<"Animals"> | Date | string
     updated_at?: DateTimeWithAggregatesFilter<"Animals"> | Date | string
   }
@@ -14908,6 +15850,9 @@ export namespace Prisma {
     description?: StringFilter<"Species"> | string
     average_lifespan?: IntNullableFilter<"Species"> | number | null
     gestation_period?: IntNullableFilter<"Species"> | number | null
+    min_weight?: FloatNullableFilter<"Species"> | number | null
+    max_weight?: FloatNullableFilter<"Species"> | number | null
+    active?: BoolFilter<"Species"> | boolean
     created_at?: DateTimeFilter<"Species"> | Date | string
     updated_at?: DateTimeFilter<"Species"> | Date | string
     animal?: AnimalsListRelationFilter
@@ -14920,6 +15865,9 @@ export namespace Prisma {
     description?: SortOrder
     average_lifespan?: SortOrderInput | SortOrder
     gestation_period?: SortOrderInput | SortOrder
+    min_weight?: SortOrderInput | SortOrder
+    max_weight?: SortOrderInput | SortOrder
+    active?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     animal?: AnimalsOrderByRelationAggregateInput
@@ -14928,18 +15876,21 @@ export namespace Prisma {
 
   export type SpeciesWhereUniqueInput = Prisma.AtLeast<{
     id?: number
+    name?: string
     AND?: SpeciesWhereInput | SpeciesWhereInput[]
     OR?: SpeciesWhereInput[]
     NOT?: SpeciesWhereInput | SpeciesWhereInput[]
-    name?: StringFilter<"Species"> | string
     description?: StringFilter<"Species"> | string
     average_lifespan?: IntNullableFilter<"Species"> | number | null
     gestation_period?: IntNullableFilter<"Species"> | number | null
+    min_weight?: FloatNullableFilter<"Species"> | number | null
+    max_weight?: FloatNullableFilter<"Species"> | number | null
+    active?: BoolFilter<"Species"> | boolean
     created_at?: DateTimeFilter<"Species"> | Date | string
     updated_at?: DateTimeFilter<"Species"> | Date | string
     animal?: AnimalsListRelationFilter
     breed?: BreedsListRelationFilter
-  }, "id">
+  }, "id" | "name">
 
   export type SpeciesOrderByWithAggregationInput = {
     id?: SortOrder
@@ -14947,6 +15898,9 @@ export namespace Prisma {
     description?: SortOrder
     average_lifespan?: SortOrderInput | SortOrder
     gestation_period?: SortOrderInput | SortOrder
+    min_weight?: SortOrderInput | SortOrder
+    max_weight?: SortOrderInput | SortOrder
+    active?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     _count?: SpeciesCountOrderByAggregateInput
@@ -14965,6 +15919,9 @@ export namespace Prisma {
     description?: StringWithAggregatesFilter<"Species"> | string
     average_lifespan?: IntNullableWithAggregatesFilter<"Species"> | number | null
     gestation_period?: IntNullableWithAggregatesFilter<"Species"> | number | null
+    min_weight?: FloatNullableWithAggregatesFilter<"Species"> | number | null
+    max_weight?: FloatNullableWithAggregatesFilter<"Species"> | number | null
+    active?: BoolWithAggregatesFilter<"Species"> | boolean
     created_at?: DateTimeWithAggregatesFilter<"Species"> | Date | string
     updated_at?: DateTimeWithAggregatesFilter<"Species"> | Date | string
   }
@@ -14979,6 +15936,8 @@ export namespace Prisma {
     species_id?: IntFilter<"Breeds"> | number
     average_weight?: FloatNullableFilter<"Breeds"> | number | null
     productivity?: StringNullableFilter<"Breeds"> | string | null
+    origin_country?: StringNullableFilter<"Breeds"> | string | null
+    active?: BoolFilter<"Breeds"> | boolean
     created_at?: DateTimeFilter<"Breeds"> | Date | string
     updated_at?: DateTimeFilter<"Breeds"> | Date | string
     animal?: AnimalsListRelationFilter
@@ -14992,6 +15951,8 @@ export namespace Prisma {
     species_id?: SortOrder
     average_weight?: SortOrderInput | SortOrder
     productivity?: SortOrderInput | SortOrder
+    origin_country?: SortOrderInput | SortOrder
+    active?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     animal?: AnimalsOrderByRelationAggregateInput
@@ -15008,6 +15969,8 @@ export namespace Prisma {
     species_id?: IntFilter<"Breeds"> | number
     average_weight?: FloatNullableFilter<"Breeds"> | number | null
     productivity?: StringNullableFilter<"Breeds"> | string | null
+    origin_country?: StringNullableFilter<"Breeds"> | string | null
+    active?: BoolFilter<"Breeds"> | boolean
     created_at?: DateTimeFilter<"Breeds"> | Date | string
     updated_at?: DateTimeFilter<"Breeds"> | Date | string
     animal?: AnimalsListRelationFilter
@@ -15021,6 +15984,8 @@ export namespace Prisma {
     species_id?: SortOrder
     average_weight?: SortOrderInput | SortOrder
     productivity?: SortOrderInput | SortOrder
+    origin_country?: SortOrderInput | SortOrder
+    active?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     _count?: BreedsCountOrderByAggregateInput
@@ -15040,6 +16005,8 @@ export namespace Prisma {
     species_id?: IntWithAggregatesFilter<"Breeds"> | number
     average_weight?: FloatNullableWithAggregatesFilter<"Breeds"> | number | null
     productivity?: StringNullableWithAggregatesFilter<"Breeds"> | string | null
+    origin_country?: StringNullableWithAggregatesFilter<"Breeds"> | string | null
+    active?: BoolWithAggregatesFilter<"Breeds"> | boolean
     created_at?: DateTimeWithAggregatesFilter<"Breeds"> | Date | string
     updated_at?: DateTimeWithAggregatesFilter<"Breeds"> | Date | string
   }
@@ -15058,6 +16025,10 @@ export namespace Prisma {
     dosing_interval?: IntNullableFilter<"Vaccines"> | number | null
     type_of_vaccine_id?: IntFilter<"Vaccines"> | number
     notes?: StringFilter<"Vaccines"> | string
+    cost_per_dose?: FloatNullableFilter<"Vaccines"> | number | null
+    storage_temp_min?: FloatNullableFilter<"Vaccines"> | number | null
+    storage_temp_max?: FloatNullableFilter<"Vaccines"> | number | null
+    active?: BoolFilter<"Vaccines"> | boolean
     created_at?: DateTimeFilter<"Vaccines"> | Date | string
     updated_at?: DateTimeFilter<"Vaccines"> | Date | string
     applications?: ApplicationsListRelationFilter
@@ -15076,6 +16047,10 @@ export namespace Prisma {
     dosing_interval?: SortOrderInput | SortOrder
     type_of_vaccine_id?: SortOrder
     notes?: SortOrder
+    cost_per_dose?: SortOrderInput | SortOrder
+    storage_temp_min?: SortOrderInput | SortOrder
+    storage_temp_max?: SortOrderInput | SortOrder
+    active?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     applications?: ApplicationsOrderByRelationAggregateInput
@@ -15097,6 +16072,10 @@ export namespace Prisma {
     dosing_interval?: IntNullableFilter<"Vaccines"> | number | null
     type_of_vaccine_id?: IntFilter<"Vaccines"> | number
     notes?: StringFilter<"Vaccines"> | string
+    cost_per_dose?: FloatNullableFilter<"Vaccines"> | number | null
+    storage_temp_min?: FloatNullableFilter<"Vaccines"> | number | null
+    storage_temp_max?: FloatNullableFilter<"Vaccines"> | number | null
+    active?: BoolFilter<"Vaccines"> | boolean
     created_at?: DateTimeFilter<"Vaccines"> | Date | string
     updated_at?: DateTimeFilter<"Vaccines"> | Date | string
     applications?: ApplicationsListRelationFilter
@@ -15115,6 +16094,10 @@ export namespace Prisma {
     dosing_interval?: SortOrderInput | SortOrder
     type_of_vaccine_id?: SortOrder
     notes?: SortOrder
+    cost_per_dose?: SortOrderInput | SortOrder
+    storage_temp_min?: SortOrderInput | SortOrder
+    storage_temp_max?: SortOrderInput | SortOrder
+    active?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     _count?: VaccinesCountOrderByAggregateInput
@@ -15138,6 +16121,10 @@ export namespace Prisma {
     dosing_interval?: IntNullableWithAggregatesFilter<"Vaccines"> | number | null
     type_of_vaccine_id?: IntWithAggregatesFilter<"Vaccines"> | number
     notes?: StringWithAggregatesFilter<"Vaccines"> | string
+    cost_per_dose?: FloatNullableWithAggregatesFilter<"Vaccines"> | number | null
+    storage_temp_min?: FloatNullableWithAggregatesFilter<"Vaccines"> | number | null
+    storage_temp_max?: FloatNullableWithAggregatesFilter<"Vaccines"> | number | null
+    active?: BoolWithAggregatesFilter<"Vaccines"> | boolean
     created_at?: DateTimeWithAggregatesFilter<"Vaccines"> | Date | string
     updated_at?: DateTimeWithAggregatesFilter<"Vaccines"> | Date | string
   }
@@ -15154,6 +16141,8 @@ export namespace Prisma {
     address?: StringFilter<"Manufacturers"> | string
     country?: StringFilter<"Manufacturers"> | string
     license_number?: StringFilter<"Manufacturers"> | string
+    website?: StringNullableFilter<"Manufacturers"> | string | null
+    active?: BoolFilter<"Manufacturers"> | boolean
     created_at?: DateTimeFilter<"Manufacturers"> | Date | string
     updated_at?: DateTimeFilter<"Manufacturers"> | Date | string
     vaccines?: VaccinesListRelationFilter
@@ -15168,6 +16157,8 @@ export namespace Prisma {
     address?: SortOrder
     country?: SortOrder
     license_number?: SortOrder
+    website?: SortOrderInput | SortOrder
+    active?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     vaccines?: VaccinesOrderByRelationAggregateInput
@@ -15185,6 +16176,8 @@ export namespace Prisma {
     address?: StringFilter<"Manufacturers"> | string
     country?: StringFilter<"Manufacturers"> | string
     license_number?: StringFilter<"Manufacturers"> | string
+    website?: StringNullableFilter<"Manufacturers"> | string | null
+    active?: BoolFilter<"Manufacturers"> | boolean
     created_at?: DateTimeFilter<"Manufacturers"> | Date | string
     updated_at?: DateTimeFilter<"Manufacturers"> | Date | string
     vaccines?: VaccinesListRelationFilter
@@ -15199,6 +16192,8 @@ export namespace Prisma {
     address?: SortOrder
     country?: SortOrder
     license_number?: SortOrder
+    website?: SortOrderInput | SortOrder
+    active?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     _count?: ManufacturersCountOrderByAggregateInput
@@ -15220,6 +16215,8 @@ export namespace Prisma {
     address?: StringWithAggregatesFilter<"Manufacturers"> | string
     country?: StringWithAggregatesFilter<"Manufacturers"> | string
     license_number?: StringWithAggregatesFilter<"Manufacturers"> | string
+    website?: StringNullableWithAggregatesFilter<"Manufacturers"> | string | null
+    active?: BoolWithAggregatesFilter<"Manufacturers"> | boolean
     created_at?: DateTimeWithAggregatesFilter<"Manufacturers"> | Date | string
     updated_at?: DateTimeWithAggregatesFilter<"Manufacturers"> | Date | string
   }
@@ -15231,6 +16228,10 @@ export namespace Prisma {
     id?: IntFilter<"Types_of_Vaccines"> | number
     name?: StringFilter<"Types_of_Vaccines"> | string
     description?: StringNullableFilter<"Types_of_Vaccines"> | string | null
+    category?: StringNullableFilter<"Types_of_Vaccines"> | string | null
+    active?: BoolFilter<"Types_of_Vaccines"> | boolean
+    created_at?: DateTimeFilter<"Types_of_Vaccines"> | Date | string
+    updated_at?: DateTimeFilter<"Types_of_Vaccines"> | Date | string
     vaccines?: VaccinesListRelationFilter
   }
 
@@ -15238,23 +16239,35 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     description?: SortOrderInput | SortOrder
+    category?: SortOrderInput | SortOrder
+    active?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
     vaccines?: VaccinesOrderByRelationAggregateInput
   }
 
   export type Types_of_VaccinesWhereUniqueInput = Prisma.AtLeast<{
     id?: number
+    name?: string
     AND?: Types_of_VaccinesWhereInput | Types_of_VaccinesWhereInput[]
     OR?: Types_of_VaccinesWhereInput[]
     NOT?: Types_of_VaccinesWhereInput | Types_of_VaccinesWhereInput[]
-    name?: StringFilter<"Types_of_Vaccines"> | string
     description?: StringNullableFilter<"Types_of_Vaccines"> | string | null
+    category?: StringNullableFilter<"Types_of_Vaccines"> | string | null
+    active?: BoolFilter<"Types_of_Vaccines"> | boolean
+    created_at?: DateTimeFilter<"Types_of_Vaccines"> | Date | string
+    updated_at?: DateTimeFilter<"Types_of_Vaccines"> | Date | string
     vaccines?: VaccinesListRelationFilter
-  }, "id">
+  }, "id" | "name">
 
   export type Types_of_VaccinesOrderByWithAggregationInput = {
     id?: SortOrder
     name?: SortOrder
     description?: SortOrderInput | SortOrder
+    category?: SortOrderInput | SortOrder
+    active?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
     _count?: Types_of_VaccinesCountOrderByAggregateInput
     _avg?: Types_of_VaccinesAvgOrderByAggregateInput
     _max?: Types_of_VaccinesMaxOrderByAggregateInput
@@ -15269,6 +16282,10 @@ export namespace Prisma {
     id?: IntWithAggregatesFilter<"Types_of_Vaccines"> | number
     name?: StringWithAggregatesFilter<"Types_of_Vaccines"> | string
     description?: StringNullableWithAggregatesFilter<"Types_of_Vaccines"> | string | null
+    category?: StringNullableWithAggregatesFilter<"Types_of_Vaccines"> | string | null
+    active?: BoolWithAggregatesFilter<"Types_of_Vaccines"> | boolean
+    created_at?: DateTimeWithAggregatesFilter<"Types_of_Vaccines"> | Date | string
+    updated_at?: DateTimeWithAggregatesFilter<"Types_of_Vaccines"> | Date | string
   }
 
   export type ApplicationsWhereInput = {
@@ -15282,6 +16299,12 @@ export namespace Prisma {
     application_date?: DateTimeFilter<"Applications"> | Date | string
     next_application_date?: DateTimeNullableFilter<"Applications"> | Date | string | null
     status_vaccine_application?: StringFilter<"Applications"> | string
+    dose_number?: IntFilter<"Applications"> | number
+    application_site?: StringNullableFilter<"Applications"> | string | null
+    batch_used?: StringNullableFilter<"Applications"> | string | null
+    adverse_reaction?: StringNullableFilter<"Applications"> | string | null
+    cost?: FloatNullableFilter<"Applications"> | number | null
+    notes?: StringNullableFilter<"Applications"> | string | null
     created_at?: DateTimeFilter<"Applications"> | Date | string
     updated_at?: DateTimeFilter<"Applications"> | Date | string
     animal?: XOR<AnimalsScalarRelationFilter, AnimalsWhereInput>
@@ -15297,6 +16320,12 @@ export namespace Prisma {
     application_date?: SortOrder
     next_application_date?: SortOrderInput | SortOrder
     status_vaccine_application?: SortOrder
+    dose_number?: SortOrder
+    application_site?: SortOrderInput | SortOrder
+    batch_used?: SortOrderInput | SortOrder
+    adverse_reaction?: SortOrderInput | SortOrder
+    cost?: SortOrderInput | SortOrder
+    notes?: SortOrderInput | SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     animal?: AnimalsOrderByWithRelationInput
@@ -15315,6 +16344,12 @@ export namespace Prisma {
     application_date?: DateTimeFilter<"Applications"> | Date | string
     next_application_date?: DateTimeNullableFilter<"Applications"> | Date | string | null
     status_vaccine_application?: StringFilter<"Applications"> | string
+    dose_number?: IntFilter<"Applications"> | number
+    application_site?: StringNullableFilter<"Applications"> | string | null
+    batch_used?: StringNullableFilter<"Applications"> | string | null
+    adverse_reaction?: StringNullableFilter<"Applications"> | string | null
+    cost?: FloatNullableFilter<"Applications"> | number | null
+    notes?: StringNullableFilter<"Applications"> | string | null
     created_at?: DateTimeFilter<"Applications"> | Date | string
     updated_at?: DateTimeFilter<"Applications"> | Date | string
     animal?: XOR<AnimalsScalarRelationFilter, AnimalsWhereInput>
@@ -15330,6 +16365,12 @@ export namespace Prisma {
     application_date?: SortOrder
     next_application_date?: SortOrderInput | SortOrder
     status_vaccine_application?: SortOrder
+    dose_number?: SortOrder
+    application_site?: SortOrderInput | SortOrder
+    batch_used?: SortOrderInput | SortOrder
+    adverse_reaction?: SortOrderInput | SortOrder
+    cost?: SortOrderInput | SortOrder
+    notes?: SortOrderInput | SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     _count?: ApplicationsCountOrderByAggregateInput
@@ -15350,6 +16391,12 @@ export namespace Prisma {
     application_date?: DateTimeWithAggregatesFilter<"Applications"> | Date | string
     next_application_date?: DateTimeNullableWithAggregatesFilter<"Applications"> | Date | string | null
     status_vaccine_application?: StringWithAggregatesFilter<"Applications"> | string
+    dose_number?: IntWithAggregatesFilter<"Applications"> | number
+    application_site?: StringNullableWithAggregatesFilter<"Applications"> | string | null
+    batch_used?: StringNullableWithAggregatesFilter<"Applications"> | string | null
+    adverse_reaction?: StringNullableWithAggregatesFilter<"Applications"> | string | null
+    cost?: FloatNullableWithAggregatesFilter<"Applications"> | number | null
+    notes?: StringNullableWithAggregatesFilter<"Applications"> | string | null
     created_at?: DateTimeWithAggregatesFilter<"Applications"> | Date | string
     updated_at?: DateTimeWithAggregatesFilter<"Applications"> | Date | string
   }
@@ -15362,7 +16409,14 @@ export namespace Prisma {
     animal_id?: IntFilter<"Locations"> | number
     latitude?: FloatFilter<"Locations"> | number
     longitude?: FloatFilter<"Locations"> | number
+    altitude?: FloatNullableFilter<"Locations"> | number | null
+    accuracy?: FloatNullableFilter<"Locations"> | number | null
+    speed?: FloatNullableFilter<"Locations"> | number | null
     captured_at?: DateTimeFilter<"Locations"> | Date | string
+    device_id?: StringNullableFilter<"Locations"> | string | null
+    battery?: IntNullableFilter<"Locations"> | number | null
+    temperature?: FloatNullableFilter<"Locations"> | number | null
+    humidity?: FloatNullableFilter<"Locations"> | number | null
     created_at?: DateTimeFilter<"Locations"> | Date | string
     updated_at?: DateTimeFilter<"Locations"> | Date | string
     animal?: XOR<AnimalsScalarRelationFilter, AnimalsWhereInput>
@@ -15373,7 +16427,14 @@ export namespace Prisma {
     animal_id?: SortOrder
     latitude?: SortOrder
     longitude?: SortOrder
+    altitude?: SortOrderInput | SortOrder
+    accuracy?: SortOrderInput | SortOrder
+    speed?: SortOrderInput | SortOrder
     captured_at?: SortOrder
+    device_id?: SortOrderInput | SortOrder
+    battery?: SortOrderInput | SortOrder
+    temperature?: SortOrderInput | SortOrder
+    humidity?: SortOrderInput | SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     animal?: AnimalsOrderByWithRelationInput
@@ -15387,7 +16448,14 @@ export namespace Prisma {
     animal_id?: IntFilter<"Locations"> | number
     latitude?: FloatFilter<"Locations"> | number
     longitude?: FloatFilter<"Locations"> | number
+    altitude?: FloatNullableFilter<"Locations"> | number | null
+    accuracy?: FloatNullableFilter<"Locations"> | number | null
+    speed?: FloatNullableFilter<"Locations"> | number | null
     captured_at?: DateTimeFilter<"Locations"> | Date | string
+    device_id?: StringNullableFilter<"Locations"> | string | null
+    battery?: IntNullableFilter<"Locations"> | number | null
+    temperature?: FloatNullableFilter<"Locations"> | number | null
+    humidity?: FloatNullableFilter<"Locations"> | number | null
     created_at?: DateTimeFilter<"Locations"> | Date | string
     updated_at?: DateTimeFilter<"Locations"> | Date | string
     animal?: XOR<AnimalsScalarRelationFilter, AnimalsWhereInput>
@@ -15398,7 +16466,14 @@ export namespace Prisma {
     animal_id?: SortOrder
     latitude?: SortOrder
     longitude?: SortOrder
+    altitude?: SortOrderInput | SortOrder
+    accuracy?: SortOrderInput | SortOrder
+    speed?: SortOrderInput | SortOrder
     captured_at?: SortOrder
+    device_id?: SortOrderInput | SortOrder
+    battery?: SortOrderInput | SortOrder
+    temperature?: SortOrderInput | SortOrder
+    humidity?: SortOrderInput | SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     _count?: LocationsCountOrderByAggregateInput
@@ -15416,7 +16491,14 @@ export namespace Prisma {
     animal_id?: IntWithAggregatesFilter<"Locations"> | number
     latitude?: FloatWithAggregatesFilter<"Locations"> | number
     longitude?: FloatWithAggregatesFilter<"Locations"> | number
+    altitude?: FloatNullableWithAggregatesFilter<"Locations"> | number | null
+    accuracy?: FloatNullableWithAggregatesFilter<"Locations"> | number | null
+    speed?: FloatNullableWithAggregatesFilter<"Locations"> | number | null
     captured_at?: DateTimeWithAggregatesFilter<"Locations"> | Date | string
+    device_id?: StringNullableWithAggregatesFilter<"Locations"> | string | null
+    battery?: IntNullableWithAggregatesFilter<"Locations"> | number | null
+    temperature?: FloatNullableWithAggregatesFilter<"Locations"> | number | null
+    humidity?: FloatNullableWithAggregatesFilter<"Locations"> | number | null
     created_at?: DateTimeWithAggregatesFilter<"Locations"> | Date | string
     updated_at?: DateTimeWithAggregatesFilter<"Locations"> | Date | string
   }
@@ -15428,6 +16510,9 @@ export namespace Prisma {
     description?: string | null
     location?: string | null
     size?: number | null
+    latitude?: number | null
+    longitude?: number | null
+    active?: boolean
     animal?: AnimalsCreateNestedManyWithoutFarmInput
     user?: UsersCreateNestedManyWithoutFarmInput
   }
@@ -15440,6 +16525,9 @@ export namespace Prisma {
     description?: string | null
     location?: string | null
     size?: number | null
+    latitude?: number | null
+    longitude?: number | null
+    active?: boolean
     animal?: AnimalsUncheckedCreateNestedManyWithoutFarmInput
     user?: UsersUncheckedCreateNestedManyWithoutFarmInput
   }
@@ -15451,6 +16539,9 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     size?: NullableFloatFieldUpdateOperationsInput | number | null
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    active?: BoolFieldUpdateOperationsInput | boolean
     animal?: AnimalsUpdateManyWithoutFarmNestedInput
     user?: UsersUpdateManyWithoutFarmNestedInput
   }
@@ -15463,6 +16554,9 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     size?: NullableFloatFieldUpdateOperationsInput | number | null
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    active?: BoolFieldUpdateOperationsInput | boolean
     animal?: AnimalsUncheckedUpdateManyWithoutFarmNestedInput
     user?: UsersUncheckedUpdateManyWithoutFarmNestedInput
   }
@@ -15474,6 +16568,9 @@ export namespace Prisma {
     description?: string | null
     location?: string | null
     size?: number | null
+    latitude?: number | null
+    longitude?: number | null
+    active?: boolean
   }
 
   export type FarmsUpdateManyMutationInput = {
@@ -15483,6 +16580,9 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     size?: NullableFloatFieldUpdateOperationsInput | number | null
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    active?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type FarmsUncheckedUpdateManyInput = {
@@ -15493,6 +16593,9 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     size?: NullableFloatFieldUpdateOperationsInput | number | null
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    active?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type UsersCreateInput = {
@@ -15501,6 +16604,9 @@ export namespace Prisma {
     password: string
     profile_photo?: string | null
     role: string
+    active?: boolean
+    phone?: string | null
+    address?: string | null
     created_at?: Date | string
     updated_at?: Date | string
     farmhand?: FarmhandsCreateNestedOneWithoutUserInput
@@ -15516,6 +16622,9 @@ export namespace Prisma {
     profile_photo?: string | null
     role: string
     farm_id: number
+    active?: boolean
+    phone?: string | null
+    address?: string | null
     created_at?: Date | string
     updated_at?: Date | string
     farmhand?: FarmhandsUncheckedCreateNestedOneWithoutUserInput
@@ -15528,6 +16637,9 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     profile_photo?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
+    active?: BoolFieldUpdateOperationsInput | boolean
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     farmhand?: FarmhandsUpdateOneWithoutUserNestedInput
@@ -15543,6 +16655,9 @@ export namespace Prisma {
     profile_photo?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
     farm_id?: IntFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     farmhand?: FarmhandsUncheckedUpdateOneWithoutUserNestedInput
@@ -15556,6 +16671,9 @@ export namespace Prisma {
     profile_photo?: string | null
     role: string
     farm_id: number
+    active?: boolean
+    phone?: string | null
+    address?: string | null
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -15566,6 +16684,9 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     profile_photo?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
+    active?: BoolFieldUpdateOperationsInput | boolean
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -15578,42 +16699,77 @@ export namespace Prisma {
     profile_photo?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
     farm_id?: IntFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type FarmhandsCreateInput = {
+    hire_date?: Date | string
+    salary?: number | null
+    created_at?: Date | string
+    updated_at?: Date | string
     user: UsersCreateNestedOneWithoutFarmhandInput
   }
 
   export type FarmhandsUncheckedCreateInput = {
     id?: number
     user_id: number
+    hire_date?: Date | string
+    salary?: number | null
+    created_at?: Date | string
+    updated_at?: Date | string
   }
 
   export type FarmhandsUpdateInput = {
+    hire_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    salary?: NullableFloatFieldUpdateOperationsInput | number | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UsersUpdateOneRequiredWithoutFarmhandNestedInput
   }
 
   export type FarmhandsUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     user_id?: IntFieldUpdateOperationsInput | number
+    hire_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    salary?: NullableFloatFieldUpdateOperationsInput | number | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type FarmhandsCreateManyInput = {
     user_id: number
+    hire_date?: Date | string
+    salary?: number | null
+    created_at?: Date | string
+    updated_at?: Date | string
   }
 
   export type FarmhandsUpdateManyMutationInput = {
-
+    hire_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    salary?: NullableFloatFieldUpdateOperationsInput | number | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type FarmhandsUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     user_id?: IntFieldUpdateOperationsInput | number
+    hire_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    salary?: NullableFloatFieldUpdateOperationsInput | number | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type VeterinariansCreateInput = {
+    license_number?: string | null
+    specialization?: string | null
+    years_experience?: number | null
+    created_at?: Date | string
+    updated_at?: Date | string
     application?: ApplicationsCreateNestedManyWithoutVeterinaryInput
     user: UsersCreateNestedOneWithoutVeterinaryInput
   }
@@ -15621,10 +16777,20 @@ export namespace Prisma {
   export type VeterinariansUncheckedCreateInput = {
     id?: number
     user_id: number
+    license_number?: string | null
+    specialization?: string | null
+    years_experience?: number | null
+    created_at?: Date | string
+    updated_at?: Date | string
     application?: ApplicationsUncheckedCreateNestedManyWithoutVeterinaryInput
   }
 
   export type VeterinariansUpdateInput = {
+    license_number?: NullableStringFieldUpdateOperationsInput | string | null
+    specialization?: NullableStringFieldUpdateOperationsInput | string | null
+    years_experience?: NullableIntFieldUpdateOperationsInput | number | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     application?: ApplicationsUpdateManyWithoutVeterinaryNestedInput
     user?: UsersUpdateOneRequiredWithoutVeterinaryNestedInput
   }
@@ -15632,32 +16798,61 @@ export namespace Prisma {
   export type VeterinariansUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     user_id?: IntFieldUpdateOperationsInput | number
+    license_number?: NullableStringFieldUpdateOperationsInput | string | null
+    specialization?: NullableStringFieldUpdateOperationsInput | string | null
+    years_experience?: NullableIntFieldUpdateOperationsInput | number | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     application?: ApplicationsUncheckedUpdateManyWithoutVeterinaryNestedInput
   }
 
   export type VeterinariansCreateManyInput = {
     user_id: number
+    license_number?: string | null
+    specialization?: string | null
+    years_experience?: number | null
+    created_at?: Date | string
+    updated_at?: Date | string
   }
 
   export type VeterinariansUpdateManyMutationInput = {
-
+    license_number?: NullableStringFieldUpdateOperationsInput | string | null
+    specialization?: NullableStringFieldUpdateOperationsInput | string | null
+    years_experience?: NullableIntFieldUpdateOperationsInput | number | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type VeterinariansUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     user_id?: IntFieldUpdateOperationsInput | number
+    license_number?: NullableStringFieldUpdateOperationsInput | string | null
+    specialization?: NullableStringFieldUpdateOperationsInput | string | null
+    years_experience?: NullableIntFieldUpdateOperationsInput | number | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type AnimalsCreateInput = {
     name: string
     birth_date: Date | string
-    weight: number
-    health_status: string
+    weight?: number
+    health_status?: string
+    gender?: string | null
+    color?: string | null
+    tag_number?: string | null
+    microchip_id?: string | null
+    active?: boolean
+    notes?: string | null
     created_at?: Date | string
     updated_at?: Date | string
     breed: BreedsCreateNestedOneWithoutAnimalInput
     farm: FarmsCreateNestedOneWithoutAnimalInput
     species: SpeciesCreateNestedOneWithoutAnimalInput
+    mother?: AnimalsCreateNestedOneWithoutMother_childrenInput
+    father?: AnimalsCreateNestedOneWithoutFather_childrenInput
+    mother_children?: AnimalsCreateNestedManyWithoutMotherInput
+    father_children?: AnimalsCreateNestedManyWithoutFatherInput
     application?: ApplicationsCreateNestedManyWithoutAnimalInput
     location?: LocationsCreateNestedManyWithoutAnimalInput
   }
@@ -15668,11 +16863,21 @@ export namespace Prisma {
     species_id: number
     breed_id: number
     birth_date: Date | string
-    weight: number
-    health_status: string
+    weight?: number
+    health_status?: string
+    gender?: string | null
+    color?: string | null
+    tag_number?: string | null
+    microchip_id?: string | null
+    mother_id?: number | null
+    father_id?: number | null
     farm_id: number
+    active?: boolean
+    notes?: string | null
     created_at?: Date | string
     updated_at?: Date | string
+    mother_children?: AnimalsUncheckedCreateNestedManyWithoutMotherInput
+    father_children?: AnimalsUncheckedCreateNestedManyWithoutFatherInput
     application?: ApplicationsUncheckedCreateNestedManyWithoutAnimalInput
     location?: LocationsUncheckedCreateNestedManyWithoutAnimalInput
   }
@@ -15682,11 +16887,21 @@ export namespace Prisma {
     birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
     weight?: FloatFieldUpdateOperationsInput | number
     health_status?: StringFieldUpdateOperationsInput | string
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    tag_number?: NullableStringFieldUpdateOperationsInput | string | null
+    microchip_id?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     breed?: BreedsUpdateOneRequiredWithoutAnimalNestedInput
     farm?: FarmsUpdateOneRequiredWithoutAnimalNestedInput
     species?: SpeciesUpdateOneRequiredWithoutAnimalNestedInput
+    mother?: AnimalsUpdateOneWithoutMother_childrenNestedInput
+    father?: AnimalsUpdateOneWithoutFather_childrenNestedInput
+    mother_children?: AnimalsUpdateManyWithoutMotherNestedInput
+    father_children?: AnimalsUpdateManyWithoutFatherNestedInput
     application?: ApplicationsUpdateManyWithoutAnimalNestedInput
     location?: LocationsUpdateManyWithoutAnimalNestedInput
   }
@@ -15699,9 +16914,19 @@ export namespace Prisma {
     birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
     weight?: FloatFieldUpdateOperationsInput | number
     health_status?: StringFieldUpdateOperationsInput | string
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    tag_number?: NullableStringFieldUpdateOperationsInput | string | null
+    microchip_id?: NullableStringFieldUpdateOperationsInput | string | null
+    mother_id?: NullableIntFieldUpdateOperationsInput | number | null
+    father_id?: NullableIntFieldUpdateOperationsInput | number | null
     farm_id?: IntFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    mother_children?: AnimalsUncheckedUpdateManyWithoutMotherNestedInput
+    father_children?: AnimalsUncheckedUpdateManyWithoutFatherNestedInput
     application?: ApplicationsUncheckedUpdateManyWithoutAnimalNestedInput
     location?: LocationsUncheckedUpdateManyWithoutAnimalNestedInput
   }
@@ -15711,9 +16936,17 @@ export namespace Prisma {
     species_id: number
     breed_id: number
     birth_date: Date | string
-    weight: number
-    health_status: string
+    weight?: number
+    health_status?: string
+    gender?: string | null
+    color?: string | null
+    tag_number?: string | null
+    microchip_id?: string | null
+    mother_id?: number | null
+    father_id?: number | null
     farm_id: number
+    active?: boolean
+    notes?: string | null
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -15723,6 +16956,12 @@ export namespace Prisma {
     birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
     weight?: FloatFieldUpdateOperationsInput | number
     health_status?: StringFieldUpdateOperationsInput | string
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    tag_number?: NullableStringFieldUpdateOperationsInput | string | null
+    microchip_id?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -15735,7 +16974,15 @@ export namespace Prisma {
     birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
     weight?: FloatFieldUpdateOperationsInput | number
     health_status?: StringFieldUpdateOperationsInput | string
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    tag_number?: NullableStringFieldUpdateOperationsInput | string | null
+    microchip_id?: NullableStringFieldUpdateOperationsInput | string | null
+    mother_id?: NullableIntFieldUpdateOperationsInput | number | null
+    father_id?: NullableIntFieldUpdateOperationsInput | number | null
     farm_id?: IntFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -15745,6 +16992,9 @@ export namespace Prisma {
     description: string
     average_lifespan?: number | null
     gestation_period?: number | null
+    min_weight?: number | null
+    max_weight?: number | null
+    active?: boolean
     created_at?: Date | string
     updated_at?: Date | string
     animal?: AnimalsCreateNestedManyWithoutSpeciesInput
@@ -15757,6 +17007,9 @@ export namespace Prisma {
     description: string
     average_lifespan?: number | null
     gestation_period?: number | null
+    min_weight?: number | null
+    max_weight?: number | null
+    active?: boolean
     created_at?: Date | string
     updated_at?: Date | string
     animal?: AnimalsUncheckedCreateNestedManyWithoutSpeciesInput
@@ -15768,6 +17021,9 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     average_lifespan?: NullableIntFieldUpdateOperationsInput | number | null
     gestation_period?: NullableIntFieldUpdateOperationsInput | number | null
+    min_weight?: NullableFloatFieldUpdateOperationsInput | number | null
+    max_weight?: NullableFloatFieldUpdateOperationsInput | number | null
+    active?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     animal?: AnimalsUpdateManyWithoutSpeciesNestedInput
@@ -15780,6 +17036,9 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     average_lifespan?: NullableIntFieldUpdateOperationsInput | number | null
     gestation_period?: NullableIntFieldUpdateOperationsInput | number | null
+    min_weight?: NullableFloatFieldUpdateOperationsInput | number | null
+    max_weight?: NullableFloatFieldUpdateOperationsInput | number | null
+    active?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     animal?: AnimalsUncheckedUpdateManyWithoutSpeciesNestedInput
@@ -15791,6 +17050,9 @@ export namespace Prisma {
     description: string
     average_lifespan?: number | null
     gestation_period?: number | null
+    min_weight?: number | null
+    max_weight?: number | null
+    active?: boolean
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -15800,6 +17062,9 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     average_lifespan?: NullableIntFieldUpdateOperationsInput | number | null
     gestation_period?: NullableIntFieldUpdateOperationsInput | number | null
+    min_weight?: NullableFloatFieldUpdateOperationsInput | number | null
+    max_weight?: NullableFloatFieldUpdateOperationsInput | number | null
+    active?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -15810,6 +17075,9 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     average_lifespan?: NullableIntFieldUpdateOperationsInput | number | null
     gestation_period?: NullableIntFieldUpdateOperationsInput | number | null
+    min_weight?: NullableFloatFieldUpdateOperationsInput | number | null
+    max_weight?: NullableFloatFieldUpdateOperationsInput | number | null
+    active?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -15819,6 +17087,8 @@ export namespace Prisma {
     description: string
     average_weight?: number | null
     productivity?: string | null
+    origin_country?: string | null
+    active?: boolean
     created_at?: Date | string
     updated_at?: Date | string
     animal?: AnimalsCreateNestedManyWithoutBreedInput
@@ -15832,6 +17102,8 @@ export namespace Prisma {
     species_id: number
     average_weight?: number | null
     productivity?: string | null
+    origin_country?: string | null
+    active?: boolean
     created_at?: Date | string
     updated_at?: Date | string
     animal?: AnimalsUncheckedCreateNestedManyWithoutBreedInput
@@ -15842,6 +17114,8 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     average_weight?: NullableFloatFieldUpdateOperationsInput | number | null
     productivity?: NullableStringFieldUpdateOperationsInput | string | null
+    origin_country?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     animal?: AnimalsUpdateManyWithoutBreedNestedInput
@@ -15855,6 +17129,8 @@ export namespace Prisma {
     species_id?: IntFieldUpdateOperationsInput | number
     average_weight?: NullableFloatFieldUpdateOperationsInput | number | null
     productivity?: NullableStringFieldUpdateOperationsInput | string | null
+    origin_country?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     animal?: AnimalsUncheckedUpdateManyWithoutBreedNestedInput
@@ -15866,6 +17142,8 @@ export namespace Prisma {
     species_id: number
     average_weight?: number | null
     productivity?: string | null
+    origin_country?: string | null
+    active?: boolean
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -15875,6 +17153,8 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     average_weight?: NullableFloatFieldUpdateOperationsInput | number | null
     productivity?: NullableStringFieldUpdateOperationsInput | string | null
+    origin_country?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -15886,6 +17166,8 @@ export namespace Prisma {
     species_id?: IntFieldUpdateOperationsInput | number
     average_weight?: NullableFloatFieldUpdateOperationsInput | number | null
     productivity?: NullableStringFieldUpdateOperationsInput | string | null
+    origin_country?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -15895,9 +17177,13 @@ export namespace Prisma {
     target_disease: string
     batch: string
     expiration_date: Date | string
-    required_doses: number
+    required_doses?: number
     dosing_interval?: number | null
     notes: string
+    cost_per_dose?: number | null
+    storage_temp_min?: number | null
+    storage_temp_max?: number | null
+    active?: boolean
     created_at?: Date | string
     updated_at?: Date | string
     applications?: ApplicationsCreateNestedManyWithoutVaccineInput
@@ -15912,10 +17198,14 @@ export namespace Prisma {
     manufacturer_id: number
     batch: string
     expiration_date: Date | string
-    required_doses: number
+    required_doses?: number
     dosing_interval?: number | null
     type_of_vaccine_id: number
     notes: string
+    cost_per_dose?: number | null
+    storage_temp_min?: number | null
+    storage_temp_max?: number | null
+    active?: boolean
     created_at?: Date | string
     updated_at?: Date | string
     applications?: ApplicationsUncheckedCreateNestedManyWithoutVaccineInput
@@ -15929,6 +17219,10 @@ export namespace Prisma {
     required_doses?: IntFieldUpdateOperationsInput | number
     dosing_interval?: NullableIntFieldUpdateOperationsInput | number | null
     notes?: StringFieldUpdateOperationsInput | string
+    cost_per_dose?: NullableFloatFieldUpdateOperationsInput | number | null
+    storage_temp_min?: NullableFloatFieldUpdateOperationsInput | number | null
+    storage_temp_max?: NullableFloatFieldUpdateOperationsInput | number | null
+    active?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     applications?: ApplicationsUpdateManyWithoutVaccineNestedInput
@@ -15947,6 +17241,10 @@ export namespace Prisma {
     dosing_interval?: NullableIntFieldUpdateOperationsInput | number | null
     type_of_vaccine_id?: IntFieldUpdateOperationsInput | number
     notes?: StringFieldUpdateOperationsInput | string
+    cost_per_dose?: NullableFloatFieldUpdateOperationsInput | number | null
+    storage_temp_min?: NullableFloatFieldUpdateOperationsInput | number | null
+    storage_temp_max?: NullableFloatFieldUpdateOperationsInput | number | null
+    active?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     applications?: ApplicationsUncheckedUpdateManyWithoutVaccineNestedInput
@@ -15958,10 +17256,14 @@ export namespace Prisma {
     manufacturer_id: number
     batch: string
     expiration_date: Date | string
-    required_doses: number
+    required_doses?: number
     dosing_interval?: number | null
     type_of_vaccine_id: number
     notes: string
+    cost_per_dose?: number | null
+    storage_temp_min?: number | null
+    storage_temp_max?: number | null
+    active?: boolean
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -15974,6 +17276,10 @@ export namespace Prisma {
     required_doses?: IntFieldUpdateOperationsInput | number
     dosing_interval?: NullableIntFieldUpdateOperationsInput | number | null
     notes?: StringFieldUpdateOperationsInput | string
+    cost_per_dose?: NullableFloatFieldUpdateOperationsInput | number | null
+    storage_temp_min?: NullableFloatFieldUpdateOperationsInput | number | null
+    storage_temp_max?: NullableFloatFieldUpdateOperationsInput | number | null
+    active?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -15989,6 +17295,10 @@ export namespace Prisma {
     dosing_interval?: NullableIntFieldUpdateOperationsInput | number | null
     type_of_vaccine_id?: IntFieldUpdateOperationsInput | number
     notes?: StringFieldUpdateOperationsInput | string
+    cost_per_dose?: NullableFloatFieldUpdateOperationsInput | number | null
+    storage_temp_min?: NullableFloatFieldUpdateOperationsInput | number | null
+    storage_temp_max?: NullableFloatFieldUpdateOperationsInput | number | null
+    active?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -16001,6 +17311,8 @@ export namespace Prisma {
     address: string
     country: string
     license_number: string
+    website?: string | null
+    active?: boolean
     created_at?: Date | string
     updated_at?: Date | string
     vaccines?: VaccinesCreateNestedManyWithoutManufacturerInput
@@ -16015,6 +17327,8 @@ export namespace Prisma {
     address: string
     country: string
     license_number: string
+    website?: string | null
+    active?: boolean
     created_at?: Date | string
     updated_at?: Date | string
     vaccines?: VaccinesUncheckedCreateNestedManyWithoutManufacturerInput
@@ -16028,6 +17342,8 @@ export namespace Prisma {
     address?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
     license_number?: StringFieldUpdateOperationsInput | string
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     vaccines?: VaccinesUpdateManyWithoutManufacturerNestedInput
@@ -16042,6 +17358,8 @@ export namespace Prisma {
     address?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
     license_number?: StringFieldUpdateOperationsInput | string
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     vaccines?: VaccinesUncheckedUpdateManyWithoutManufacturerNestedInput
@@ -16055,6 +17373,8 @@ export namespace Prisma {
     address: string
     country: string
     license_number: string
+    website?: string | null
+    active?: boolean
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -16067,6 +17387,8 @@ export namespace Prisma {
     address?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
     license_number?: StringFieldUpdateOperationsInput | string
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -16080,6 +17402,8 @@ export namespace Prisma {
     address?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
     license_number?: StringFieldUpdateOperationsInput | string
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -16087,6 +17411,10 @@ export namespace Prisma {
   export type Types_of_VaccinesCreateInput = {
     name: string
     description?: string | null
+    category?: string | null
+    active?: boolean
+    created_at?: Date | string
+    updated_at?: Date | string
     vaccines?: VaccinesCreateNestedManyWithoutType_of_vaccineInput
   }
 
@@ -16094,12 +17422,20 @@ export namespace Prisma {
     id?: number
     name: string
     description?: string | null
+    category?: string | null
+    active?: boolean
+    created_at?: Date | string
+    updated_at?: Date | string
     vaccines?: VaccinesUncheckedCreateNestedManyWithoutType_of_vaccineInput
   }
 
   export type Types_of_VaccinesUpdateInput = {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     vaccines?: VaccinesUpdateManyWithoutType_of_vaccineNestedInput
   }
 
@@ -16107,29 +17443,51 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     vaccines?: VaccinesUncheckedUpdateManyWithoutType_of_vaccineNestedInput
   }
 
   export type Types_of_VaccinesCreateManyInput = {
     name: string
     description?: string | null
+    category?: string | null
+    active?: boolean
+    created_at?: Date | string
+    updated_at?: Date | string
   }
 
   export type Types_of_VaccinesUpdateManyMutationInput = {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type Types_of_VaccinesUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ApplicationsCreateInput = {
-    application_date: Date | string
+    application_date?: Date | string
     next_application_date?: Date | string | null
-    status_vaccine_application: string
+    status_vaccine_application?: string
+    dose_number?: number
+    application_site?: string | null
+    batch_used?: string | null
+    adverse_reaction?: string | null
+    cost?: number | null
+    notes?: string | null
     created_at?: Date | string
     updated_at?: Date | string
     animal: AnimalsCreateNestedOneWithoutApplicationInput
@@ -16142,9 +17500,15 @@ export namespace Prisma {
     animal_id: number
     vaccine_id: number
     veterinary_id: number
-    application_date: Date | string
+    application_date?: Date | string
     next_application_date?: Date | string | null
-    status_vaccine_application: string
+    status_vaccine_application?: string
+    dose_number?: number
+    application_site?: string | null
+    batch_used?: string | null
+    adverse_reaction?: string | null
+    cost?: number | null
+    notes?: string | null
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -16153,6 +17517,12 @@ export namespace Prisma {
     application_date?: DateTimeFieldUpdateOperationsInput | Date | string
     next_application_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status_vaccine_application?: StringFieldUpdateOperationsInput | string
+    dose_number?: IntFieldUpdateOperationsInput | number
+    application_site?: NullableStringFieldUpdateOperationsInput | string | null
+    batch_used?: NullableStringFieldUpdateOperationsInput | string | null
+    adverse_reaction?: NullableStringFieldUpdateOperationsInput | string | null
+    cost?: NullableFloatFieldUpdateOperationsInput | number | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     animal?: AnimalsUpdateOneRequiredWithoutApplicationNestedInput
@@ -16168,6 +17538,12 @@ export namespace Prisma {
     application_date?: DateTimeFieldUpdateOperationsInput | Date | string
     next_application_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status_vaccine_application?: StringFieldUpdateOperationsInput | string
+    dose_number?: IntFieldUpdateOperationsInput | number
+    application_site?: NullableStringFieldUpdateOperationsInput | string | null
+    batch_used?: NullableStringFieldUpdateOperationsInput | string | null
+    adverse_reaction?: NullableStringFieldUpdateOperationsInput | string | null
+    cost?: NullableFloatFieldUpdateOperationsInput | number | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -16176,9 +17552,15 @@ export namespace Prisma {
     animal_id: number
     vaccine_id: number
     veterinary_id: number
-    application_date: Date | string
+    application_date?: Date | string
     next_application_date?: Date | string | null
-    status_vaccine_application: string
+    status_vaccine_application?: string
+    dose_number?: number
+    application_site?: string | null
+    batch_used?: string | null
+    adverse_reaction?: string | null
+    cost?: number | null
+    notes?: string | null
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -16187,6 +17569,12 @@ export namespace Prisma {
     application_date?: DateTimeFieldUpdateOperationsInput | Date | string
     next_application_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status_vaccine_application?: StringFieldUpdateOperationsInput | string
+    dose_number?: IntFieldUpdateOperationsInput | number
+    application_site?: NullableStringFieldUpdateOperationsInput | string | null
+    batch_used?: NullableStringFieldUpdateOperationsInput | string | null
+    adverse_reaction?: NullableStringFieldUpdateOperationsInput | string | null
+    cost?: NullableFloatFieldUpdateOperationsInput | number | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -16199,6 +17587,12 @@ export namespace Prisma {
     application_date?: DateTimeFieldUpdateOperationsInput | Date | string
     next_application_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status_vaccine_application?: StringFieldUpdateOperationsInput | string
+    dose_number?: IntFieldUpdateOperationsInput | number
+    application_site?: NullableStringFieldUpdateOperationsInput | string | null
+    batch_used?: NullableStringFieldUpdateOperationsInput | string | null
+    adverse_reaction?: NullableStringFieldUpdateOperationsInput | string | null
+    cost?: NullableFloatFieldUpdateOperationsInput | number | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -16206,7 +17600,14 @@ export namespace Prisma {
   export type LocationsCreateInput = {
     latitude: number
     longitude: number
-    captured_at: Date | string
+    altitude?: number | null
+    accuracy?: number | null
+    speed?: number | null
+    captured_at?: Date | string
+    device_id?: string | null
+    battery?: number | null
+    temperature?: number | null
+    humidity?: number | null
     created_at?: Date | string
     updated_at?: Date | string
     animal: AnimalsCreateNestedOneWithoutLocationInput
@@ -16217,7 +17618,14 @@ export namespace Prisma {
     animal_id: number
     latitude: number
     longitude: number
-    captured_at: Date | string
+    altitude?: number | null
+    accuracy?: number | null
+    speed?: number | null
+    captured_at?: Date | string
+    device_id?: string | null
+    battery?: number | null
+    temperature?: number | null
+    humidity?: number | null
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -16225,7 +17633,14 @@ export namespace Prisma {
   export type LocationsUpdateInput = {
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
+    altitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    accuracy?: NullableFloatFieldUpdateOperationsInput | number | null
+    speed?: NullableFloatFieldUpdateOperationsInput | number | null
     captured_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    device_id?: NullableStringFieldUpdateOperationsInput | string | null
+    battery?: NullableIntFieldUpdateOperationsInput | number | null
+    temperature?: NullableFloatFieldUpdateOperationsInput | number | null
+    humidity?: NullableFloatFieldUpdateOperationsInput | number | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     animal?: AnimalsUpdateOneRequiredWithoutLocationNestedInput
@@ -16236,7 +17651,14 @@ export namespace Prisma {
     animal_id?: IntFieldUpdateOperationsInput | number
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
+    altitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    accuracy?: NullableFloatFieldUpdateOperationsInput | number | null
+    speed?: NullableFloatFieldUpdateOperationsInput | number | null
     captured_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    device_id?: NullableStringFieldUpdateOperationsInput | string | null
+    battery?: NullableIntFieldUpdateOperationsInput | number | null
+    temperature?: NullableFloatFieldUpdateOperationsInput | number | null
+    humidity?: NullableFloatFieldUpdateOperationsInput | number | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -16245,7 +17667,14 @@ export namespace Prisma {
     animal_id: number
     latitude: number
     longitude: number
-    captured_at: Date | string
+    altitude?: number | null
+    accuracy?: number | null
+    speed?: number | null
+    captured_at?: Date | string
+    device_id?: string | null
+    battery?: number | null
+    temperature?: number | null
+    humidity?: number | null
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -16253,7 +17682,14 @@ export namespace Prisma {
   export type LocationsUpdateManyMutationInput = {
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
+    altitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    accuracy?: NullableFloatFieldUpdateOperationsInput | number | null
+    speed?: NullableFloatFieldUpdateOperationsInput | number | null
     captured_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    device_id?: NullableStringFieldUpdateOperationsInput | string | null
+    battery?: NullableIntFieldUpdateOperationsInput | number | null
+    temperature?: NullableFloatFieldUpdateOperationsInput | number | null
+    humidity?: NullableFloatFieldUpdateOperationsInput | number | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -16263,7 +17699,14 @@ export namespace Prisma {
     animal_id?: IntFieldUpdateOperationsInput | number
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
+    altitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    accuracy?: NullableFloatFieldUpdateOperationsInput | number | null
+    speed?: NullableFloatFieldUpdateOperationsInput | number | null
     captured_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    device_id?: NullableStringFieldUpdateOperationsInput | string | null
+    battery?: NullableIntFieldUpdateOperationsInput | number | null
+    temperature?: NullableFloatFieldUpdateOperationsInput | number | null
+    humidity?: NullableFloatFieldUpdateOperationsInput | number | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -16329,6 +17772,11 @@ export namespace Prisma {
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type AnimalsListRelationFilter = {
     every?: AnimalsWhereInput
     some?: AnimalsWhereInput
@@ -16362,11 +17810,16 @@ export namespace Prisma {
     description?: SortOrder
     location?: SortOrder
     size?: SortOrder
+    latitude?: SortOrder
+    longitude?: SortOrder
+    active?: SortOrder
   }
 
   export type FarmsAvgOrderByAggregateInput = {
     id?: SortOrder
     size?: SortOrder
+    latitude?: SortOrder
+    longitude?: SortOrder
   }
 
   export type FarmsMaxOrderByAggregateInput = {
@@ -16377,6 +17830,9 @@ export namespace Prisma {
     description?: SortOrder
     location?: SortOrder
     size?: SortOrder
+    latitude?: SortOrder
+    longitude?: SortOrder
+    active?: SortOrder
   }
 
   export type FarmsMinOrderByAggregateInput = {
@@ -16387,11 +17843,16 @@ export namespace Prisma {
     description?: SortOrder
     location?: SortOrder
     size?: SortOrder
+    latitude?: SortOrder
+    longitude?: SortOrder
+    active?: SortOrder
   }
 
   export type FarmsSumOrderByAggregateInput = {
     id?: SortOrder
     size?: SortOrder
+    latitude?: SortOrder
+    longitude?: SortOrder
   }
 
   export type IntWithAggregatesFilter<$PrismaModel = never> = {
@@ -16474,6 +17935,14 @@ export namespace Prisma {
     _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
   export type FarmhandsNullableScalarRelationFilter = {
     is?: FarmhandsWhereInput | null
     isNot?: FarmhandsWhereInput | null
@@ -16497,6 +17966,9 @@ export namespace Prisma {
     profile_photo?: SortOrder
     role?: SortOrder
     farm_id?: SortOrder
+    active?: SortOrder
+    phone?: SortOrder
+    address?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -16514,6 +17986,9 @@ export namespace Prisma {
     profile_photo?: SortOrder
     role?: SortOrder
     farm_id?: SortOrder
+    active?: SortOrder
+    phone?: SortOrder
+    address?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -16526,6 +18001,9 @@ export namespace Prisma {
     profile_photo?: SortOrder
     role?: SortOrder
     farm_id?: SortOrder
+    active?: SortOrder
+    phone?: SortOrder
+    address?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -16543,26 +18021,51 @@ export namespace Prisma {
   export type FarmhandsCountOrderByAggregateInput = {
     id?: SortOrder
     user_id?: SortOrder
+    hire_date?: SortOrder
+    salary?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
   }
 
   export type FarmhandsAvgOrderByAggregateInput = {
     id?: SortOrder
     user_id?: SortOrder
+    salary?: SortOrder
   }
 
   export type FarmhandsMaxOrderByAggregateInput = {
     id?: SortOrder
     user_id?: SortOrder
+    hire_date?: SortOrder
+    salary?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
   }
 
   export type FarmhandsMinOrderByAggregateInput = {
     id?: SortOrder
     user_id?: SortOrder
+    hire_date?: SortOrder
+    salary?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
   }
 
   export type FarmhandsSumOrderByAggregateInput = {
     id?: SortOrder
     user_id?: SortOrder
+    salary?: SortOrder
+  }
+
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
   export type ApplicationsListRelationFilter = {
@@ -16578,26 +18081,59 @@ export namespace Prisma {
   export type VeterinariansCountOrderByAggregateInput = {
     id?: SortOrder
     user_id?: SortOrder
+    license_number?: SortOrder
+    specialization?: SortOrder
+    years_experience?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
   }
 
   export type VeterinariansAvgOrderByAggregateInput = {
     id?: SortOrder
     user_id?: SortOrder
+    years_experience?: SortOrder
   }
 
   export type VeterinariansMaxOrderByAggregateInput = {
     id?: SortOrder
     user_id?: SortOrder
+    license_number?: SortOrder
+    specialization?: SortOrder
+    years_experience?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
   }
 
   export type VeterinariansMinOrderByAggregateInput = {
     id?: SortOrder
     user_id?: SortOrder
+    license_number?: SortOrder
+    specialization?: SortOrder
+    years_experience?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
   }
 
   export type VeterinariansSumOrderByAggregateInput = {
     id?: SortOrder
     user_id?: SortOrder
+    years_experience?: SortOrder
+  }
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
   export type FloatFilter<$PrismaModel = never> = {
@@ -16621,6 +18157,11 @@ export namespace Prisma {
     isNot?: SpeciesWhereInput
   }
 
+  export type AnimalsNullableScalarRelationFilter = {
+    is?: AnimalsWhereInput | null
+    isNot?: AnimalsWhereInput | null
+  }
+
   export type LocationsListRelationFilter = {
     every?: LocationsWhereInput
     some?: LocationsWhereInput
@@ -16639,7 +18180,15 @@ export namespace Prisma {
     birth_date?: SortOrder
     weight?: SortOrder
     health_status?: SortOrder
+    gender?: SortOrder
+    color?: SortOrder
+    tag_number?: SortOrder
+    microchip_id?: SortOrder
+    mother_id?: SortOrder
+    father_id?: SortOrder
     farm_id?: SortOrder
+    active?: SortOrder
+    notes?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -16649,6 +18198,8 @@ export namespace Prisma {
     species_id?: SortOrder
     breed_id?: SortOrder
     weight?: SortOrder
+    mother_id?: SortOrder
+    father_id?: SortOrder
     farm_id?: SortOrder
   }
 
@@ -16660,7 +18211,15 @@ export namespace Prisma {
     birth_date?: SortOrder
     weight?: SortOrder
     health_status?: SortOrder
+    gender?: SortOrder
+    color?: SortOrder
+    tag_number?: SortOrder
+    microchip_id?: SortOrder
+    mother_id?: SortOrder
+    father_id?: SortOrder
     farm_id?: SortOrder
+    active?: SortOrder
+    notes?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -16673,7 +18232,15 @@ export namespace Prisma {
     birth_date?: SortOrder
     weight?: SortOrder
     health_status?: SortOrder
+    gender?: SortOrder
+    color?: SortOrder
+    tag_number?: SortOrder
+    microchip_id?: SortOrder
+    mother_id?: SortOrder
+    father_id?: SortOrder
     farm_id?: SortOrder
+    active?: SortOrder
+    notes?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -16683,6 +18250,8 @@ export namespace Prisma {
     species_id?: SortOrder
     breed_id?: SortOrder
     weight?: SortOrder
+    mother_id?: SortOrder
+    father_id?: SortOrder
     farm_id?: SortOrder
   }
 
@@ -16702,17 +18271,6 @@ export namespace Prisma {
     _max?: NestedFloatFilter<$PrismaModel>
   }
 
-  export type IntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | null
-    notIn?: number[] | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
-  }
-
   export type BreedsListRelationFilter = {
     every?: BreedsWhereInput
     some?: BreedsWhereInput
@@ -16729,6 +18287,9 @@ export namespace Prisma {
     description?: SortOrder
     average_lifespan?: SortOrder
     gestation_period?: SortOrder
+    min_weight?: SortOrder
+    max_weight?: SortOrder
+    active?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -16737,6 +18298,8 @@ export namespace Prisma {
     id?: SortOrder
     average_lifespan?: SortOrder
     gestation_period?: SortOrder
+    min_weight?: SortOrder
+    max_weight?: SortOrder
   }
 
   export type SpeciesMaxOrderByAggregateInput = {
@@ -16745,6 +18308,9 @@ export namespace Prisma {
     description?: SortOrder
     average_lifespan?: SortOrder
     gestation_period?: SortOrder
+    min_weight?: SortOrder
+    max_weight?: SortOrder
+    active?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -16755,6 +18321,9 @@ export namespace Prisma {
     description?: SortOrder
     average_lifespan?: SortOrder
     gestation_period?: SortOrder
+    min_weight?: SortOrder
+    max_weight?: SortOrder
+    active?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -16763,22 +18332,8 @@ export namespace Prisma {
     id?: SortOrder
     average_lifespan?: SortOrder
     gestation_period?: SortOrder
-  }
-
-  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | null
-    notIn?: number[] | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedIntNullableFilter<$PrismaModel>
-    _max?: NestedIntNullableFilter<$PrismaModel>
+    min_weight?: SortOrder
+    max_weight?: SortOrder
   }
 
   export type BreedsCountOrderByAggregateInput = {
@@ -16788,6 +18343,8 @@ export namespace Prisma {
     species_id?: SortOrder
     average_weight?: SortOrder
     productivity?: SortOrder
+    origin_country?: SortOrder
+    active?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -16805,6 +18362,8 @@ export namespace Prisma {
     species_id?: SortOrder
     average_weight?: SortOrder
     productivity?: SortOrder
+    origin_country?: SortOrder
+    active?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -16816,6 +18375,8 @@ export namespace Prisma {
     species_id?: SortOrder
     average_weight?: SortOrder
     productivity?: SortOrder
+    origin_country?: SortOrder
+    active?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -16847,6 +18408,10 @@ export namespace Prisma {
     dosing_interval?: SortOrder
     type_of_vaccine_id?: SortOrder
     notes?: SortOrder
+    cost_per_dose?: SortOrder
+    storage_temp_min?: SortOrder
+    storage_temp_max?: SortOrder
+    active?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -16857,6 +18422,9 @@ export namespace Prisma {
     required_doses?: SortOrder
     dosing_interval?: SortOrder
     type_of_vaccine_id?: SortOrder
+    cost_per_dose?: SortOrder
+    storage_temp_min?: SortOrder
+    storage_temp_max?: SortOrder
   }
 
   export type VaccinesMaxOrderByAggregateInput = {
@@ -16870,6 +18438,10 @@ export namespace Prisma {
     dosing_interval?: SortOrder
     type_of_vaccine_id?: SortOrder
     notes?: SortOrder
+    cost_per_dose?: SortOrder
+    storage_temp_min?: SortOrder
+    storage_temp_max?: SortOrder
+    active?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -16885,6 +18457,10 @@ export namespace Prisma {
     dosing_interval?: SortOrder
     type_of_vaccine_id?: SortOrder
     notes?: SortOrder
+    cost_per_dose?: SortOrder
+    storage_temp_min?: SortOrder
+    storage_temp_max?: SortOrder
+    active?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -16895,6 +18471,9 @@ export namespace Prisma {
     required_doses?: SortOrder
     dosing_interval?: SortOrder
     type_of_vaccine_id?: SortOrder
+    cost_per_dose?: SortOrder
+    storage_temp_min?: SortOrder
+    storage_temp_max?: SortOrder
   }
 
   export type VaccinesListRelationFilter = {
@@ -16916,6 +18495,8 @@ export namespace Prisma {
     address?: SortOrder
     country?: SortOrder
     license_number?: SortOrder
+    website?: SortOrder
+    active?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -16933,6 +18514,8 @@ export namespace Prisma {
     address?: SortOrder
     country?: SortOrder
     license_number?: SortOrder
+    website?: SortOrder
+    active?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -16946,6 +18529,8 @@ export namespace Prisma {
     address?: SortOrder
     country?: SortOrder
     license_number?: SortOrder
+    website?: SortOrder
+    active?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -16958,6 +18543,10 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     description?: SortOrder
+    category?: SortOrder
+    active?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
   }
 
   export type Types_of_VaccinesAvgOrderByAggregateInput = {
@@ -16968,12 +18557,20 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     description?: SortOrder
+    category?: SortOrder
+    active?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
   }
 
   export type Types_of_VaccinesMinOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
     description?: SortOrder
+    category?: SortOrder
+    active?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
   }
 
   export type Types_of_VaccinesSumOrderByAggregateInput = {
@@ -17014,6 +18611,12 @@ export namespace Prisma {
     application_date?: SortOrder
     next_application_date?: SortOrder
     status_vaccine_application?: SortOrder
+    dose_number?: SortOrder
+    application_site?: SortOrder
+    batch_used?: SortOrder
+    adverse_reaction?: SortOrder
+    cost?: SortOrder
+    notes?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -17023,6 +18626,8 @@ export namespace Prisma {
     animal_id?: SortOrder
     vaccine_id?: SortOrder
     veterinary_id?: SortOrder
+    dose_number?: SortOrder
+    cost?: SortOrder
   }
 
   export type ApplicationsMaxOrderByAggregateInput = {
@@ -17033,6 +18638,12 @@ export namespace Prisma {
     application_date?: SortOrder
     next_application_date?: SortOrder
     status_vaccine_application?: SortOrder
+    dose_number?: SortOrder
+    application_site?: SortOrder
+    batch_used?: SortOrder
+    adverse_reaction?: SortOrder
+    cost?: SortOrder
+    notes?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -17045,6 +18656,12 @@ export namespace Prisma {
     application_date?: SortOrder
     next_application_date?: SortOrder
     status_vaccine_application?: SortOrder
+    dose_number?: SortOrder
+    application_site?: SortOrder
+    batch_used?: SortOrder
+    adverse_reaction?: SortOrder
+    cost?: SortOrder
+    notes?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -17054,6 +18671,8 @@ export namespace Prisma {
     animal_id?: SortOrder
     vaccine_id?: SortOrder
     veterinary_id?: SortOrder
+    dose_number?: SortOrder
+    cost?: SortOrder
   }
 
   export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -17075,7 +18694,14 @@ export namespace Prisma {
     animal_id?: SortOrder
     latitude?: SortOrder
     longitude?: SortOrder
+    altitude?: SortOrder
+    accuracy?: SortOrder
+    speed?: SortOrder
     captured_at?: SortOrder
+    device_id?: SortOrder
+    battery?: SortOrder
+    temperature?: SortOrder
+    humidity?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -17085,6 +18711,12 @@ export namespace Prisma {
     animal_id?: SortOrder
     latitude?: SortOrder
     longitude?: SortOrder
+    altitude?: SortOrder
+    accuracy?: SortOrder
+    speed?: SortOrder
+    battery?: SortOrder
+    temperature?: SortOrder
+    humidity?: SortOrder
   }
 
   export type LocationsMaxOrderByAggregateInput = {
@@ -17092,7 +18724,14 @@ export namespace Prisma {
     animal_id?: SortOrder
     latitude?: SortOrder
     longitude?: SortOrder
+    altitude?: SortOrder
+    accuracy?: SortOrder
+    speed?: SortOrder
     captured_at?: SortOrder
+    device_id?: SortOrder
+    battery?: SortOrder
+    temperature?: SortOrder
+    humidity?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -17102,7 +18741,14 @@ export namespace Prisma {
     animal_id?: SortOrder
     latitude?: SortOrder
     longitude?: SortOrder
+    altitude?: SortOrder
+    accuracy?: SortOrder
+    speed?: SortOrder
     captured_at?: SortOrder
+    device_id?: SortOrder
+    battery?: SortOrder
+    temperature?: SortOrder
+    humidity?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -17112,6 +18758,12 @@ export namespace Prisma {
     animal_id?: SortOrder
     latitude?: SortOrder
     longitude?: SortOrder
+    altitude?: SortOrder
+    accuracy?: SortOrder
+    speed?: SortOrder
+    battery?: SortOrder
+    temperature?: SortOrder
+    humidity?: SortOrder
   }
 
   export type AnimalsCreateNestedManyWithoutFarmInput = {
@@ -17160,6 +18812,10 @@ export namespace Prisma {
     decrement?: number
     multiply?: number
     divide?: number
+  }
+
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
   }
 
   export type AnimalsUpdateManyWithoutFarmNestedInput = {
@@ -17338,6 +18994,14 @@ export namespace Prisma {
     connect?: ApplicationsWhereUniqueInput | ApplicationsWhereUniqueInput[]
   }
 
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
   export type ApplicationsUpdateManyWithoutVeterinaryNestedInput = {
     create?: XOR<ApplicationsCreateWithoutVeterinaryInput, ApplicationsUncheckedCreateWithoutVeterinaryInput> | ApplicationsCreateWithoutVeterinaryInput[] | ApplicationsUncheckedCreateWithoutVeterinaryInput[]
     connectOrCreate?: ApplicationsCreateOrConnectWithoutVeterinaryInput | ApplicationsCreateOrConnectWithoutVeterinaryInput[]
@@ -17392,6 +19056,32 @@ export namespace Prisma {
     connect?: SpeciesWhereUniqueInput
   }
 
+  export type AnimalsCreateNestedOneWithoutMother_childrenInput = {
+    create?: XOR<AnimalsCreateWithoutMother_childrenInput, AnimalsUncheckedCreateWithoutMother_childrenInput>
+    connectOrCreate?: AnimalsCreateOrConnectWithoutMother_childrenInput
+    connect?: AnimalsWhereUniqueInput
+  }
+
+  export type AnimalsCreateNestedOneWithoutFather_childrenInput = {
+    create?: XOR<AnimalsCreateWithoutFather_childrenInput, AnimalsUncheckedCreateWithoutFather_childrenInput>
+    connectOrCreate?: AnimalsCreateOrConnectWithoutFather_childrenInput
+    connect?: AnimalsWhereUniqueInput
+  }
+
+  export type AnimalsCreateNestedManyWithoutMotherInput = {
+    create?: XOR<AnimalsCreateWithoutMotherInput, AnimalsUncheckedCreateWithoutMotherInput> | AnimalsCreateWithoutMotherInput[] | AnimalsUncheckedCreateWithoutMotherInput[]
+    connectOrCreate?: AnimalsCreateOrConnectWithoutMotherInput | AnimalsCreateOrConnectWithoutMotherInput[]
+    createMany?: AnimalsCreateManyMotherInputEnvelope
+    connect?: AnimalsWhereUniqueInput | AnimalsWhereUniqueInput[]
+  }
+
+  export type AnimalsCreateNestedManyWithoutFatherInput = {
+    create?: XOR<AnimalsCreateWithoutFatherInput, AnimalsUncheckedCreateWithoutFatherInput> | AnimalsCreateWithoutFatherInput[] | AnimalsUncheckedCreateWithoutFatherInput[]
+    connectOrCreate?: AnimalsCreateOrConnectWithoutFatherInput | AnimalsCreateOrConnectWithoutFatherInput[]
+    createMany?: AnimalsCreateManyFatherInputEnvelope
+    connect?: AnimalsWhereUniqueInput | AnimalsWhereUniqueInput[]
+  }
+
   export type ApplicationsCreateNestedManyWithoutAnimalInput = {
     create?: XOR<ApplicationsCreateWithoutAnimalInput, ApplicationsUncheckedCreateWithoutAnimalInput> | ApplicationsCreateWithoutAnimalInput[] | ApplicationsUncheckedCreateWithoutAnimalInput[]
     connectOrCreate?: ApplicationsCreateOrConnectWithoutAnimalInput | ApplicationsCreateOrConnectWithoutAnimalInput[]
@@ -17404,6 +19094,20 @@ export namespace Prisma {
     connectOrCreate?: LocationsCreateOrConnectWithoutAnimalInput | LocationsCreateOrConnectWithoutAnimalInput[]
     createMany?: LocationsCreateManyAnimalInputEnvelope
     connect?: LocationsWhereUniqueInput | LocationsWhereUniqueInput[]
+  }
+
+  export type AnimalsUncheckedCreateNestedManyWithoutMotherInput = {
+    create?: XOR<AnimalsCreateWithoutMotherInput, AnimalsUncheckedCreateWithoutMotherInput> | AnimalsCreateWithoutMotherInput[] | AnimalsUncheckedCreateWithoutMotherInput[]
+    connectOrCreate?: AnimalsCreateOrConnectWithoutMotherInput | AnimalsCreateOrConnectWithoutMotherInput[]
+    createMany?: AnimalsCreateManyMotherInputEnvelope
+    connect?: AnimalsWhereUniqueInput | AnimalsWhereUniqueInput[]
+  }
+
+  export type AnimalsUncheckedCreateNestedManyWithoutFatherInput = {
+    create?: XOR<AnimalsCreateWithoutFatherInput, AnimalsUncheckedCreateWithoutFatherInput> | AnimalsCreateWithoutFatherInput[] | AnimalsUncheckedCreateWithoutFatherInput[]
+    connectOrCreate?: AnimalsCreateOrConnectWithoutFatherInput | AnimalsCreateOrConnectWithoutFatherInput[]
+    createMany?: AnimalsCreateManyFatherInputEnvelope
+    connect?: AnimalsWhereUniqueInput | AnimalsWhereUniqueInput[]
   }
 
   export type ApplicationsUncheckedCreateNestedManyWithoutAnimalInput = {
@@ -17452,6 +19156,54 @@ export namespace Prisma {
     update?: XOR<XOR<SpeciesUpdateToOneWithWhereWithoutAnimalInput, SpeciesUpdateWithoutAnimalInput>, SpeciesUncheckedUpdateWithoutAnimalInput>
   }
 
+  export type AnimalsUpdateOneWithoutMother_childrenNestedInput = {
+    create?: XOR<AnimalsCreateWithoutMother_childrenInput, AnimalsUncheckedCreateWithoutMother_childrenInput>
+    connectOrCreate?: AnimalsCreateOrConnectWithoutMother_childrenInput
+    upsert?: AnimalsUpsertWithoutMother_childrenInput
+    disconnect?: AnimalsWhereInput | boolean
+    delete?: AnimalsWhereInput | boolean
+    connect?: AnimalsWhereUniqueInput
+    update?: XOR<XOR<AnimalsUpdateToOneWithWhereWithoutMother_childrenInput, AnimalsUpdateWithoutMother_childrenInput>, AnimalsUncheckedUpdateWithoutMother_childrenInput>
+  }
+
+  export type AnimalsUpdateOneWithoutFather_childrenNestedInput = {
+    create?: XOR<AnimalsCreateWithoutFather_childrenInput, AnimalsUncheckedCreateWithoutFather_childrenInput>
+    connectOrCreate?: AnimalsCreateOrConnectWithoutFather_childrenInput
+    upsert?: AnimalsUpsertWithoutFather_childrenInput
+    disconnect?: AnimalsWhereInput | boolean
+    delete?: AnimalsWhereInput | boolean
+    connect?: AnimalsWhereUniqueInput
+    update?: XOR<XOR<AnimalsUpdateToOneWithWhereWithoutFather_childrenInput, AnimalsUpdateWithoutFather_childrenInput>, AnimalsUncheckedUpdateWithoutFather_childrenInput>
+  }
+
+  export type AnimalsUpdateManyWithoutMotherNestedInput = {
+    create?: XOR<AnimalsCreateWithoutMotherInput, AnimalsUncheckedCreateWithoutMotherInput> | AnimalsCreateWithoutMotherInput[] | AnimalsUncheckedCreateWithoutMotherInput[]
+    connectOrCreate?: AnimalsCreateOrConnectWithoutMotherInput | AnimalsCreateOrConnectWithoutMotherInput[]
+    upsert?: AnimalsUpsertWithWhereUniqueWithoutMotherInput | AnimalsUpsertWithWhereUniqueWithoutMotherInput[]
+    createMany?: AnimalsCreateManyMotherInputEnvelope
+    set?: AnimalsWhereUniqueInput | AnimalsWhereUniqueInput[]
+    disconnect?: AnimalsWhereUniqueInput | AnimalsWhereUniqueInput[]
+    delete?: AnimalsWhereUniqueInput | AnimalsWhereUniqueInput[]
+    connect?: AnimalsWhereUniqueInput | AnimalsWhereUniqueInput[]
+    update?: AnimalsUpdateWithWhereUniqueWithoutMotherInput | AnimalsUpdateWithWhereUniqueWithoutMotherInput[]
+    updateMany?: AnimalsUpdateManyWithWhereWithoutMotherInput | AnimalsUpdateManyWithWhereWithoutMotherInput[]
+    deleteMany?: AnimalsScalarWhereInput | AnimalsScalarWhereInput[]
+  }
+
+  export type AnimalsUpdateManyWithoutFatherNestedInput = {
+    create?: XOR<AnimalsCreateWithoutFatherInput, AnimalsUncheckedCreateWithoutFatherInput> | AnimalsCreateWithoutFatherInput[] | AnimalsUncheckedCreateWithoutFatherInput[]
+    connectOrCreate?: AnimalsCreateOrConnectWithoutFatherInput | AnimalsCreateOrConnectWithoutFatherInput[]
+    upsert?: AnimalsUpsertWithWhereUniqueWithoutFatherInput | AnimalsUpsertWithWhereUniqueWithoutFatherInput[]
+    createMany?: AnimalsCreateManyFatherInputEnvelope
+    set?: AnimalsWhereUniqueInput | AnimalsWhereUniqueInput[]
+    disconnect?: AnimalsWhereUniqueInput | AnimalsWhereUniqueInput[]
+    delete?: AnimalsWhereUniqueInput | AnimalsWhereUniqueInput[]
+    connect?: AnimalsWhereUniqueInput | AnimalsWhereUniqueInput[]
+    update?: AnimalsUpdateWithWhereUniqueWithoutFatherInput | AnimalsUpdateWithWhereUniqueWithoutFatherInput[]
+    updateMany?: AnimalsUpdateManyWithWhereWithoutFatherInput | AnimalsUpdateManyWithWhereWithoutFatherInput[]
+    deleteMany?: AnimalsScalarWhereInput | AnimalsScalarWhereInput[]
+  }
+
   export type ApplicationsUpdateManyWithoutAnimalNestedInput = {
     create?: XOR<ApplicationsCreateWithoutAnimalInput, ApplicationsUncheckedCreateWithoutAnimalInput> | ApplicationsCreateWithoutAnimalInput[] | ApplicationsUncheckedCreateWithoutAnimalInput[]
     connectOrCreate?: ApplicationsCreateOrConnectWithoutAnimalInput | ApplicationsCreateOrConnectWithoutAnimalInput[]
@@ -17478,6 +19230,34 @@ export namespace Prisma {
     update?: LocationsUpdateWithWhereUniqueWithoutAnimalInput | LocationsUpdateWithWhereUniqueWithoutAnimalInput[]
     updateMany?: LocationsUpdateManyWithWhereWithoutAnimalInput | LocationsUpdateManyWithWhereWithoutAnimalInput[]
     deleteMany?: LocationsScalarWhereInput | LocationsScalarWhereInput[]
+  }
+
+  export type AnimalsUncheckedUpdateManyWithoutMotherNestedInput = {
+    create?: XOR<AnimalsCreateWithoutMotherInput, AnimalsUncheckedCreateWithoutMotherInput> | AnimalsCreateWithoutMotherInput[] | AnimalsUncheckedCreateWithoutMotherInput[]
+    connectOrCreate?: AnimalsCreateOrConnectWithoutMotherInput | AnimalsCreateOrConnectWithoutMotherInput[]
+    upsert?: AnimalsUpsertWithWhereUniqueWithoutMotherInput | AnimalsUpsertWithWhereUniqueWithoutMotherInput[]
+    createMany?: AnimalsCreateManyMotherInputEnvelope
+    set?: AnimalsWhereUniqueInput | AnimalsWhereUniqueInput[]
+    disconnect?: AnimalsWhereUniqueInput | AnimalsWhereUniqueInput[]
+    delete?: AnimalsWhereUniqueInput | AnimalsWhereUniqueInput[]
+    connect?: AnimalsWhereUniqueInput | AnimalsWhereUniqueInput[]
+    update?: AnimalsUpdateWithWhereUniqueWithoutMotherInput | AnimalsUpdateWithWhereUniqueWithoutMotherInput[]
+    updateMany?: AnimalsUpdateManyWithWhereWithoutMotherInput | AnimalsUpdateManyWithWhereWithoutMotherInput[]
+    deleteMany?: AnimalsScalarWhereInput | AnimalsScalarWhereInput[]
+  }
+
+  export type AnimalsUncheckedUpdateManyWithoutFatherNestedInput = {
+    create?: XOR<AnimalsCreateWithoutFatherInput, AnimalsUncheckedCreateWithoutFatherInput> | AnimalsCreateWithoutFatherInput[] | AnimalsUncheckedCreateWithoutFatherInput[]
+    connectOrCreate?: AnimalsCreateOrConnectWithoutFatherInput | AnimalsCreateOrConnectWithoutFatherInput[]
+    upsert?: AnimalsUpsertWithWhereUniqueWithoutFatherInput | AnimalsUpsertWithWhereUniqueWithoutFatherInput[]
+    createMany?: AnimalsCreateManyFatherInputEnvelope
+    set?: AnimalsWhereUniqueInput | AnimalsWhereUniqueInput[]
+    disconnect?: AnimalsWhereUniqueInput | AnimalsWhereUniqueInput[]
+    delete?: AnimalsWhereUniqueInput | AnimalsWhereUniqueInput[]
+    connect?: AnimalsWhereUniqueInput | AnimalsWhereUniqueInput[]
+    update?: AnimalsUpdateWithWhereUniqueWithoutFatherInput | AnimalsUpdateWithWhereUniqueWithoutFatherInput[]
+    updateMany?: AnimalsUpdateManyWithWhereWithoutFatherInput | AnimalsUpdateManyWithWhereWithoutFatherInput[]
+    deleteMany?: AnimalsScalarWhereInput | AnimalsScalarWhereInput[]
   }
 
   export type ApplicationsUncheckedUpdateManyWithoutAnimalNestedInput = {
@@ -17534,14 +19314,6 @@ export namespace Prisma {
     connectOrCreate?: BreedsCreateOrConnectWithoutSpeciesInput | BreedsCreateOrConnectWithoutSpeciesInput[]
     createMany?: BreedsCreateManySpeciesInputEnvelope
     connect?: BreedsWhereUniqueInput | BreedsWhereUniqueInput[]
-  }
-
-  export type NullableIntFieldUpdateOperationsInput = {
-    set?: number | null
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
   }
 
   export type AnimalsUpdateManyWithoutSpeciesNestedInput = {
@@ -17931,6 +19703,11 @@ export namespace Prisma {
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[]
@@ -18033,20 +19810,12 @@ export namespace Prisma {
     _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
-  export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[]
-    notIn?: number[]
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
     _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedFloatFilter<$PrismaModel>
-    _min?: NestedFloatFilter<$PrismaModel>
-    _max?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -18063,6 +19832,22 @@ export namespace Prisma {
     _sum?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedIntNullableFilter<$PrismaModel>
     _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[]
+    notIn?: number[]
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedFloatFilter<$PrismaModel>
+    _max?: NestedFloatFilter<$PrismaModel>
   }
 
   export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
@@ -18093,12 +19878,22 @@ export namespace Prisma {
   export type AnimalsCreateWithoutFarmInput = {
     name: string
     birth_date: Date | string
-    weight: number
-    health_status: string
+    weight?: number
+    health_status?: string
+    gender?: string | null
+    color?: string | null
+    tag_number?: string | null
+    microchip_id?: string | null
+    active?: boolean
+    notes?: string | null
     created_at?: Date | string
     updated_at?: Date | string
     breed: BreedsCreateNestedOneWithoutAnimalInput
     species: SpeciesCreateNestedOneWithoutAnimalInput
+    mother?: AnimalsCreateNestedOneWithoutMother_childrenInput
+    father?: AnimalsCreateNestedOneWithoutFather_childrenInput
+    mother_children?: AnimalsCreateNestedManyWithoutMotherInput
+    father_children?: AnimalsCreateNestedManyWithoutFatherInput
     application?: ApplicationsCreateNestedManyWithoutAnimalInput
     location?: LocationsCreateNestedManyWithoutAnimalInput
   }
@@ -18109,10 +19904,20 @@ export namespace Prisma {
     species_id: number
     breed_id: number
     birth_date: Date | string
-    weight: number
-    health_status: string
+    weight?: number
+    health_status?: string
+    gender?: string | null
+    color?: string | null
+    tag_number?: string | null
+    microchip_id?: string | null
+    mother_id?: number | null
+    father_id?: number | null
+    active?: boolean
+    notes?: string | null
     created_at?: Date | string
     updated_at?: Date | string
+    mother_children?: AnimalsUncheckedCreateNestedManyWithoutMotherInput
+    father_children?: AnimalsUncheckedCreateNestedManyWithoutFatherInput
     application?: ApplicationsUncheckedCreateNestedManyWithoutAnimalInput
     location?: LocationsUncheckedCreateNestedManyWithoutAnimalInput
   }
@@ -18132,6 +19937,9 @@ export namespace Prisma {
     password: string
     profile_photo?: string | null
     role: string
+    active?: boolean
+    phone?: string | null
+    address?: string | null
     created_at?: Date | string
     updated_at?: Date | string
     farmhand?: FarmhandsCreateNestedOneWithoutUserInput
@@ -18145,6 +19953,9 @@ export namespace Prisma {
     password: string
     profile_photo?: string | null
     role: string
+    active?: boolean
+    phone?: string | null
+    address?: string | null
     created_at?: Date | string
     updated_at?: Date | string
     farmhand?: FarmhandsUncheckedCreateNestedOneWithoutUserInput
@@ -18187,7 +19998,15 @@ export namespace Prisma {
     birth_date?: DateTimeFilter<"Animals"> | Date | string
     weight?: FloatFilter<"Animals"> | number
     health_status?: StringFilter<"Animals"> | string
+    gender?: StringNullableFilter<"Animals"> | string | null
+    color?: StringNullableFilter<"Animals"> | string | null
+    tag_number?: StringNullableFilter<"Animals"> | string | null
+    microchip_id?: StringNullableFilter<"Animals"> | string | null
+    mother_id?: IntNullableFilter<"Animals"> | number | null
+    father_id?: IntNullableFilter<"Animals"> | number | null
     farm_id?: IntFilter<"Animals"> | number
+    active?: BoolFilter<"Animals"> | boolean
+    notes?: StringNullableFilter<"Animals"> | string | null
     created_at?: DateTimeFilter<"Animals"> | Date | string
     updated_at?: DateTimeFilter<"Animals"> | Date | string
   }
@@ -18219,16 +20038,26 @@ export namespace Prisma {
     profile_photo?: StringNullableFilter<"Users"> | string | null
     role?: StringFilter<"Users"> | string
     farm_id?: IntFilter<"Users"> | number
+    active?: BoolFilter<"Users"> | boolean
+    phone?: StringNullableFilter<"Users"> | string | null
+    address?: StringNullableFilter<"Users"> | string | null
     created_at?: DateTimeFilter<"Users"> | Date | string
     updated_at?: DateTimeFilter<"Users"> | Date | string
   }
 
   export type FarmhandsCreateWithoutUserInput = {
-
+    hire_date?: Date | string
+    salary?: number | null
+    created_at?: Date | string
+    updated_at?: Date | string
   }
 
   export type FarmhandsUncheckedCreateWithoutUserInput = {
     id?: number
+    hire_date?: Date | string
+    salary?: number | null
+    created_at?: Date | string
+    updated_at?: Date | string
   }
 
   export type FarmhandsCreateOrConnectWithoutUserInput = {
@@ -18243,6 +20072,9 @@ export namespace Prisma {
     description?: string | null
     location?: string | null
     size?: number | null
+    latitude?: number | null
+    longitude?: number | null
+    active?: boolean
     animal?: AnimalsCreateNestedManyWithoutFarmInput
   }
 
@@ -18254,6 +20086,9 @@ export namespace Prisma {
     description?: string | null
     location?: string | null
     size?: number | null
+    latitude?: number | null
+    longitude?: number | null
+    active?: boolean
     animal?: AnimalsUncheckedCreateNestedManyWithoutFarmInput
   }
 
@@ -18263,11 +20098,21 @@ export namespace Prisma {
   }
 
   export type VeterinariansCreateWithoutUserInput = {
+    license_number?: string | null
+    specialization?: string | null
+    years_experience?: number | null
+    created_at?: Date | string
+    updated_at?: Date | string
     application?: ApplicationsCreateNestedManyWithoutVeterinaryInput
   }
 
   export type VeterinariansUncheckedCreateWithoutUserInput = {
     id?: number
+    license_number?: string | null
+    specialization?: string | null
+    years_experience?: number | null
+    created_at?: Date | string
+    updated_at?: Date | string
     application?: ApplicationsUncheckedCreateNestedManyWithoutVeterinaryInput
   }
 
@@ -18288,11 +20133,18 @@ export namespace Prisma {
   }
 
   export type FarmhandsUpdateWithoutUserInput = {
-
+    hire_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    salary?: NullableFloatFieldUpdateOperationsInput | number | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type FarmhandsUncheckedUpdateWithoutUserInput = {
     id?: IntFieldUpdateOperationsInput | number
+    hire_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    salary?: NullableFloatFieldUpdateOperationsInput | number | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type FarmsUpsertWithoutUserInput = {
@@ -18313,6 +20165,9 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     size?: NullableFloatFieldUpdateOperationsInput | number | null
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    active?: BoolFieldUpdateOperationsInput | boolean
     animal?: AnimalsUpdateManyWithoutFarmNestedInput
   }
 
@@ -18324,6 +20179,9 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     size?: NullableFloatFieldUpdateOperationsInput | number | null
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    active?: BoolFieldUpdateOperationsInput | boolean
     animal?: AnimalsUncheckedUpdateManyWithoutFarmNestedInput
   }
 
@@ -18339,11 +20197,21 @@ export namespace Prisma {
   }
 
   export type VeterinariansUpdateWithoutUserInput = {
+    license_number?: NullableStringFieldUpdateOperationsInput | string | null
+    specialization?: NullableStringFieldUpdateOperationsInput | string | null
+    years_experience?: NullableIntFieldUpdateOperationsInput | number | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     application?: ApplicationsUpdateManyWithoutVeterinaryNestedInput
   }
 
   export type VeterinariansUncheckedUpdateWithoutUserInput = {
     id?: IntFieldUpdateOperationsInput | number
+    license_number?: NullableStringFieldUpdateOperationsInput | string | null
+    specialization?: NullableStringFieldUpdateOperationsInput | string | null
+    years_experience?: NullableIntFieldUpdateOperationsInput | number | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     application?: ApplicationsUncheckedUpdateManyWithoutVeterinaryNestedInput
   }
 
@@ -18353,6 +20221,9 @@ export namespace Prisma {
     password: string
     profile_photo?: string | null
     role: string
+    active?: boolean
+    phone?: string | null
+    address?: string | null
     created_at?: Date | string
     updated_at?: Date | string
     farm: FarmsCreateNestedOneWithoutUserInput
@@ -18367,6 +20238,9 @@ export namespace Prisma {
     profile_photo?: string | null
     role: string
     farm_id: number
+    active?: boolean
+    phone?: string | null
+    address?: string | null
     created_at?: Date | string
     updated_at?: Date | string
     veterinary?: VeterinariansUncheckedCreateNestedOneWithoutUserInput
@@ -18394,6 +20268,9 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     profile_photo?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
+    active?: BoolFieldUpdateOperationsInput | boolean
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     farm?: FarmsUpdateOneRequiredWithoutUserNestedInput
@@ -18408,15 +20285,24 @@ export namespace Prisma {
     profile_photo?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
     farm_id?: IntFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     veterinary?: VeterinariansUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type ApplicationsCreateWithoutVeterinaryInput = {
-    application_date: Date | string
+    application_date?: Date | string
     next_application_date?: Date | string | null
-    status_vaccine_application: string
+    status_vaccine_application?: string
+    dose_number?: number
+    application_site?: string | null
+    batch_used?: string | null
+    adverse_reaction?: string | null
+    cost?: number | null
+    notes?: string | null
     created_at?: Date | string
     updated_at?: Date | string
     animal: AnimalsCreateNestedOneWithoutApplicationInput
@@ -18427,9 +20313,15 @@ export namespace Prisma {
     id?: number
     animal_id: number
     vaccine_id: number
-    application_date: Date | string
+    application_date?: Date | string
     next_application_date?: Date | string | null
-    status_vaccine_application: string
+    status_vaccine_application?: string
+    dose_number?: number
+    application_site?: string | null
+    batch_used?: string | null
+    adverse_reaction?: string | null
+    cost?: number | null
+    notes?: string | null
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -18449,6 +20341,9 @@ export namespace Prisma {
     password: string
     profile_photo?: string | null
     role: string
+    active?: boolean
+    phone?: string | null
+    address?: string | null
     created_at?: Date | string
     updated_at?: Date | string
     farmhand?: FarmhandsCreateNestedOneWithoutUserInput
@@ -18463,6 +20358,9 @@ export namespace Prisma {
     profile_photo?: string | null
     role: string
     farm_id: number
+    active?: boolean
+    phone?: string | null
+    address?: string | null
     created_at?: Date | string
     updated_at?: Date | string
     farmhand?: FarmhandsUncheckedCreateNestedOneWithoutUserInput
@@ -18500,6 +20398,12 @@ export namespace Prisma {
     application_date?: DateTimeFilter<"Applications"> | Date | string
     next_application_date?: DateTimeNullableFilter<"Applications"> | Date | string | null
     status_vaccine_application?: StringFilter<"Applications"> | string
+    dose_number?: IntFilter<"Applications"> | number
+    application_site?: StringNullableFilter<"Applications"> | string | null
+    batch_used?: StringNullableFilter<"Applications"> | string | null
+    adverse_reaction?: StringNullableFilter<"Applications"> | string | null
+    cost?: FloatNullableFilter<"Applications"> | number | null
+    notes?: StringNullableFilter<"Applications"> | string | null
     created_at?: DateTimeFilter<"Applications"> | Date | string
     updated_at?: DateTimeFilter<"Applications"> | Date | string
   }
@@ -18521,6 +20425,9 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     profile_photo?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
+    active?: BoolFieldUpdateOperationsInput | boolean
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     farmhand?: FarmhandsUpdateOneWithoutUserNestedInput
@@ -18535,6 +20442,9 @@ export namespace Prisma {
     profile_photo?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
     farm_id?: IntFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     farmhand?: FarmhandsUncheckedUpdateOneWithoutUserNestedInput
@@ -18545,6 +20455,8 @@ export namespace Prisma {
     description: string
     average_weight?: number | null
     productivity?: string | null
+    origin_country?: string | null
+    active?: boolean
     created_at?: Date | string
     updated_at?: Date | string
     species: SpeciesCreateNestedOneWithoutBreedInput
@@ -18557,6 +20469,8 @@ export namespace Prisma {
     species_id: number
     average_weight?: number | null
     productivity?: string | null
+    origin_country?: string | null
+    active?: boolean
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -18573,6 +20487,9 @@ export namespace Prisma {
     description?: string | null
     location?: string | null
     size?: number | null
+    latitude?: number | null
+    longitude?: number | null
+    active?: boolean
     user?: UsersCreateNestedManyWithoutFarmInput
   }
 
@@ -18584,6 +20501,9 @@ export namespace Prisma {
     description?: string | null
     location?: string | null
     size?: number | null
+    latitude?: number | null
+    longitude?: number | null
+    active?: boolean
     user?: UsersUncheckedCreateNestedManyWithoutFarmInput
   }
 
@@ -18597,6 +20517,9 @@ export namespace Prisma {
     description: string
     average_lifespan?: number | null
     gestation_period?: number | null
+    min_weight?: number | null
+    max_weight?: number | null
+    active?: boolean
     created_at?: Date | string
     updated_at?: Date | string
     breed?: BreedsCreateNestedManyWithoutSpeciesInput
@@ -18608,6 +20531,9 @@ export namespace Prisma {
     description: string
     average_lifespan?: number | null
     gestation_period?: number | null
+    min_weight?: number | null
+    max_weight?: number | null
+    active?: boolean
     created_at?: Date | string
     updated_at?: Date | string
     breed?: BreedsUncheckedCreateNestedManyWithoutSpeciesInput
@@ -18618,10 +20544,232 @@ export namespace Prisma {
     create: XOR<SpeciesCreateWithoutAnimalInput, SpeciesUncheckedCreateWithoutAnimalInput>
   }
 
+  export type AnimalsCreateWithoutMother_childrenInput = {
+    name: string
+    birth_date: Date | string
+    weight?: number
+    health_status?: string
+    gender?: string | null
+    color?: string | null
+    tag_number?: string | null
+    microchip_id?: string | null
+    active?: boolean
+    notes?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+    breed: BreedsCreateNestedOneWithoutAnimalInput
+    farm: FarmsCreateNestedOneWithoutAnimalInput
+    species: SpeciesCreateNestedOneWithoutAnimalInput
+    mother?: AnimalsCreateNestedOneWithoutMother_childrenInput
+    father?: AnimalsCreateNestedOneWithoutFather_childrenInput
+    father_children?: AnimalsCreateNestedManyWithoutFatherInput
+    application?: ApplicationsCreateNestedManyWithoutAnimalInput
+    location?: LocationsCreateNestedManyWithoutAnimalInput
+  }
+
+  export type AnimalsUncheckedCreateWithoutMother_childrenInput = {
+    id?: number
+    name: string
+    species_id: number
+    breed_id: number
+    birth_date: Date | string
+    weight?: number
+    health_status?: string
+    gender?: string | null
+    color?: string | null
+    tag_number?: string | null
+    microchip_id?: string | null
+    mother_id?: number | null
+    father_id?: number | null
+    farm_id: number
+    active?: boolean
+    notes?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+    father_children?: AnimalsUncheckedCreateNestedManyWithoutFatherInput
+    application?: ApplicationsUncheckedCreateNestedManyWithoutAnimalInput
+    location?: LocationsUncheckedCreateNestedManyWithoutAnimalInput
+  }
+
+  export type AnimalsCreateOrConnectWithoutMother_childrenInput = {
+    where: AnimalsWhereUniqueInput
+    create: XOR<AnimalsCreateWithoutMother_childrenInput, AnimalsUncheckedCreateWithoutMother_childrenInput>
+  }
+
+  export type AnimalsCreateWithoutFather_childrenInput = {
+    name: string
+    birth_date: Date | string
+    weight?: number
+    health_status?: string
+    gender?: string | null
+    color?: string | null
+    tag_number?: string | null
+    microchip_id?: string | null
+    active?: boolean
+    notes?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+    breed: BreedsCreateNestedOneWithoutAnimalInput
+    farm: FarmsCreateNestedOneWithoutAnimalInput
+    species: SpeciesCreateNestedOneWithoutAnimalInput
+    mother?: AnimalsCreateNestedOneWithoutMother_childrenInput
+    father?: AnimalsCreateNestedOneWithoutFather_childrenInput
+    mother_children?: AnimalsCreateNestedManyWithoutMotherInput
+    application?: ApplicationsCreateNestedManyWithoutAnimalInput
+    location?: LocationsCreateNestedManyWithoutAnimalInput
+  }
+
+  export type AnimalsUncheckedCreateWithoutFather_childrenInput = {
+    id?: number
+    name: string
+    species_id: number
+    breed_id: number
+    birth_date: Date | string
+    weight?: number
+    health_status?: string
+    gender?: string | null
+    color?: string | null
+    tag_number?: string | null
+    microchip_id?: string | null
+    mother_id?: number | null
+    father_id?: number | null
+    farm_id: number
+    active?: boolean
+    notes?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+    mother_children?: AnimalsUncheckedCreateNestedManyWithoutMotherInput
+    application?: ApplicationsUncheckedCreateNestedManyWithoutAnimalInput
+    location?: LocationsUncheckedCreateNestedManyWithoutAnimalInput
+  }
+
+  export type AnimalsCreateOrConnectWithoutFather_childrenInput = {
+    where: AnimalsWhereUniqueInput
+    create: XOR<AnimalsCreateWithoutFather_childrenInput, AnimalsUncheckedCreateWithoutFather_childrenInput>
+  }
+
+  export type AnimalsCreateWithoutMotherInput = {
+    name: string
+    birth_date: Date | string
+    weight?: number
+    health_status?: string
+    gender?: string | null
+    color?: string | null
+    tag_number?: string | null
+    microchip_id?: string | null
+    active?: boolean
+    notes?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+    breed: BreedsCreateNestedOneWithoutAnimalInput
+    farm: FarmsCreateNestedOneWithoutAnimalInput
+    species: SpeciesCreateNestedOneWithoutAnimalInput
+    father?: AnimalsCreateNestedOneWithoutFather_childrenInput
+    mother_children?: AnimalsCreateNestedManyWithoutMotherInput
+    father_children?: AnimalsCreateNestedManyWithoutFatherInput
+    application?: ApplicationsCreateNestedManyWithoutAnimalInput
+    location?: LocationsCreateNestedManyWithoutAnimalInput
+  }
+
+  export type AnimalsUncheckedCreateWithoutMotherInput = {
+    id?: number
+    name: string
+    species_id: number
+    breed_id: number
+    birth_date: Date | string
+    weight?: number
+    health_status?: string
+    gender?: string | null
+    color?: string | null
+    tag_number?: string | null
+    microchip_id?: string | null
+    father_id?: number | null
+    farm_id: number
+    active?: boolean
+    notes?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+    mother_children?: AnimalsUncheckedCreateNestedManyWithoutMotherInput
+    father_children?: AnimalsUncheckedCreateNestedManyWithoutFatherInput
+    application?: ApplicationsUncheckedCreateNestedManyWithoutAnimalInput
+    location?: LocationsUncheckedCreateNestedManyWithoutAnimalInput
+  }
+
+  export type AnimalsCreateOrConnectWithoutMotherInput = {
+    where: AnimalsWhereUniqueInput
+    create: XOR<AnimalsCreateWithoutMotherInput, AnimalsUncheckedCreateWithoutMotherInput>
+  }
+
+  export type AnimalsCreateManyMotherInputEnvelope = {
+    data: AnimalsCreateManyMotherInput | AnimalsCreateManyMotherInput[]
+  }
+
+  export type AnimalsCreateWithoutFatherInput = {
+    name: string
+    birth_date: Date | string
+    weight?: number
+    health_status?: string
+    gender?: string | null
+    color?: string | null
+    tag_number?: string | null
+    microchip_id?: string | null
+    active?: boolean
+    notes?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+    breed: BreedsCreateNestedOneWithoutAnimalInput
+    farm: FarmsCreateNestedOneWithoutAnimalInput
+    species: SpeciesCreateNestedOneWithoutAnimalInput
+    mother?: AnimalsCreateNestedOneWithoutMother_childrenInput
+    mother_children?: AnimalsCreateNestedManyWithoutMotherInput
+    father_children?: AnimalsCreateNestedManyWithoutFatherInput
+    application?: ApplicationsCreateNestedManyWithoutAnimalInput
+    location?: LocationsCreateNestedManyWithoutAnimalInput
+  }
+
+  export type AnimalsUncheckedCreateWithoutFatherInput = {
+    id?: number
+    name: string
+    species_id: number
+    breed_id: number
+    birth_date: Date | string
+    weight?: number
+    health_status?: string
+    gender?: string | null
+    color?: string | null
+    tag_number?: string | null
+    microchip_id?: string | null
+    mother_id?: number | null
+    farm_id: number
+    active?: boolean
+    notes?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+    mother_children?: AnimalsUncheckedCreateNestedManyWithoutMotherInput
+    father_children?: AnimalsUncheckedCreateNestedManyWithoutFatherInput
+    application?: ApplicationsUncheckedCreateNestedManyWithoutAnimalInput
+    location?: LocationsUncheckedCreateNestedManyWithoutAnimalInput
+  }
+
+  export type AnimalsCreateOrConnectWithoutFatherInput = {
+    where: AnimalsWhereUniqueInput
+    create: XOR<AnimalsCreateWithoutFatherInput, AnimalsUncheckedCreateWithoutFatherInput>
+  }
+
+  export type AnimalsCreateManyFatherInputEnvelope = {
+    data: AnimalsCreateManyFatherInput | AnimalsCreateManyFatherInput[]
+  }
+
   export type ApplicationsCreateWithoutAnimalInput = {
-    application_date: Date | string
+    application_date?: Date | string
     next_application_date?: Date | string | null
-    status_vaccine_application: string
+    status_vaccine_application?: string
+    dose_number?: number
+    application_site?: string | null
+    batch_used?: string | null
+    adverse_reaction?: string | null
+    cost?: number | null
+    notes?: string | null
     created_at?: Date | string
     updated_at?: Date | string
     vaccine: VaccinesCreateNestedOneWithoutApplicationsInput
@@ -18632,9 +20780,15 @@ export namespace Prisma {
     id?: number
     vaccine_id: number
     veterinary_id: number
-    application_date: Date | string
+    application_date?: Date | string
     next_application_date?: Date | string | null
-    status_vaccine_application: string
+    status_vaccine_application?: string
+    dose_number?: number
+    application_site?: string | null
+    batch_used?: string | null
+    adverse_reaction?: string | null
+    cost?: number | null
+    notes?: string | null
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -18651,7 +20805,14 @@ export namespace Prisma {
   export type LocationsCreateWithoutAnimalInput = {
     latitude: number
     longitude: number
-    captured_at: Date | string
+    altitude?: number | null
+    accuracy?: number | null
+    speed?: number | null
+    captured_at?: Date | string
+    device_id?: string | null
+    battery?: number | null
+    temperature?: number | null
+    humidity?: number | null
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -18660,7 +20821,14 @@ export namespace Prisma {
     id?: number
     latitude: number
     longitude: number
-    captured_at: Date | string
+    altitude?: number | null
+    accuracy?: number | null
+    speed?: number | null
+    captured_at?: Date | string
+    device_id?: string | null
+    battery?: number | null
+    temperature?: number | null
+    humidity?: number | null
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -18690,6 +20858,8 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     average_weight?: NullableFloatFieldUpdateOperationsInput | number | null
     productivity?: NullableStringFieldUpdateOperationsInput | string | null
+    origin_country?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     species?: SpeciesUpdateOneRequiredWithoutBreedNestedInput
@@ -18702,6 +20872,8 @@ export namespace Prisma {
     species_id?: IntFieldUpdateOperationsInput | number
     average_weight?: NullableFloatFieldUpdateOperationsInput | number | null
     productivity?: NullableStringFieldUpdateOperationsInput | string | null
+    origin_country?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -18724,6 +20896,9 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     size?: NullableFloatFieldUpdateOperationsInput | number | null
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    active?: BoolFieldUpdateOperationsInput | boolean
     user?: UsersUpdateManyWithoutFarmNestedInput
   }
 
@@ -18735,6 +20910,9 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     size?: NullableFloatFieldUpdateOperationsInput | number | null
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    active?: BoolFieldUpdateOperationsInput | boolean
     user?: UsersUncheckedUpdateManyWithoutFarmNestedInput
   }
 
@@ -18754,6 +20932,9 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     average_lifespan?: NullableIntFieldUpdateOperationsInput | number | null
     gestation_period?: NullableIntFieldUpdateOperationsInput | number | null
+    min_weight?: NullableFloatFieldUpdateOperationsInput | number | null
+    max_weight?: NullableFloatFieldUpdateOperationsInput | number | null
+    active?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     breed?: BreedsUpdateManyWithoutSpeciesNestedInput
@@ -18765,9 +20946,160 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     average_lifespan?: NullableIntFieldUpdateOperationsInput | number | null
     gestation_period?: NullableIntFieldUpdateOperationsInput | number | null
+    min_weight?: NullableFloatFieldUpdateOperationsInput | number | null
+    max_weight?: NullableFloatFieldUpdateOperationsInput | number | null
+    active?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     breed?: BreedsUncheckedUpdateManyWithoutSpeciesNestedInput
+  }
+
+  export type AnimalsUpsertWithoutMother_childrenInput = {
+    update: XOR<AnimalsUpdateWithoutMother_childrenInput, AnimalsUncheckedUpdateWithoutMother_childrenInput>
+    create: XOR<AnimalsCreateWithoutMother_childrenInput, AnimalsUncheckedCreateWithoutMother_childrenInput>
+    where?: AnimalsWhereInput
+  }
+
+  export type AnimalsUpdateToOneWithWhereWithoutMother_childrenInput = {
+    where?: AnimalsWhereInput
+    data: XOR<AnimalsUpdateWithoutMother_childrenInput, AnimalsUncheckedUpdateWithoutMother_childrenInput>
+  }
+
+  export type AnimalsUpdateWithoutMother_childrenInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    weight?: FloatFieldUpdateOperationsInput | number
+    health_status?: StringFieldUpdateOperationsInput | string
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    tag_number?: NullableStringFieldUpdateOperationsInput | string | null
+    microchip_id?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    breed?: BreedsUpdateOneRequiredWithoutAnimalNestedInput
+    farm?: FarmsUpdateOneRequiredWithoutAnimalNestedInput
+    species?: SpeciesUpdateOneRequiredWithoutAnimalNestedInput
+    mother?: AnimalsUpdateOneWithoutMother_childrenNestedInput
+    father?: AnimalsUpdateOneWithoutFather_childrenNestedInput
+    father_children?: AnimalsUpdateManyWithoutFatherNestedInput
+    application?: ApplicationsUpdateManyWithoutAnimalNestedInput
+    location?: LocationsUpdateManyWithoutAnimalNestedInput
+  }
+
+  export type AnimalsUncheckedUpdateWithoutMother_childrenInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    species_id?: IntFieldUpdateOperationsInput | number
+    breed_id?: IntFieldUpdateOperationsInput | number
+    birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    weight?: FloatFieldUpdateOperationsInput | number
+    health_status?: StringFieldUpdateOperationsInput | string
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    tag_number?: NullableStringFieldUpdateOperationsInput | string | null
+    microchip_id?: NullableStringFieldUpdateOperationsInput | string | null
+    mother_id?: NullableIntFieldUpdateOperationsInput | number | null
+    father_id?: NullableIntFieldUpdateOperationsInput | number | null
+    farm_id?: IntFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    father_children?: AnimalsUncheckedUpdateManyWithoutFatherNestedInput
+    application?: ApplicationsUncheckedUpdateManyWithoutAnimalNestedInput
+    location?: LocationsUncheckedUpdateManyWithoutAnimalNestedInput
+  }
+
+  export type AnimalsUpsertWithoutFather_childrenInput = {
+    update: XOR<AnimalsUpdateWithoutFather_childrenInput, AnimalsUncheckedUpdateWithoutFather_childrenInput>
+    create: XOR<AnimalsCreateWithoutFather_childrenInput, AnimalsUncheckedCreateWithoutFather_childrenInput>
+    where?: AnimalsWhereInput
+  }
+
+  export type AnimalsUpdateToOneWithWhereWithoutFather_childrenInput = {
+    where?: AnimalsWhereInput
+    data: XOR<AnimalsUpdateWithoutFather_childrenInput, AnimalsUncheckedUpdateWithoutFather_childrenInput>
+  }
+
+  export type AnimalsUpdateWithoutFather_childrenInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    weight?: FloatFieldUpdateOperationsInput | number
+    health_status?: StringFieldUpdateOperationsInput | string
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    tag_number?: NullableStringFieldUpdateOperationsInput | string | null
+    microchip_id?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    breed?: BreedsUpdateOneRequiredWithoutAnimalNestedInput
+    farm?: FarmsUpdateOneRequiredWithoutAnimalNestedInput
+    species?: SpeciesUpdateOneRequiredWithoutAnimalNestedInput
+    mother?: AnimalsUpdateOneWithoutMother_childrenNestedInput
+    father?: AnimalsUpdateOneWithoutFather_childrenNestedInput
+    mother_children?: AnimalsUpdateManyWithoutMotherNestedInput
+    application?: ApplicationsUpdateManyWithoutAnimalNestedInput
+    location?: LocationsUpdateManyWithoutAnimalNestedInput
+  }
+
+  export type AnimalsUncheckedUpdateWithoutFather_childrenInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    species_id?: IntFieldUpdateOperationsInput | number
+    breed_id?: IntFieldUpdateOperationsInput | number
+    birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    weight?: FloatFieldUpdateOperationsInput | number
+    health_status?: StringFieldUpdateOperationsInput | string
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    tag_number?: NullableStringFieldUpdateOperationsInput | string | null
+    microchip_id?: NullableStringFieldUpdateOperationsInput | string | null
+    mother_id?: NullableIntFieldUpdateOperationsInput | number | null
+    father_id?: NullableIntFieldUpdateOperationsInput | number | null
+    farm_id?: IntFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    mother_children?: AnimalsUncheckedUpdateManyWithoutMotherNestedInput
+    application?: ApplicationsUncheckedUpdateManyWithoutAnimalNestedInput
+    location?: LocationsUncheckedUpdateManyWithoutAnimalNestedInput
+  }
+
+  export type AnimalsUpsertWithWhereUniqueWithoutMotherInput = {
+    where: AnimalsWhereUniqueInput
+    update: XOR<AnimalsUpdateWithoutMotherInput, AnimalsUncheckedUpdateWithoutMotherInput>
+    create: XOR<AnimalsCreateWithoutMotherInput, AnimalsUncheckedCreateWithoutMotherInput>
+  }
+
+  export type AnimalsUpdateWithWhereUniqueWithoutMotherInput = {
+    where: AnimalsWhereUniqueInput
+    data: XOR<AnimalsUpdateWithoutMotherInput, AnimalsUncheckedUpdateWithoutMotherInput>
+  }
+
+  export type AnimalsUpdateManyWithWhereWithoutMotherInput = {
+    where: AnimalsScalarWhereInput
+    data: XOR<AnimalsUpdateManyMutationInput, AnimalsUncheckedUpdateManyWithoutMotherInput>
+  }
+
+  export type AnimalsUpsertWithWhereUniqueWithoutFatherInput = {
+    where: AnimalsWhereUniqueInput
+    update: XOR<AnimalsUpdateWithoutFatherInput, AnimalsUncheckedUpdateWithoutFatherInput>
+    create: XOR<AnimalsCreateWithoutFatherInput, AnimalsUncheckedCreateWithoutFatherInput>
+  }
+
+  export type AnimalsUpdateWithWhereUniqueWithoutFatherInput = {
+    where: AnimalsWhereUniqueInput
+    data: XOR<AnimalsUpdateWithoutFatherInput, AnimalsUncheckedUpdateWithoutFatherInput>
+  }
+
+  export type AnimalsUpdateManyWithWhereWithoutFatherInput = {
+    where: AnimalsScalarWhereInput
+    data: XOR<AnimalsUpdateManyMutationInput, AnimalsUncheckedUpdateManyWithoutFatherInput>
   }
 
   export type ApplicationsUpsertWithWhereUniqueWithoutAnimalInput = {
@@ -18810,7 +21142,14 @@ export namespace Prisma {
     animal_id?: IntFilter<"Locations"> | number
     latitude?: FloatFilter<"Locations"> | number
     longitude?: FloatFilter<"Locations"> | number
+    altitude?: FloatNullableFilter<"Locations"> | number | null
+    accuracy?: FloatNullableFilter<"Locations"> | number | null
+    speed?: FloatNullableFilter<"Locations"> | number | null
     captured_at?: DateTimeFilter<"Locations"> | Date | string
+    device_id?: StringNullableFilter<"Locations"> | string | null
+    battery?: IntNullableFilter<"Locations"> | number | null
+    temperature?: FloatNullableFilter<"Locations"> | number | null
+    humidity?: FloatNullableFilter<"Locations"> | number | null
     created_at?: DateTimeFilter<"Locations"> | Date | string
     updated_at?: DateTimeFilter<"Locations"> | Date | string
   }
@@ -18818,12 +21157,22 @@ export namespace Prisma {
   export type AnimalsCreateWithoutSpeciesInput = {
     name: string
     birth_date: Date | string
-    weight: number
-    health_status: string
+    weight?: number
+    health_status?: string
+    gender?: string | null
+    color?: string | null
+    tag_number?: string | null
+    microchip_id?: string | null
+    active?: boolean
+    notes?: string | null
     created_at?: Date | string
     updated_at?: Date | string
     breed: BreedsCreateNestedOneWithoutAnimalInput
     farm: FarmsCreateNestedOneWithoutAnimalInput
+    mother?: AnimalsCreateNestedOneWithoutMother_childrenInput
+    father?: AnimalsCreateNestedOneWithoutFather_childrenInput
+    mother_children?: AnimalsCreateNestedManyWithoutMotherInput
+    father_children?: AnimalsCreateNestedManyWithoutFatherInput
     application?: ApplicationsCreateNestedManyWithoutAnimalInput
     location?: LocationsCreateNestedManyWithoutAnimalInput
   }
@@ -18833,11 +21182,21 @@ export namespace Prisma {
     name: string
     breed_id: number
     birth_date: Date | string
-    weight: number
-    health_status: string
+    weight?: number
+    health_status?: string
+    gender?: string | null
+    color?: string | null
+    tag_number?: string | null
+    microchip_id?: string | null
+    mother_id?: number | null
+    father_id?: number | null
     farm_id: number
+    active?: boolean
+    notes?: string | null
     created_at?: Date | string
     updated_at?: Date | string
+    mother_children?: AnimalsUncheckedCreateNestedManyWithoutMotherInput
+    father_children?: AnimalsUncheckedCreateNestedManyWithoutFatherInput
     application?: ApplicationsUncheckedCreateNestedManyWithoutAnimalInput
     location?: LocationsUncheckedCreateNestedManyWithoutAnimalInput
   }
@@ -18856,6 +21215,8 @@ export namespace Prisma {
     description: string
     average_weight?: number | null
     productivity?: string | null
+    origin_country?: string | null
+    active?: boolean
     created_at?: Date | string
     updated_at?: Date | string
     animal?: AnimalsCreateNestedManyWithoutBreedInput
@@ -18867,6 +21228,8 @@ export namespace Prisma {
     description: string
     average_weight?: number | null
     productivity?: string | null
+    origin_country?: string | null
+    active?: boolean
     created_at?: Date | string
     updated_at?: Date | string
     animal?: AnimalsUncheckedCreateNestedManyWithoutBreedInput
@@ -18923,6 +21286,8 @@ export namespace Prisma {
     species_id?: IntFilter<"Breeds"> | number
     average_weight?: FloatNullableFilter<"Breeds"> | number | null
     productivity?: StringNullableFilter<"Breeds"> | string | null
+    origin_country?: StringNullableFilter<"Breeds"> | string | null
+    active?: BoolFilter<"Breeds"> | boolean
     created_at?: DateTimeFilter<"Breeds"> | Date | string
     updated_at?: DateTimeFilter<"Breeds"> | Date | string
   }
@@ -18930,12 +21295,22 @@ export namespace Prisma {
   export type AnimalsCreateWithoutBreedInput = {
     name: string
     birth_date: Date | string
-    weight: number
-    health_status: string
+    weight?: number
+    health_status?: string
+    gender?: string | null
+    color?: string | null
+    tag_number?: string | null
+    microchip_id?: string | null
+    active?: boolean
+    notes?: string | null
     created_at?: Date | string
     updated_at?: Date | string
     farm: FarmsCreateNestedOneWithoutAnimalInput
     species: SpeciesCreateNestedOneWithoutAnimalInput
+    mother?: AnimalsCreateNestedOneWithoutMother_childrenInput
+    father?: AnimalsCreateNestedOneWithoutFather_childrenInput
+    mother_children?: AnimalsCreateNestedManyWithoutMotherInput
+    father_children?: AnimalsCreateNestedManyWithoutFatherInput
     application?: ApplicationsCreateNestedManyWithoutAnimalInput
     location?: LocationsCreateNestedManyWithoutAnimalInput
   }
@@ -18945,11 +21320,21 @@ export namespace Prisma {
     name: string
     species_id: number
     birth_date: Date | string
-    weight: number
-    health_status: string
+    weight?: number
+    health_status?: string
+    gender?: string | null
+    color?: string | null
+    tag_number?: string | null
+    microchip_id?: string | null
+    mother_id?: number | null
+    father_id?: number | null
     farm_id: number
+    active?: boolean
+    notes?: string | null
     created_at?: Date | string
     updated_at?: Date | string
+    mother_children?: AnimalsUncheckedCreateNestedManyWithoutMotherInput
+    father_children?: AnimalsUncheckedCreateNestedManyWithoutFatherInput
     application?: ApplicationsUncheckedCreateNestedManyWithoutAnimalInput
     location?: LocationsUncheckedCreateNestedManyWithoutAnimalInput
   }
@@ -18968,6 +21353,9 @@ export namespace Prisma {
     description: string
     average_lifespan?: number | null
     gestation_period?: number | null
+    min_weight?: number | null
+    max_weight?: number | null
+    active?: boolean
     created_at?: Date | string
     updated_at?: Date | string
     animal?: AnimalsCreateNestedManyWithoutSpeciesInput
@@ -18979,6 +21367,9 @@ export namespace Prisma {
     description: string
     average_lifespan?: number | null
     gestation_period?: number | null
+    min_weight?: number | null
+    max_weight?: number | null
+    active?: boolean
     created_at?: Date | string
     updated_at?: Date | string
     animal?: AnimalsUncheckedCreateNestedManyWithoutSpeciesInput
@@ -19021,6 +21412,9 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     average_lifespan?: NullableIntFieldUpdateOperationsInput | number | null
     gestation_period?: NullableIntFieldUpdateOperationsInput | number | null
+    min_weight?: NullableFloatFieldUpdateOperationsInput | number | null
+    max_weight?: NullableFloatFieldUpdateOperationsInput | number | null
+    active?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     animal?: AnimalsUpdateManyWithoutSpeciesNestedInput
@@ -19032,15 +21426,24 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     average_lifespan?: NullableIntFieldUpdateOperationsInput | number | null
     gestation_period?: NullableIntFieldUpdateOperationsInput | number | null
+    min_weight?: NullableFloatFieldUpdateOperationsInput | number | null
+    max_weight?: NullableFloatFieldUpdateOperationsInput | number | null
+    active?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     animal?: AnimalsUncheckedUpdateManyWithoutSpeciesNestedInput
   }
 
   export type ApplicationsCreateWithoutVaccineInput = {
-    application_date: Date | string
+    application_date?: Date | string
     next_application_date?: Date | string | null
-    status_vaccine_application: string
+    status_vaccine_application?: string
+    dose_number?: number
+    application_site?: string | null
+    batch_used?: string | null
+    adverse_reaction?: string | null
+    cost?: number | null
+    notes?: string | null
     created_at?: Date | string
     updated_at?: Date | string
     animal: AnimalsCreateNestedOneWithoutApplicationInput
@@ -19051,9 +21454,15 @@ export namespace Prisma {
     id?: number
     animal_id: number
     veterinary_id: number
-    application_date: Date | string
+    application_date?: Date | string
     next_application_date?: Date | string | null
-    status_vaccine_application: string
+    status_vaccine_application?: string
+    dose_number?: number
+    application_site?: string | null
+    batch_used?: string | null
+    adverse_reaction?: string | null
+    cost?: number | null
+    notes?: string | null
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -19075,6 +21484,8 @@ export namespace Prisma {
     address: string
     country: string
     license_number: string
+    website?: string | null
+    active?: boolean
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -19088,6 +21499,8 @@ export namespace Prisma {
     address: string
     country: string
     license_number: string
+    website?: string | null
+    active?: boolean
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -19100,12 +21513,20 @@ export namespace Prisma {
   export type Types_of_VaccinesCreateWithoutVaccinesInput = {
     name: string
     description?: string | null
+    category?: string | null
+    active?: boolean
+    created_at?: Date | string
+    updated_at?: Date | string
   }
 
   export type Types_of_VaccinesUncheckedCreateWithoutVaccinesInput = {
     id?: number
     name: string
     description?: string | null
+    category?: string | null
+    active?: boolean
+    created_at?: Date | string
+    updated_at?: Date | string
   }
 
   export type Types_of_VaccinesCreateOrConnectWithoutVaccinesInput = {
@@ -19148,6 +21569,8 @@ export namespace Prisma {
     address?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
     license_number?: StringFieldUpdateOperationsInput | string
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -19161,6 +21584,8 @@ export namespace Prisma {
     address?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
     license_number?: StringFieldUpdateOperationsInput | string
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -19179,12 +21604,20 @@ export namespace Prisma {
   export type Types_of_VaccinesUpdateWithoutVaccinesInput = {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type Types_of_VaccinesUncheckedUpdateWithoutVaccinesInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type VaccinesCreateWithoutManufacturerInput = {
@@ -19192,9 +21625,13 @@ export namespace Prisma {
     target_disease: string
     batch: string
     expiration_date: Date | string
-    required_doses: number
+    required_doses?: number
     dosing_interval?: number | null
     notes: string
+    cost_per_dose?: number | null
+    storage_temp_min?: number | null
+    storage_temp_max?: number | null
+    active?: boolean
     created_at?: Date | string
     updated_at?: Date | string
     applications?: ApplicationsCreateNestedManyWithoutVaccineInput
@@ -19207,10 +21644,14 @@ export namespace Prisma {
     target_disease: string
     batch: string
     expiration_date: Date | string
-    required_doses: number
+    required_doses?: number
     dosing_interval?: number | null
     type_of_vaccine_id: number
     notes: string
+    cost_per_dose?: number | null
+    storage_temp_min?: number | null
+    storage_temp_max?: number | null
+    active?: boolean
     created_at?: Date | string
     updated_at?: Date | string
     applications?: ApplicationsUncheckedCreateNestedManyWithoutVaccineInput
@@ -19255,6 +21696,10 @@ export namespace Prisma {
     dosing_interval?: IntNullableFilter<"Vaccines"> | number | null
     type_of_vaccine_id?: IntFilter<"Vaccines"> | number
     notes?: StringFilter<"Vaccines"> | string
+    cost_per_dose?: FloatNullableFilter<"Vaccines"> | number | null
+    storage_temp_min?: FloatNullableFilter<"Vaccines"> | number | null
+    storage_temp_max?: FloatNullableFilter<"Vaccines"> | number | null
+    active?: BoolFilter<"Vaccines"> | boolean
     created_at?: DateTimeFilter<"Vaccines"> | Date | string
     updated_at?: DateTimeFilter<"Vaccines"> | Date | string
   }
@@ -19264,9 +21709,13 @@ export namespace Prisma {
     target_disease: string
     batch: string
     expiration_date: Date | string
-    required_doses: number
+    required_doses?: number
     dosing_interval?: number | null
     notes: string
+    cost_per_dose?: number | null
+    storage_temp_min?: number | null
+    storage_temp_max?: number | null
+    active?: boolean
     created_at?: Date | string
     updated_at?: Date | string
     applications?: ApplicationsCreateNestedManyWithoutVaccineInput
@@ -19280,9 +21729,13 @@ export namespace Prisma {
     manufacturer_id: number
     batch: string
     expiration_date: Date | string
-    required_doses: number
+    required_doses?: number
     dosing_interval?: number | null
     notes: string
+    cost_per_dose?: number | null
+    storage_temp_min?: number | null
+    storage_temp_max?: number | null
+    active?: boolean
     created_at?: Date | string
     updated_at?: Date | string
     applications?: ApplicationsUncheckedCreateNestedManyWithoutVaccineInput
@@ -19316,13 +21769,23 @@ export namespace Prisma {
   export type AnimalsCreateWithoutApplicationInput = {
     name: string
     birth_date: Date | string
-    weight: number
-    health_status: string
+    weight?: number
+    health_status?: string
+    gender?: string | null
+    color?: string | null
+    tag_number?: string | null
+    microchip_id?: string | null
+    active?: boolean
+    notes?: string | null
     created_at?: Date | string
     updated_at?: Date | string
     breed: BreedsCreateNestedOneWithoutAnimalInput
     farm: FarmsCreateNestedOneWithoutAnimalInput
     species: SpeciesCreateNestedOneWithoutAnimalInput
+    mother?: AnimalsCreateNestedOneWithoutMother_childrenInput
+    father?: AnimalsCreateNestedOneWithoutFather_childrenInput
+    mother_children?: AnimalsCreateNestedManyWithoutMotherInput
+    father_children?: AnimalsCreateNestedManyWithoutFatherInput
     location?: LocationsCreateNestedManyWithoutAnimalInput
   }
 
@@ -19332,11 +21795,21 @@ export namespace Prisma {
     species_id: number
     breed_id: number
     birth_date: Date | string
-    weight: number
-    health_status: string
+    weight?: number
+    health_status?: string
+    gender?: string | null
+    color?: string | null
+    tag_number?: string | null
+    microchip_id?: string | null
+    mother_id?: number | null
+    father_id?: number | null
     farm_id: number
+    active?: boolean
+    notes?: string | null
     created_at?: Date | string
     updated_at?: Date | string
+    mother_children?: AnimalsUncheckedCreateNestedManyWithoutMotherInput
+    father_children?: AnimalsUncheckedCreateNestedManyWithoutFatherInput
     location?: LocationsUncheckedCreateNestedManyWithoutAnimalInput
   }
 
@@ -19350,9 +21823,13 @@ export namespace Prisma {
     target_disease: string
     batch: string
     expiration_date: Date | string
-    required_doses: number
+    required_doses?: number
     dosing_interval?: number | null
     notes: string
+    cost_per_dose?: number | null
+    storage_temp_min?: number | null
+    storage_temp_max?: number | null
+    active?: boolean
     created_at?: Date | string
     updated_at?: Date | string
     manufacturer: ManufacturersCreateNestedOneWithoutVaccinesInput
@@ -19366,10 +21843,14 @@ export namespace Prisma {
     manufacturer_id: number
     batch: string
     expiration_date: Date | string
-    required_doses: number
+    required_doses?: number
     dosing_interval?: number | null
     type_of_vaccine_id: number
     notes: string
+    cost_per_dose?: number | null
+    storage_temp_min?: number | null
+    storage_temp_max?: number | null
+    active?: boolean
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -19380,12 +21861,22 @@ export namespace Prisma {
   }
 
   export type VeterinariansCreateWithoutApplicationInput = {
+    license_number?: string | null
+    specialization?: string | null
+    years_experience?: number | null
+    created_at?: Date | string
+    updated_at?: Date | string
     user: UsersCreateNestedOneWithoutVeterinaryInput
   }
 
   export type VeterinariansUncheckedCreateWithoutApplicationInput = {
     id?: number
     user_id: number
+    license_number?: string | null
+    specialization?: string | null
+    years_experience?: number | null
+    created_at?: Date | string
+    updated_at?: Date | string
   }
 
   export type VeterinariansCreateOrConnectWithoutApplicationInput = {
@@ -19409,11 +21900,21 @@ export namespace Prisma {
     birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
     weight?: FloatFieldUpdateOperationsInput | number
     health_status?: StringFieldUpdateOperationsInput | string
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    tag_number?: NullableStringFieldUpdateOperationsInput | string | null
+    microchip_id?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     breed?: BreedsUpdateOneRequiredWithoutAnimalNestedInput
     farm?: FarmsUpdateOneRequiredWithoutAnimalNestedInput
     species?: SpeciesUpdateOneRequiredWithoutAnimalNestedInput
+    mother?: AnimalsUpdateOneWithoutMother_childrenNestedInput
+    father?: AnimalsUpdateOneWithoutFather_childrenNestedInput
+    mother_children?: AnimalsUpdateManyWithoutMotherNestedInput
+    father_children?: AnimalsUpdateManyWithoutFatherNestedInput
     location?: LocationsUpdateManyWithoutAnimalNestedInput
   }
 
@@ -19425,9 +21926,19 @@ export namespace Prisma {
     birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
     weight?: FloatFieldUpdateOperationsInput | number
     health_status?: StringFieldUpdateOperationsInput | string
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    tag_number?: NullableStringFieldUpdateOperationsInput | string | null
+    microchip_id?: NullableStringFieldUpdateOperationsInput | string | null
+    mother_id?: NullableIntFieldUpdateOperationsInput | number | null
+    father_id?: NullableIntFieldUpdateOperationsInput | number | null
     farm_id?: IntFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    mother_children?: AnimalsUncheckedUpdateManyWithoutMotherNestedInput
+    father_children?: AnimalsUncheckedUpdateManyWithoutFatherNestedInput
     location?: LocationsUncheckedUpdateManyWithoutAnimalNestedInput
   }
 
@@ -19450,6 +21961,10 @@ export namespace Prisma {
     required_doses?: IntFieldUpdateOperationsInput | number
     dosing_interval?: NullableIntFieldUpdateOperationsInput | number | null
     notes?: StringFieldUpdateOperationsInput | string
+    cost_per_dose?: NullableFloatFieldUpdateOperationsInput | number | null
+    storage_temp_min?: NullableFloatFieldUpdateOperationsInput | number | null
+    storage_temp_max?: NullableFloatFieldUpdateOperationsInput | number | null
+    active?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     manufacturer?: ManufacturersUpdateOneRequiredWithoutVaccinesNestedInput
@@ -19467,6 +21982,10 @@ export namespace Prisma {
     dosing_interval?: NullableIntFieldUpdateOperationsInput | number | null
     type_of_vaccine_id?: IntFieldUpdateOperationsInput | number
     notes?: StringFieldUpdateOperationsInput | string
+    cost_per_dose?: NullableFloatFieldUpdateOperationsInput | number | null
+    storage_temp_min?: NullableFloatFieldUpdateOperationsInput | number | null
+    storage_temp_max?: NullableFloatFieldUpdateOperationsInput | number | null
+    active?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -19483,24 +22002,44 @@ export namespace Prisma {
   }
 
   export type VeterinariansUpdateWithoutApplicationInput = {
+    license_number?: NullableStringFieldUpdateOperationsInput | string | null
+    specialization?: NullableStringFieldUpdateOperationsInput | string | null
+    years_experience?: NullableIntFieldUpdateOperationsInput | number | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UsersUpdateOneRequiredWithoutVeterinaryNestedInput
   }
 
   export type VeterinariansUncheckedUpdateWithoutApplicationInput = {
     id?: IntFieldUpdateOperationsInput | number
     user_id?: IntFieldUpdateOperationsInput | number
+    license_number?: NullableStringFieldUpdateOperationsInput | string | null
+    specialization?: NullableStringFieldUpdateOperationsInput | string | null
+    years_experience?: NullableIntFieldUpdateOperationsInput | number | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type AnimalsCreateWithoutLocationInput = {
     name: string
     birth_date: Date | string
-    weight: number
-    health_status: string
+    weight?: number
+    health_status?: string
+    gender?: string | null
+    color?: string | null
+    tag_number?: string | null
+    microchip_id?: string | null
+    active?: boolean
+    notes?: string | null
     created_at?: Date | string
     updated_at?: Date | string
     breed: BreedsCreateNestedOneWithoutAnimalInput
     farm: FarmsCreateNestedOneWithoutAnimalInput
     species: SpeciesCreateNestedOneWithoutAnimalInput
+    mother?: AnimalsCreateNestedOneWithoutMother_childrenInput
+    father?: AnimalsCreateNestedOneWithoutFather_childrenInput
+    mother_children?: AnimalsCreateNestedManyWithoutMotherInput
+    father_children?: AnimalsCreateNestedManyWithoutFatherInput
     application?: ApplicationsCreateNestedManyWithoutAnimalInput
   }
 
@@ -19510,11 +22049,21 @@ export namespace Prisma {
     species_id: number
     breed_id: number
     birth_date: Date | string
-    weight: number
-    health_status: string
+    weight?: number
+    health_status?: string
+    gender?: string | null
+    color?: string | null
+    tag_number?: string | null
+    microchip_id?: string | null
+    mother_id?: number | null
+    father_id?: number | null
     farm_id: number
+    active?: boolean
+    notes?: string | null
     created_at?: Date | string
     updated_at?: Date | string
+    mother_children?: AnimalsUncheckedCreateNestedManyWithoutMotherInput
+    father_children?: AnimalsUncheckedCreateNestedManyWithoutFatherInput
     application?: ApplicationsUncheckedCreateNestedManyWithoutAnimalInput
   }
 
@@ -19539,11 +22088,21 @@ export namespace Prisma {
     birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
     weight?: FloatFieldUpdateOperationsInput | number
     health_status?: StringFieldUpdateOperationsInput | string
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    tag_number?: NullableStringFieldUpdateOperationsInput | string | null
+    microchip_id?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     breed?: BreedsUpdateOneRequiredWithoutAnimalNestedInput
     farm?: FarmsUpdateOneRequiredWithoutAnimalNestedInput
     species?: SpeciesUpdateOneRequiredWithoutAnimalNestedInput
+    mother?: AnimalsUpdateOneWithoutMother_childrenNestedInput
+    father?: AnimalsUpdateOneWithoutFather_childrenNestedInput
+    mother_children?: AnimalsUpdateManyWithoutMotherNestedInput
+    father_children?: AnimalsUpdateManyWithoutFatherNestedInput
     application?: ApplicationsUpdateManyWithoutAnimalNestedInput
   }
 
@@ -19555,9 +22114,19 @@ export namespace Prisma {
     birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
     weight?: FloatFieldUpdateOperationsInput | number
     health_status?: StringFieldUpdateOperationsInput | string
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    tag_number?: NullableStringFieldUpdateOperationsInput | string | null
+    microchip_id?: NullableStringFieldUpdateOperationsInput | string | null
+    mother_id?: NullableIntFieldUpdateOperationsInput | number | null
+    father_id?: NullableIntFieldUpdateOperationsInput | number | null
     farm_id?: IntFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    mother_children?: AnimalsUncheckedUpdateManyWithoutMotherNestedInput
+    father_children?: AnimalsUncheckedUpdateManyWithoutFatherNestedInput
     application?: ApplicationsUncheckedUpdateManyWithoutAnimalNestedInput
   }
 
@@ -19566,8 +22135,16 @@ export namespace Prisma {
     species_id: number
     breed_id: number
     birth_date: Date | string
-    weight: number
-    health_status: string
+    weight?: number
+    health_status?: string
+    gender?: string | null
+    color?: string | null
+    tag_number?: string | null
+    microchip_id?: string | null
+    mother_id?: number | null
+    father_id?: number | null
+    active?: boolean
+    notes?: string | null
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -19578,6 +22155,9 @@ export namespace Prisma {
     password: string
     profile_photo?: string | null
     role: string
+    active?: boolean
+    phone?: string | null
+    address?: string | null
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -19587,10 +22167,20 @@ export namespace Prisma {
     birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
     weight?: FloatFieldUpdateOperationsInput | number
     health_status?: StringFieldUpdateOperationsInput | string
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    tag_number?: NullableStringFieldUpdateOperationsInput | string | null
+    microchip_id?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     breed?: BreedsUpdateOneRequiredWithoutAnimalNestedInput
     species?: SpeciesUpdateOneRequiredWithoutAnimalNestedInput
+    mother?: AnimalsUpdateOneWithoutMother_childrenNestedInput
+    father?: AnimalsUpdateOneWithoutFather_childrenNestedInput
+    mother_children?: AnimalsUpdateManyWithoutMotherNestedInput
+    father_children?: AnimalsUpdateManyWithoutFatherNestedInput
     application?: ApplicationsUpdateManyWithoutAnimalNestedInput
     location?: LocationsUpdateManyWithoutAnimalNestedInput
   }
@@ -19603,8 +22193,18 @@ export namespace Prisma {
     birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
     weight?: FloatFieldUpdateOperationsInput | number
     health_status?: StringFieldUpdateOperationsInput | string
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    tag_number?: NullableStringFieldUpdateOperationsInput | string | null
+    microchip_id?: NullableStringFieldUpdateOperationsInput | string | null
+    mother_id?: NullableIntFieldUpdateOperationsInput | number | null
+    father_id?: NullableIntFieldUpdateOperationsInput | number | null
+    active?: BoolFieldUpdateOperationsInput | boolean
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    mother_children?: AnimalsUncheckedUpdateManyWithoutMotherNestedInput
+    father_children?: AnimalsUncheckedUpdateManyWithoutFatherNestedInput
     application?: ApplicationsUncheckedUpdateManyWithoutAnimalNestedInput
     location?: LocationsUncheckedUpdateManyWithoutAnimalNestedInput
   }
@@ -19617,6 +22217,14 @@ export namespace Prisma {
     birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
     weight?: FloatFieldUpdateOperationsInput | number
     health_status?: StringFieldUpdateOperationsInput | string
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    tag_number?: NullableStringFieldUpdateOperationsInput | string | null
+    microchip_id?: NullableStringFieldUpdateOperationsInput | string | null
+    mother_id?: NullableIntFieldUpdateOperationsInput | number | null
+    father_id?: NullableIntFieldUpdateOperationsInput | number | null
+    active?: BoolFieldUpdateOperationsInput | boolean
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -19627,6 +22235,9 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     profile_photo?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
+    active?: BoolFieldUpdateOperationsInput | boolean
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     farmhand?: FarmhandsUpdateOneWithoutUserNestedInput
@@ -19640,6 +22251,9 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     profile_photo?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
+    active?: BoolFieldUpdateOperationsInput | boolean
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     farmhand?: FarmhandsUncheckedUpdateOneWithoutUserNestedInput
@@ -19653,6 +22267,9 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     profile_photo?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
+    active?: BoolFieldUpdateOperationsInput | boolean
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -19660,9 +22277,15 @@ export namespace Prisma {
   export type ApplicationsCreateManyVeterinaryInput = {
     animal_id: number
     vaccine_id: number
-    application_date: Date | string
+    application_date?: Date | string
     next_application_date?: Date | string | null
-    status_vaccine_application: string
+    status_vaccine_application?: string
+    dose_number?: number
+    application_site?: string | null
+    batch_used?: string | null
+    adverse_reaction?: string | null
+    cost?: number | null
+    notes?: string | null
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -19671,6 +22294,12 @@ export namespace Prisma {
     application_date?: DateTimeFieldUpdateOperationsInput | Date | string
     next_application_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status_vaccine_application?: StringFieldUpdateOperationsInput | string
+    dose_number?: IntFieldUpdateOperationsInput | number
+    application_site?: NullableStringFieldUpdateOperationsInput | string | null
+    batch_used?: NullableStringFieldUpdateOperationsInput | string | null
+    adverse_reaction?: NullableStringFieldUpdateOperationsInput | string | null
+    cost?: NullableFloatFieldUpdateOperationsInput | number | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     animal?: AnimalsUpdateOneRequiredWithoutApplicationNestedInput
@@ -19684,6 +22313,12 @@ export namespace Prisma {
     application_date?: DateTimeFieldUpdateOperationsInput | Date | string
     next_application_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status_vaccine_application?: StringFieldUpdateOperationsInput | string
+    dose_number?: IntFieldUpdateOperationsInput | number
+    application_site?: NullableStringFieldUpdateOperationsInput | string | null
+    batch_used?: NullableStringFieldUpdateOperationsInput | string | null
+    adverse_reaction?: NullableStringFieldUpdateOperationsInput | string | null
+    cost?: NullableFloatFieldUpdateOperationsInput | number | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -19695,16 +22330,66 @@ export namespace Prisma {
     application_date?: DateTimeFieldUpdateOperationsInput | Date | string
     next_application_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status_vaccine_application?: StringFieldUpdateOperationsInput | string
+    dose_number?: IntFieldUpdateOperationsInput | number
+    application_site?: NullableStringFieldUpdateOperationsInput | string | null
+    batch_used?: NullableStringFieldUpdateOperationsInput | string | null
+    adverse_reaction?: NullableStringFieldUpdateOperationsInput | string | null
+    cost?: NullableFloatFieldUpdateOperationsInput | number | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AnimalsCreateManyMotherInput = {
+    name: string
+    species_id: number
+    breed_id: number
+    birth_date: Date | string
+    weight?: number
+    health_status?: string
+    gender?: string | null
+    color?: string | null
+    tag_number?: string | null
+    microchip_id?: string | null
+    father_id?: number | null
+    farm_id: number
+    active?: boolean
+    notes?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type AnimalsCreateManyFatherInput = {
+    name: string
+    species_id: number
+    breed_id: number
+    birth_date: Date | string
+    weight?: number
+    health_status?: string
+    gender?: string | null
+    color?: string | null
+    tag_number?: string | null
+    microchip_id?: string | null
+    mother_id?: number | null
+    farm_id: number
+    active?: boolean
+    notes?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
   }
 
   export type ApplicationsCreateManyAnimalInput = {
     vaccine_id: number
     veterinary_id: number
-    application_date: Date | string
+    application_date?: Date | string
     next_application_date?: Date | string | null
-    status_vaccine_application: string
+    status_vaccine_application?: string
+    dose_number?: number
+    application_site?: string | null
+    batch_used?: string | null
+    adverse_reaction?: string | null
+    cost?: number | null
+    notes?: string | null
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -19712,15 +22397,162 @@ export namespace Prisma {
   export type LocationsCreateManyAnimalInput = {
     latitude: number
     longitude: number
-    captured_at: Date | string
+    altitude?: number | null
+    accuracy?: number | null
+    speed?: number | null
+    captured_at?: Date | string
+    device_id?: string | null
+    battery?: number | null
+    temperature?: number | null
+    humidity?: number | null
     created_at?: Date | string
     updated_at?: Date | string
+  }
+
+  export type AnimalsUpdateWithoutMotherInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    weight?: FloatFieldUpdateOperationsInput | number
+    health_status?: StringFieldUpdateOperationsInput | string
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    tag_number?: NullableStringFieldUpdateOperationsInput | string | null
+    microchip_id?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    breed?: BreedsUpdateOneRequiredWithoutAnimalNestedInput
+    farm?: FarmsUpdateOneRequiredWithoutAnimalNestedInput
+    species?: SpeciesUpdateOneRequiredWithoutAnimalNestedInput
+    father?: AnimalsUpdateOneWithoutFather_childrenNestedInput
+    mother_children?: AnimalsUpdateManyWithoutMotherNestedInput
+    father_children?: AnimalsUpdateManyWithoutFatherNestedInput
+    application?: ApplicationsUpdateManyWithoutAnimalNestedInput
+    location?: LocationsUpdateManyWithoutAnimalNestedInput
+  }
+
+  export type AnimalsUncheckedUpdateWithoutMotherInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    species_id?: IntFieldUpdateOperationsInput | number
+    breed_id?: IntFieldUpdateOperationsInput | number
+    birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    weight?: FloatFieldUpdateOperationsInput | number
+    health_status?: StringFieldUpdateOperationsInput | string
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    tag_number?: NullableStringFieldUpdateOperationsInput | string | null
+    microchip_id?: NullableStringFieldUpdateOperationsInput | string | null
+    father_id?: NullableIntFieldUpdateOperationsInput | number | null
+    farm_id?: IntFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    mother_children?: AnimalsUncheckedUpdateManyWithoutMotherNestedInput
+    father_children?: AnimalsUncheckedUpdateManyWithoutFatherNestedInput
+    application?: ApplicationsUncheckedUpdateManyWithoutAnimalNestedInput
+    location?: LocationsUncheckedUpdateManyWithoutAnimalNestedInput
+  }
+
+  export type AnimalsUncheckedUpdateManyWithoutMotherInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    species_id?: IntFieldUpdateOperationsInput | number
+    breed_id?: IntFieldUpdateOperationsInput | number
+    birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    weight?: FloatFieldUpdateOperationsInput | number
+    health_status?: StringFieldUpdateOperationsInput | string
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    tag_number?: NullableStringFieldUpdateOperationsInput | string | null
+    microchip_id?: NullableStringFieldUpdateOperationsInput | string | null
+    father_id?: NullableIntFieldUpdateOperationsInput | number | null
+    farm_id?: IntFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AnimalsUpdateWithoutFatherInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    weight?: FloatFieldUpdateOperationsInput | number
+    health_status?: StringFieldUpdateOperationsInput | string
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    tag_number?: NullableStringFieldUpdateOperationsInput | string | null
+    microchip_id?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    breed?: BreedsUpdateOneRequiredWithoutAnimalNestedInput
+    farm?: FarmsUpdateOneRequiredWithoutAnimalNestedInput
+    species?: SpeciesUpdateOneRequiredWithoutAnimalNestedInput
+    mother?: AnimalsUpdateOneWithoutMother_childrenNestedInput
+    mother_children?: AnimalsUpdateManyWithoutMotherNestedInput
+    father_children?: AnimalsUpdateManyWithoutFatherNestedInput
+    application?: ApplicationsUpdateManyWithoutAnimalNestedInput
+    location?: LocationsUpdateManyWithoutAnimalNestedInput
+  }
+
+  export type AnimalsUncheckedUpdateWithoutFatherInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    species_id?: IntFieldUpdateOperationsInput | number
+    breed_id?: IntFieldUpdateOperationsInput | number
+    birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    weight?: FloatFieldUpdateOperationsInput | number
+    health_status?: StringFieldUpdateOperationsInput | string
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    tag_number?: NullableStringFieldUpdateOperationsInput | string | null
+    microchip_id?: NullableStringFieldUpdateOperationsInput | string | null
+    mother_id?: NullableIntFieldUpdateOperationsInput | number | null
+    farm_id?: IntFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    mother_children?: AnimalsUncheckedUpdateManyWithoutMotherNestedInput
+    father_children?: AnimalsUncheckedUpdateManyWithoutFatherNestedInput
+    application?: ApplicationsUncheckedUpdateManyWithoutAnimalNestedInput
+    location?: LocationsUncheckedUpdateManyWithoutAnimalNestedInput
+  }
+
+  export type AnimalsUncheckedUpdateManyWithoutFatherInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    species_id?: IntFieldUpdateOperationsInput | number
+    breed_id?: IntFieldUpdateOperationsInput | number
+    birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    weight?: FloatFieldUpdateOperationsInput | number
+    health_status?: StringFieldUpdateOperationsInput | string
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    tag_number?: NullableStringFieldUpdateOperationsInput | string | null
+    microchip_id?: NullableStringFieldUpdateOperationsInput | string | null
+    mother_id?: NullableIntFieldUpdateOperationsInput | number | null
+    farm_id?: IntFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ApplicationsUpdateWithoutAnimalInput = {
     application_date?: DateTimeFieldUpdateOperationsInput | Date | string
     next_application_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status_vaccine_application?: StringFieldUpdateOperationsInput | string
+    dose_number?: IntFieldUpdateOperationsInput | number
+    application_site?: NullableStringFieldUpdateOperationsInput | string | null
+    batch_used?: NullableStringFieldUpdateOperationsInput | string | null
+    adverse_reaction?: NullableStringFieldUpdateOperationsInput | string | null
+    cost?: NullableFloatFieldUpdateOperationsInput | number | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     vaccine?: VaccinesUpdateOneRequiredWithoutApplicationsNestedInput
@@ -19734,6 +22566,12 @@ export namespace Prisma {
     application_date?: DateTimeFieldUpdateOperationsInput | Date | string
     next_application_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status_vaccine_application?: StringFieldUpdateOperationsInput | string
+    dose_number?: IntFieldUpdateOperationsInput | number
+    application_site?: NullableStringFieldUpdateOperationsInput | string | null
+    batch_used?: NullableStringFieldUpdateOperationsInput | string | null
+    adverse_reaction?: NullableStringFieldUpdateOperationsInput | string | null
+    cost?: NullableFloatFieldUpdateOperationsInput | number | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -19745,6 +22583,12 @@ export namespace Prisma {
     application_date?: DateTimeFieldUpdateOperationsInput | Date | string
     next_application_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status_vaccine_application?: StringFieldUpdateOperationsInput | string
+    dose_number?: IntFieldUpdateOperationsInput | number
+    application_site?: NullableStringFieldUpdateOperationsInput | string | null
+    batch_used?: NullableStringFieldUpdateOperationsInput | string | null
+    adverse_reaction?: NullableStringFieldUpdateOperationsInput | string | null
+    cost?: NullableFloatFieldUpdateOperationsInput | number | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -19752,7 +22596,14 @@ export namespace Prisma {
   export type LocationsUpdateWithoutAnimalInput = {
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
+    altitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    accuracy?: NullableFloatFieldUpdateOperationsInput | number | null
+    speed?: NullableFloatFieldUpdateOperationsInput | number | null
     captured_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    device_id?: NullableStringFieldUpdateOperationsInput | string | null
+    battery?: NullableIntFieldUpdateOperationsInput | number | null
+    temperature?: NullableFloatFieldUpdateOperationsInput | number | null
+    humidity?: NullableFloatFieldUpdateOperationsInput | number | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -19761,7 +22612,14 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
+    altitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    accuracy?: NullableFloatFieldUpdateOperationsInput | number | null
+    speed?: NullableFloatFieldUpdateOperationsInput | number | null
     captured_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    device_id?: NullableStringFieldUpdateOperationsInput | string | null
+    battery?: NullableIntFieldUpdateOperationsInput | number | null
+    temperature?: NullableFloatFieldUpdateOperationsInput | number | null
+    humidity?: NullableFloatFieldUpdateOperationsInput | number | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -19770,7 +22628,14 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
+    altitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    accuracy?: NullableFloatFieldUpdateOperationsInput | number | null
+    speed?: NullableFloatFieldUpdateOperationsInput | number | null
     captured_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    device_id?: NullableStringFieldUpdateOperationsInput | string | null
+    battery?: NullableIntFieldUpdateOperationsInput | number | null
+    temperature?: NullableFloatFieldUpdateOperationsInput | number | null
+    humidity?: NullableFloatFieldUpdateOperationsInput | number | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -19779,9 +22644,17 @@ export namespace Prisma {
     name: string
     breed_id: number
     birth_date: Date | string
-    weight: number
-    health_status: string
+    weight?: number
+    health_status?: string
+    gender?: string | null
+    color?: string | null
+    tag_number?: string | null
+    microchip_id?: string | null
+    mother_id?: number | null
+    father_id?: number | null
     farm_id: number
+    active?: boolean
+    notes?: string | null
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -19791,6 +22664,8 @@ export namespace Prisma {
     description: string
     average_weight?: number | null
     productivity?: string | null
+    origin_country?: string | null
+    active?: boolean
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -19800,10 +22675,20 @@ export namespace Prisma {
     birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
     weight?: FloatFieldUpdateOperationsInput | number
     health_status?: StringFieldUpdateOperationsInput | string
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    tag_number?: NullableStringFieldUpdateOperationsInput | string | null
+    microchip_id?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     breed?: BreedsUpdateOneRequiredWithoutAnimalNestedInput
     farm?: FarmsUpdateOneRequiredWithoutAnimalNestedInput
+    mother?: AnimalsUpdateOneWithoutMother_childrenNestedInput
+    father?: AnimalsUpdateOneWithoutFather_childrenNestedInput
+    mother_children?: AnimalsUpdateManyWithoutMotherNestedInput
+    father_children?: AnimalsUpdateManyWithoutFatherNestedInput
     application?: ApplicationsUpdateManyWithoutAnimalNestedInput
     location?: LocationsUpdateManyWithoutAnimalNestedInput
   }
@@ -19815,9 +22700,19 @@ export namespace Prisma {
     birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
     weight?: FloatFieldUpdateOperationsInput | number
     health_status?: StringFieldUpdateOperationsInput | string
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    tag_number?: NullableStringFieldUpdateOperationsInput | string | null
+    microchip_id?: NullableStringFieldUpdateOperationsInput | string | null
+    mother_id?: NullableIntFieldUpdateOperationsInput | number | null
+    father_id?: NullableIntFieldUpdateOperationsInput | number | null
     farm_id?: IntFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    mother_children?: AnimalsUncheckedUpdateManyWithoutMotherNestedInput
+    father_children?: AnimalsUncheckedUpdateManyWithoutFatherNestedInput
     application?: ApplicationsUncheckedUpdateManyWithoutAnimalNestedInput
     location?: LocationsUncheckedUpdateManyWithoutAnimalNestedInput
   }
@@ -19829,7 +22724,15 @@ export namespace Prisma {
     birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
     weight?: FloatFieldUpdateOperationsInput | number
     health_status?: StringFieldUpdateOperationsInput | string
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    tag_number?: NullableStringFieldUpdateOperationsInput | string | null
+    microchip_id?: NullableStringFieldUpdateOperationsInput | string | null
+    mother_id?: NullableIntFieldUpdateOperationsInput | number | null
+    father_id?: NullableIntFieldUpdateOperationsInput | number | null
     farm_id?: IntFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -19839,6 +22742,8 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     average_weight?: NullableFloatFieldUpdateOperationsInput | number | null
     productivity?: NullableStringFieldUpdateOperationsInput | string | null
+    origin_country?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     animal?: AnimalsUpdateManyWithoutBreedNestedInput
@@ -19850,6 +22755,8 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     average_weight?: NullableFloatFieldUpdateOperationsInput | number | null
     productivity?: NullableStringFieldUpdateOperationsInput | string | null
+    origin_country?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     animal?: AnimalsUncheckedUpdateManyWithoutBreedNestedInput
@@ -19861,6 +22768,8 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     average_weight?: NullableFloatFieldUpdateOperationsInput | number | null
     productivity?: NullableStringFieldUpdateOperationsInput | string | null
+    origin_country?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -19869,9 +22778,17 @@ export namespace Prisma {
     name: string
     species_id: number
     birth_date: Date | string
-    weight: number
-    health_status: string
+    weight?: number
+    health_status?: string
+    gender?: string | null
+    color?: string | null
+    tag_number?: string | null
+    microchip_id?: string | null
+    mother_id?: number | null
+    father_id?: number | null
     farm_id: number
+    active?: boolean
+    notes?: string | null
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -19881,10 +22798,20 @@ export namespace Prisma {
     birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
     weight?: FloatFieldUpdateOperationsInput | number
     health_status?: StringFieldUpdateOperationsInput | string
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    tag_number?: NullableStringFieldUpdateOperationsInput | string | null
+    microchip_id?: NullableStringFieldUpdateOperationsInput | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     farm?: FarmsUpdateOneRequiredWithoutAnimalNestedInput
     species?: SpeciesUpdateOneRequiredWithoutAnimalNestedInput
+    mother?: AnimalsUpdateOneWithoutMother_childrenNestedInput
+    father?: AnimalsUpdateOneWithoutFather_childrenNestedInput
+    mother_children?: AnimalsUpdateManyWithoutMotherNestedInput
+    father_children?: AnimalsUpdateManyWithoutFatherNestedInput
     application?: ApplicationsUpdateManyWithoutAnimalNestedInput
     location?: LocationsUpdateManyWithoutAnimalNestedInput
   }
@@ -19896,9 +22823,19 @@ export namespace Prisma {
     birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
     weight?: FloatFieldUpdateOperationsInput | number
     health_status?: StringFieldUpdateOperationsInput | string
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    tag_number?: NullableStringFieldUpdateOperationsInput | string | null
+    microchip_id?: NullableStringFieldUpdateOperationsInput | string | null
+    mother_id?: NullableIntFieldUpdateOperationsInput | number | null
+    father_id?: NullableIntFieldUpdateOperationsInput | number | null
     farm_id?: IntFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    mother_children?: AnimalsUncheckedUpdateManyWithoutMotherNestedInput
+    father_children?: AnimalsUncheckedUpdateManyWithoutFatherNestedInput
     application?: ApplicationsUncheckedUpdateManyWithoutAnimalNestedInput
     location?: LocationsUncheckedUpdateManyWithoutAnimalNestedInput
   }
@@ -19910,7 +22847,15 @@ export namespace Prisma {
     birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
     weight?: FloatFieldUpdateOperationsInput | number
     health_status?: StringFieldUpdateOperationsInput | string
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    tag_number?: NullableStringFieldUpdateOperationsInput | string | null
+    microchip_id?: NullableStringFieldUpdateOperationsInput | string | null
+    mother_id?: NullableIntFieldUpdateOperationsInput | number | null
+    father_id?: NullableIntFieldUpdateOperationsInput | number | null
     farm_id?: IntFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -19918,9 +22863,15 @@ export namespace Prisma {
   export type ApplicationsCreateManyVaccineInput = {
     animal_id: number
     veterinary_id: number
-    application_date: Date | string
+    application_date?: Date | string
     next_application_date?: Date | string | null
-    status_vaccine_application: string
+    status_vaccine_application?: string
+    dose_number?: number
+    application_site?: string | null
+    batch_used?: string | null
+    adverse_reaction?: string | null
+    cost?: number | null
+    notes?: string | null
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -19929,6 +22880,12 @@ export namespace Prisma {
     application_date?: DateTimeFieldUpdateOperationsInput | Date | string
     next_application_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status_vaccine_application?: StringFieldUpdateOperationsInput | string
+    dose_number?: IntFieldUpdateOperationsInput | number
+    application_site?: NullableStringFieldUpdateOperationsInput | string | null
+    batch_used?: NullableStringFieldUpdateOperationsInput | string | null
+    adverse_reaction?: NullableStringFieldUpdateOperationsInput | string | null
+    cost?: NullableFloatFieldUpdateOperationsInput | number | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     animal?: AnimalsUpdateOneRequiredWithoutApplicationNestedInput
@@ -19942,6 +22899,12 @@ export namespace Prisma {
     application_date?: DateTimeFieldUpdateOperationsInput | Date | string
     next_application_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status_vaccine_application?: StringFieldUpdateOperationsInput | string
+    dose_number?: IntFieldUpdateOperationsInput | number
+    application_site?: NullableStringFieldUpdateOperationsInput | string | null
+    batch_used?: NullableStringFieldUpdateOperationsInput | string | null
+    adverse_reaction?: NullableStringFieldUpdateOperationsInput | string | null
+    cost?: NullableFloatFieldUpdateOperationsInput | number | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -19953,6 +22916,12 @@ export namespace Prisma {
     application_date?: DateTimeFieldUpdateOperationsInput | Date | string
     next_application_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status_vaccine_application?: StringFieldUpdateOperationsInput | string
+    dose_number?: IntFieldUpdateOperationsInput | number
+    application_site?: NullableStringFieldUpdateOperationsInput | string | null
+    batch_used?: NullableStringFieldUpdateOperationsInput | string | null
+    adverse_reaction?: NullableStringFieldUpdateOperationsInput | string | null
+    cost?: NullableFloatFieldUpdateOperationsInput | number | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -19962,10 +22931,14 @@ export namespace Prisma {
     target_disease: string
     batch: string
     expiration_date: Date | string
-    required_doses: number
+    required_doses?: number
     dosing_interval?: number | null
     type_of_vaccine_id: number
     notes: string
+    cost_per_dose?: number | null
+    storage_temp_min?: number | null
+    storage_temp_max?: number | null
+    active?: boolean
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -19978,6 +22951,10 @@ export namespace Prisma {
     required_doses?: IntFieldUpdateOperationsInput | number
     dosing_interval?: NullableIntFieldUpdateOperationsInput | number | null
     notes?: StringFieldUpdateOperationsInput | string
+    cost_per_dose?: NullableFloatFieldUpdateOperationsInput | number | null
+    storage_temp_min?: NullableFloatFieldUpdateOperationsInput | number | null
+    storage_temp_max?: NullableFloatFieldUpdateOperationsInput | number | null
+    active?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     applications?: ApplicationsUpdateManyWithoutVaccineNestedInput
@@ -19994,6 +22971,10 @@ export namespace Prisma {
     dosing_interval?: NullableIntFieldUpdateOperationsInput | number | null
     type_of_vaccine_id?: IntFieldUpdateOperationsInput | number
     notes?: StringFieldUpdateOperationsInput | string
+    cost_per_dose?: NullableFloatFieldUpdateOperationsInput | number | null
+    storage_temp_min?: NullableFloatFieldUpdateOperationsInput | number | null
+    storage_temp_max?: NullableFloatFieldUpdateOperationsInput | number | null
+    active?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     applications?: ApplicationsUncheckedUpdateManyWithoutVaccineNestedInput
@@ -20009,6 +22990,10 @@ export namespace Prisma {
     dosing_interval?: NullableIntFieldUpdateOperationsInput | number | null
     type_of_vaccine_id?: IntFieldUpdateOperationsInput | number
     notes?: StringFieldUpdateOperationsInput | string
+    cost_per_dose?: NullableFloatFieldUpdateOperationsInput | number | null
+    storage_temp_min?: NullableFloatFieldUpdateOperationsInput | number | null
+    storage_temp_max?: NullableFloatFieldUpdateOperationsInput | number | null
+    active?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -20019,9 +23004,13 @@ export namespace Prisma {
     manufacturer_id: number
     batch: string
     expiration_date: Date | string
-    required_doses: number
+    required_doses?: number
     dosing_interval?: number | null
     notes: string
+    cost_per_dose?: number | null
+    storage_temp_min?: number | null
+    storage_temp_max?: number | null
+    active?: boolean
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -20034,6 +23023,10 @@ export namespace Prisma {
     required_doses?: IntFieldUpdateOperationsInput | number
     dosing_interval?: NullableIntFieldUpdateOperationsInput | number | null
     notes?: StringFieldUpdateOperationsInput | string
+    cost_per_dose?: NullableFloatFieldUpdateOperationsInput | number | null
+    storage_temp_min?: NullableFloatFieldUpdateOperationsInput | number | null
+    storage_temp_max?: NullableFloatFieldUpdateOperationsInput | number | null
+    active?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     applications?: ApplicationsUpdateManyWithoutVaccineNestedInput
@@ -20050,6 +23043,10 @@ export namespace Prisma {
     required_doses?: IntFieldUpdateOperationsInput | number
     dosing_interval?: NullableIntFieldUpdateOperationsInput | number | null
     notes?: StringFieldUpdateOperationsInput | string
+    cost_per_dose?: NullableFloatFieldUpdateOperationsInput | number | null
+    storage_temp_min?: NullableFloatFieldUpdateOperationsInput | number | null
+    storage_temp_max?: NullableFloatFieldUpdateOperationsInput | number | null
+    active?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     applications?: ApplicationsUncheckedUpdateManyWithoutVaccineNestedInput
@@ -20065,6 +23062,10 @@ export namespace Prisma {
     required_doses?: IntFieldUpdateOperationsInput | number
     dosing_interval?: NullableIntFieldUpdateOperationsInput | number | null
     notes?: StringFieldUpdateOperationsInput | string
+    cost_per_dose?: NullableFloatFieldUpdateOperationsInput | number | null
+    storage_temp_min?: NullableFloatFieldUpdateOperationsInput | number | null
+    storage_temp_max?: NullableFloatFieldUpdateOperationsInput | number | null
+    active?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }

@@ -28,14 +28,14 @@ function VaccineEditModal({ vaccine, open, onOpenChange, onSuccess }) {
     validationSchemas.vaccine,
     (data) => vaccineService.updateVaccine(vaccine?.id, data),
     {
-      successTitle: "Sucesso",
-      successMessage: "Vacina atualizada com sucesso!",
-      errorTitle: "Erro ao atualizar vacina",
-      resetOnClose: false, // Não resetar automaticamente em modais de edição
+      successTitle: "Success",
+      successMessage: "Vaccine updated successfully!",
+      errorTitle: "Error updating vaccine",
+      resetOnClose: false, // Don't reset automatically on edit modals
     },
   );
 
-  // Atualizar dados do formulário quando a vacina mudar
+  // Update form data when vaccine changes
   useEffect(() => {
     if (vaccine && open) {
       updateFormData({
@@ -61,53 +61,53 @@ function VaccineEditModal({ vaccine, open, onOpenChange, onSuccess }) {
         await onSuccess();
       }
     } catch (error) {
-      // Erro já tratado no hook
+      // Error already handled in hook
     }
   };
 
   return (
     <FormModal
-      title="Editar Vacina"
+      title="Edit Vaccine"
       open={open}
       onOpenChange={onOpenChange}
       onSubmit={onSubmitSuccess}
       loading={loading}
-      submitText="Salvar"
-      cancelText="Cancelar"
+      submitText="Save"
+      cancelText="Cancel"
     >
       <div className="flex flex-col gap-4">
         <FormField
-          label="Nome"
+          label="Name"
           name="name"
           value={formData.name}
           onChange={handleChange}
           error={errors.name}
-          placeholder="Digite o nome da vacina"
+          placeholder="Enter the vaccine name"
           required
         />
 
         <FormField
-          label="Fabricante"
+          label="Manufacturer"
           name="manufacturer"
           value={formData.manufacturer}
           onChange={handleChange}
           error={errors.manufacturer}
-          placeholder="Digite o nome do fabricante"
+          placeholder="Enter the manufacturer name"
           required
         />
 
         <FormField
-          label="Número do Lote"
+          label="Batch Number"
           name="batchNumber"
           value={formData.batchNumber}
           onChange={handleChange}
           error={errors.batchNumber}
-          placeholder="Digite o número do lote"
+          placeholder="Enter the batch number"
           required
         />
 
         <FormField
-          label="Data de Expiração"
+          label="Expiration Date"
           name="expirationDate"
           type="date"
           value={formData.expirationDate}
@@ -120,7 +120,7 @@ function VaccineEditModal({ vaccine, open, onOpenChange, onSuccess }) {
         />
 
         <FormField
-          label="Dosagem"
+          label="Dosage"
           name="dosage"
           value={formData.dosage}
           onChange={handleChange}
@@ -130,13 +130,13 @@ function VaccineEditModal({ vaccine, open, onOpenChange, onSuccess }) {
         />
 
         <FormField
-          label="Descrição"
+          label="Description"
           name="description"
           type="textarea"
           value={formData.description}
           onChange={handleChange}
           error={errors.description}
-          placeholder="Descrição adicional da vacina (opcional)"
+          placeholder="Additional vaccine description (optional)"
           inputProps={{
             rows: 3,
           }}

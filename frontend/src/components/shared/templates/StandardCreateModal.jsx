@@ -25,15 +25,15 @@ function StandardCreateModal({
   validationSchema,
   submitHandler,
   onSuccess,
-  title = "Criar Item",
-  buttonText = "Adicionar",
+  title = "Create Item",
+  buttonText = "Add",
   onFieldChange,
   options = {},
 }) {
   const {
-    successTitle = "Sucesso",
-    successMessage = "Item criado com sucesso!",
-    errorTitle = "Erro ao criar item",
+    successTitle = "Success",
+    successMessage = "Item created successfully!",
+    errorTitle = "Error creating item",
     buttonIcon: ButtonIcon = Plus,
     buttonClassName = "bg-amber-600 text-white hover:bg-amber-700",
   } = options;
@@ -79,8 +79,8 @@ function StandardCreateModal({
       onOpenChange={handleOpenChange}
       onSubmit={onSubmitSuccess}
       loading={loading}
-      submitText="Criar"
-      cancelText="Cancelar"
+      submitText="Create"
+      cancelText="Cancel"
       triggerElement={
         <Button className={buttonClassName}>
           <ButtonIcon className="mr-1 h-4 w-4" />

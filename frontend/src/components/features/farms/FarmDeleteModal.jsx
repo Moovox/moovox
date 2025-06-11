@@ -7,13 +7,13 @@ import { Button } from "../../ui/button";
 import FormModal from "../../ui/form-modal";
 
 /**
- * Modal inteligente para exclusão de fazenda com verificação de dependências
+ * Smart modal for farm deletion with dependency checking
  * @param {Object} props
- * @param {boolean} props.open - Se o modal está aberto
- * @param {Function} props.onOpenChange - Função para alterar estado do modal
- * @param {Function} props.onConfirm - Função para confirmar exclusão
- * @param {boolean} props.loading - Se operação está em andamento
- * @param {Object} props.farm - Dados da fazenda a ser excluída
+ * @param {boolean} props.open - If the modal is open
+ * @param {Function} props.onOpenChange - Function to change modal state
+ * @param {Function} props.onConfirm - Function to confirm deletion
+ * @param {boolean} props.loading - If operation is in progress
+ * @param {Object} props.farm - Farm data to be deleted
  */
 function FarmDeleteModal({ open, onOpenChange, onConfirm, loading, farm }) {
   const [farmStats, setFarmStats] = useState(null);
@@ -21,7 +21,7 @@ function FarmDeleteModal({ open, onOpenChange, onConfirm, loading, farm }) {
   const [hasAnimals, setHasAnimals] = useState(false);
   const [hasUsers, setHasUsers] = useState(false);
 
-  // Carrega estatísticas da fazenda quando o modal abre
+  // Load farm statistics when modal opens
   useEffect(() => {
     if (open && farm?.id) {
       loadFarmStats();
@@ -34,12 +34,12 @@ function FarmDeleteModal({ open, onOpenChange, onConfirm, loading, farm }) {
       const stats = await farmService.getFarmStats(farm.id);
       setFarmStats(stats);
 
-      // Verifica se há animais ou usuários
+      // Check if there are animals or users
       setHasAnimals(stats?.animalCount > 0 || false);
       setHasUsers(stats?.userCount > 0 || false);
     } catch (error) {
-      console.error("Erro ao carregar estatísticas da fazenda:", error);
-      // Em caso de erro, assume que há dependências para ser conservador
+      console.error("Error loading farm statistics:", error);
+      // In case of error, assume there are dependencies to be conservative
       setHasAnimals(true);
       setHasUsers(false);
     } finally {
@@ -56,13 +56,13 @@ function FarmDeleteModal({ open, onOpenChange, onConfirm, loading, farm }) {
 
   return (
     <FormModal
-      title="Confirmar Exclusão de Fazenda"
+      title="Confirm Farm Deletion"
       open={open}
       onOpenChange={onOpenChange}
       onSubmit={handleSubmit}
       loading={loading}
-      submitText={canDelete ? "Excluir Fazenda" : "Não é Possível Excluir"}
-      cancelText="Cancelar"
+      submitText={canDelete ? "Delete Farm" : "Cannot Delete"}
+      cancelText="Cancel"
       submitDisabled={!canDelete}
     >
       <div className="flex flex-col items-center p-2 text-center">
@@ -72,53 +72,53 @@ function FarmDeleteModal({ open, onOpenChange, onConfirm, loading, farm }) {
 
         <h3 className="mb-2 text-lg font-semibold text-gray-900">
           {canDelete
-            ? `Tem certeza que deseja excluir a fazenda "${farm?.name}"?`
-            : "Não é possível excluir esta fazenda"}
+            ? `Are you sure you want to delete the farm "${farm?.name}"?`
+            : "Cannot delete this farm"}
         </h3>
 
         {loadingStats ? (
           <div className="mb-4 flex items-center justify-center">
             <div className="h-6 w-6 animate-spin rounded-full border-2 border-amber-300 border-t-amber-600"></div>
             <span className="ml-2 text-sm text-gray-600">
-              Verificando dependências...
+              Checking dependencies...
             </span>
           </div>
         ) : (
           <div className="mb-4 w-full space-y-3">
-            {/* Estatísticas da fazenda */}
+            {/* Farm statistics */}
             {farmStats && (
               <div className="rounded-lg border border-gray-200 bg-gray-50 p-3">
                 <h4 className="mb-2 text-sm font-medium text-gray-700">
-                  Status da Fazenda:
+                  Farm Status:
                 </h4>
                 <div className="grid grid-cols-2 gap-3 text-sm">
                   <div
                     className={`flex items-center ${hasAnimals ? "text-red-600" : "text-green-600"}`}
                   >
                     <Icon iconNode={cowHead} className="mr-1 h-4 w-4" />
-                    <span>{farmStats.animalCount || 0} animais</span>
+                    <span>{farmStats.animalCount || 0} animals</span>
                   </div>
                   <div
                     className={`flex items-center ${hasUsers ? "text-red-600" : "text-green-600"}`}
                   >
                     <Users className="mr-1 h-4 w-4" />
-                    <span>{farmStats.userCount || 0} usuários</span>
+                    <span>{farmStats.userCount || 0} users</span>
                   </div>
                 </div>
               </div>
             )}
 
-            {/* Mensagens de aviso baseadas nas dependências */}
+            {/* Warning messages based on dependencies */}
             {hasAnimals && (
               <div className="rounded-md border border-red-200 bg-red-50 p-3 text-left">
                 <p className="text-sm text-red-800">
-                  <strong>Atenção:</strong> Esta fazenda possui{" "}
-                  {farmStats?.animalCount || "alguns"} animais vinculados. Para
-                  excluir a fazenda, você deve primeiro:
+                  <strong>Warning:</strong> This farm has{" "}
+                  {farmStats?.animalCount || "some"} linked animals. To delete
+                  the farm, you must first:
                 </p>
                 <ul className="mt-2 list-inside list-disc text-sm text-red-700">
-                  <li>Transferir os animais para outra fazenda, ou</li>
-                  <li>Remover todos os animais desta fazenda</li>
+                  <li>Transfer the animals to another farm, or</li>
+                  <li>Remove all animals from this farm</li>
                 </ul>
               </div>
             )}
@@ -126,9 +126,9 @@ function FarmDeleteModal({ open, onOpenChange, onConfirm, loading, farm }) {
             {hasUsers && (
               <div className="rounded-md border border-orange-200 bg-orange-50 p-3 text-left">
                 <p className="text-sm text-orange-800">
-                  <strong>Atenção:</strong> Esta fazenda possui{" "}
-                  {farmStats?.userCount || "alguns"} usuários com acesso.
-                  Considere revogar o acesso destes usuários antes da exclusão.
+                  <strong>Warning:</strong> This farm has{" "}
+                  {farmStats?.userCount || "some"} users with access. Consider
+                  revoking access for these users before deletion.
                 </p>
               </div>
             )}
@@ -136,31 +136,31 @@ function FarmDeleteModal({ open, onOpenChange, onConfirm, loading, farm }) {
             {canDelete && (
               <div className="rounded-md border border-amber-200 bg-amber-50 p-3 text-left">
                 <p className="text-sm text-amber-800">
-                  <strong>Aviso:</strong> Esta ação não pode ser desfeita. Todos
-                  os dados associados à fazenda serão permanentemente excluídos.
+                  <strong>Warning:</strong> This action cannot be undone. All
+                  data associated with the farm will be permanently deleted.
                 </p>
               </div>
             )}
           </div>
         )}
 
-        {/* Ações sugeridas quando não pode excluir */}
+        {/* Suggested actions when cannot delete */}
         {!canDelete && !loadingStats && (
           <div className="w-full space-y-2">
-            <p className="mb-3 text-sm text-gray-600">Ações recomendadas:</p>
+            <p className="mb-3 text-sm text-gray-600">Recommended actions:</p>
             <div className="space-y-2">
               {hasAnimals && (
                 <Button
                   variant="outline"
                   className="w-full border-blue-300 text-blue-700 hover:bg-blue-50"
                   onClick={() => {
-                    // Aqui você poderia abrir uma página de gerenciamento de animais
+                    // Here you could open an animal management page
                     onOpenChange(false);
                     window.open(`/animals?farm=${farm.id}`, "_blank");
                   }}
                 >
                   <Icon iconNode={cowHead} className="mr-2 h-4 w-4" />
-                  Gerenciar Animais desta Fazenda
+                  Manage Animals from this Farm
                 </Button>
               )}
               {hasUsers && (
@@ -168,16 +168,13 @@ function FarmDeleteModal({ open, onOpenChange, onConfirm, loading, farm }) {
                   variant="outline"
                   className="w-full border-purple-300 text-purple-700 hover:bg-purple-50"
                   onClick={() => {
-                    // Aqui você poderia abrir uma página de gerenciamento de usuários
+                    // Here you could open a user management page
                     onOpenChange(false);
-                    console.log(
-                      "Abrir gerenciamento de usuários para fazenda:",
-                      farm.id,
-                    );
+                    console.log("Open user management for farm:", farm.id);
                   }}
                 >
                   <Users className="mr-2 h-4 w-4" />
-                  Gerenciar Acesso de Usuários
+                  Manage User Access
                 </Button>
               )}
             </div>

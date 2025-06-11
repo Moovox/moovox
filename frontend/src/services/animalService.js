@@ -116,11 +116,11 @@ export const animalService = {
   // Species mapping
   getSpecies: () => {
     return [
-      { id: 1, name: "CATTLE", label: "Bovine" },
+      { id: 1, name: "CATTLE", label: "Cattle" },
       { id: 2, name: "SWINE", label: "Swine" },
       { id: 3, name: "EQUINE", label: "Equine" },
       { id: 4, name: "POULTRY", label: "Poultry" },
-      { id: 5, name: "CAPRINE", label: "Goat" },
+      { id: 5, name: "CAPRINE", label: "Goats" },
       { id: 6, name: "OVINE", label: "Sheep" },
     ];
   },

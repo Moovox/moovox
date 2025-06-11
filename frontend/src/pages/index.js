@@ -8,6 +8,7 @@ export { default as Profile } from "./auth/Profile";
 export { default as AnimalMap } from "./features/AnimalMap";
 export { default as Animals } from "./features/Animals";
 export { default as Applications } from "./features/Applications";
+export { default as FarmDetailsPage } from "./features/FarmDetailsPage";
 export { default as Farms } from "./features/Farms";
 export { default as Users } from "./features/Users";
 export { default as Vaccines } from "./features/Vaccines";

@@ -1,13 +1,12 @@
 async function runSeedGroup(seedGroup, groupName = "Seed Group") {
-    try {
-        console.log(`🌱 Iniciando seeds: ${groupName}`);
-        for(const fn of Object.values(seedGroup)) {
-            await fn(); 
-        }
-        console.log(`✅ Seeds concluídas: ${groupName}`)
-    } catch (error) {
-        console.error(`❌ Erro em ${groupName}`, error)
-        
+  try {
+    for (const fn of Object.values(seedGroup)) {
+      await fn();
     }
+    console.log(`   ✅ ${groupName} criados`);
+  } catch (error) {
+    console.error(`   ❌ Erro em ${groupName}:`, error.message);
+    throw error;
+  }
 }
-module.exports = runSeedGroup; 
+module.exports = runSeedGroup;

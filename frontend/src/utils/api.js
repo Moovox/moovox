@@ -49,14 +49,18 @@ api.interceptors.response.use(
     return response;
   },
   (error) => {
-    // Se for erro de autenticação, redireciona para login
+    // Para rotas de autenticação, apenas retorna o erro sem redirecionamento
+    if (error.config?.url?.includes("/auth/")) {
+      return Promise.reject(error);
+    }
+
+    // Se for erro de autenticação em rotas protegidas, apenas limpa o localStorage
+    // O redirecionamento será tratado pelo React Router via PrivateRoute
     if (error.response?.status === 401) {
       localStorage.removeItem("token");
       localStorage.removeItem("farmId");
-      window.location.href = "/login";
-      return Promise.reject(
-        new Error("Sessão expirada. Por favor, faça login novamente."),
-      );
+      // Não fazer redirecionamento aqui - deixar o React Router lidar com isso
+      return Promise.reject(error);
     }
 
     // Tratamento específico para erro de rede

@@ -21,32 +21,32 @@ import AnimalEditModal from "../modals/AnimalEditModal";
 import AnimalTableRow from "./AnimalTableRow";
 
 const species = [
-  { value: "all", label: "Todas as espécies" },
-  { value: "bovine", label: "Bovinos" },
-  { value: "swine", label: "Suínos" },
-  { value: "poultry", label: "Aves" },
-  { value: "goat", label: "Caprinos" },
-  { value: "sheep", label: "Ovinos" },
+  { value: "all", label: "All Species" },
+  { value: "CATTLE", label: "Cattle" },
+  { value: "SWINE", label: "Swine" },
+  { value: "POULTRY", label: "Poultry" },
+  { value: "CAPRINE", label: "Goats" },
+  { value: "OVINE", label: "Sheep" },
 ];
 
 const statusMap = {
   healthy: {
-    label: "Saudável",
+    label: "Healthy",
     className: "bg-green-100 text-green-800 border-green-200",
     dot: "bg-green-500",
   },
   in_treatment: {
-    label: "Em Tratamento",
+    label: "In Treatment",
     className: "bg-yellow-100 text-yellow-800 border-yellow-200",
     dot: "bg-yellow-500",
   },
   recovering: {
-    label: "Recuperando",
+    label: "Recovering",
     className: "bg-blue-100 text-blue-800 border-blue-200",
     dot: "bg-blue-500",
   },
   sick: {
-    label: "Doente",
+    label: "Sick",
     className: "bg-red-100 text-red-800 border-red-200",
     dot: "bg-red-500",
   },
@@ -71,12 +71,11 @@ function AnimalsTable({ farmId }) {
       const data = await animalService.listAnimals();
       setAnimals(data);
     } catch (error) {
-      console.error("Erro ao carregar animais:", error);
+      console.error("Error loading animals:", error);
       toast({
         variant: "destructive",
-        title: "Erro ao carregar animais",
-        description:
-          "Não foi possível carregar a lista de animais. Tente novamente.",
+        title: "Error loading animals",
+        description: "Could not load the list of animals. Please try again.",
       });
     } finally {
       setLoading(false);
@@ -130,22 +129,22 @@ function AnimalsTable({ farmId }) {
   }, [search, animalSpecies]);
 
   const handleDelete = async (id) => {
-    if (window.confirm("Tem certeza que deseja excluir este animal?")) {
+    if (window.confirm("Are you sure you want to delete this animal?")) {
       setDeletingAnimalId(id);
       try {
         await animalService.deleteAnimal(id);
         toast({
-          title: "Sucesso",
-          description: "Animal excluído com sucesso!",
+          title: "Success",
+          description: "Animal deleted successfully!",
           variant: "success",
         });
         loadAnimals();
       } catch (error) {
-        console.error("Erro ao excluir animal:", error);
+        console.error("Error deleting animal:", error);
         toast({
+          title: "Error deleting",
+          description: "Could not delete the animal. Please try again.",
           variant: "destructive",
-          title: "Erro ao excluir",
-          description: "Não foi possível excluir o animal. Tente novamente.",
         });
       } finally {
         setDeletingAnimalId(null);
@@ -185,7 +184,7 @@ function AnimalsTable({ farmId }) {
       return (
         <TableLoadingState
           colSpan={isMobile ? 4 : 8}
-          message="Carregando animais..."
+          message="Loading animals..."
         />
       );
     }
@@ -194,8 +193,8 @@ function AnimalsTable({ farmId }) {
       return (
         <TableEmptyState
           colSpan={isMobile ? 4 : 8}
-          title="Nenhum animal encontrado"
-          description="Tente ajustar os filtros ou adicionar um novo animal"
+          title="No animals found"
+          description="Try adjusting the filters or adding a new animal"
         />
       );
     }
@@ -219,23 +218,23 @@ function AnimalsTable({ farmId }) {
         <TableHead className="font-semibold text-gray-700">ID</TableHead>
       )}
       <TableHead className="font-semibold text-gray-700">
-        Identificação
+        Identification
       </TableHead>
       {!isMobile && (
-        <TableHead className="font-semibold text-gray-700">Nome</TableHead>
+        <TableHead className="font-semibold text-gray-700">Name</TableHead>
       )}
-      <TableHead className="font-semibold text-gray-700">Espécie</TableHead>
+      <TableHead className="font-semibold text-gray-700">Species</TableHead>
       {!isMobile && (
         <TableHead className="font-semibold text-gray-700">
-          Data Nascimento
+          Birth Date
         </TableHead>
       )}
       {!isMobile && (
-        <TableHead className="font-semibold text-gray-700">Peso</TableHead>
+        <TableHead className="font-semibold text-gray-700">Weight</TableHead>
       )}
       <TableHead className="font-semibold text-gray-700">Status</TableHead>
       <TableHead className="text-center font-semibold text-gray-700">
-        Ações
+        Actions
       </TableHead>
     </TableRow>
   );
@@ -248,7 +247,7 @@ function AnimalsTable({ farmId }) {
         onClick={() => navigate("/animal-map")}
       >
         <Map className="mr-2 h-4 w-4" />
-        Ver no Mapa
+        View on Map
       </Button>
       <AnimalCreateModalStandardized onSuccess={loadAnimals} />
     </>
@@ -258,38 +257,38 @@ function AnimalsTable({ farmId }) {
     <PageLayout>
       <PageHeader
         icon={<Map className="h-5 w-5 text-white" />}
-        title="Gestão de Animais"
-        description="Gerencie todos os animais da sua fazenda"
+        title="Animal Management"
+        description="Manage all animals on your farm"
       />
 
       <FilterSection
         search={search}
         onSearchChange={setSearch}
-        searchPlaceholder="Buscar por ID, nome ou identificação..."
+        searchPlaceholder="Search by ID, name or identification..."
         filterValue={animalSpecies}
         onFilterChange={setAnimalSpecies}
         filterOptions={species}
-        filterPlaceholder="Filtrar por espécie"
+        filterPlaceholder="Filter by species"
         actions={filterActions}
       />
 
       <StatsGrid columns={3}>
         <StatsCard
-          title="Total de Animais"
+          title="Total Animals"
           value={animals.length}
           icon={<Filter />}
           bgColor="bg-blue-100"
           iconColor="text-blue-600"
         />
         <StatsCard
-          title="Filtrados"
+          title="Filtered"
           value={filteredAnimals.length}
           icon={<Search />}
           bgColor="bg-green-100"
           iconColor="text-green-600"
         />
         <StatsCard
-          title="Saudáveis"
+          title="Healthy"
           value={animals.filter((a) => a.status === "healthy").length}
           icon={<Heart />}
           bgColor="bg-green-100"
@@ -305,7 +304,7 @@ function AnimalsTable({ farmId }) {
         onPageChange={setCurrentPage}
         itemsPerPage={itemsPerPage}
         totalItems={filteredAnimals.length}
-        itemName="animais"
+        itemName="animals"
       />
 
       {animalToEdit && (

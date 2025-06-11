@@ -23,16 +23,16 @@ function FarmsHeader({ farms, onRefresh }) {
 
   return (
     <div className="space-y-6">
-      {/* Título e botão de adicionar */}
+      {/* Title and add button */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-amber-900">Suas Fazendas</h1>
-          <p className="text-amber-700">Gerencie suas propriedades rurais</p>
+          <h1 className="text-2xl font-bold text-amber-900">Your Farms</h1>
+          <p className="text-amber-700">Manage your rural properties</p>
         </div>
         <FarmCreateModal onSuccess={onRefresh} />
       </div>
 
-      {/* Estatísticas */}
+      {/* Statistics */}
       {totalFarms > 0 && <StatsPanel statistics={statistics} />}
     </div>
   );

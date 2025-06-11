@@ -1,44 +1,44 @@
 /**
- * Utilitários de validação para formulários
+ * Form validation utilities
  */
 
-// Validações básicas
+// Basic validations
 export const validators = {
-  required: (value, message = "Campo obrigatório") => {
+  required: (value, message = "Field is required") => {
     return !value?.trim() ? message : null;
   },
 
-  email: (value, message = "Email inválido") => {
+  email: (value, message = "Invalid email") => {
     const emailRegex = /\S+@\S+\.\S+/;
     return value && !emailRegex.test(value) ? message : null;
   },
 
   minLength: (min, message) => (value) => {
     return value && value.length < min
-      ? message || `Mínimo ${min} caracteres`
+      ? message || `Minimum ${min} characters`
       : null;
   },
 
   maxLength: (max, message) => (value) => {
     return value && value.length > max
-      ? message || `Máximo ${max} caracteres`
+      ? message || `Maximum ${max} characters`
       : null;
   },
 
-  positiveNumber: (value, message = "Deve ser um número positivo") => {
+  positiveNumber: (value, message = "Must be a positive number") => {
     return value && (isNaN(parseFloat(value)) || parseFloat(value) <= 0)
       ? message
       : null;
   },
 
-  pastDate: (value, message = "Data não pode ser no futuro") => {
+  pastDate: (value, message = "Date cannot be in the future") => {
     if (!value) return null;
     const inputDate = new Date(value);
     const today = new Date();
     return inputDate > today ? message : null;
   },
 
-  futureDate: (value, message = "Data não pode ser no passado") => {
+  futureDate: (value, message = "Date cannot be in the past") => {
     if (!value) return null;
     const inputDate = new Date(value);
     const today = new Date();
@@ -46,11 +46,11 @@ export const validators = {
   },
 
   match: (otherValue, message) => (value) => {
-    return value !== otherValue ? message || "Valores não conferem" : null;
+    return value !== otherValue ? message || "Values do not match" : null;
   },
 };
 
-// Função para combinar múltiplas validações
+// Function to combine multiple validations
 export const combineValidators =
   (...validatorFunctions) =>
   (value) => {
@@ -61,72 +61,63 @@ export const combineValidators =
     return null;
   };
 
-// Esquemas de validação específicos
+// Specific validation schemas
 export const validationSchemas = {
-  // Validação para vacinas
+  // Vaccine validation
   vaccine: (data) => {
     const errors = {};
 
-    const nameError = validators.required(data.name, "Nome é obrigatório");
+    const nameError = validators.required(data.name, "Name is required");
     if (nameError) errors.name = nameError;
 
     const targetDiseaseError = validators.required(
       data.targetDisease,
-      "Doença alvo é obrigatória",
+      "Target disease is required",
     );
     if (targetDiseaseError) errors.targetDisease = targetDiseaseError;
 
     const manufacturerError = validators.required(
       data.manufacturerId,
-      "Fabricante é obrigatório",
+      "Manufacturer is required",
     );
     if (manufacturerError) errors.manufacturerId = manufacturerError;
 
     const typeError = validators.required(
       data.typeId,
-      "Tipo de vacina é obrigatório",
+      "Vaccine type is required",
     );
     if (typeError) errors.typeId = typeError;
 
     const batchError = validators.required(
       data.batchNumber,
-      "Número do lote é obrigatório",
+      "Batch number is required",
     );
     if (batchError) errors.batchNumber = batchError;
 
     const expirationError =
-      validators.required(
-        data.expirationDate,
-        "Data de expiração é obrigatória",
-      ) ||
+      validators.required(data.expirationDate, "Expiration date is required") ||
       validators.futureDate(
         data.expirationDate,
-        "Data de expiração não pode ser no passado",
+        "Expiration date cannot be in the past",
       );
     if (expirationError) errors.expirationDate = expirationError;
 
     const requiredDosesError =
-      validators.required(
-        data.requiredDoses,
-        "Doses necessárias é obrigatório",
-      ) ||
+      validators.required(data.requiredDoses, "Required doses are required") ||
       validators.positiveNumber(
         data.requiredDoses,
-        "Doses necessárias deve ser um número positivo",
+        "Required doses must be a positive number",
       );
     if (requiredDosesError) errors.requiredDoses = requiredDosesError;
 
-    const dosageError = validators.required(
-      data.dosage,
-      "Dosagem é obrigatória",
-    );
+    const dosageError = validators.required(data.dosage, "Dosage is required");
     if (dosageError) errors.dosage = dosageError;
 
-    // Opcional: Validar intervalo entre doses se fornecido
+    // Optional: Validate dosing interval if provided
     if (data.dosingInterval && data.dosingInterval !== "") {
       const intervalError = validators.positiveNumber(
         data.dosingInterval,
-        "Intervalo entre doses deve ser um número positivo",
+        "Dosing interval must be a positive number",
       );
       if (intervalError) errors.dosingInterval = intervalError;
     }
@@ -134,37 +125,37 @@ export const validationSchemas = {
     return errors;
   },
 
-  // Validação para usuários
+  // User validation
   user: (data) => {
     const errors = {};
 
-    const nameError = validators.required(data.name, "Nome é obrigatório");
+    const nameError = validators.required(data.name, "Name is required");
     if (nameError) errors.name = nameError;
 
     const emailError =
-      validators.required(data.email, "Email é obrigatório") ||
+      validators.required(data.email, "Email is required") ||
       validators.email(data.email);
     if (emailError) errors.email = emailError;
 
     const userTypeError = validators.required(
       data.userType,
-      "Tipo de usuário é obrigatório",
+      "User type is required",
     );
     if (userTypeError) errors.userType = userTypeError;
 
     if (data.password !== undefined) {
       const passwordError =
-        validators.required(data.password, "Senha é obrigatória") ||
+        validators.required(data.password, "Password is required") ||
         validators.minLength(
           6,
-          "Senha deve ter pelo menos 6 caracteres",
+          "Password must be at least 6 characters",
         )(data.password);
       if (passwordError) errors.password = passwordError;
 
       if (data.confirmPassword !== undefined) {
         const confirmError = validators.match(
           data.password,
-          "Senhas não conferem",
+          "Passwords do not match",
         )(data.confirmPassword);
         if (confirmError) errors.confirmPassword = confirmError;
       }
@@ -173,101 +164,92 @@ export const validationSchemas = {
     return errors;
   },
 
-  // Validação para animais
+  // Animal validation
   animal: (data) => {
     const errors = {};
 
     const speciesError = validators.required(
       data.speciesId,
-      "Espécie é obrigatória",
+      "Species is required",
     );
     if (speciesError) errors.speciesId = speciesError;
 
-    const breedError = validators.required(data.breedId, "Raça é obrigatória");
+    const breedError = validators.required(data.breedId, "Breed is required");
     if (breedError) errors.breedId = breedError;
 
     const birthDateError =
-      validators.required(data.birthDate, "Data de nascimento é obrigatória") ||
-      validators.pastDate(
-        data.birthDate,
-        "Data de nascimento não pode ser no futuro",
-      );
+      validators.required(data.birthDate, "Birth date is required") ||
+      validators.pastDate(data.birthDate, "Birth date cannot be in the future");
     if (birthDateError) errors.birthDate = birthDateError;
 
     const weightError =
-      validators.required(data.weight, "Peso é obrigatório") ||
+      validators.required(data.weight, "Weight is required") ||
       validators.positiveNumber(
         data.weight,
-        "Peso deve ser um número positivo",
+        "Weight must be a positive number",
       );
     if (weightError) errors.weight = weightError;
 
-    const statusError = validators.required(
-      data.status,
-      "Status é obrigatório",
-    );
+    const statusError = validators.required(data.status, "Status is required");
     if (statusError) errors.status = statusError;
 
     return errors;
   },
 
-  // Validação para aplicações de vacina
+  // Application validation
   application: (data) => {
     const errors = {};
 
     const animalError = validators.required(
       data.animalId,
-      "Animal é obrigatório",
+      "Animal is required",
     );
     if (animalError) errors.animalId = animalError;
 
     const vaccineError = validators.required(
       data.vaccineId,
-      "Vacina é obrigatória",
+      "Vaccine is required",
     );
     if (vaccineError) errors.vaccineId = vaccineError;
 
     const dateError = validators.required(
       data.applicationDate,
-      "Data de aplicação é obrigatória",
+      "Application date is required",
     );
     if (dateError) errors.applicationDate = dateError;
 
     const dosageError =
-      validators.required(data.dosage, "Dosagem é obrigatória") ||
+      validators.required(data.dosage, "Dosage is required") ||
       validators.positiveNumber(
         data.dosage,
-        "Dosagem deve ser um número positivo",
+        "Dosage must be a positive number",
       );
     if (dosageError) errors.dosage = dosageError;
 
     return errors;
   },
 
-  // Validação para lote de vacina
+  // Vaccine batch validation
   vaccineBatch: (data) => {
     const errors = {};
 
     const vaccineIdError = validators.required(
       data.baseVaccineId,
-      "Vacina base é obrigatória",
+      "Base vaccine is required",
     );
     if (vaccineIdError) errors.baseVaccineId = vaccineIdError;
 
     const batchError = validators.required(
       data.batchNumber,
-      "Número do lote é obrigatório",
+      "Batch number is required",
     );
     if (batchError) errors.batchNumber = batchError;
 
     const expirationError =
-      validators.required(
-        data.expirationDate,
-        "Data de expiração é obrigatória",
-      ) ||
+      validators.required(data.expirationDate, "Expiration date is required") ||
       validators.futureDate(
         data.expirationDate,
-        "Data de expiração não pode ser no passado",
+        "Expiration date cannot be in the past",
       );
     if (expirationError) errors.expirationDate = expirationError;
 
@@ -275,7 +257,7 @@ export const validationSchemas = {
   },
 };
 
-// Função utilitária para criar esquemas de validação personalizados
+// Utility function to create custom validation schemas
 export const createValidationSchema = (fields) => (data) => {
   const errors = {};
 

@@ -5,22 +5,22 @@ import { TableCell, TableRow } from "../../../ui/table";
 
 const typeMap = {
   Administrator: {
-    label: "Administrador",
+    label: "Administrator",
     className: "bg-purple-100 text-purple-800 border-purple-200",
     dot: "bg-purple-500",
   },
   Farmer: {
-    label: "Fazendeiro",
+    label: "Farmer",
     className: "bg-green-100 text-green-800 border-green-200",
     dot: "bg-green-500",
   },
   Farmhand: {
-    label: "Funcionário",
+    label: "Employee",
     className: "bg-blue-100 text-blue-800 border-blue-200",
     dot: "bg-blue-500",
   },
   Veterinarian: {
-    label: "Veterinário",
+    label: "Veterinarian",
     className: "bg-orange-100 text-orange-800 border-orange-200",
     dot: "bg-orange-500",
   },
@@ -59,9 +59,7 @@ const UserTableRow = ({
           <div
             className={`h-1.5 w-1.5 rounded-full ${(user.type && typeMap[user.type]?.dot) || "bg-gray-400"}`}
           ></div>
-          {(user.type && typeMap[user.type]?.label) ||
-            user.type ||
-            "Indefinido"}
+          {(user.type && typeMap[user.type]?.label) || user.type || "Undefined"}
         </span>
       </TableCell>
       <TableCell>
@@ -70,7 +68,7 @@ const UserTableRow = ({
             size="sm"
             variant="ghost"
             className="h-8 w-8 p-0 text-blue-600 transition-all duration-200 hover:bg-blue-100 hover:text-blue-700"
-            title="Editar usuário"
+            title="Edit user"
             onClick={() => onEdit(user)}
           >
             <Edit className="h-4 w-4" />
@@ -79,7 +77,7 @@ const UserTableRow = ({
             size="sm"
             variant="ghost"
             className="h-8 w-8 p-0 text-red-500 transition-all duration-200 hover:bg-red-100 hover:text-red-600"
-            title="Excluir usuário"
+            title="Delete user"
             onClick={() => onDelete(user.id, user.name)}
             disabled={loadingDelete === user.id}
           >
