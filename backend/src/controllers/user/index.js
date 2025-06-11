@@ -3,7 +3,22 @@ const userService = require('../../services/user');
 const userController = {
     async getAllUsers(req, res) {
         try {
-            const users = await userService.getAllUsers();
+            // Obter farmId da query string, se fornecido
+            const farmId = req.query.farmId ? parseInt(req.query.farmId, 10) : null;
+            
+            // Se o usuário não for admin e tentar acessar fazenda diferente da sua
+            if (farmId && req.user.role !== 'ADMIN' && req.user.farm_id !== farmId) {
+                return res.status(403).json({
+                    status: 'error',
+                    message: 'Você não tem permissão para acessar os usuários desta fazenda'
+                });
+            }
+            
+            // Buscar usuários, filtrando por fazenda se o farmId for fornecido
+            const users = farmId 
+                ? await userService.getUsersByFarm(farmId)
+                : await userService.getAllUsers();
+                
             res.status(200).json({
                 status: 'success',
                 data: users
@@ -168,6 +183,105 @@ const userController = {
             res.status(500).json({
                 status: 'error',
                 message: 'Ocorreu um problema ao excluir o usuário. Por favor, tente novamente mais tarde.'
+            });
+        }
+    },
+
+    // Remove o vínculo de trabalhador rural (Farmhand) de um usuário
+    async removeFarmhandRole(req, res) {
+        try {
+            const { id } = req.params;
+            await userService.removeFarmhandRole(parseInt(id, 10));
+            
+            res.status(200).json({
+                status: 'success',
+                message: 'Vínculo como trabalhador rural removido com sucesso'
+            });
+        } catch (error) {
+            console.error('Erro ao remover vínculo de trabalhador rural:', error);
+            const error_message = error.message.toLowerCase();
+
+            if (error_message.includes('não encontrado') || error_message.includes('não está vinculado')) {
+                return res.status(404).json({
+                    status: 'error',
+                    message: error.message
+                });
+            }
+
+            res.status(500).json({
+                status: 'error',
+                message: error.message || 'Ocorreu um problema ao remover o vínculo. Por favor, tente novamente mais tarde.'
+            });
+        }
+    },
+
+    // Remove o vínculo de veterinário de um usuário
+    async removeVeterinarianRole(req, res) {
+        try {
+            const { id } = req.params;
+            await userService.removeVeterinarianRole(parseInt(id, 10));
+            
+            res.status(200).json({
+                status: 'success',
+                message: 'Vínculo como veterinário removido com sucesso'
+            });
+        } catch (error) {
+            console.error('Erro ao remover vínculo de veterinário:', error);
+            const error_message = error.message.toLowerCase();
+
+            if (error_message.includes('não encontrado') || error_message.includes('não está vinculado')) {
+                return res.status(404).json({
+                    status: 'error',
+                    message: error.message
+                });
+            }
+
+            if (error_message.includes('aplicações')) {
+                return res.status(400).json({
+                    status: 'error',
+                    message: error.message
+                });
+            }
+
+            res.status(500).json({
+                status: 'error',
+                message: error.message || 'Ocorreu um problema ao remover o vínculo. Por favor, tente novamente mais tarde.'
+            });
+        }
+    },
+
+    // Transfere aplicações de um veterinário para outro
+    async transferVeterinarianApplications(req, res) {
+        try {
+            const { sourceId, targetId } = req.body;
+            
+            if (!sourceId || !targetId) {
+                return res.status(400).json({
+                    status: 'error',
+                    message: 'IDs de origem e destino são obrigatórios'
+                });
+            }
+            
+            const result = await userService.transferVeterinarianApplications(sourceId, targetId);
+            
+            res.status(200).json({
+                status: 'success',
+                ...result
+            });
+        } catch (error) {
+            console.error('Erro ao transferir aplicações:', error);
+            const error_message = error.message.toLowerCase();
+
+            if (error_message.includes('não encontrado')) {
+                return res.status(404).json({
+                    status: 'error',
+                    message: error.message
+                });
+            }
+
+            res.status(500).json({
+                status: 'error',
+                message: error.message || 'Ocorreu um problema ao transferir as aplicações. Por favor, tente novamente mais tarde.'
             });
         }
     }

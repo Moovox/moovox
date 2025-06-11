@@ -6,21 +6,22 @@ const fs = require('fs');
 const NODE_ENV = process.env.NODE_ENV || 'development';
 console.log('Ambiente atual:', NODE_ENV);
 
-// Sempre carrega o .env primeiro como fallback
-const defaultEnvPath = path.resolve(__dirname, '../../', '.env');
-if (fs.existsSync(defaultEnvPath)) {
-    console.log('Carregando .env como fallback');
-    dotenv.config({ path: defaultEnvPath });
-}
+// Só carrega .env se NÃO estiver em produção (Azure)
+if (NODE_ENV !== 'production') {
+    const defaultEnvPath = path.resolve(__dirname, '../../', '.env');
+    if (fs.existsSync(defaultEnvPath)) {
+        console.log('Carregando .env como fallback');
+        dotenv.config({ path: defaultEnvPath });
+    }
 
-// Se em desenvolvimento, dá prioridade ao .env.development (sobrescreve configurações)
-if (NODE_ENV === 'development') {
-    const devEnvPath = path.resolve(__dirname, '../../', '.env.development');
-    if (fs.existsSync(devEnvPath)) {
-        console.log('Carregando .env.development (tem prioridade)');
-        dotenv.config({ path: devEnvPath, override: true });
-    } else {
-        console.log('Arquivo .env.development não encontrado');
+    if (NODE_ENV === 'development') {
+        const devEnvPath = path.resolve(__dirname, '../../', '.env.development');
+        if (fs.existsSync(devEnvPath)) {
+            console.log('Carregando .env.development (tem prioridade)');
+            dotenv.config({ path: devEnvPath, override: true });
+        } else {
+            console.log('Arquivo .env.development não encontrado');
+        }
     }
 }
 
