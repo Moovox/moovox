@@ -2,77 +2,77 @@ const prisma = require("../../../src/config/database");
 const { logError } = require("../utils");
 
 async function createBreedsPoultry() {
-    try {
-        const species = await prisma.species.findFirst({
-            where: { name: "POULTRY" },
-        });
+  try {
+    const species = await prisma.species.findFirst({
+      where: { name: "POULTRY" },
+    });
 
-        const breeds = [
-            {
-                name: "Leghorn",
-                description:
-                    "Raça italiana de galinha muito utilizada na produção comercial de ovos, conhecida por sua alta postura.",
-                average_weight: 2.3,
-                productivity: "ovos",
-            },
-            {
-                name: "Rhode Island Red",
-                description:
-                    "Raça americana muito popular, conhecida por sua rusticidade e boa produção de ovos marrons.",
-                average_weight: 3.0,
-                productivity: "ovos",
-            },
+    const breeds = [
+      {
+        name: "Leghorn",
+        description:
+          "Italian chicken breed widely used in commercial egg production, known for its high laying capacity.",
+        average_weight: 2.3,
+        productivity: "eggs",
+      },
+      {
+        name: "Rhode Island Red",
+        description:
+          "Very popular American breed, known for its hardiness and good production of brown eggs.",
+        average_weight: 3.0,
+        productivity: "eggs",
+      },
 
-            {
-                name: "Plymouth Rock",
-                description:
-                    "Raça versátil de dupla aptidão, excelente para produção de carne e ovos. Muito dócil e fácil de criar.",
-                average_weight: 3.4,
-                productivity: "dupla aptidão",
-            },
+      {
+        name: "Plymouth Rock",
+        description:
+          "Versatile dual-purpose breed, excellent for both meat and egg production. Very docile and easy to raise.",
+        average_weight: 3.4,
+        productivity: "dual-purpose",
+      },
 
-            {
-                name: "Sussex",
-                description:
-                    "Galinha britânica de crescimento rápido e boa postura. Produz ovos grandes e tem carne de boa qualidade.",
-                average_weight: 3.2,
-                productivity: "dupla aptidão",
-            },
+      {
+        name: "Sussex",
+        description:
+          "British chicken with fast growth and good laying capacity. Produces large eggs and has good quality meat.",
+        average_weight: 3.2,
+        productivity: "dual-purpose",
+      },
 
-            {
-                name: "Cornish",
-                description:
-                    "Raça inglesa especializada na produção de carne. Base genética dos frangos de corte comerciais.",
-                average_weight: 4.5,
-                productivity: "carne",
-            },
+      {
+        name: "Cornish",
+        description:
+          "English breed specialized in meat production. Genetic base of commercial broiler chickens.",
+        average_weight: 4.5,
+        productivity: "meat",
+      },
 
-            {
-                name: "Australorp",
-                description:
-                    "Raça australiana famosa por bater recordes de postura. Muito usada para produção de ovos em sistemas alternativos.",
-                average_weight: 3.1,
-                productivity: "ovos",
-            },
+      {
+        name: "Australorp",
+        description:
+          "Australian breed famous for breaking laying records. Widely used for egg production in alternative systems.",
+        average_weight: 3.1,
+        productivity: "eggs",
+      },
 
-            {
-                name: "Caipira (Matrizes Comerciais)",
-                description:
-                    "Linha desenvolvida no Brasil para sistemas alternativos, com boa rusticidade e aproveitamento tanto de carne quanto de ovos.",
-                average_weight: 2.8,
-                productivity: "dupla aptidão",
-            },
-        ];
+      {
+        name: "Free-Range (Commercial Lines)",
+        description:
+          "Line developed in Brazil for alternative systems, with good hardiness and utilization for both meat and eggs.",
+        average_weight: 2.8,
+        productivity: "dual-purpose",
+      },
+    ];
 
-        await prisma.breeds.createMany({
-            data: breeds.map((breed) => ({
-                ...breed,
-                species_id: species.id,
-            })),
-        });
-    } catch (error) {
-        logError("createBreedsPoultry", error);
-    }
+    await prisma.breeds.createMany({
+      data: breeds.map((breed) => ({
+        ...breed,
+        species_id: species.id,
+      })),
+    });
+  } catch (error) {
+    logError("createBreedsPoultry", error);
+  }
 }
 
-module.exports = createBreedsPoultry; 
+module.exports = createBreedsPoultry;

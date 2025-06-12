@@ -5,50 +5,50 @@ async function createFarms() {
   try {
     const farmData = [
       {
-        name: "Fazenda Santa Rosa",
+        name: "Santa Rosa Farm",
         description:
-          "Fazenda especializada na criação de gado leiteiro e de corte. Localizada na região central com pastagens naturais e infraestrutura moderna.",
-        location: "São Paulo, SP - Brasil",
+          "Farm specialized in dairy and beef cattle breeding. Located in the central region with natural pastures and modern infrastructure.",
+        location: "São Paulo, SP - Brazil",
         size: 850.5,
         latitude: -23.5505,
         longitude: -46.6333,
         active: true,
       },
       {
-        name: "Rancho Três Irmãos",
+        name: "Three Brothers Ranch",
         description:
-          "Tradicional fazenda familiar com foco na criação de bovinos de corte. Possui certificação orgânica e manejo sustentável.",
-        location: "Minas Gerais, MG - Brasil",
+          "Traditional family farm focused on beef cattle breeding. Has organic certification and sustainable management.",
+        location: "Minas Gerais, MG - Brazil",
         size: 1200.0,
         latitude: -19.9167,
         longitude: -43.9345,
         active: true,
       },
       {
-        name: "Estância do Vale",
+        name: "Valley Ranch",
         description:
-          "Fazenda diversificada com criação de gado, equinos e suínos. Oferece serviços de turismo rural e produção de laticínios.",
-        location: "Rio Grande do Sul, RS - Brasil",
+          "Diversified farm with cattle, equine and swine breeding. Offers rural tourism services and dairy production.",
+        location: "Rio Grande do Sul, RS - Brazil",
         size: 650.8,
         latitude: -30.0346,
         longitude: -51.2177,
         active: true,
       },
       {
-        name: "Sítio Bela Vista",
+        name: "Beautiful View Farm",
         description:
-          "Pequena propriedade rural com foco na criação de caprinos e ovinos. Produção artesanal de queijos e derivados.",
-        location: "Goiás, GO - Brasil",
+          "Small rural property focused on caprine and ovine breeding. Artisanal production of cheeses and derivatives.",
+        location: "Goiás, GO - Brazil",
         size: 320.2,
         latitude: -16.6869,
         longitude: -49.2648,
         active: true,
       },
       {
-        name: "Fazenda Esperança",
+        name: "Hope Farm",
         description:
-          "Fazenda moderna com tecnologia de precisão para monitoramento do gado. Especializada em melhoramento genético.",
-        location: "Mato Grosso, MT - Brasil",
+          "Modern farm with precision technology for cattle monitoring. Specialized in genetic improvement.",
+        location: "Mato Grosso, MT - Brazil",
         size: 2150.7,
         latitude: -15.6014,
         longitude: -56.0979,
@@ -60,7 +60,7 @@ async function createFarms() {
       data: farmData,
     });
 
-    console.log(`   ✅ ${farmData.length} fazendas criadas`);
+    console.log(`   ✅ ${farmData.length} farms created`);
 
     return farmData;
   } catch (error) {

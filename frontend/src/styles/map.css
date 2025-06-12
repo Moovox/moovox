@@ -1,0 +1,254 @@
+/**
+ * Estilos otimizados para mapas Leaflet
+ * Foco em performance e experiência do usuário
+ */
+
+/* Reset e configurações básicas do mapa */
+.map-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.map-wrapper {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  background-color: #f5f5f5;
+}
+
+/* Otimizações para Leaflet */
+.leaflet-container {
+  background-color: #f5f5f5;
+  outline: none;
+  font-family: inherit;
+}
+
+/* Melhorar performance dos tiles */
+.leaflet-tile {
+  filter: none;
+  border-radius: 0;
+  will-change: transform; /* Otimização para GPU */
+}
+
+.leaflet-tile-loaded {
+  opacity: 1;
+  transition: opacity 0.2s ease;
+}
+
+/* Controles customizados */
+.leaflet-control-container {
+  pointer-events: none;
+}
+
+.leaflet-control-container > * {
+  pointer-events: auto;
+}
+
+/* Remover controles padrão desnecessários */
+.leaflet-control-attribution,
+.leaflet-control-zoom {
+  display: none !important;
+}
+
+/* Estilos para markers otimizados */
+.leaflet-marker-icon {
+  border-radius: 50%;
+  border: 2px solid white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  transform-origin: center center;
+  will-change: transform;
+}
+
+/* Popup otimizado */
+.leaflet-popup {
+  margin-bottom: 20px;
+}
+
+.leaflet-popup-content-wrapper {
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border: none;
+  background: white;
+}
+
+.leaflet-popup-content {
+  margin: 0;
+  padding: 0;
+  line-height: 1.4;
+  max-width: 300px;
+}
+
+.leaflet-popup-tip {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Loading states */
+.map-loading {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(2px);
+}
+
+.map-loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #3498db;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Controles personalizados */
+.map-controls {
+  position: absolute;
+  z-index: 1000;
+  pointer-events: auto;
+}
+
+.map-control-button {
+  background: white;
+  border: none;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.map-control-button:hover {
+  background: #f8f8f8;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-1px);
+}
+
+.map-control-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.map-control-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #3498db;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .map-controls {
+    scale: 0.9;
+  }
+  
+  .leaflet-popup-content {
+    max-width: 250px;
+  }
+}
+
+@media (max-width: 480px) {
+  .map-controls {
+    scale: 0.8;
+  }
+  
+  .leaflet-popup-content {
+    max-width: 200px;
+  }
+}
+
+/* Estados de fullscreen */
+.map-wrapper:fullscreen {
+  width: 100vw;
+  height: 100vh;
+  background: white;
+}
+
+.map-wrapper:-webkit-full-screen {
+  width: 100vw;
+  height: 100vh;
+  background: white;
+}
+
+.map-wrapper:-moz-full-screen {
+  width: 100vw;
+  height: 100vh;
+  background: white;
+}
+
+/* Otimizações para dispositivos de baixa performance */
+@media (max-device-width: 768px) {
+  .leaflet-tile {
+    image-rendering: optimizeSpeed;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: optimize-contrast;
+  }
+}
+
+/* Prevenção de seleção de texto */
+.map-container,
+.leaflet-container {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Melhorar performance em dispositivos touch */
+.leaflet-container {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: pan-x pan-y;
+}
+
+/* Estilos para clustering futuro */
+.marker-cluster-small {
+  background-color: rgba(181, 226, 140, 0.6);
+}
+.marker-cluster-small div {
+  background-color: rgba(110, 204, 57, 0.6);
+}
+
+.marker-cluster-medium {
+  background-color: rgba(241, 211, 87, 0.6);
+}
+.marker-cluster-medium div {
+  background-color: rgba(240, 194, 12, 0.6);
+}
+
+.marker-cluster-large {
+  background-color: rgba(253, 156, 115, 0.6);
+}
+.marker-cluster-large div {
+  background-color: rgba(241, 128, 23, 0.6);
+}
+
+.marker-cluster {
+  background-clip: padding-box;
+  border-radius: 20px;
+}
+.marker-cluster div {
+  width: 30px;
+  height: 30px;
+  margin-left: 5px;
+  margin-top: 5px;
+  text-align: center;
+  border-radius: 15px;
+  font: 12px "Helvetica Neue", Arial, Helvetica, sans-serif;
+}
+.marker-cluster span {
+  line-height: 30px;
+} 

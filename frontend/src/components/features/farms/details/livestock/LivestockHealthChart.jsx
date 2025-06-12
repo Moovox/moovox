@@ -1,6 +1,6 @@
 import { Heart } from "lucide-react";
 import React from "react";
-import Card, { CardContent } from "../../../../ui/card";
+import Card, { CardContent } from "../../../../ui/Card";
 
 function LivestockHealthChart({ healthStats }) {
   // Calculate total animals and percentages for donut chart visualization

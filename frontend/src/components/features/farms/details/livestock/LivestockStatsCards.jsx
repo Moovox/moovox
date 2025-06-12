@@ -1,7 +1,7 @@
 import { cowHead } from "@lucide/lab";
 import { BarChart3, Heart, Icon, PieChart } from "lucide-react";
 import React from "react";
-import Card, { CardContent } from "../../../../ui/card";
+import Card, { CardContent } from "../../../../ui/Card";
 
 function LivestockStatsCards({ data, farm }) {
   // Calculate overall health percentage

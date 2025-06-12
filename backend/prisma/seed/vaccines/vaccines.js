@@ -14,7 +14,7 @@ async function createVaccines() {
     const vaccines = [
       {
         name: "Aftovac",
-        target_disease: "Febre Aftosa",
+        target_disease: "Foot-and-mouth Disease",
         type_of_vaccine_id: type.id,
         manufacturer_id: manufacturer.id,
         batch: "AFT12345BR",
@@ -24,11 +24,11 @@ async function createVaccines() {
         }),
         required_doses: 2,
         dosing_interval: 180,
-        notes: "Recomendada para bovinos a partir de 3 meses de idade.",
+        notes: "Recommended for cattle from 3 months of age.",
       },
       {
         name: "Clostrivet",
-        target_disease: "Clostridioses",
+        target_disease: "Clostridiosis",
         type_of_vaccine_id: type.id,
         manufacturer_id: manufacturer.id,
         batch: "CLO99876CE",
@@ -38,7 +38,8 @@ async function createVaccines() {
         }),
         required_doses: 2,
         dosing_interval: 90,
-        notes: "Protege contra 7 tipos de clostridioses. Reaplicação anual.",
+        notes:
+          "Protects against 7 types of clostridiosis. Annual reapplication.",
       },
     ];
 
@@ -46,7 +47,7 @@ async function createVaccines() {
       data: vaccines,
     });
 
-    console.log(`     ✅ ${vaccines.length} vacinas criadas`);
+    console.log(`     ✅ ${vaccines.length} vaccines created`);
   } catch (error) {
     logError("createVaccines", error);
     throw error;

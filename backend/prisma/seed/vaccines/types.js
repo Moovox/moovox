@@ -52,7 +52,7 @@ async function createTypesOfVaccines() {
       data: types,
     });
 
-    console.log(`     ✅ ${types.length} tipos de vacinas criados`);
+    console.log(`     ✅ ${types.length} vaccine types created`);
   } catch (error) {
     logError("createTypesOfVaccines", error);
     throw error;

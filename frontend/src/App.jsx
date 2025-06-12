@@ -4,7 +4,6 @@ import { lazy, Suspense } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import AuthLayout from "./components/auth/AuthLayout";
 import PrivateRoute from "./components/auth/PrivateRoute";
-import ErrorBoundary from "./components/common/ErrorBoundary";
 import PageLoader from "./components/common/PageLoader";
 import Toaster from "./components/ui/Toaster";
 import { AuthProvider } from "./context/AuthContext";
@@ -21,16 +20,8 @@ const Animals = lazy(() => import("./pages/features/Animals"));
 const Vaccines = lazy(() => import("./pages/features/Vaccines"));
 const Applications = lazy(() => import("./pages/features/Applications"));
 const Profile = lazy(() => import("./pages/auth/Profile"));
-const AnimalMap = lazy(() => import("./pages/features/AnimalMap"));
 const Farms = lazy(() => import("./pages/features/Farms"));
 const FarmDetailsPage = lazy(() => import("./pages/features/FarmDetailsPage"));
-
-// Wrap AnimalMap with ErrorBoundary
-const SafeAnimalMap = () => (
-  <ErrorBoundary>
-    <AnimalMap />
-  </ErrorBoundary>
-);
 
 const privateRoutes = [
   { path: "/dashboard", element: <Dashboard /> },
@@ -39,7 +30,6 @@ const privateRoutes = [
   { path: "/vaccines", element: <Vaccines /> },
   { path: "/applications", element: <Applications /> },
   { path: "/profile", element: <Profile /> },
-  { path: "/animal-map", element: <SafeAnimalMap /> },
   { path: "/farms", element: <Farms /> },
   { path: "/farms/:farmId", element: <FarmDetailsPage /> },
 
@@ -49,8 +39,6 @@ const privateRoutes = [
   { path: "/vacinas", element: <Vaccines /> },
   { path: "/aplicacoes", element: <Applications /> },
   { path: "/meu-perfil", element: <Profile /> },
-  { path: "/mapa-animais", element: <SafeAnimalMap /> },
-  { path: "/fazendas", element: <Farms /> },
 ];
 
 export default function App() {

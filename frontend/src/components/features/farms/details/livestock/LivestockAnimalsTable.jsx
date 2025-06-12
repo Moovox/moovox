@@ -2,7 +2,7 @@ import { Activity, Search, TrendingUp } from "lucide-react";
 import React, { useMemo, useState } from "react";
 import PaginationInfo from "../../../../shared/PaginationInfo";
 import { Button } from "../../../../ui/button";
-import Card, { CardContent } from "../../../../ui/card";
+import Card, { CardContent } from "../../../../ui/Card";
 import { Input } from "../../../../ui/input";
 
 function LivestockAnimalsTable({ animals, categories }) {

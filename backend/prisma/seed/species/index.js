@@ -7,49 +7,49 @@ async function createSpecies() {
       {
         name: "CATTLE",
         description:
-          "Gado - Espécie de grande porte, geralmente criada para produção de carne, leite e trabalho. Possui comportamento de pastoreio e pode ser rastreada para monitoramento de saúde, movimentação e localização em áreas rurais.",
+          "Cattle - Large species, generally raised for meat, milk and work production. Has grazing behavior and can be tracked for health monitoring, movement and location in rural areas.",
         average_lifespan: 15,
         gestation_period: 280,
       },
       {
         name: "SWINE",
         description:
-          "Suíno - Espécie doméstica criada principalmente para produção de carne (porco). Possui comportamento onívoro e necessita de monitoramento para controle de ambiente e saúde, especialmente em granjas.",
+          "Swine - Domestic species raised primarily for meat production (pork). Has omnivorous behavior and requires monitoring for environment and health control, especially in farms.",
         average_lifespan: 12,
         gestation_period: 114,
       },
       {
         name: "EQUINE",
         description:
-          "Equino - Espécie usada para transporte, trabalho e atividades recreativas. Inclui cavalos e outros equídeos. Rastrear o equino ajuda no gerenciamento de pastagens, desempenho físico e localização em grandes áreas.",
+          "Equine - Species used for transportation, work and recreational activities. Includes horses and other equids. Tracking equines helps in pasture management, physical performance and location in large areas.",
         average_lifespan: 27,
         gestation_period: 330,
       },
       {
         name: "POULTRY",
         description:
-          "Ave - Inclui galinhas, patos, perus e outras aves domésticas criadas para ovos e carne.",
+          "Poultry - Includes chickens, ducks, turkeys and other domestic birds raised for eggs and meat.",
         average_lifespan: 7,
         gestation_period: 21,
       },
       {
         name: "CAPRINE",
         description:
-          "Caprino - Espécie resistente, usada para produção de leite, carne e fibra (como mohair). O rastreamento caprino auxilia na gestão de rebanhos em terrenos variados e no acompanhamento do comportamento alimentar e de saúde.",
+          "Caprine - Resistant species, used for milk, meat and fiber production (such as mohair). Caprine tracking assists in herd management on varied terrain and monitoring feeding and health behavior.",
         average_lifespan: 10,
         gestation_period: 150,
       },
       {
         name: "OVINE",
         description:
-          "Ovino - Criada para produção de lã, carne e leite. São animais de pastagem que requerem monitoramento para garantir segurança, saúde e eficiência na utilização do espaço disponível.",
+          "Ovine - Raised for wool, meat and milk production. They are grazing animals that require monitoring to ensure safety, health and efficiency in the use of available space.",
         average_lifespan: 10,
         gestation_period: 150,
       },
     ];
 
     await prisma.species.createMany({ data: speciesData });
-    console.log(`   ✅ ${speciesData.length} espécies criadas`);
+    console.log(`   ✅ ${speciesData.length} species created`);
   } catch (error) {
     logError("createSpecies", error);
     throw error;

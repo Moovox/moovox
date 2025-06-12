@@ -11,30 +11,31 @@ async function createManufacturers() {
         email: "contato@biovac.com.br",
         phone: "+55 11 3456-7890",
         address:
-          "Rua das Indústrias, 1250 - Distrito Industrial - 13087-534 - Campinas - SP",
+          "Industrial Street, 1250 - Industrial District - 13087-534 - Campinas - SP",
         country: "Brazil",
         license_number: "VAC-MFG-2025-BR-009872",
         website: "https://www.biovac.com.br",
         active: true,
       },
       {
-        name: "Veterinária Moderna Ltda",
+        name: "Modern Veterinary Ltd",
         cnpj: cnpj.generate(),
         email: "vendas@vetmoderna.com.br",
         phone: "+55 11 2345-6789",
-        address: "Av. Pecuária, 850 - Centro - 14800-900 - Araraquara - SP",
+        address:
+          "Livestock Avenue, 850 - Downtown - 14800-900 - Araraquara - SP",
         country: "Brazil",
         license_number: "VAC-MFG-2024-BR-008521",
         website: "https://www.vetmoderna.com.br",
         active: true,
       },
       {
-        name: "AgroSaúde Pharmaceutical",
+        name: "AgroHealth Pharmaceutical",
         cnpj: cnpj.generate(),
         email: "info@agrosaude.com.br",
         phone: "+55 16 3678-9012",
         address:
-          "Rod. Anhanguera, km 245 - Zona Rural - 14870-000 - Jaboticabal - SP",
+          "Anhanguera Highway, km 245 - Rural Zone - 14870-000 - Jaboticabal - SP",
         country: "Brazil",
         license_number: "VAC-MFG-2023-BR-007634",
         website: "https://www.agrosaude.com.br",
@@ -46,19 +47,19 @@ async function createManufacturers() {
         email: "brasil@pecuvac.com",
         phone: "+55 21 4567-8901",
         address:
-          "Estrada do Mendanha, 2100 - Campo Grande - 23087-280 - Rio de Janeiro - RJ",
+          "Mendanha Road, 2100 - Campo Grande - 23087-280 - Rio de Janeiro - RJ",
         country: "Brazil",
         license_number: "VAC-MFG-2025-BR-009123",
         website: "https://www.pecuvac.com",
         active: true,
       },
       {
-        name: "Laboratórios Veterinários Unidos",
+        name: "United Veterinary Laboratories",
         cnpj: cnpj.generate(),
         email: "contato@labvetunidos.com.br",
         phone: "+55 31 5678-9012",
         address:
-          "Rua dos Veterinários, 456 - Pampulha - 31270-901 - Belo Horizonte - MG",
+          "Veterinarians Street, 456 - Pampulha - 31270-901 - Belo Horizonte - MG",
         country: "Brazil",
         license_number: "VAC-MFG-2024-BR-008765",
         website: "https://www.labvetunidos.com.br",
@@ -70,7 +71,7 @@ async function createManufacturers() {
       data: manufacturers,
     });
 
-    console.log(`     ✅ ${manufacturers.length} fabricantes criados`);
+    console.log(`     ✅ ${manufacturers.length} manufacturers created`);
   } catch (error) {
     logError("createManufacturers", error);
     throw error;

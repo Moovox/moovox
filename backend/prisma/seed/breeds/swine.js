@@ -11,56 +11,56 @@ async function createBreedsSwine() {
       {
         name: "Pietrain",
         description:
-          "Raça belga altamente musculosa, conhecida por excelente rendimento de carne magra. Usada frequentemente em cruzamentos industriais.",
+          "Belgian highly muscular breed, known for excellent lean meat yield. Frequently used in industrial crossbreeding.",
         average_weight: 280.0,
-        productivity: "corte",
+        productivity: "meat",
       },
       {
         name: "Landrace",
         description:
-          "Raça originária da Dinamarca, famosa por sua alta fertilidade e produção de leite. Muito usada como matriz em cruzamentos industriais.",
+          "Breed originally from Denmark, famous for its high fertility and milk production. Widely used as breeding stock in industrial crossbreeding.",
         average_weight: 270.0,
-        productivity: "matriz",
+        productivity: "breeding",
       },
 
       {
         name: "Large White",
         description:
-          "Raça britânica com excelente desenvolvimento corporal e boa taxa de crescimento. Muito usada na produção de carne e como matriz.",
+          "British breed with excellent body development and good growth rate. Widely used in meat production and as breeding stock.",
         average_weight: 300.0,
-        productivity: "corte e matriz",
+        productivity: "meat and breeding",
       },
 
       {
         name: "Duroc",
         description:
-          "Raça americana conhecida pelo crescimento rápido, carne suculenta e rusticidade. Ideal para sistemas intensivos e cruzamentos.",
+          "American breed known for rapid growth, succulent meat and hardiness. Ideal for intensive systems and crossbreeding.",
         average_weight: 310.0,
-        productivity: "corte",
+        productivity: "meat",
       },
 
       {
         name: "Moura",
         description:
-          "Raça brasileira rústica e de crescimento lento, muito valorizada na produção de carne de qualidade em sistemas agroecológicos.",
+          "Brazilian rustic breed with slow growth, highly valued for quality meat production in agroecological systems.",
         average_weight: 220.0,
-        productivity: "corte e rusticidade",
+        productivity: "meat and hardiness",
       },
 
       {
         name: "Canastra",
         description:
-          "Raça mineira de porco caipira, bem adaptada ao clima e manejo extensivo. Sua carne é bastante apreciada em produtos artesanais.",
+          "Minas Gerais native pig breed, well adapted to climate and extensive management. Its meat is highly appreciated in artisanal products.",
         average_weight: 180.0,
-        productivity: "carne e rusticidade",
+        productivity: "meat and hardiness",
       },
 
       {
         name: "Meishan",
         description:
-          "Raça chinesa de suínos conhecida por sua alta prolificidade. Utilizada principalmente para melhoramento genético de matrizes.",
+          "Chinese pig breed known for its high prolificacy. Used mainly for genetic improvement of breeding stock.",
         average_weight: 200.0,
-        productivity: "matriz",
+        productivity: "breeding",
       },
     ];
 

@@ -3,9 +3,9 @@ async function runSeedGroup(seedGroup, groupName = "Seed Group") {
     for (const fn of Object.values(seedGroup)) {
       await fn();
     }
-    console.log(`   ✅ ${groupName} criados`);
+    console.log(`   ✅ ${groupName} created`);
   } catch (error) {
-    console.error(`   ❌ Erro em ${groupName}:`, error.message);
+    console.error(`   ❌ Error in ${groupName}:`, error.message);
     throw error;
   }
 }

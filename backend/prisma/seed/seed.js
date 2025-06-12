@@ -11,7 +11,7 @@ const runSeedGroup = require("./utils/seedRunner");
 
 async function cleanDatabase() {
   try {
-    console.log("🧹 Limpando banco de dados...");
+    console.log("🧹 Cleaning database...");
 
     // Delete in correct order due to foreign key constraints
     await prisma.locations.deleteMany({});
@@ -27,7 +27,7 @@ async function cleanDatabase() {
     await prisma.users.deleteMany({});
     await prisma.farms.deleteMany({});
 
-    console.log("✅ Banco de dados limpo");
+    console.log("✅ Database cleaned");
   } catch (error) {
     logError("cleanDatabase", error);
     throw error;
@@ -36,31 +36,31 @@ async function cleanDatabase() {
 
 async function runSeed() {
   try {
-    console.log("\n🌱 INICIANDO SEED DO BANCO DE DADOS\n" + "=".repeat(50));
+    console.log("\n🌱 STARTING DATABASE SEED\n" + "=".repeat(50));
 
     // Clean database first
     await cleanDatabase();
 
     // Seed data in correct order
-    console.log("\n🏠 Criando fazendas...");
+    console.log("\n🏠 Creating farms...");
     await farmSeed();
 
-    console.log("\n🐾 Criando espécies...");
+    console.log("\n🐾 Creating species...");
     await speciesSeed();
 
-    console.log("\n👥 Criando usuários...");
-    await runSeedGroup(userSeeds, "Usuários");
+    console.log("\n👥 Creating users...");
+    await runSeedGroup(userSeeds, "Users");
 
-    console.log("\n🧬 Criando raças...");
-    await runSeedGroup(breedSeeds, "Raças");
+    console.log("\n🧬 Creating breeds...");
+    await runSeedGroup(breedSeeds, "Breeds");
 
-    console.log("\n🐄 Criando animais...");
-    await runSeedGroup(animalsSeeds, "Animais");
+    console.log("\n🐄 Creating animals...");
+    await runSeedGroup(animalsSeeds, "Animals");
 
-    console.log("\n💉 Criando vacinas e fabricantes...");
-    await runSeedGroup(vaccinesSeed, "Vacinas e Fabricantes");
+    console.log("\n💉 Creating vaccines and manufacturers...");
+    await runSeedGroup(vaccinesSeed, "Vaccines and Manufacturers");
 
-    console.log("\n📍 Criando localizações de exemplo...");
+    console.log("\n📍 Creating sample locations...");
     await createSampleLocations();
 
     // Summary
@@ -75,22 +75,22 @@ async function runSeed() {
     const applications = await prisma.applications.count();
 
     console.log("\n" + "=".repeat(50));
-    console.log("📊 RESUMO DO SEED:");
+    console.log("📊 SEED SUMMARY:");
     console.log("=".repeat(50));
-    console.log(`🏠 Fazendas: ${farms}`);
-    console.log(`👥 Usuários: ${users}`);
-    console.log(`🐾 Espécies: ${species}`);
-    console.log(`🧬 Raças: ${breeds}`);
-    console.log(`🐄 Animais: ${animals}`);
-    console.log(`💉 Vacinas: ${vaccines}`);
-    console.log(`🏭 Fabricantes: ${manufacturers}`);
-    console.log(`📍 Localizações: ${locations}`);
-    console.log(`💊 Aplicações: ${applications}`);
+    console.log(`🏠 Farms: ${farms}`);
+    console.log(`👥 Users: ${users}`);
+    console.log(`🐾 Species: ${species}`);
+    console.log(`🧬 Breeds: ${breeds}`);
+    console.log(`🐄 Animals: ${animals}`);
+    console.log(`💉 Vaccines: ${vaccines}`);
+    console.log(`🏭 Manufacturers: ${manufacturers}`);
+    console.log(`📍 Locations: ${locations}`);
+    console.log(`💊 Applications: ${applications}`);
     console.log("=".repeat(50));
 
-    console.log("\n✅ SEED COMPLETA COM SUCESSO! 🎉\n");
+    console.log("\n✅ SEED COMPLETED SUCCESSFULLY! 🎉\n");
   } catch (error) {
-    console.error("\n❌ ERRO DURANTE O SEED:");
+    console.error("\n❌ ERROR DURING SEED:");
     logError("runSeed", error);
     throw error;
   } finally {
@@ -101,7 +101,7 @@ async function runSeed() {
 if (require.main === module) {
   runSeed()
     .catch((err) => {
-      console.error("❌ Erro ao executar seed:", err.message);
+      console.error("❌ Error running seed:", err.message);
       process.exit(1);
     })
     .finally(async () => {

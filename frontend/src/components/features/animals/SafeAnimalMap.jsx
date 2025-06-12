@@ -1,43 +1,32 @@
-import React, { Suspense, lazy, useEffect, useState } from "react";
+import { Suspense, lazy } from "react";
 
-// Lazy load the new modular AnimalMap
-const AnimalMap = lazy(() => import("../map/AnimalMap"));
+// Lazy load the new optimized CleanMapPage
+const CleanMapPage = lazy(() => import("../../../pages/features/CleanMapPage"));
 
 /**
- * Safe wrapper for Animal Map with lazy loading and error boundaries
- * This component provides backward compatibility while using the new modular structure
+ * SafeAnimalMap - Wrapper with error boundaries for the new clean map
+ * @param {*} props - Props to pass to the map component
  */
 const SafeAnimalMap = (props) => {
-  const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-
-  // Don't render on server side
-  if (!isClient) {
-    return (
-      <div className="flex h-64 items-center justify-center rounded-lg bg-gray-100">
-        <div className="text-center">
-          <div className="text-gray-500">Carregando mapa...</div>
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <Suspense
-      fallback={
-        <div className="flex h-64 items-center justify-center rounded-lg bg-gray-100">
-          <div className="text-center">
-            <div className="mb-2 h-6 w-6 animate-spin rounded-full border-2 border-amber-700 border-t-transparent"></div>
-            <div className="text-gray-500">Carregando mapa...</div>
+    <div className="h-screen w-screen">
+      {/* Loading fallback */}
+      <Suspense
+        fallback={
+          <div className="flex h-full w-full items-center justify-center bg-gray-100">
+            <div className="text-center">
+              <div className="mb-4 h-8 w-8 animate-spin rounded-full border-4 border-blue-500 border-t-transparent"></div>
+              <p className="text-gray-600">Carregando mapa otimizado...</p>
+            </div>
           </div>
+        }
+      >
+        {/* Error boundary wrapper */}
+        <div className="h-full w-full">
+          <CleanMapPage {...props} />
         </div>
-      }
-    >
-      <AnimalMap {...props} />
-    </Suspense>
+      </Suspense>
+    </div>
   );
 };
 

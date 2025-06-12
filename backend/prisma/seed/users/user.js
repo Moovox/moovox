@@ -6,8 +6,12 @@ let userCounter = 1;
 
 async function createUser(role) {
   try {
-    const farm = await prisma.farms.findFirst({ select: { id: true } });
-    if (!farm) throw new Error("Nenhuma fazenda encontrada");
+    // Get all farms to distribute users across them
+    const farms = await prisma.farms.findMany({ select: { id: true } });
+    if (!farms || farms.length === 0) throw new Error("No farm found");
+
+    // Select a random farm for this user
+    const randomFarm = farms[Math.floor(Math.random() * farms.length)];
 
     const name = faker.person.fullName();
     const baseEmail = name.replace(/\s+/g, "").toLowerCase();
@@ -25,7 +29,7 @@ async function createUser(role) {
         password: hashPassword("123456"),
         role,
         farm: {
-          connect: { id: farm.id },
+          connect: { id: randomFarm.id },
         },
       },
     });

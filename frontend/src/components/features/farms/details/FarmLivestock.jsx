@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { farmService } from "../../../../services/farmService";
 import { Button } from "../../../ui/button";
-import Card, { CardContent } from "../../../ui/card";
+import Card, { CardContent } from "../../../ui/Card";
 import { useToast } from "../../../ui/use-toast";
 import {
   LivestockAnimalsTable,

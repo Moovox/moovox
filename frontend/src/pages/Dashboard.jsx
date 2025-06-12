@@ -2,12 +2,12 @@ import { motion } from "framer-motion";
 import React from "react";
 import { Helmet } from "react-helmet-async";
 import {
-    AnimalTelemetry,
-    DashboardStats,
-    LoadingState,
-    MapCard,
-    RecentUsers,
-    VaccineStatus
+  AnimalTelemetry,
+  DashboardStats,
+  LoadingState,
+  MapCard,
+  RecentUsers,
+  VaccineStatus,
 } from "../components/features/dashboard";
 import MainLayout from "../components/layout/MainLayout";
 import { useDashboard } from "../hooks/useDashboard";

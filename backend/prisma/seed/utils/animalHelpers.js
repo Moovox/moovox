@@ -376,7 +376,7 @@ async function createAnimalsForEachBreedBySpecies(
     }
 
     console.log(
-      `     ✅ ${totalAnimalsCreated} ${speciesName.toLowerCase()} criados`
+      `     ✅ ${totalAnimalsCreated} ${speciesName.toLowerCase()} animals created`
     );
     return totalAnimalsCreated;
   } catch (error) {
@@ -434,9 +434,7 @@ async function createSampleLocations() {
       await prisma.locations.createMany({
         data: locationsToCreate,
       });
-      console.log(
-        `   ✅ ${locationsToCreate.length} localizações de exemplo criadas`
-      );
+      console.log(`   ✅ ${locationsToCreate.length} sample locations created`);
     }
   } catch (error) {
     logError("createSampleLocations", error);
