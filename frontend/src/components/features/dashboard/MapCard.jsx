@@ -1,6 +1,6 @@
 import { MapPin } from "lucide-react";
 import React, { useCallback, useState } from "react";
-import Card from "../../ui/card";
+import Card from "../../ui/Card";
 import { SimpleMap } from "../map/SimpleMap";
 import { CompactMapLegend } from "../map/components/CompactMapLegend";
 

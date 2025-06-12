@@ -1,6 +1,6 @@
 import { Activity, Thermometer } from "lucide-react";
 import HeartBeatIcon from "../../common/HeartBeatIcon";
-import Card from "../../ui/card";
+import Card from "../../ui/Card";
 
 const AnimalTelemetry = ({ telemetria }) => {
   // Simular dados de telemetria enquanto não há dados reais

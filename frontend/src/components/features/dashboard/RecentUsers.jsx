@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Users } from "lucide-react";
-import Card from "../../ui/card";
+import Card from "../../ui/Card";
 
 const RecentUsers = ({ ultimosUsuarios }) => {
   // Show all users to allow scrolling

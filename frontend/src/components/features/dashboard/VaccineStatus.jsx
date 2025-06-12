@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Stethoscope } from "lucide-react";
-import Card from "../../ui/card";
+import Card from "../../ui/Card";
 
 const VaccineStatus = ({ dosesMensagem }) => {
   const cardAnimation = {
