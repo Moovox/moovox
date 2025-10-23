@@ -4,18 +4,18 @@ generator client {
 }
 
 datasource db {
-  provider          = "sqlserver"
-  url               = env("DATABASE_URL")
+  provider = "mysql"
+  url      = env("DATABASE_URL")
   shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
 model Farms {
   id          Int       @id @default(autoincrement())
-  name        String    @db.NVarChar(255)
+  name        String
   created_at  DateTime  @default(now())
   updated_at  DateTime  @updatedAt
-  description String?   @default("") @db.NText
-  location    String?   @default("") @db.NVarChar(500)
+  description String?   @default("")
+  location    String?   @default("")
   size        Float?    @default(0)
   latitude    Float?
   longitude   Float?
@@ -28,15 +28,15 @@ model Farms {
 
 model Users {
   id            Int            @id @default(autoincrement())
-  name          String         @db.NVarChar(255)
-  email         String         @unique @db.NVarChar(320)
-  password      String         @db.NVarChar(255)
-  profile_photo String?        @db.NVarChar(500)
-  role          String         @db.NVarChar(50)
+  name          String
+  email         String         @unique
+  password      String
+  profile_photo String?
+  role          String
   farm_id       Int
   active        Boolean        @default(true)
-  phone         String?        @db.NVarChar(20)
-  address       String?        @db.NText
+  phone         String?
+  address       String?
   created_at    DateTime       @default(now())
   updated_at    DateTime       @updatedAt
   farmhand      Farmhands?
@@ -63,8 +63,8 @@ model Farmhands {
 model Veterinarians {
   id               Int            @id @default(autoincrement())
   user_id          Int            @unique
-  license_number   String?        @db.NVarChar(50)
-  specialization   String?        @db.NVarChar(255)
+  license_number   String?
+  specialization   String?
   years_experience Int?           @default(0)
   created_at       DateTime       @default(now())
   updated_at       DateTime       @updatedAt
@@ -76,21 +76,21 @@ model Veterinarians {
 
 model Animals {
   id              Int            @id @default(autoincrement())
-  name            String         @db.NVarChar(255)
+  name            String
   species_id      Int
   breed_id        Int
   birth_date      DateTime
   weight          Float          @default(0)
-  health_status   String         @default("HEALTHY") @db.NVarChar(50)
-  gender          String?        @db.NVarChar(10)
-  color           String?        @db.NVarChar(100)
-  tag_number      String?        @unique @db.NVarChar(50)
-  microchip_id    String?        @unique @db.NVarChar(50)
+  health_status   String         @default("HEALTHY")
+  gender          String?
+  color           String?
+  tag_number      String?        @unique
+  microchip_id    String?        @unique
   mother_id       Int?
   father_id       Int?
   farm_id         Int
   active          Boolean        @default(true)
-  notes           String?        @db.NText
+  notes           String?
   created_at      DateTime       @default(now())
   updated_at      DateTime       @updatedAt
   breed           Breeds         @relation(fields: [breed_id], references: [id])
@@ -113,8 +113,8 @@ model Animals {
 
 model Species {
   id               Int       @id @default(autoincrement())
-  name             String    @unique @db.NVarChar(100)
-  description      String    @db.NText
+  name             String    @unique
+  description      String
   average_lifespan Int?      @default(0)
   gestation_period Int?      @default(0)
   min_weight       Float?    @default(0)
@@ -130,12 +130,12 @@ model Species {
 
 model Breeds {
   id             Int       @id @default(autoincrement())
-  name           String    @db.NVarChar(255)
-  description    String    @db.NText
+  name           String
+  description    String
   species_id     Int
   average_weight Float?    @default(0)
-  productivity   String?   @db.NVarChar(100)
-  origin_country String?   @db.NVarChar(100)
+  productivity   String?
+  origin_country String?
   active         Boolean   @default(true)
   created_at     DateTime  @default(now())
   updated_at     DateTime  @updatedAt
@@ -149,15 +149,15 @@ model Breeds {
 
 model Vaccines {
   id                 Int               @id @default(autoincrement())
-  name               String            @db.NVarChar(255)
-  target_disease     String            @db.NVarChar(255)
+  name               String
+  target_disease     String
   manufacturer_id    Int
-  batch              String            @db.NVarChar(100)
+  batch              String
   expiration_date    DateTime
   required_doses     Int               @default(1)
   dosing_interval    Int?              @default(0)
   type_of_vaccine_id Int
-  notes              String            @db.NText
+  notes              String
   cost_per_dose      Float?            @default(0)
   storage_temp_min   Float?
   storage_temp_max   Float?
@@ -176,14 +176,14 @@ model Vaccines {
 
 model Manufacturers {
   id             Int        @id @default(autoincrement())
-  name           String     @db.NVarChar(255)
-  cnpj           String     @unique @db.NVarChar(18)
-  email          String     @unique @db.NVarChar(320)
-  phone          String     @db.NVarChar(20)
-  address        String     @db.NText
-  country        String     @db.NVarChar(100)
-  license_number String     @db.NVarChar(100)
-  website        String?    @db.NVarChar(500)
+  name           String
+  cnpj           String     @unique
+  email          String     @unique
+  phone          String
+  address        String
+  country        String
+  license_number String
+  website        String?
   active         Boolean    @default(true)
   created_at     DateTime   @default(now())
   updated_at     DateTime   @updatedAt
@@ -194,9 +194,9 @@ model Manufacturers {
 
 model Types_of_Vaccines {
   id          Int        @id @default(autoincrement())
-  name        String     @unique @db.NVarChar(100)
-  description String?    @db.NText
-  category    String?    @db.NVarChar(100)
+  name        String     @unique
+  description String?
+  category    String?
   active      Boolean    @default(true)
   created_at  DateTime   @default(now())
   updated_at  DateTime   @updatedAt
@@ -212,13 +212,13 @@ model Applications {
   veterinary_id              Int
   application_date           DateTime      @default(now())
   next_application_date      DateTime?
-  status_vaccine_application String        @default("COMPLETED") @db.NVarChar(50)
+  status_vaccine_application String        @default("COMPLETED")
   dose_number                Int           @default(1)
-  application_site           String?       @db.NVarChar(100)
-  batch_used                 String?       @db.NVarChar(100)
-  adverse_reaction           String?       @db.NText
+  application_site           String?
+  batch_used                 String?
+  adverse_reaction           String?
   cost                       Float?        @default(0)
-  notes                      String?       @db.NText
+  notes                      String?
   created_at                 DateTime      @default(now())
   updated_at                 DateTime      @updatedAt
   animal                     Animals       @relation(fields: [animal_id], references: [id], onDelete: Cascade)
@@ -242,7 +242,7 @@ model Locations {
   accuracy    Float?   @default(0)
   speed       Float?   @default(0)
   captured_at DateTime @default(now())
-  device_id   String?  @db.NVarChar(100)
+  device_id   String?
   battery     Int?     @default(100)
   temperature Float?
   humidity    Float?
