@@ -5,8 +5,8 @@ import {
   AnimalTelemetry,
   DashboardStats,
   LoadingState,
-  MapCard,
   RecentUsers,
+  SafeMapCard,
   VaccineStatus,
 } from "../components/features/dashboard";
 import MainLayout from "../components/layout/MainLayout";
@@ -50,7 +50,7 @@ function Dashboard() {
 
               {/* Animal map and telemetry */}
               <div className="grid grid-cols-1 gap-4 overflow-visible sm:gap-6 md:grid-cols-2">
-                <MapCard />
+                <SafeMapCard />
                 <AnimalTelemetry telemetria={telemetria} />
               </div>
             </motion.div>

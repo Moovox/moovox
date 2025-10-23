@@ -4,5 +4,5 @@ export { default as DashboardStats } from "./DashboardStats";
 export { default as LoadingState } from "./LoadingState";
 export { default as MapCard } from "./MapCard";
 export { default as RecentUsers } from "./RecentUsers";
+export { default as SafeMapCard } from "./SafeMapCard";
 export { default as VaccineStatus } from "./VaccineStatus";
-
