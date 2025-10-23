@@ -117,8 +117,7 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   ReadUncommitted: 'ReadUncommitted',
   ReadCommitted: 'ReadCommitted',
   RepeatableRead: 'RepeatableRead',
-  Serializable: 'Serializable',
-  Snapshot: 'Snapshot'
+  Serializable: 'Serializable'
 });
 
 exports.Prisma.FarmsScalarFieldEnum = {
@@ -251,6 +250,62 @@ exports.Prisma.SortOrder = {
 exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
+};
+
+exports.Prisma.FarmsOrderByRelevanceFieldEnum = {
+  name: 'name',
+  description: 'description',
+  location: 'location'
+};
+
+exports.Prisma.UsersOrderByRelevanceFieldEnum = {
+  name: 'name',
+  email: 'email',
+  password: 'password',
+  profile_photo: 'profile_photo',
+  role: 'role'
+};
+
+exports.Prisma.AnimalsOrderByRelevanceFieldEnum = {
+  name: 'name',
+  health_status: 'health_status'
+};
+
+exports.Prisma.SpeciesOrderByRelevanceFieldEnum = {
+  name: 'name',
+  description: 'description'
+};
+
+exports.Prisma.BreedsOrderByRelevanceFieldEnum = {
+  name: 'name',
+  description: 'description',
+  productivity: 'productivity'
+};
+
+exports.Prisma.VaccinesOrderByRelevanceFieldEnum = {
+  name: 'name',
+  target_disease: 'target_disease',
+  batch: 'batch',
+  notes: 'notes'
+};
+
+exports.Prisma.ManufacturersOrderByRelevanceFieldEnum = {
+  name: 'name',
+  cnpj: 'cnpj',
+  email: 'email',
+  phone: 'phone',
+  address: 'address',
+  country: 'country',
+  license_number: 'license_number'
+};
+
+exports.Prisma.Types_of_VaccinesOrderByRelevanceFieldEnum = {
+  name: 'name',
+  description: 'description'
+};
+
+exports.Prisma.ApplicationsOrderByRelevanceFieldEnum = {
+  status_vaccine_application: 'status_vaccine_application'
 };
 
 

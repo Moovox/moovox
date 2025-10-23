@@ -90,8 +90,7 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   ReadUncommitted: 'ReadUncommitted',
   ReadCommitted: 'ReadCommitted',
   RepeatableRead: 'RepeatableRead',
-  Serializable: 'Serializable',
-  Snapshot: 'Snapshot'
+  Serializable: 'Serializable'
 });
 
 exports.Prisma.FarmsScalarFieldEnum = {
@@ -226,6 +225,62 @@ exports.Prisma.NullsOrder = {
   last: 'last'
 };
 
+exports.Prisma.FarmsOrderByRelevanceFieldEnum = {
+  name: 'name',
+  description: 'description',
+  location: 'location'
+};
+
+exports.Prisma.UsersOrderByRelevanceFieldEnum = {
+  name: 'name',
+  email: 'email',
+  password: 'password',
+  profile_photo: 'profile_photo',
+  role: 'role'
+};
+
+exports.Prisma.AnimalsOrderByRelevanceFieldEnum = {
+  name: 'name',
+  health_status: 'health_status'
+};
+
+exports.Prisma.SpeciesOrderByRelevanceFieldEnum = {
+  name: 'name',
+  description: 'description'
+};
+
+exports.Prisma.BreedsOrderByRelevanceFieldEnum = {
+  name: 'name',
+  description: 'description',
+  productivity: 'productivity'
+};
+
+exports.Prisma.VaccinesOrderByRelevanceFieldEnum = {
+  name: 'name',
+  target_disease: 'target_disease',
+  batch: 'batch',
+  notes: 'notes'
+};
+
+exports.Prisma.ManufacturersOrderByRelevanceFieldEnum = {
+  name: 'name',
+  cnpj: 'cnpj',
+  email: 'email',
+  phone: 'phone',
+  address: 'address',
+  country: 'country',
+  license_number: 'license_number'
+};
+
+exports.Prisma.Types_of_VaccinesOrderByRelevanceFieldEnum = {
+  name: 'name',
+  description: 'description'
+};
+
+exports.Prisma.ApplicationsOrderByRelevanceFieldEnum = {
+  status_vaccine_application: 'status_vaccine_application'
+};
+
 
 exports.Prisma.ModelName = {
   Farms: 'Farms',
@@ -252,7 +307,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Users\\20240260\\Downloads\\moovox\\backend\\generated\\prisma",
+      "value": "C:\\Users\\victo\\Desktop\\moovox\\backend\\generated\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -266,7 +321,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Users\\20240260\\Downloads\\moovox\\backend\\prisma\\schema.prisma",
+    "sourceFilePath": "C:\\Users\\victo\\Desktop\\moovox\\backend\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -279,7 +334,7 @@ const config = {
   "datasourceNames": [
     "db"
   ],
-  "activeProvider": "sqlserver",
+  "activeProvider": "mysql",
   "inlineDatasources": {
     "db": {
       "url": {
@@ -288,8 +343,8 @@ const config = {
       }
     }
   },
-  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider          = \"sqlserver\"\n  url               = env(\"DATABASE_URL\")\n  shadowDatabaseUrl = env(\"SHADOW_DATABASE_URL\")\n}\n\nmodel Farms {\n  id          Int       @id @default(autoincrement())\n  name        String\n  created_at  DateTime  @default(now())\n  updated_at  DateTime  @updatedAt\n  description String?   @default(\"\")\n  location    String?   @default(\"\")\n  size        Float?    @default(0)\n  animal      Animals[]\n  user        Users[]\n}\n\nmodel Users {\n  id            Int            @id @default(autoincrement())\n  name          String\n  email         String         @unique\n  password      String\n  profile_photo String?\n  role          String\n  farm_id       Int\n  created_at    DateTime       @default(now())\n  updated_at    DateTime       @updatedAt\n  farmhand      Farmhands?\n  farm          Farms          @relation(fields: [farm_id], references: [id])\n  veterinary    Veterinarians?\n\n  @@index([farm_id])\n}\n\nmodel Farmhands {\n  id      Int   @id @default(autoincrement())\n  user_id Int   @unique\n  user    Users @relation(fields: [user_id], references: [id])\n}\n\nmodel Veterinarians {\n  id          Int            @id @default(autoincrement())\n  user_id     Int            @unique\n  application Applications[]\n  user        Users          @relation(fields: [user_id], references: [id])\n}\n\nmodel Animals {\n  id            Int            @id @default(autoincrement())\n  name          String\n  species_id    Int\n  breed_id      Int\n  birth_date    DateTime\n  weight        Float\n  health_status String\n  farm_id       Int\n  created_at    DateTime       @default(now())\n  updated_at    DateTime       @updatedAt\n  breed         Breeds         @relation(fields: [breed_id], references: [id])\n  farm          Farms          @relation(fields: [farm_id], references: [id])\n  species       Species        @relation(fields: [species_id], references: [id], onUpdate: NoAction)\n  application   Applications[]\n  location      Locations[]\n\n  @@index([species_id])\n  @@index([breed_id])\n  @@index([farm_id])\n}\n\nmodel Species {\n  id               Int       @id @default(autoincrement())\n  name             String\n  description      String\n  average_lifespan Int?\n  gestation_period Int?\n  created_at       DateTime  @default(now())\n  updated_at       DateTime  @updatedAt\n  animal           Animals[]\n  breed            Breeds[]\n}\n\nmodel Breeds {\n  id             Int       @id @default(autoincrement())\n  name           String\n  description    String\n  species_id     Int\n  average_weight Float?\n  productivity   String?\n  created_at     DateTime  @default(now())\n  updated_at     DateTime  @updatedAt\n  animal         Animals[]\n  species        Species   @relation(fields: [species_id], references: [id])\n\n  @@index([species_id])\n}\n\nmodel Vaccines {\n  id                 Int               @id @default(autoincrement())\n  name               String\n  target_disease     String\n  manufacturer_id    Int\n  batch              String\n  expiration_date    DateTime\n  required_doses     Int\n  dosing_interval    Int?              @default(0)\n  type_of_vaccine_id Int\n  notes              String\n  created_at         DateTime          @default(now())\n  updated_at         DateTime          @updatedAt\n  applications       Applications[]\n  manufacturer       Manufacturers     @relation(fields: [manufacturer_id], references: [id])\n  type_of_vaccine    Types_of_Vaccines @relation(fields: [type_of_vaccine_id], references: [id])\n\n  @@index([manufacturer_id])\n  @@index([type_of_vaccine_id])\n}\n\nmodel Manufacturers {\n  id             Int        @id @default(autoincrement())\n  name           String\n  cnpj           String     @unique\n  email          String     @unique\n  phone          String\n  address        String\n  country        String\n  license_number String\n  created_at     DateTime   @default(now())\n  updated_at     DateTime   @updatedAt\n  vaccines       Vaccines[]\n}\n\nmodel Types_of_Vaccines {\n  id          Int        @id @default(autoincrement())\n  name        String\n  description String?\n  vaccines    Vaccines[]\n}\n\nmodel Applications {\n  id                         Int           @id @default(autoincrement())\n  animal_id                  Int\n  vaccine_id                 Int\n  veterinary_id              Int\n  application_date           DateTime\n  next_application_date      DateTime?\n  status_vaccine_application String\n  created_at                 DateTime      @default(now())\n  updated_at                 DateTime      @updatedAt\n  animal                     Animals       @relation(fields: [animal_id], references: [id])\n  vaccine                    Vaccines      @relation(fields: [vaccine_id], references: [id])\n  veterinary                 Veterinarians @relation(fields: [veterinary_id], references: [id], onUpdate: NoAction)\n\n  @@index([animal_id])\n  @@index([vaccine_id])\n  @@index([veterinary_id])\n  @@index([application_date])\n}\n\nmodel Locations {\n  id          Int      @id @default(autoincrement())\n  animal_id   Int\n  latitude    Float\n  longitude   Float\n  captured_at DateTime\n  created_at  DateTime @default(now())\n  updated_at  DateTime @updatedAt\n  animal      Animals  @relation(fields: [animal_id], references: [id])\n\n  @@index([animal_id])\n  @@index([captured_at])\n}\n",
-  "inlineSchemaHash": "5c65f3ce19a0a095c3980fd455ce1a9e237efdb9ef5db19ed5b7a6f406e86918",
+  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider          = \"mysql\"\n  url               = env(\"DATABASE_URL\")\n  shadowDatabaseUrl = env(\"SHADOW_DATABASE_URL\")\n}\n\nmodel Farms {\n  id          Int       @id @default(autoincrement())\n  name        String\n  created_at  DateTime  @default(now())\n  updated_at  DateTime  @updatedAt\n  description String?   @default(\"\")\n  location    String?   @default(\"\")\n  size        Float?    @default(0)\n  animal      Animals[]\n  user        Users[]\n}\n\nmodel Users {\n  id            Int            @id @default(autoincrement())\n  name          String\n  email         String         @unique\n  password      String\n  profile_photo String?\n  role          String\n  farm_id       Int\n  created_at    DateTime       @default(now())\n  updated_at    DateTime       @updatedAt\n  farmhand      Farmhands?\n  farm          Farms          @relation(fields: [farm_id], references: [id])\n  veterinary    Veterinarians?\n\n  @@index([farm_id])\n}\n\nmodel Farmhands {\n  id      Int   @id @default(autoincrement())\n  user_id Int   @unique\n  user    Users @relation(fields: [user_id], references: [id])\n}\n\nmodel Veterinarians {\n  id          Int            @id @default(autoincrement())\n  user_id     Int            @unique\n  application Applications[]\n  user        Users          @relation(fields: [user_id], references: [id])\n}\n\nmodel Animals {\n  id            Int            @id @default(autoincrement())\n  name          String\n  species_id    Int\n  breed_id      Int\n  birth_date    DateTime\n  weight        Float\n  health_status String\n  farm_id       Int\n  created_at    DateTime       @default(now())\n  updated_at    DateTime       @updatedAt\n  breed         Breeds         @relation(fields: [breed_id], references: [id])\n  farm          Farms          @relation(fields: [farm_id], references: [id])\n  species       Species        @relation(fields: [species_id], references: [id], onUpdate: NoAction)\n  application   Applications[]\n  location      Locations[]\n\n  @@index([species_id])\n  @@index([breed_id])\n  @@index([farm_id])\n}\n\nmodel Species {\n  id               Int       @id @default(autoincrement())\n  name             String\n  description      String\n  average_lifespan Int?\n  gestation_period Int?\n  created_at       DateTime  @default(now())\n  updated_at       DateTime  @updatedAt\n  animal           Animals[]\n  breed            Breeds[]\n}\n\nmodel Breeds {\n  id             Int       @id @default(autoincrement())\n  name           String\n  description    String\n  species_id     Int\n  average_weight Float?\n  productivity   String?\n  created_at     DateTime  @default(now())\n  updated_at     DateTime  @updatedAt\n  animal         Animals[]\n  species        Species   @relation(fields: [species_id], references: [id])\n\n  @@index([species_id])\n}\n\nmodel Vaccines {\n  id                 Int               @id @default(autoincrement())\n  name               String\n  target_disease     String\n  manufacturer_id    Int\n  batch              String\n  expiration_date    DateTime\n  required_doses     Int\n  dosing_interval    Int?              @default(0)\n  type_of_vaccine_id Int\n  notes              String\n  created_at         DateTime          @default(now())\n  updated_at         DateTime          @updatedAt\n  applications       Applications[]\n  manufacturer       Manufacturers     @relation(fields: [manufacturer_id], references: [id])\n  type_of_vaccine    Types_of_Vaccines @relation(fields: [type_of_vaccine_id], references: [id])\n\n  @@index([manufacturer_id])\n  @@index([type_of_vaccine_id])\n}\n\nmodel Manufacturers {\n  id             Int        @id @default(autoincrement())\n  name           String\n  cnpj           String     @unique\n  email          String     @unique\n  phone          String\n  address        String\n  country        String\n  license_number String\n  created_at     DateTime   @default(now())\n  updated_at     DateTime   @updatedAt\n  vaccines       Vaccines[]\n}\n\nmodel Types_of_Vaccines {\n  id          Int        @id @default(autoincrement())\n  name        String\n  description String?\n  vaccines    Vaccines[]\n}\n\nmodel Applications {\n  id                         Int           @id @default(autoincrement())\n  animal_id                  Int\n  vaccine_id                 Int\n  veterinary_id              Int\n  application_date           DateTime\n  next_application_date      DateTime?\n  status_vaccine_application String\n  created_at                 DateTime      @default(now())\n  updated_at                 DateTime      @updatedAt\n  animal                     Animals       @relation(fields: [animal_id], references: [id])\n  vaccine                    Vaccines      @relation(fields: [vaccine_id], references: [id])\n  veterinary                 Veterinarians @relation(fields: [veterinary_id], references: [id], onUpdate: NoAction)\n\n  @@index([animal_id])\n  @@index([vaccine_id])\n  @@index([veterinary_id])\n  @@index([application_date])\n}\n\nmodel Locations {\n  id          Int      @id @default(autoincrement())\n  animal_id   Int\n  latitude    Float\n  longitude   Float\n  captured_at DateTime\n  created_at  DateTime @default(now())\n  updated_at  DateTime @updatedAt\n  animal      Animals  @relation(fields: [animal_id], references: [id])\n\n  @@index([animal_id])\n  @@index([captured_at])\n}\n",
+  "inlineSchemaHash": "a7c500f3686da5c99b84201b9c21a1c6906a3940ef6d03c903a6dd132b1d34c6",
   "copyEngine": true
 }
 
